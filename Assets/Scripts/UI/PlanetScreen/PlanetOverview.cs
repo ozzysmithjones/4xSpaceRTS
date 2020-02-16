@@ -1,0 +1,48 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlanetOverview : MonoBehaviour
+{
+
+    public Planet planet;
+    public PlanetOverviewDescription description;
+    public PlanetOverviewAlreadyBuilt alreadyBuilt;
+    public PlanetOverviewBuildQueue buildQueue;
+    public BuildMenu buildMenu;
+
+
+    private void Awake()
+    {
+        alreadyBuilt.planetOverview = this;
+        buildQueue.planetOverview = this;
+        buildMenu.planetOverview = this;
+    }
+
+    public void Overview(Planet newPlanet)
+    {
+        
+        planet = newPlanet;
+        planet.planetColony.ListenToBuildQueue(buildQueue.UpdateQueueChange, true);
+        alreadyBuilt.UpdateAllQuantities();
+        description.UpdateDescription(newPlanet);
+    }
+
+    public void Open(Planet _planet)
+    {
+        Master.instance.userInterface.planetOverviewOpen = true;
+        gameObject.SetActive(true);
+        Overview(_planet);
+
+    }
+
+    public void Close()
+    {
+        if (planet != null)
+        {
+            planet.planetColony.ListenToBuildQueue(buildQueue.UpdateQueueChange, false);
+        }
+        Master.instance.userInterface.planetOverviewOpen = false;
+        gameObject.SetActive(false);
+    }
+}

@@ -1,0 +1,83 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public enum WeaponType { laser, explosive, slugthrower }
+
+public class Weapon : MonoBehaviour
+{
+    public bool shooting = false;
+
+    public float range = 10f;
+    public float damage = 10f;
+
+    protected Fighter spaceShip;
+
+    private ParticleSystem shootEffect;
+   
+
+    public WeaponType weaponType = WeaponType.laser;
+
+    protected Transform hitTransform;
+    protected SpaceShip hitEnemy;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        spaceShip = GetComponentInParent<Fighter>();
+        shootEffect = GetComponent<ParticleSystem>();
+        ChildInitialise();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+
+
+
+    protected virtual void ChildInitialise()
+    {
+
+
+    }
+    
+    public virtual void Shoot()
+    {
+        shooting = true;
+        shootEffect.Play();
+
+        
+    }
+
+
+    public virtual void StopShooting()
+    {
+        
+        shooting = false;
+        shootEffect.Stop();
+    }
+
+    protected void DealDamage(float amount, Transform target)
+    {
+        
+        if (target != hitTransform)
+        {
+            
+            SpaceShip enemyShip = target.GetComponent<SpaceShip>();
+            if (enemyShip != null)
+            {
+                enemyShip.TakeDamage(spaceShip, weaponType, amount);
+                hitTransform = target;
+                hitEnemy = enemyShip;
+            }
+        }
+        else
+        {
+            hitEnemy.TakeDamage(spaceShip, weaponType, amount);
+           
+        }
+    }
+}

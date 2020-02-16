@@ -35,7 +35,7 @@ public class StarShipManager : MonoBehaviour
     }
 
     //faction will be needed when there is multiple factions in one system.
-    public bool RequestExit(int faction, Navigator navigator)
+    public bool RequestExit(Navigator navigator)
     {
         
         if (navigator.faction == 0)
@@ -53,7 +53,7 @@ public class StarShipManager : MonoBehaviour
         return true;
     }
 
-    public void Entry(int faction, Navigator navigator)
+    public void Entry( Navigator navigator)
     {
         if (navigator.faction == 0)
         {
@@ -81,7 +81,7 @@ public class StarShipManager : MonoBehaviour
     //not used:
     public void DestroyFleet(Navigator navigator)
     {
-        RequestExit(navigator.faction, navigator);
+        RequestExit(navigator);
         Destroy(navigator.gameObject);
     }
 

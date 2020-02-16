@@ -170,10 +170,7 @@ public class SpaceShip : MonoBehaviour
         
     }
 
-    public virtual void OnSuddenWarp()
-    {
 
-    }
 
     public virtual void OnPoint(Transform goal)
     { 

@@ -24,16 +24,7 @@ public class StarHauling : MonoBehaviour
         hauler.starHauling = this;
         hauler.tradeRoute = route;
 
-        //disable the freighter until this place is colonised.
-        
-        if (freighter.star.starShipManager.RequestExit(freighter.faction, freighter))
-        {
-            freighter.gameObject.SetActive(false);
-        }
-        else
-        {
-            print("freighter exit not permitted");
-        }
+       
         
     }
 
@@ -46,7 +37,7 @@ public class StarHauling : MonoBehaviour
         route = ShortestPathToNearestColony();
         hauler.tradeRoute = route;
         hauler.gameObject.SetActive(true);
-        star.starShipManager.Entry(star.factionIndex, hauler);
+        star.starShipManager.Entry(hauler);
 
 
         hauler.StartCoroutine(hauler.Load(star,route));

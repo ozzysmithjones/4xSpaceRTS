@@ -21,7 +21,7 @@ public class MoveFleetTool : Tool
 
 
         navigator.ClearPath();
-        if (navigator.star.position != start)
+        if (navigator.GetStar().position != start)
         {
             Debug.Log("new fleets array");
             ignoreShutDown = true;
@@ -32,7 +32,7 @@ public class MoveFleetTool : Tool
 
             ignoreShutDown = false;
 
-            start = controlledFleets[0].star.position;
+            start = controlledFleets[0].GetStar().position;
             path.Clear();
             path.Add(start);
 
@@ -50,7 +50,7 @@ public class MoveFleetTool : Tool
     public bool RemoveFleet(Navigator navigator)
     {
         Debug.Log("remove fleet");
-        navigator.star.starShipManager.iconHandler.FindIcon(navigator.iconHandlerID).setToggleOn(false);
+        navigator.GetStar().starShipManager.iconHandler.FindIcon(navigator.iconHandlerID).setToggleOn(false);
         controlledFleets.Remove(navigator);
         if(controlledFleets.Count <= 0 && !ignoreShutDown)
         {
@@ -211,7 +211,7 @@ public class MoveFleetTool : Tool
             {
                 continue;
             }
-            controlledFleets[i].star.starShipManager.iconHandler.FindIcon(controlledFleets[i].iconHandlerID).setToggleOn(false);
+            controlledFleets[i].GetStar().starShipManager.iconHandler.FindIcon(controlledFleets[i].iconHandlerID).setToggleOn(false);
         }
     }
 

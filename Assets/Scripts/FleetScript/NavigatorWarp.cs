@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//the Navigator warp script handles a navigators current whereabouts, and moving from system to system.
 public class NavigatorWarp : MonoBehaviour
 {
-
+   
     public GameObject spaceShipHandler;
     public GameObject movingIcon;
 

@@ -139,17 +139,14 @@ public class StarShipManager : MonoBehaviour
         {
             if(fleets[i].faction == star.factionIndex)
             {
-                Debug.Log("already owned by player " + star.factionIndex);
                 return;
             }
             if(fleets[i].faction != remainingFaction)
             {
-                Debug.Log("a no mans sky");
                 remainingFaction = -1;
             }
             
         }
-        Debug.Log("take over");
         star.TakeOver(remainingFaction);
     }
 

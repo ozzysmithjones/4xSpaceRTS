@@ -138,8 +138,6 @@ public class Navigator : MonoBehaviour
         }
     }
 
-    
-
     public void ClearPath()
     {
 
@@ -218,7 +216,6 @@ public class Navigator : MonoBehaviour
             {
                 spaceShips[i].formation = false;
             }
-
 
         }
 

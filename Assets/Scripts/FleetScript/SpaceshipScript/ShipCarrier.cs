@@ -95,14 +95,6 @@ public class ShipCarrier : SpaceShip
         drone.ResetTransform();
         unDockedDrones--;
     }
-    public override void OnSuddenWarp()
-    {
-        base.OnSuddenWarp();
-        for(int i = 0; i < drones.Count; i++)
-        {
-            Dock(drones[i]);
-        }
-    }
 
     public override void SetVisibility(bool visible)
     {

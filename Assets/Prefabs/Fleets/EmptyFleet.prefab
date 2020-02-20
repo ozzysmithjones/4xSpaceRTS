@@ -282,8 +282,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shipsParent: {fileID: 8998180436302427578}
-  spaceShipHandler: {fileID: 2909553139508674044}
-  movingIcon: {fileID: 2628805958368656918}
   center: {fileID: 2138500251492738134}
   iconHandlerID: -1
   iconSprite: {fileID: 21300000, guid: 6d189b3c175f83249931013880640774, type: 3}
@@ -291,10 +289,8 @@ MonoBehaviour:
   scoutingRange: 1
   military: 1
   faction: 0
-  conflict: 0
-  conflictReaction: 2
-  star: {fileID: 0}
-  gate: {fileID: 0}
+  navigatorCombat: {fileID: 0}
+  destination: {fileID: 0}
 --- !u!114 &2742582960806922195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,10 +300,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7359343602757720288}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 006eadc79b776d144a4abfe94dcccfb2, type: 3}
+  m_Script: {fileID: 11500000, guid: 550f2bfafc797cf478d74fdfc9cbe064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 1
+  spaceShipHandler: {fileID: 2909553139508674044}
+  movingIcon: {fileID: 2628805958368656918}
+  star: {fileID: 0}
 --- !u!114 &8563403330529512135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,3 +318,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39678378eb8b2eb458115859d89b5747, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}

@@ -57,9 +57,9 @@ public class StarConstruction : MonoBehaviour
                 navigator.Initialise();
 
                 navigator.AddShip(spaceShip);
-                navigator.star = star;
+                navigator.SetStar(star);
                 navigator.faction = star.factionIndex;
-                star.starShipManager.Entry(star.factionIndex, navigator);
+                star.starShipManager.Entry(navigator);
                 return navigator;
 
             }
@@ -69,9 +69,9 @@ public class StarConstruction : MonoBehaviour
             Navigator navigator = spawned.GetComponent<Navigator>();
             navigator.Initialise();
 
-            navigator.star = star;
+            navigator.SetStar(star);
             navigator.faction = star.factionIndex;
-            star.starShipManager.Entry(star.factionIndex, navigator);
+            star.starShipManager.Entry(navigator);
             return navigator;
            
         }

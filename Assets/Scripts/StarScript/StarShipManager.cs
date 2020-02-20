@@ -35,7 +35,7 @@ public class StarShipManager : MonoBehaviour
     }
 
     //faction will be needed when there is multiple factions in one system.
-    public bool RequestExit(int faction, Navigator navigator)
+    public bool RequestExit(Navigator navigator)
     {
         
         if (navigator.faction == 0)
@@ -53,7 +53,7 @@ public class StarShipManager : MonoBehaviour
         return true;
     }
 
-    public void Entry(int faction, Navigator navigator)
+    public void Entry( Navigator navigator)
     {
         if (navigator.faction == 0)
         {
@@ -81,7 +81,7 @@ public class StarShipManager : MonoBehaviour
     //not used:
     public void DestroyFleet(Navigator navigator)
     {
-        RequestExit(navigator.faction, navigator);
+        RequestExit(navigator);
         Destroy(navigator.gameObject);
     }
 
@@ -139,17 +139,14 @@ public class StarShipManager : MonoBehaviour
         {
             if(fleets[i].faction == star.factionIndex)
             {
-                Debug.Log("already owned by player " + star.factionIndex);
                 return;
             }
             if(fleets[i].faction != remainingFaction)
             {
-                Debug.Log("a no mans sky");
                 remainingFaction = -1;
             }
             
         }
-        Debug.Log("take over");
         star.TakeOver(remainingFaction);
     }
 

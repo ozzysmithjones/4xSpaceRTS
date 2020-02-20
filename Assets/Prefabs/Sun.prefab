@@ -120,7 +120,6 @@ GameObject:
   - component: {fileID: 7833792723087299362}
   - component: {fileID: 8100151728787816750}
   - component: {fileID: 809044322527810242}
-  - component: {fileID: 3461474712112412189}
   - component: {fileID: 4234606429182796055}
   m_Layer: 0
   m_Name: Sun
@@ -360,21 +359,6 @@ MonoBehaviour:
   metal: 0
   energy: 0
   deathMatter: 0
-  starHauling: {fileID: 0}
---- !u!114 &3461474712112412189
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 879585075006794828}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b430b731797c90646b6042752a4e762e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  freighterFleetPrefab: {fileID: 5898604550092717241, guid: 989af3f37895a814c89f335e4127f1a7,
-    type: 3}
 --- !u!114 &4234606429182796055
 MonoBehaviour:
   m_ObjectHideFlags: 0

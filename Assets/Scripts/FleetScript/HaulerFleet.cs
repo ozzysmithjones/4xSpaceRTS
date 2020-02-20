@@ -44,11 +44,11 @@ public class HaulerFleet : Navigator
         {
             case HaulerState.CARRYING_GOODS:
                 haulerState = HaulerState.AT_COLONY;
-                StartCoroutine(UnLoadToNearbyPlanet(star,ReversedPath(tradeRoute)));
+                StartCoroutine(UnLoadToNearbyPlanet(navigatorWarp.star,ReversedPath(tradeRoute)));
                 break;
             case HaulerState.RETURNING:
                 haulerState = HaulerState.AT_MINED_STAR;
-                StartCoroutine(Load(star, tradeRoute));
+                StartCoroutine(Load(navigatorWarp.star, tradeRoute));
                 break;
 
         }

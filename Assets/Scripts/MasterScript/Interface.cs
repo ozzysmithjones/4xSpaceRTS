@@ -23,10 +23,7 @@ public class Interface : MonoBehaviour
 
     private Tool[] tools = new Tool[4];
 
-    public Text EnergyText;
-    public Text Materialstext;
-    public Text DeathMatterText;
-
+    public Text[] resourcesText;
     public bool planetOverviewOpen = false;
     public PlanetOverview planetOverview;
 

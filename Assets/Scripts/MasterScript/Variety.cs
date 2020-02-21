@@ -14,9 +14,9 @@ public class Variety : MonoBehaviour
 
     public void Initialise()
     {
-        builtStructures[0] = new EconomicStructure("Mine","produces 2 materials every minute", 1, 2);
-        builtStructures[1] = new EconomicStructure("Generator","produces two energy every minute",0,2);
-        builtStructures[2] = new EconomicStructure("Chemical plant", "produces 1 death matter every minute",2,1);
+        builtStructures[0] = new EconomicStructure("Mine","produces 2 materials every minute", ResourceType.MATERIALS, 2);
+        builtStructures[1] = new EconomicStructure("Generator","produces two energy every minute",ResourceType.ENERGY,2);
+        builtStructures[2] = new EconomicStructure("Chemical plant", "produces 1 death matter every minute",ResourceType.DEATHMATTER,1);
 
 
 

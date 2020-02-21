@@ -25,7 +25,7 @@ public class Faction
     public int materials = 0;
     public int deathMatter = 0;
     */
-    public int[] resources = new int[3];
+    public Resources resources = new Resources();
 
     public BiomeGradient.Point homePlanet = new BiomeGradient.Point(0f, "Home World", Color.green, 0, 0);
 
@@ -94,21 +94,16 @@ public class Faction
         }
     }
 
-    public virtual void Gather(int[] produced)
+    public virtual void Gather(Resources resources)
     {
-        /*
-        energy += Energy;
-        materials += Materials;
-        deathMatter += deathMatter;
-        */
 
-        int length = Mathf.Max(produced.Length, resources.Length);
+        int length = resources.amounts.Length;
 
         for(int i = 0; i < length; i++)
         {
-            if(i < resources.Length && i < produced.Length)
+            if(i < resources.amounts.Length)
             {
-                resources[i] += produced[i];
+                this.resources.amounts[i] += resources.amounts[i];
             }
         }
 

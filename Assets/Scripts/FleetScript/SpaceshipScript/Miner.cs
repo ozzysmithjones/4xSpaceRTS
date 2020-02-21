@@ -108,7 +108,7 @@ public class Miner : Drone
 
     void ReturnToDock()
     {
-        cargo[1] = 1;
+        cargo.amounts[1] = 1;
 
         animator.SetBool("Mining", false);
 

@@ -5,9 +5,7 @@ using UnityEngine.UI;
 
 public class Player : Faction
 {
-    private Text energyText;
-    private Text materialsText;
-    private Text deathMatterText;
+    private Text[] resourcesText;
 
     // Start is called before the first frame update
     void Start()
@@ -23,9 +21,8 @@ public class Player : Faction
     //randomises this faction.
     public Player(int index = 0, bool random = false, Color[] ColorArray = null, string[] NameArray = null)
     {
-        energyText = Master.instance.userInterface.EnergyText;
-        materialsText = Master.instance.userInterface.Materialstext;
-        deathMatterText = Master.instance.userInterface.DeathMatterText;
+        resourcesText = Master.instance.userInterface.resourcesText;
+
         factionIndex = index;
         if (random)
         {
@@ -36,12 +33,17 @@ public class Player : Faction
     }
 
 
-    public override void Gather(int[] produced)
+    public override void Gather(Resources resources)
     {
-        base.Gather(produced);
-
-        energyText.text = "Energy: " + resources[0];
-        materialsText.text = "Materials: " + resources[1];
-        deathMatterText.text = "DeathMatter: " + resources[2];
+        base.Gather(resources);
+        for(int i = 0; i < resourcesText.Length; i++)
+        {
+            if(resources.amounts[i] == 0)
+            {
+                continue;
+            }
+            resourcesText[i].text = ((ResourceType)i).ToString() + ": " + this.resources.amounts[i];
+        }
+       
     }
 }

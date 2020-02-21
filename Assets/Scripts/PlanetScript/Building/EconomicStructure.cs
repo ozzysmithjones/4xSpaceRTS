@@ -6,28 +6,28 @@ using UnityEngine;
 public class EconomicStructure : BuiltStructure
 {
    
-    public int resourceProduced = 1;
-    public int resourceQuantity = 2;
+    public ResourceType resourceType = ResourceType.MATERIALS;
+    private int resourceproduction = 1;
 
 
     public override void OnBuild()
     {
         base.OnBuild();
 
-        planetBuiltOn.planetColony.production[resourceProduced] += resourceQuantity;
+        planetBuiltOn.planetColony.resourceProduction.amounts[(int)resourceType] += resourceproduction;
     }
 
     public override void OnRemove()
     {
         base.OnRemove();
 
-        planetBuiltOn.planetColony.production[resourceProduced] -= resourceQuantity;
+        planetBuiltOn.planetColony.resourceProduction.amounts[(int)resourceType] -= resourceproduction;
 
     }
-    public EconomicStructure(string name, string description, int resourceProduced = 1, int resourceQuantity = 2) : base(name, description)
+    public EconomicStructure(string name, string description, ResourceType resourceProduced = ResourceType.MATERIALS, int resourceQuantity = 2) : base(name, description)
     {
-        this.resourceProduced = resourceProduced;
-        this.resourceQuantity = resourceQuantity;
+        this.resourceType = resourceProduced;
+        this.resourceproduction = resourceQuantity;
 
 
     }

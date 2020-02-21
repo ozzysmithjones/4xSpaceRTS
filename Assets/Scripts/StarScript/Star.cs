@@ -68,8 +68,6 @@ public class Star : MonoBehaviour
 
         starGeneration.Generate(this, 5, Random.Range(1, 8), 1f, factionIndex);
 
-       
-
         if (factionIndex >= 0)
         {
             isColony = true;

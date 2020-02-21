@@ -19,8 +19,8 @@ public class PlanetColony : MonoBehaviour
     public float manufactoring = 1f;
 
     //how much the colony produces:
-    private float productionTime = 60f;
-    public int[] production = new int[3];
+    private float productionTime = 5f;
+    public Resources resourceProduction = new Resources();
 
     public bool buildQueueRunning = false;
 
@@ -41,7 +41,7 @@ public class PlanetColony : MonoBehaviour
 
     public void Colonise()
     {
-        StartCoroutine(BeginResourceProduction());
+        StartCoroutine(Resourceproduction());
     }
 
     public void AddStructure(BuiltStructure builtStructure)
@@ -174,13 +174,12 @@ public class PlanetColony : MonoBehaviour
     }
     
 
-    private IEnumerator BeginResourceProduction()
+    private IEnumerator Resourceproduction()
     {
-        for (;;)
+        while (true)
         {
             yield return new WaitForSeconds(productionTime);
-            Master.instance.factions.factions[planet.star.factionIndex].Gather(production);
-           
+            Master.instance.factions.factions[planet.star.factionIndex].Gather(resourceProduction);
         }
     }
 

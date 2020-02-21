@@ -10,9 +10,7 @@ public class StarEconomy : MonoBehaviour
     //this script also has a few values associated with production, which impacts how the star is generated.(e.g energy focused systems
     //have plenty of gas giants)
 
-    public float metal = 0.0f;
-    public float energy = 0.0f;
-    public float deathMatter = 0.0f;
+    public Resources resources = new Resources();
 
     // Start is called before the first frame update
     void Start()

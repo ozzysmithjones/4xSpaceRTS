@@ -34,7 +34,7 @@ public class SpaceShip : MonoBehaviour
     public Renderer rend;
 
     //cargo:
-    public int[] cargo = new int[3];
+    public Resources cargo = new Resources();
 
     private Transform vectorTarget;
 
@@ -163,9 +163,9 @@ public class SpaceShip : MonoBehaviour
     {
         Master.instance.factions.factions[faction].Gather(cargo);
 
-        for (int i = 0; i < cargo.Length; i++)
+        for (int i = 0; i < cargo.amounts.Length; i++)
         {
-            cargo[i] = 0;
+            cargo.amounts[i] = 0;
         }
         
     }

@@ -35,6 +35,7 @@ public class BuildMenu : MonoBehaviour
         Faction faction = Master.instance.factions.factions[planetOverview.planet.star.factionIndex];
         int price = amount * buildQueueItem.buildCost;
 
+        /*
         //paying for it.
         if(faction.resources.amounts[(int)ResourceType.MATERIALS] < price)
         {
@@ -43,6 +44,7 @@ public class BuildMenu : MonoBehaviour
         Resources costs = new Resources();
         costs.amounts[(int)ResourceType.MATERIALS] = -price;
         faction.Gather(costs);
+        */
 
         //add to build Queue.
         Queue queue = new Queue

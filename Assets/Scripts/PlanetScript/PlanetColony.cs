@@ -24,7 +24,7 @@ public class PlanetColony : MonoBehaviour
 
     public bool buildQueueRunning = false;
 
-    public delegate void BuildQueueChange(int changeIndex, bool added,List<Queue> buildQueue);
+    public delegate void BuildQueueChange(List<Queue> buildQueue);
     public event BuildQueueChange OnBuildQueueChange;
     // Start is called before the first frame update
     void Start()
@@ -74,6 +74,7 @@ public class PlanetColony : MonoBehaviour
         if (listening)
         {
             OnBuildQueueChange += buildQueueChange;
+            
             Debug.Log("added listerner");
         }
         else
@@ -143,7 +144,7 @@ public class PlanetColony : MonoBehaviour
 
             if (OnBuildQueueChange != null)
             {
-                OnBuildQueueChange.Invoke(0,false,buildQueue);
+                OnBuildQueueChange.Invoke(buildQueue);
             }
         }
         //buildQueue.Clear();
@@ -191,7 +192,7 @@ public class PlanetColony : MonoBehaviour
             StartCoroutine(BeginBuildQueue());
             
         }
-        OnBuildQueueChange.Invoke(buildQueue.Count-1,true,buildQueue);
+        OnBuildQueueChange.Invoke(buildQueue);
     }
 
     public void RemoveFromBuildQueue(int itemIndex, bool all)
@@ -217,7 +218,7 @@ public class PlanetColony : MonoBehaviour
            // StartCoroutine(BeginBuildQueue());
         }
 
-        OnBuildQueueChange.Invoke(itemIndex,false,buildQueue);
+        OnBuildQueueChange.Invoke(buildQueue);
 
     }
 

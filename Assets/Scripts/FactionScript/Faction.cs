@@ -14,17 +14,15 @@ public class Faction
     public string factionName;
     public Color flagColor;
 
+    //the different ship and structure types avalible to this faction:
+    public BuiltShip[] shipTypes;
+    public BuiltStructure[] structureTypes;
+
     //this integer indicates which index this faction is in the array.
     public int factionIndex;
 
     private int randomExpansion = 5;
 
-
-    /*
-    public int energy = 0;
-    public int materials = 0;
-    public int deathMatter = 0;
-    */
     public Resources resources = new Resources();
 
     public BiomeGradient.Point homePlanet = new BiomeGradient.Point(0f, "Home World", Color.green, 0, 0);

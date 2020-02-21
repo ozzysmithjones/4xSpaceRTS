@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
+[CreateAssetMenu(fileName = "Economic Structure", menuName = "Economy/EconomicStructure")]
 public class EconomicStructure : BuiltStructure
 {
    
     public ResourceType resourceType = ResourceType.MATERIALS;
-    private int resourceproduction = 1;
+    public int resourceproduction = 1;
 
 
     public override void OnBuild()

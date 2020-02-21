@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cb84cb6cf291844ea051c5b8376a393, type: 3}
+  m_Name: Interceptor
+  m_EditorClassIdentifier: 
+  classIndex: 0
+  name: Interceptor
+  description: Fast, dissposable ships designed for combat
+  buildTime: 0.1
+  buildCost: 10
+  category: 2
+  prefab: {fileID: 1193765123588013134, guid: 005da5d0106bf8847aa4a1722d3c51dd, type: 3}
+  type: 1

@@ -10,10 +10,12 @@ public class PlanetOverviewAlreadyBuilt : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        /*
         for (int i = 0; i < builtStructureButtons.Length; i++)
         {
             builtStructureButtons[i].structureClassIndex = i;
         }
+        */
         
     }
 

@@ -76,7 +76,7 @@ public class Star : MonoBehaviour
 
             for (int i = 0; i < 3; i++)
             {
-                starConstruction.Build(Master.instance.variety.builtShips[0].prefab, StarConstruction.StarConstructionType.spaceShip);
+                starConstruction.Build(Master.instance.factions.factions[0].shipTypes[0].prefab, StarConstruction.StarConstructionType.spaceShip);
             }
         }
     }

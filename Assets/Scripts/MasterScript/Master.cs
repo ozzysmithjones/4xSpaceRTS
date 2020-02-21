@@ -6,6 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(Enviroment))]
 [RequireComponent(typeof(Factions))]
 [RequireComponent(typeof(Interface))]
+
+//Variety makes different building types easily accessible to all scripts. This process is being depreicated to allow empires to have their own unique set of ships and structures. 
 [RequireComponent(typeof(Variety))]
 public class Master : MonoBehaviour
 {
@@ -45,7 +47,7 @@ public class Master : MonoBehaviour
 
         variety.Initialise();
 
-        factions.SpawnFactions();
+        factions.SpawnFactions(variety.builtShips,variety.builtStructures);
 
         enviroment.RandomGrid(5);
 

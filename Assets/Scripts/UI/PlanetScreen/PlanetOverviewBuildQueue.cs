@@ -44,12 +44,8 @@ public class PlanetOverviewBuildQueue : MonoBehaviour
 
     }
 
-    public void UpdateQueueChange(int index, bool added, List<Queue> queue)
+    public void UpdateQueueChange(List<Queue> queue)
     {
-        if (queueUIs.Count == queue.Count)
-        {
-            return;
-        }
         /*
         if(!added)
         {
@@ -90,7 +86,8 @@ public class PlanetOverviewBuildQueue : MonoBehaviour
             else if (i >= queue.Count && i < queueUIs.Count)
             {
                 //print("remove UI");
-                RemoveQueueUIElement();
+                RemoveQueueUIElement(i);
+                i--;
                 //i--;
             }
             length = Mathf.Max(queueUIs.Count, planetOverview.planet.planetColony.buildQueue.Count);
@@ -217,11 +214,13 @@ public class PlanetOverviewBuildQueue : MonoBehaviour
     }
 
 
+
+
     void AddQueueUIElement(Queue element)
     {
         QueueUI queueUI = AddQueueUIElement();
         UpdateQueueElement(queueUIs.Count - 1);
-        
+       
     }
 
     // Update is called once per frame

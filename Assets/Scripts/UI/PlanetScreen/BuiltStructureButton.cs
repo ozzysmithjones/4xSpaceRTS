@@ -13,24 +13,20 @@ public class BuiltStructureButton : MonoBehaviour
     public TextMeshProUGUI structureQuantity;
     public BuiltStructure builtStructure;
     public int quantity = 0;
-    public int structureClassIndex = 0;
+   
 
+    private static int classIndex = 0;
 
     private void Start()
-    {
-        // StartCoroutine(Later());
-        builtStructure = Master.instance.variety.builtStructures[structureClassIndex];
+    { 
+        builtStructure = Master.instance.factions.factions[0].structureTypes[classIndex];
         structureName.text = builtStructure.name;
         structureQuantity.text = quantity.ToString();
+        classIndex++;
+        
     }
 
-    /*
-    IEnumerator Later(float time = 0.1f)
-    {
-        //yield return new WaitForSeconds(time);
-       
-    }
-    */
+
     public void UpdateQuantity(int amount)
     {
         quantity = amount;

@@ -10,23 +10,11 @@ public class Variety : MonoBehaviour
     public BuiltStructure[] builtStructures = new BuiltStructure[10];
     public BuiltShip[] builtShips = new BuiltShip[1];
 
-
-
     public void Initialise()
     {
-        builtStructures[0] = new EconomicStructure("Mine","produces 2 materials every minute", ResourceType.MATERIALS, 2);
-        builtStructures[1] = new EconomicStructure("Generator","produces two energy every minute",ResourceType.ENERGY,2);
-        builtStructures[2] = new EconomicStructure("Chemical plant", "produces 1 death matter every minute",ResourceType.DEATHMATTER,1);
-
-
-
-
+     
         for(int i = 0; i < builtStructures.Length; i++)
         {
-            if(builtStructures[i] == null)
-            {
-                builtStructures[i] = new BuiltStructure("Ruin","");
-            }
             builtStructures[i].classIndex = i;
         }
 

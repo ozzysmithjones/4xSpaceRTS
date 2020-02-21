@@ -19,9 +19,9 @@ public class Factions : MonoBehaviour
         
     }
 
-    public void SpawnFactions()
+    public void SpawnFactions(BuiltShip[] shipTypes, BuiltStructure[] structureTypes)
     {
-        factions.Add(CreateFaction(0,true));
+        factions.Add(CreateFaction(0,shipTypes,structureTypes,true));
 
         //player home world:
         //Star playerStar = Master.instance.enviroment.RandomStar();
@@ -31,7 +31,7 @@ public class Factions : MonoBehaviour
 
         for(int i = 0; i < 5;i++)
         {
-            factions.Add(CreateFaction(i));
+            factions.Add(CreateFaction(i,shipTypes, structureTypes));
         }
         /*
         //AI home worlds:
@@ -51,7 +51,7 @@ public class Factions : MonoBehaviour
         */
     }
 
-    public Faction CreateFaction(int index, bool player = false)
+    public Faction CreateFaction(int index, BuiltShip[] shipTypes, BuiltStructure[] structureTypes,bool player = false)
     {
 
         Color[] colors = new Color[1];
@@ -70,6 +70,9 @@ public class Factions : MonoBehaviour
         {
             instance = new Player(index, true, colors, names);
         }
+
+        instance.structureTypes = structureTypes;
+        instance.shipTypes = shipTypes;
         
         return instance;
     }

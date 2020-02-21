@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
+[CreateAssetMenu(fileName = "Structure", menuName = "Economy/Structure")]
 public class BuiltStructure : BuildQueueItem
 {
+    [HideInInspector]
     public Planet planetBuiltOn;
     public override void Build(Planet planet)
     {

@@ -16,21 +16,29 @@ public class BuildOptionUI : MonoBehaviour
     public TMP_InputField quantity;
     public TextMeshProUGUI price;
 
+    private void Awake()
+    {
+        
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         if (!isShip) {
-            buildQueueItem = Master.instance.variety.builtStructures[classIndex];
+
+            buildQueueItem = Master.instance.factions.factions[0].structureTypes[classIndex];
 
         }
         else
         {
-            buildQueueItem = Master.instance.variety.builtShips[classIndex];
+            buildQueueItem = Master.instance.factions.factions[0].shipTypes[classIndex];
         }
 
         category = buildQueueItem.category;
         itemName.text = buildQueueItem.name;
         price.text = "MAT: " + buildQueueItem.buildCost.ToString();
+
+        
     }
 
     // Update is called once per frame

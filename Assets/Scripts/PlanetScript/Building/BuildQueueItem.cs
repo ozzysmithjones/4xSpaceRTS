@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class BuildQueueItem {
+public class BuildQueueItem : ScriptableObject {
 
     public int classIndex = 0;
     public string name = "mine";

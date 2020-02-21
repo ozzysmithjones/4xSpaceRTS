@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
+//[System.Serializable]
+[CreateAssetMenu(fileName = "Ship", menuName = "Economy/Ship")]
 public class BuiltShip : BuildQueueItem
 {
     public GameObject prefab;
@@ -10,6 +11,8 @@ public class BuiltShip : BuildQueueItem
 
     public override void Build(Planet planet)
     {
+
+        Debug.Log("building a ship");
         base.Build(planet);
         planet.star.starConstruction.Build(prefab, type);
     }

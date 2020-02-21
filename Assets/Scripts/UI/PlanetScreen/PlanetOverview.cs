@@ -21,8 +21,9 @@ public class PlanetOverview : MonoBehaviour
 
     public void Overview(Planet newPlanet)
     {
-        
+
         planet = newPlanet;
+        buildQueue.UpdateQueueChange(planet.planetColony.buildQueue);
         planet.planetColony.ListenToBuildQueue(buildQueue.UpdateQueueChange, true);
         alreadyBuilt.UpdateAllQuantities();
         description.UpdateDescription(newPlanet);

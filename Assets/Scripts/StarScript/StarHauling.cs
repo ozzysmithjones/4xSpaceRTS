@@ -16,6 +16,7 @@ public class StarHauling : MonoBehaviour
 
     public void Initialise()
     {
+        return;
         star = GetComponent<Star>();
         Navigator freighter = star.starConstruction.Build(freighterFleetPrefab, StarConstruction.StarConstructionType.fleet);
 

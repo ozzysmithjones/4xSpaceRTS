@@ -30,7 +30,7 @@ public class StarConstruction : MonoBehaviour
     public Navigator Build(GameObject prefab, StarConstruction.StarConstructionType type)
     {
 
-       
+        Debug.Log(type.ToString());
         GameObject spawned = Instantiate(prefab, transform.position,transform.rotation);
         spawned.transform.SetParent(visuals);
 

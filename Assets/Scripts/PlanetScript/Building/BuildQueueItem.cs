@@ -11,9 +11,7 @@ public class BuildQueueItem {
 
 
     public float buildTime = 10f;
-    public int energyCost = 1;
-    public int materialCost = 10;
-
+    public int buildCost = 10;
     public enum Category { Economy,Diplomacy,Military};
     public Category category = Category.Economy;
 

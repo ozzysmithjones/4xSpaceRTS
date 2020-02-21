@@ -5,7 +5,7 @@ using UnityEngine;
 public class BuildMenu : MonoBehaviour
 {
     public PlanetOverview planetOverview;
-    public BuildOption[] buildOptions;
+    public BuildOptionUI[] buildOptions;
 
     private void Awake()
     {
@@ -33,39 +33,28 @@ public class BuildMenu : MonoBehaviour
         
         //pay for it first.
         Faction faction = Master.instance.factions.factions[planetOverview.planet.star.factionIndex];
-        int price = amount * buildQueueItem.materialCost;
+        int price = amount * buildQueueItem.buildCost;
 
-        /* ignoring prices:
-        if(faction.resources[1] < price)
+        //paying for it.
+        if(faction.resources.amounts[(int)ResourceType.MATERIALS] < price)
         {
             return;
         }
-        faction.Gather(new int[3]{0 ,-price,0});
-            
-         */
-        //add to build Queue.
+        Resources costs = new Resources();
+        costs.amounts[(int)ResourceType.MATERIALS] = -price;
+        faction.Gather(costs);
 
+        //add to build Queue.
         Queue queue = new Queue
         {
             item = buildQueueItem,
             quantity = amount,
             id = Time.time
-
         };
 
         // planetOverview.planet.planetColony.BeginBuildQueue();
 
         planetOverview.planet.planetColony.AddToBuildQueue(queue);
-
-        for(int i = 0; i < planetOverview.planet.planetColony.buildQueue.Count; i++)
-        {
-            
-            if(planetOverview.planet.planetColony.buildQueue[i] == planetOverview.planet.planetColony.buildQueue[0] && i != 0)
-            {
-                print("the same");
-            }
-        }
-
     }
 
    

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class BuildOption : MonoBehaviour
+public class BuildOptionUI : MonoBehaviour
 {
     public BuildQueueItem.Category category = BuildQueueItem.Category.Economy;
 
@@ -30,7 +30,7 @@ public class BuildOption : MonoBehaviour
 
         category = buildQueueItem.category;
         itemName.text = buildQueueItem.name;
-        price.text = "MAT: " + buildQueueItem.materialCost.ToString();
+        price.text = "MAT: " + buildQueueItem.buildCost.ToString();
     }
 
     // Update is called once per frame

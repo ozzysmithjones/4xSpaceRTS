@@ -134,7 +134,8 @@ public class StarShipManager : MonoBehaviour
         {
             return;
         }
-        int remainingFaction = fleets[0].faction;
+
+        int remainingFaction = fleets[0].faction; 
         for(int i = 0; i < fleets.Count; i++)
         {
             if(fleets[i].faction == star.factionIndex)

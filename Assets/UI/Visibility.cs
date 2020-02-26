@@ -56,8 +56,6 @@ public class Visibility : MonoBehaviour
             images[i].enabled = visible;
         }
 
-       
-
     }
 
    public void AddStaticObject(GameObject thing)

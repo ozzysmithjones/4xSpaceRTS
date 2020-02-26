@@ -42,8 +42,15 @@ public class Player : Faction
             {
                 continue;
             }
-            resourcesText[i].text = ((ResourceType)i).ToString() + ": " + this.resources.amounts[i];
+            resourcesText[i].text = ((ResourceType)i).ToString() + ": " + this.resources.amounts[i] + " +" + this.resourceProduction.amounts[i];
         }
        
+    }
+
+    public override void ImproveResourceProduction(ResourceType resourceType, int amount)
+    {
+        base.ImproveResourceProduction(resourceType, amount);
+        string pos = amount > 0 ? " +" : " -";
+        resourcesText[(int)resourceType].text = resourceType.ToString() + ": " + this.resources.amounts[(int)resourceType] + pos + this.resourceProduction.amounts[(int)resourceType];
     }
 }

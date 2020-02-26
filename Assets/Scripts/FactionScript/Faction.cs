@@ -24,6 +24,7 @@ public class Faction
     private int randomExpansion = 5;
 
     public Resources resources = new Resources();
+    public Resources resourceProduction = new Resources();
 
     public BiomeGradient.Point homePlanet = new BiomeGradient.Point(0f, "Home World", Color.green, 0, 0);
 
@@ -37,11 +38,15 @@ public class Faction
             factionName = NameArray[Random.Range(0, NameArray.Length)];
 
         }
+
+        
     }
 
     
     public void Influence(Star star, bool showOuterRim = false, bool colony = false)
     {
+
+        
         if (territory.Contains(star))
         {
             return;
@@ -95,17 +100,23 @@ public class Faction
     public virtual void Gather(Resources resources)
     {
 
-        int length = resources.amounts.Length;
-
-        for(int i = 0; i < length; i++)
+        for(int i = 0; i < resources.amounts.Length; i++)
         {
-            if(i < resources.amounts.Length)
+            if(i < this.resources.amounts.Length)
             {
                 this.resources.amounts[i] += resources.amounts[i];
             }
         }
 
     }
+
+    public virtual void ImproveResourceProduction(ResourceType resourceType, int amount)
+    {
+        resourceProduction.amounts[(int)resourceType] += amount;
+    }
+
+
+
 
 
 }

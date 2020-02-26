@@ -14,14 +14,14 @@ public class EconomicStructure : BuiltStructure
     {
         base.OnBuild();
 
-        planetBuiltOn.planetColony.resourceProduction.amounts[(int)resourceType] += resourceproduction;
+        planetBuiltOn.planetColony.ImproveResourceproduction(resourceType, resourceproduction);
     }
 
     public override void OnRemove()
     {
         base.OnRemove();
 
-        planetBuiltOn.planetColony.resourceProduction.amounts[(int)resourceType] -= resourceproduction;
+        planetBuiltOn.planetColony.ImproveResourceproduction(resourceType, -resourceproduction);
 
     }
     public EconomicStructure(string name, string description, ResourceType resourceProduced = ResourceType.MATERIALS, int resourceQuantity = 2) : base(name, description)

@@ -10,7 +10,7 @@ public class Factions : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        StartCoroutine(ResourceProduction());
     }
 
     // Update is called once per frame
@@ -75,5 +75,21 @@ public class Factions : MonoBehaviour
         instance.shipTypes = shipTypes;
         
         return instance;
+    }
+
+    private IEnumerator ResourceProduction()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(60.0f);
+
+            for(int i = 0; i < factions.Count; i++)
+            {
+                factions[i].Gather(factions[i].resourceProduction);
+            }
+
+            Debug.Log("resources!");
+        }
+
     }
 }

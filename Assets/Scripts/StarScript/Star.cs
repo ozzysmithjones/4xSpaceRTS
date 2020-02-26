@@ -86,20 +86,22 @@ public class Star : MonoBehaviour
     public void TakeOver(int invader, bool showOuterRim = false)
     {
 
+        if (factionIndex == 0)
+        {
+            starVisibility.IncrementFogOfWar(-1, 1);
+        }
 
-        if(invader < 0)
+        if (invader < 0)
         {
             factionIndex = -1;
             starUI.SetUIColor(Color.grey);
             return;
         }
 
-
         //print(invader + " is taking over");
         factionIndex = invader;
         Faction faction = Master.instance.factions.factions[factionIndex];
 
-        
         starUI.SetUIColor(faction.flagColor);
        
         //faction.territory.Add(this);

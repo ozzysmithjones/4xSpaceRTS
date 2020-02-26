@@ -74,8 +74,6 @@ public class StarShipManager : MonoBehaviour
         fleets.Add(navigator);
         UpdateFaction();
         return;
-        
-        
     }
 
     //not used:
@@ -147,6 +145,10 @@ public class StarShipManager : MonoBehaviour
                 remainingFaction = -1;
             }
             
+        }
+        if(star.factionIndex == remainingFaction)
+        {
+            return;
         }
         star.TakeOver(remainingFaction);
     }

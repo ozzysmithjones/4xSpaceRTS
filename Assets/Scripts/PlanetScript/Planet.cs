@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+
 [RequireComponent(typeof(PlanetTexture))]
 public class Planet : MonoBehaviour
 {
-
+    public BiomeType biomeType;
     public PlanetTexture planetTexture;
     public Star star;
     public PlanetColony planetColony;
@@ -28,6 +31,7 @@ public class Planet : MonoBehaviour
     {
         star = planetsStar;
         planetTexture = GetComponent<PlanetTexture>();
+        planetTexture.Initialise();
 
         planetColony = GetComponent<PlanetColony>();
         planetColony.planet = this;
@@ -43,6 +47,16 @@ public class Planet : MonoBehaviour
         isColony = true;
         planetColony.Colonise();
        
+    }
+
+
+    public void SetBiome(BiomeType biomeType,PlanetTextureData planetTextureData)
+    {
+        this.biomeType = biomeType;
+        planetTexture.SetValues(planetTextureData);
+        planetTexture.Generate();
+
+
     }
 
 

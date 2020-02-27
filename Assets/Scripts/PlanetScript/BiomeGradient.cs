@@ -2,40 +2,45 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BiomeGradient  : MonoBehaviour
+public enum BiomeType
+{
+    BARREN,
+    DESERT,
+    TOXIC,
+    CARBON,
+    JUNGLE,
+    OCEAN,
+    ICE,
+    ODD
+}
+[CreateAssetMenu(fileName = "BiomeGradient", menuName = "Biomes/Gradient")]
+public class BiomeGradient  : ScriptableObject
 {
 
 
     [SerializeField]
     private Point[] timeline;
 
-
-
     [System.Serializable]
     public class Point
     {
         public float time = 0.0f;
-        public string name = "Barren";
+        public BiomeType biomeType;
         public Color color;
 
-        //0 = nothing.
-        //1 = energy.
-        //2 = materials.
-        //3 = death matter.
-        public int resourceType = 0;
+        public ResourceType resourceType;
         public int resources = 0;
       
 
-        
 
-        public Point(float t,string n, Color c, int type, int amount)
+        public Point(float time,BiomeType biomeType, Color color, ResourceType resourceType, int resources)
         {
-            name = n;
-            time = t;
-            color = c;
+            this.biomeType = biomeType;
+            this.time = time;
+            this.color = color;
 
-            resourceType = type;
-            resources = amount;
+            this.resourceType = resourceType;
+            this.resources = resources;
         }
 
     }
@@ -103,7 +108,7 @@ public class BiomeGradient  : MonoBehaviour
 
                 int what = alpha >= (timeline[i].time + timeline[i + 1].time / 2f) ? i + 1 : i;
                 
-                return new Point(timeline[what].time,timeline[what].name, color,timeline[what].resourceType,timeline[what].resources);
+                return new Point(timeline[what].time,timeline[what].biomeType, color,timeline[what].resourceType,timeline[what].resources);
             }
         }
 

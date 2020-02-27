@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class StarGeneration : MonoBehaviour
 {
     public Transform visuals;
@@ -92,6 +91,7 @@ public class StarGeneration : MonoBehaviour
                 PlanetIndex++;
 
                 planet.Initialise(star);
+
                 if (planet == null)
                 {
                     print("No planet");
@@ -123,7 +123,7 @@ public class StarGeneration : MonoBehaviour
                     }
                     
                 }
-                planet.planetTexture.SetValues(sea, ground, new Vector2(Random.value, Random.value), 5f);
+                planet.SetBiome(groundGradient.GetPoint((float)i / ((float)planetPositions.Length-1f)).biomeType, new PlanetTextureData(sea, ground, new Vector2(Random.value, Random.value), 5f));
 
                 //rotate the planet around the sun. 
                 planet.transform.RotateAround(transform.position, Vector3.forward, Random.value * 360f);

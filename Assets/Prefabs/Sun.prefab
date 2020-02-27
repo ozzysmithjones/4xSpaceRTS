@@ -112,7 +112,6 @@ GameObject:
   - component: {fileID: 879585075006794825}
   - component: {fileID: 879585075006794824}
   - component: {fileID: 879585075006794831}
-  - component: {fileID: 879585075006794826}
   - component: {fileID: 3212184093518475599}
   - component: {fileID: 1337674541}
   - component: {fileID: 879585075006794837}
@@ -120,7 +119,6 @@ GameObject:
   - component: {fileID: 7833792723087299362}
   - component: {fileID: 8100151728787816750}
   - component: {fileID: 809044322527810242}
-  - component: {fileID: 4234606429182796055}
   m_Layer: 0
   m_Name: Sun
   m_TagString: Star
@@ -177,7 +175,7 @@ MonoBehaviour:
     type: 3}
   spaceBetweenPlanets: 1.1
   spaceBetweenVoid: 1
-  groundGradient: {fileID: 4234606429182796055}
+  groundGradient: {fileID: 11400000, guid: 8c66305b62149d14aa2fa4706dc749f6, type: 2}
   planets: []
 --- !u!114 &879585075006794824
 MonoBehaviour:
@@ -218,31 +216,6 @@ MonoBehaviour:
   starUI: {fileID: 0}
   isColony: 0
   factionIndex: -1
---- !u!114 &879585075006794826
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 879585075006794828}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5291811a3edf7cf4c898464cc079ec2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeline:
-  - time: 0
-    color: {r: 0.5943396, g: 0.28875935, b: 0.30656013, a: 1}
-  - time: 0.16666
-    color: {r: 0.6509434, g: 0.5958589, b: 0.43907973, a: 1}
-  - time: 0.33333
-    color: {r: 0.43821064, g: 0.5, b: 0.4174528, a: 1}
-  - time: 0.5
-    color: {r: 0.63686603, g: 0.754717, b: 0.46635816, a: 1}
-  - time: 0.76666
-    color: {r: 0.50980395, g: 0.7372549, b: 0.60102767, a: 1}
-  - time: 0
-    color: {r: 0.38456747, g: 0.45425418, b: 0.5471698, a: 1}
 --- !u!114 &3212184093518475599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -356,59 +329,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610d737b5c7849f4f9056e410ef3b2e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4234606429182796055
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 879585075006794828}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a35c22506edf37b46b0c8a34b7d7a8f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeline:
-  - time: 0
-    name: Barren
-    color: {r: 0.5943396, g: 0.28875935, b: 0.30656013, a: 1}
-    resourceType: 2
-    resources: 2
-  - time: 0.125
-    name: Desert
-    color: {r: 0.6509434, g: 0.5958589, b: 0.43907973, a: 1}
-    resourceType: 2
-    resources: 1
-  - time: 0.25
-    name: Toxic
-    color: {r: 0.7529412, g: 0.7414489, b: 0.46666667, a: 1}
-    resourceType: 3
-    resources: 2
-  - time: 0.375
-    name: Carbon
-    color: {r: 0.63686603, g: 0.754717, b: 0.46635816, a: 1}
-    resourceType: 3
-    resources: 1
-  - time: 0.5
-    name: Jungle
-    color: {r: 0.45087218, g: 0.6415094, b: 0.46283236, a: 1}
-    resourceType: 3
-    resources: 0
-  - time: 0.675
-    name: Ocean
-    color: {r: 0.38456747, g: 0.45425418, b: 0.5471698, a: 1}
-    resourceType: 1
-    resources: 2
-  - time: 0.8
-    name: Ice
-    color: {r: 0.47405657, g: 0.6320754, b: 0.6320754, a: 1}
-    resourceType: 1
-    resources: 2
-  - time: 0.925
-    name: Odd
-    color: {r: 0.5149441, g: 0.38431373, b: 0.54901963, a: 1}
-    resourceType: 0
-    resources: 0
 --- !u!1 &5175810016763546237
 GameObject:
   m_ObjectHideFlags: 0

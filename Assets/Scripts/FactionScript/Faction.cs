@@ -86,7 +86,6 @@ public class Faction
             if(outerRim[index].factionIndex < 0)
             {
                 outerRim[index].TakeOver(factionIndex);
-                
             }
             else
             {

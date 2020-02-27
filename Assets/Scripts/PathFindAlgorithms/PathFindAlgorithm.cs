@@ -111,7 +111,7 @@ public class PathFindAlgorithm
     }
     void Expand(Node node, List<Node> frontier, List<Node> visited, int end)
     {
-        List<int> neighbours = Master.instance.enviroment.grid[node.position].starConnections.connections;
+        List<int> neighbours = Master.instance.enviroment.stars[node.position].starConnections.connections;
 
         // int counter = 0;
         for (int n = 0; n < neighbours.Count; n++)
@@ -235,7 +235,7 @@ public class PathFindAlgorithm
             return false;
         }
 
-        Star star = Master.instance.enviroment.grid[position];
+        Star star = Master.instance.enviroment.stars[position];
 
         if(star == null)
         {

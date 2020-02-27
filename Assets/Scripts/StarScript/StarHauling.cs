@@ -57,7 +57,7 @@ public class StarHauling : MonoBehaviour
         for (int i = 0; i < faction.Colonies.Count; i++)
         {
            
-            List<int> path = Master.instance.PathFind(star.position, faction.Colonies[i].position,factionArray);
+            List<int> path = Master.instance.PathFind(star.index, faction.Colonies[i].index,factionArray);
             if(path.Count-1 < shortest || i == 0)
             {
                 shortest = path.Count - 1;

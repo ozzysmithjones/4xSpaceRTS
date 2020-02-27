@@ -15,12 +15,12 @@ public class Enviroment : MonoBehaviour
     private Master master;
 
     [Header("BASE VARIABLES")]
-    public float space = 20f;
+    private float space = 200f;
     public int numberOfStars = 100;
     public int collums = 40;
     public int rows = 40;
 
-    public Star[] grid;
+    private Star[] grid;
     public Star[] stars;
     // Start is called before the first frame update
     void Start()
@@ -50,6 +50,114 @@ public class Enviroment : MonoBehaviour
 
 
 
+    }
+
+
+    public void BreadthFirstGenerate()
+    {
+
+        stars = new Star[numberOfStars];
+        grid = new Star[collums * rows];
+
+        List<Node> frontier = new List<Node>();
+        int spawnedStars = 0;
+
+        //spawn a star at the center.
+        Star center = SpawnStar(collums / 2, rows / 2);
+        center.index = 0;
+        stars[0] = center;
+        grid[TwoDimToOneDim(collums / 2, rows / 2, rows)] = center;
+        spawnedStars++;
+
+        //add it to the frontier and visited arrays.
+        Node centerNode = new Node(TwoDimToOneDim(collums/2,rows/2,rows),-1,0);
+        frontier.Add(centerNode);
+       
+
+        while (spawnedStars < numberOfStars && frontier.Count > 0){
+
+            Node expansionNode = frontier[0];
+            int cX, cY = 0;
+            OneDimToTwoDim(expansionNode.coordinate, rows, out cX, out cY);
+
+
+            //expand
+   
+            int mustConnection = Random.Range(0,8);
+            int i = -1;
+            float connectionChance = 0.3f;
+            for(int x = -1; x <= 1; x++)
+            {
+                for(int y = -1;y <= 1; y++)
+                {
+                    //i only increments if we ignore the center.
+                    if(x == 0 && y == 0)
+                    {
+                        continue;
+                    }
+                    i++;
+                    if (!InsideBounds(x + cX,y + cY))
+                    {
+                        continue;
+                    }
+                    if(Random.value > connectionChance && i != mustConnection)
+                    {
+                        continue;
+                    }
+                    int coord = TwoDimToOneDim(x + cX, y + cY, rows);
+
+                    if (grid[coord] == null)
+                    {
+                        if(spawnedStars >= numberOfStars)
+                        {
+                            continue;
+                        }
+                        spawnedStars++;
+                        Star newStar = SpawnStar(x + cX, y + cY);
+                        newStar.index = spawnedStars - 1;
+                        stars[spawnedStars-1] = newStar;
+                        grid[coord] = newStar;
+                        Node newNode = new Node(coord, expansionNode.coordinate, expansionNode.steps + 1);
+
+                        InsertNodeBySteps(newNode, frontier);
+
+                        StarConnections.Connect(grid[expansionNode.coordinate], newStar);
+
+                    }
+                    else if(coord != expansionNode.previousCoordinate)
+                    {
+                        StarConnections.Connect(grid[expansionNode.coordinate], grid[coord]);
+                    }
+
+
+                }
+            }
+
+            frontier.RemoveAt(0);
+
+
+        }
+
+        for (int i = 0; i < stars.Length; i++)
+        {
+            stars[i].InitialisePlanets();
+        }
+
+
+
+
+    }
+
+    private void InsertNodeBySteps(Node node, List<Node> nodes)
+    {
+        for(int i = nodes.Count-1;i >= 0; i--)
+        {
+            if(nodes[i].steps < node.steps || i == 0)
+            {
+                nodes.Insert(i, node);
+                break;
+            }
+        }
     }
 
 
@@ -90,7 +198,6 @@ public class Enviroment : MonoBehaviour
         {
             int roll = Random.Range(0, spawnpoints.Length);
             bool original = spawnpoints[i];
-            bool rollOriginal = spawnpoints[roll];
 
             spawnpoints[i] = spawnpoints[roll];
             spawnpoints[roll] = original;
@@ -129,20 +236,22 @@ public class Enviroment : MonoBehaviour
 
                 OneDimToTwoDim(i, rows, out int x, out int y);
 
-                GameObject star = Instantiate(starPrefab, new Vector2(x, y) * space + RandomOffset(), Quaternion.identity);
-                grid[i] = star.GetComponent<Star>();
-                grid[i].position = i;
+                Star star = SpawnStar(x, y);
+                grid[i] = star;
+              //  grid[i].position = i;
+
 
                 //if there is a faction here, be sure to reference when initialising the star.
                 int faction = -1;
                 int index = ArrayContains(empirePositions, i);
-                if ( index >= 0)
+                if (index >= 0)
                 {
                     faction = index;
                     //print("faction = " +faction);
                 }
                 
                 stars[starNumber] = grid[i];
+                stars[starNumber].index = starNumber;
                 stars[starNumber].Initialise(faction);
 
                 starNumber++;
@@ -166,6 +275,15 @@ public class Enviroment : MonoBehaviour
         {
             stars[i].InitialisePlanets();
         }
+    }
+
+    private Star SpawnStar(int x, int y)
+    {
+        Star newStar =  Instantiate(starPrefab, new Vector2(x, y) * space + RandomOffset(), Quaternion.identity).GetComponent<Star>();
+        newStar.Initialise();
+
+
+        return newStar;
     }
 
     int ArrayContains(int[] array,int integer)
@@ -262,31 +380,50 @@ public class Enviroment : MonoBehaviour
         }
     }
 
-    private Vector2 RandomOffset(float range = 0f)
+    private Vector2 RandomOffset(float range = 100f)
     {
         float half = range / 2f;
         return new Vector2(Random.Range(-half, half), Random.Range(-half, half));
     }
 
-    //returns a random star in the game, possibly for a spawn point or something.
-    public Star RandomStar(bool includeAlreadyTaken = false)
+    private struct Node
     {
-        Star star = stars[Random.Range(0, stars.Length)];
+        public int coordinate;
+        public int previousCoordinate;
+        public int steps;
 
-        if (star.factionIndex != -1)
+        public Node(int coordinate, int previousCoordinate, int steps)
         {
-            for (int i = 0; i < stars.Length; i++)
+            this.coordinate = coordinate;
+            this.previousCoordinate = previousCoordinate;
+            this.steps = steps;
+        }
+
+    }
+
+    public Star RandomStar(bool canBeOccupied = false)
+    {
+        if (canBeOccupied)
+        {
+            return stars[Random.Range(0, stars.Length)];
+        }
+        int iterations = 200;
+
+        for(int i = 0; i < iterations; i++)
+        { 
+
+            int roll = Random.Range(0, stars.Length);
+
+            if(stars[roll].factionIndex < 0)
             {
-                star = stars[Random.Range(0, stars.Length)];
-                if (star.factionIndex != -1)
-                {
-                    break;
-                }
+                return stars[roll];
             }
         }
-        return star;
-        
+        Debug.LogError("Couldn't find an unhabited star under " + iterations + "iterations");
+        return null;
     }
+
+   
 
 
 

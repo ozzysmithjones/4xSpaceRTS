@@ -206,7 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f6d45cd1696c3448b841985fed8e24a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  position: 0
+  index: 0
   planets: 0
   starSelect: {fileID: 0}
   starConstruction: {fileID: 0}
@@ -356,9 +356,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610d737b5c7849f4f9056e410ef3b2e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  metal: 0
-  energy: 0
-  deathMatter: 0
 --- !u!114 &4234606429182796055
 MonoBehaviour:
   m_ObjectHideFlags: 0

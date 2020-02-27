@@ -8,8 +8,8 @@ using UnityEngine;
 [RequireComponent(typeof(StarConnections))]
 public class Star : MonoBehaviour
 {
-    
-    public int position;
+    public int index;
+  //  public int position;
     public int planets;
 
     
@@ -117,6 +117,12 @@ public class Star : MonoBehaviour
             starVisibility.IncrementFogOfWar(1, 1);
         }
 
+    }
+
+    public void Colonise(int planetIndex = 0)
+    {
+
+        starGeneration.planets[planetIndex].Colonise();
     }
 
     public void SetSelector(bool active, Color color)

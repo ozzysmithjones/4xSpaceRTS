@@ -15,6 +15,7 @@ public class StarConnections : MonoBehaviour
     public List<LineRenderer> lines = new List<LineRenderer>();
     private List<int> linesStartingHere = new List<int>();
 
+
     //breadth first search for nearest starts.
     public void ConnectToNearestStars(int start, int minConnectedStars = 1)
     {
@@ -111,7 +112,7 @@ public class StarConnections : MonoBehaviour
     bool Check(Master.Node node)
     {
 
-        if(Master.instance.enviroment.grid[node.position] != null)
+        if(Master.instance.enviroment.stars[node.position] != null)
         {
             if (!connections.Contains(node.position))
             {
@@ -131,14 +132,14 @@ public class StarConnections : MonoBehaviour
 
         {   //get the other stars connections.
             StarConnections starConnections;
-            if (Master.instance.enviroment.grid[connections[i]].starConnections == null)
+            if (Master.instance.enviroment.stars[connections[i]].starConnections == null)
             {
-                starConnections = Master.instance.enviroment.grid[connections[i]].GetComponent<StarConnections>();
-                Master.instance.enviroment.grid[connections[i]].starConnections = starConnections;
+                starConnections = Master.instance.enviroment.stars[connections[i]].GetComponent<StarConnections>();
+                Master.instance.enviroment.stars[connections[i]].starConnections = starConnections;
             }
             else
             {
-                starConnections = Master.instance.enviroment.grid[connections[i]].starConnections;
+                starConnections = Master.instance.enviroment.stars[connections[i]].starConnections;
             }
             //connect that star to this one.
             if (!starConnections.connections.Contains(center))
@@ -151,7 +152,7 @@ public class StarConnections : MonoBehaviour
                 linesStartingHere.Add(i);
 
                 //create the gateway on this side and that side. 
-                SpawnStarGate((Vector2)Master.instance.enviroment.grid[connections[i]].transform.position, connections[i]);
+                SpawnStarGate((Vector2)Master.instance.enviroment.stars[connections[i]].transform.position, connections[i]);
                 starConnections.SpawnStarGate((Vector2)transform.position, center);
 
             }
@@ -163,8 +164,10 @@ public class StarConnections : MonoBehaviour
     LineRenderer DrawLine(int start, int end, float starRadius = 15f)
     {
         //the two transforms to draw the line between.
-        Star startStar = Master.instance.enviroment.grid[start];
-        Star endStar = Master.instance.enviroment.grid[end];
+        Star startStar = Master.instance.enviroment.stars[start];
+        Star endStar = Master.instance.enviroment.stars[end];
+
+
 
         //spawn a line object. 
         LineRenderer line = Instantiate(linePrefab, startStar.transform.position, startStar.transform.rotation).GetComponent<LineRenderer>();
@@ -217,7 +220,7 @@ public class StarConnections : MonoBehaviour
         List<Star> stars = new List<Star>();
         for(int i = 0; i < connections.Count; i++)
         {
-            Star star = Master.instance.enviroment.grid[connections[i]];
+            Star star = Master.instance.enviroment.stars[connections[i]];
             if(star != null)
             {
                 stars.Add(star);
@@ -252,11 +255,11 @@ public class StarConnections : MonoBehaviour
         
     }
 
-    public Transform GetStarGate(int targetStarPosition)
+    public Transform GetStarGate(int targetStarIndex)
     {
         for (int i = 0; i < starGates.Count; i++){
 
-           if(starGates[i].targetStarPosition == targetStarPosition)
+           if(starGates[i].targetStarIndex == targetStarIndex)
             {
                 return starGates[i].gate;
             }
@@ -268,12 +271,12 @@ public class StarConnections : MonoBehaviour
     class StarGate
     {
         public Transform gate;
-        public int targetStarPosition;
+        public int targetStarIndex;
 
         public StarGate(Transform form, int connection)
         {
             gate = form;
-            targetStarPosition = connection;
+            targetStarIndex = connection;
         }
     }
 
@@ -290,6 +293,42 @@ public class StarConnections : MonoBehaviour
         }
 
         return false;
+    }
+
+
+    public static void Connect(Star star, Star other)
+    {
+        if(star == null || other == null)
+        {
+            Debug.Log("objects are null");
+        }
+       
+
+        if(other.starConnections == null)
+        {
+            Debug.Log("starConnections is null");
+        }else if(other.starConnections.connections == null)
+        {
+            Debug.Log("array is null");
+        }
+        //connect that star to this one.
+        if (!other.starConnections.connections.Contains(star.index))
+        {
+
+            star.starConnections.connections.Add(other.index);
+            other.starConnections.connections.Add(star.index);
+
+            LineRenderer line = star.starConnections.DrawLine(star.index,other.index);
+
+            other.starConnections.lines.Add(line);
+            star.starConnections.lines.Add(line);
+            star.starConnections.linesStartingHere.Add(star.starConnections.connections.Count-1);
+
+            //create the gateway on this side and that side. 
+            star.starConnections.SpawnStarGate(other.transform.position, other.index);
+            other.starConnections.SpawnStarGate(star.transform.position, star.index);
+
+        }
     }
 
 

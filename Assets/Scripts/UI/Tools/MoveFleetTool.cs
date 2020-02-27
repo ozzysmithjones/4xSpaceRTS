@@ -21,7 +21,7 @@ public class MoveFleetTool : Tool
 
 
         navigator.ClearPath();
-        if (navigator.GetStar().position != start)
+        if (navigator.GetStar().index != start)
         {
             ignoreShutDown = true;
 
@@ -31,7 +31,7 @@ public class MoveFleetTool : Tool
 
             ignoreShutDown = false;
 
-            start = controlledFleets[0].GetStar().position;
+            start = controlledFleets[0].GetStar().index;
             path.Clear();
             path.Add(start);
 
@@ -96,7 +96,7 @@ public class MoveFleetTool : Tool
         lineRenderer.positionCount = linePath.Count;
         for(int i = 0; i < linePath.Count; i++)
         {
-            lineRenderer.SetPosition(i,Master.instance.enviroment.grid[linePath[i]].transform.position + new Vector3(0f,0f,3f));
+            lineRenderer.SetPosition(i,Master.instance.enviroment.stars[linePath[i]].transform.position + new Vector3(0f,0f,3f));
         }
     }
 
@@ -106,7 +106,7 @@ public class MoveFleetTool : Tool
         base.OnInteract(star);
         
         
-        if(path[path.Count-1] == star.position)
+        if(path[path.Count-1] == star.index)
         {
            // Debug.Log("same as last position, return");
             //Master.instance.userInterface.SetTool(0);
@@ -115,7 +115,7 @@ public class MoveFleetTool : Tool
 
         //Debug.Log("draw line and stuff");
         int startIndex = path.Count - 1;
-        List<int> extension = Master.instance.PathFind(path[startIndex], star.position);
+        List<int> extension = Master.instance.PathFind(path[startIndex], star.index);
         path.AddRange(extension);
         DrawLine(path);
 
@@ -170,7 +170,7 @@ public class MoveFleetTool : Tool
 
         //just draw a line:
         int startIndex = path.Count - 1;
-        List<int> extension = Master.instance.PathFind(path[startIndex], star.position);
+        List<int> extension = Master.instance.PathFind(path[startIndex], star.index);
         List<int> total = new List<int>(path);
 
         total.AddRange(extension);

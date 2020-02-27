@@ -11,10 +11,9 @@ using UnityEngine;
 [RequireComponent(typeof(Variety))]
 public class Master : MonoBehaviour
 {
-    public float averageFrameRate = 60f;
+   
     public float frameRate = 1f;
     public float lowestFrameRate = 60f;
-    private float seconds = 0.0f;
 
     public static Master instance;
     public Variety variety;
@@ -62,21 +61,13 @@ public class Master : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        seconds += Time.deltaTime;
         frameRate = 1f / Time.deltaTime;
-        if (frameRate < lowestFrameRate && seconds > 3f)
+        if (frameRate < lowestFrameRate && Time.time > 3f)
         {
             lowestFrameRate = frameRate;
         }
 
-        if (seconds < 3f)
-        {
-            averageFrameRate = frameRate;
-        }
-        else
-        {
-            averageFrameRate = (averageFrameRate + frameRate) / 2f;
-        }
+
     }
 
     bool Singleton()

@@ -50,7 +50,7 @@ public class Player : Faction
     public override void ImproveResourceProduction(ResourceType resourceType, int amount)
     {
         base.ImproveResourceProduction(resourceType, amount);
-        string pos = amount > 0 ? " +" : " -";
+        string pos = resourceProduction.amounts[(int)resourceType] > 0 ? " +" : " -";
         resourcesText[(int)resourceType].text = resourceType.ToString() + ": " + this.resources.amounts[(int)resourceType] + pos + this.resourceProduction.amounts[(int)resourceType];
     }
 }

@@ -39,11 +39,10 @@ public class Factions : MonoBehaviour
 
         }
         //random expansion:
-        for(int i = 0; i < factions.Count; i++)
-        {
-            
-            factions[i].RandomlyExpand();
-        }
+       // for(int i = 0; i < factions.Count; i++)
+      //  {
+          //  factions[i].RandomlyExpand();
+      //  }
         
     }
 
@@ -77,14 +76,12 @@ public class Factions : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(60.0f);
+            yield return new WaitForSeconds(10.0f);
 
             for(int i = 0; i < factions.Count; i++)
             {
                 factions[i].Gather(factions[i].resourceProduction);
             }
-
-            Debug.Log("resources!");
         }
 
     }

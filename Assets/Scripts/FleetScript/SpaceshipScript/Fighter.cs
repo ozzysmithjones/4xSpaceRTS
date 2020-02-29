@@ -86,17 +86,17 @@ public class Fighter : SpaceShip
     }
 
 
+    //returns the ship with the lowest health.
     private void FindTarget()
     {
-        float shortestDistance = 0.0f;
+
+        float lowestHP = 0.0f;
         int index = 0;
         for(int i = 0; i < fleet.navigatorCombat.target.spaceShips.Count; i++)
         {
-            float distance = Vector2.Distance(transform.position, fleet.navigatorCombat.target.spaceShips[i].transform.position);
-
-            if(distance < shortestDistance || i == 0)
+            if(fleet.navigatorCombat.target.spaceShips[i].hitPoints < lowestHP || i == 0)
             {
-                shortestDistance = distance;
+                lowestHP = fleet.navigatorCombat.target.spaceShips[i].hitPoints;
                 index = i;
             }
 

@@ -19,6 +19,6 @@ MonoBehaviour:
     noiseSeed: {x: 0, y: 0}
     zoomAmount: 0
   resourceRanges:
-  - resourceType: 1
-    lowest: 2
-    highest: 3
+  - resourceType: 0
+    lowest: 1
+    highest: 1

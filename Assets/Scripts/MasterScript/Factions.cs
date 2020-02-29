@@ -39,10 +39,10 @@ public class Factions : MonoBehaviour
 
         }
         //random expansion:
-       // for(int i = 0; i < factions.Count; i++)
-      //  {
-          //  factions[i].RandomlyExpand();
-      //  }
+        for(int i = 0; i < factions.Count; i++)
+       {
+            factions[i].RandomlyExpand();
+       }
         
     }
 

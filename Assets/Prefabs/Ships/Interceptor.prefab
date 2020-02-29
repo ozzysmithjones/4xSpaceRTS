@@ -103,7 +103,6 @@ MonoBehaviour:
   pointing: 0
   target: {fileID: 0}
   rend: {fileID: 0}
-  cargo: 000000000000000000000000
   conflict: 0
   primaryDefence: 2
   hitPoints: 1

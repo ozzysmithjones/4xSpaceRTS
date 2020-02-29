@@ -18,4 +18,7 @@ MonoBehaviour:
     sea: {r: 0.30542648, g: 0.42144117, b: 0.48299998, a: 1}
     noiseSeed: {x: 0, y: 0}
     zoomAmount: 0
-  resourceRanges: []
+  resourceRanges:
+  - resourceType: 1
+    lowest: 1
+    highest: 1

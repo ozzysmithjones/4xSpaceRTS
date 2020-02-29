@@ -20,5 +20,5 @@ MonoBehaviour:
     zoomAmount: 0
   resourceRanges:
   - resourceType: 0
-    lowest: 0
-    highest: 5
+    lowest: 1
+    highest: 1

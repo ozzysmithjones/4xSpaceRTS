@@ -21,4 +21,4 @@ MonoBehaviour:
   resourceRanges:
   - resourceType: 1
     lowest: 1
-    highest: 2
+    highest: 1

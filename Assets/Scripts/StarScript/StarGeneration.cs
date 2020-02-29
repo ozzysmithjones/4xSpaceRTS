@@ -8,7 +8,6 @@ public class StarGeneration : MonoBehaviour
     public GameObject planetPrefab;
     public float spaceBetweenPlanets = 2f;
     public float spaceBetweenVoid = 0.5f;
-    public BiomeGradient groundGradient;
     public Planet[] planets;
 
 
@@ -59,9 +58,8 @@ public class StarGeneration : MonoBehaviour
 
         }
 
-        
 
-        int PlanetIndex = 0;
+        int planetIndex = 0;
         //generate planets and other objects
         for (int i = 0; i < planetPositions.Length; i++)
         {
@@ -70,63 +68,16 @@ public class StarGeneration : MonoBehaviour
                 float space = spaceBetweenPlanets;
 
                 //if last ploanet position was null, then space is space between void.Otherwise it's space between planets.
-                if(i - 1 >= 0)
+                if (i - 1 >= 0)
                 {
-                    if(!planetPositions[i-1])
+                    if (!planetPositions[i - 1])
                     {
                         space = spaceBetweenVoid;
                     }
                 }
-                //place planet horizontally. 
-                Vector2 position = (Vector2)transform.position + new Vector2((float)i * space, 0) + new Vector2(transform.localScale.x,0);
-                Planet planet = Instantiate(planetPrefab, position, transform.rotation).GetComponent<Planet>();
-                planet.transform.SetParent(visuals);
+                Planet planet = SpawnPlanet(star, ref planetIndex, i, space);
+                SetBiomeOfPlanet(planetPositions.Length, i, planet);
 
-                if(PlanetIndex >= planets.Length)
-                {
-                    Debug.LogError("index really is out of range, planets length = " + planets.Length + " index = " + PlanetIndex + " positions length" + planetPositions.Length);
-
-                }
-                planets[PlanetIndex] = planet;
-                PlanetIndex++;
-
-                planet.Initialise(star);
-
-                if (planet == null)
-                {
-                    print("No planet");
-
-                }
-                else if (planet.planetTexture == null)
-                {
-                    print("no texture");
-                }
-                
-                Color sea = (groundGradient.GetColor((float)i / ((float)planetPositions.Length - 1)) * new Color(0.8f, 0.8f, 0.8f, 1f));
-                Color ground = groundGradient.GetColor((float)i / (float)planetPositions.Length);
-                if (faction >= 0 && PlanetIndex == 1)
-                {
-                    if (Master.instance.factions.factions.Count <= 0)
-                    {
-                        Debug.LogError("no factions");
-                    }else if (faction >= Master.instance.factions.factions.Count)
-                    {
-                        Debug.LogError("index is too big :"+ faction);
-                        for(int x = 0; x < Master.instance.factions.factions.Count; x++)
-                        {
-                            Debug.Log("faction : " + Master.instance.factions.factions[x].factionIndex);
-                        }
-                    }
-                    else { 
-                        ground = Master.instance.factions.factions[faction].homePlanet.color;
-                       
-                    }
-                    
-                }
-                planet.SetBiome(groundGradient.GetPoint((float)i / ((float)planetPositions.Length-1f)).biomeType, new PlanetTextureData(sea, ground, new Vector2(Random.value, Random.value), 5f));
-
-                //rotate the planet around the sun. 
-                planet.transform.RotateAround(transform.position, Vector3.forward, Random.value * 360f);
             }
 
         }
@@ -138,11 +89,39 @@ public class StarGeneration : MonoBehaviour
 
     }
 
-    Color GetSeaColor(Color groundColor, bool water = false)
+    private void SetBiomeOfPlanet(int furthestPlanetPosition, int planetPosition, Planet planet)
     {
 
-
-        return Color.white;
+        Biome biome = Master.instance.variety.biomeGradient.GetBiomeAtPoint((float)planetPosition / (furthestPlanetPosition-1));
+        planet.SetBiome(biome);
     }
+
+    private Planet SpawnPlanet(Star star, ref int planetIndex, int planetPosition, float space)
+    {
+        //place planet horizontally. 
+        Vector2 position = (Vector2)transform.position + new Vector2((float)planetPosition * space, 0) + new Vector2(transform.localScale.x, 0);
+        Planet planet = Instantiate(planetPrefab, position, transform.rotation).GetComponent<Planet>();
+        planet.transform.SetParent(visuals);
+
+        planets[planetIndex] = planet;
+        planetIndex++;
+
+        planet.Initialise(star);
+
+        if (planet == null)
+        {
+            print("No planet");
+
+        }
+        else if (planet.planetTexture == null)
+        {
+            print("no texture");
+        }
+        //rotate the planet around the sun. 
+        planet.transform.RotateAround(transform.position, Vector3.forward, Random.value * 360f);
+
+        return planet;
+    }
+
    
 }

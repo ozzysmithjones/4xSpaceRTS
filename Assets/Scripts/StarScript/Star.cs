@@ -86,6 +86,12 @@ public class Star : MonoBehaviour
     public void TakeOver(int invader, bool showOuterRim = false)
     {
 
+        for(int i = 0; i < starGeneration.planets.Length; i++)
+        {
+            starGeneration.planets[i].ApplyResourceproduction(false);
+        }
+
+
         if (factionIndex == 0)
         {
             starVisibility.IncrementFogOfWar(-1, 1);
@@ -115,6 +121,11 @@ public class Star : MonoBehaviour
         if (factionIndex == 0)
         {
             starVisibility.IncrementFogOfWar(1, 1);
+        }
+
+        for (int i = 0; i < starGeneration.planets.Length; i++)
+        {
+            starGeneration.planets[i].ApplyResourceproduction(true);
         }
 
     }

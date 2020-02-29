@@ -10,9 +10,10 @@ public class PlanetUI : MonoBehaviour
     
     public void OnMouseDown()
     {
-        if (planet.isColony)
-        {
-            Master.instance.userInterface.OpenPlanetOverview(planet);
-        }
+       // if (planet.isColony)
+       // {
+          
+        //}
+        Master.instance.userInterface.OpenPlanetOverview(planet);
     }
 }

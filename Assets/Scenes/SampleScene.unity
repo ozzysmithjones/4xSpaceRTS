@@ -3893,6 +3893,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 462fc46bfae157141adc8ec063acf769, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  biomeGradient:
+    biomes:
+    - {fileID: 11400000, guid: d67f27663c3a8bb4facd70d695460cba, type: 2}
+    - {fileID: 11400000, guid: a05fea57f1fc73b4795ab0c55d490d90, type: 2}
+    - {fileID: 11400000, guid: 4cc79acbefa7d0f49aad6dba9a5cb4e3, type: 2}
+    - {fileID: 11400000, guid: 2adb00f86449e4c4a80dc08abbd38f77, type: 2}
+    - {fileID: 11400000, guid: 94577a3f9bc992047b003d96304dff61, type: 2}
+    - {fileID: 11400000, guid: 5c79be59d6e34c14e955b79d4847e0af, type: 2}
+    - {fileID: 11400000, guid: 79e14e001b66efe4c88a29efa2441a34, type: 2}
+    - {fileID: 11400000, guid: d4b2ec76ec074af438397dfb09e180f3, type: 2}
+    - {fileID: 11400000, guid: f2bf96ebc8284e945b9ff10c225b5501, type: 2}
   builtStructures:
   - {fileID: 11400000, guid: 1cd0cf1fceb086543b1eb0e97cfce4f2, type: 2}
   - {fileID: 11400000, guid: 4cb8f739744cafe40ab2e5aae3761619, type: 2}

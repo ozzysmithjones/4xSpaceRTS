@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
+[System.Serializable]
 public struct PlanetTextureData
 {
 
@@ -129,8 +129,8 @@ public class PlanetTexture : MonoBehaviour
     {
         landColor = planetTextureData.land;
         seaColor = planetTextureData.sea;
-        seed = planetTextureData.noiseSeed;
-        zoom = planetTextureData.zoomAmount;
+        seed = planetTextureData.noiseSeed + Random.insideUnitCircle;
+        zoom = 5.0f;//planetTextureData.zoomAmount;
 
     }
 }

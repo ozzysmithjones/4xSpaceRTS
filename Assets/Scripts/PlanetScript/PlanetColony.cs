@@ -18,8 +18,7 @@ public class PlanetColony : MonoBehaviour
     //the speed at which new buildings and ships are built.
     public float manufactoring = 1f;
 
-    //how much the colony produces:
-    public Resources resourceProduction = new Resources();
+
 
     public bool buildQueueRunning = false;
 
@@ -53,19 +52,6 @@ public class PlanetColony : MonoBehaviour
         {
             Master.instance.userInterface.planetOverview.alreadyBuilt.UpdateQuantity(builtStructure.classIndex);
         }
-        {
-
-        }
-        /*
-        if (builtStructures.ContainsKey(builtStructure))
-        {
-            builtStructures[builtStructure]++;
-        }
-        else
-        {
-            builtStructures.Add(builtStructure, 1);
-        }
-        */
         
     }
 
@@ -214,11 +200,6 @@ public class PlanetColony : MonoBehaviour
 
     }
 
-    public void ImproveResourceproduction(ResourceType resourceType, int amount)
-    {
-        resourceProduction.amounts[(int)resourceType] += amount;
-        Master.instance.factions.factions[planet.star.factionIndex].ImproveResourceProduction(resourceType, amount);
-    }
 
 
     

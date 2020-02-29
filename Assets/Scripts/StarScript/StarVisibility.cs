@@ -35,9 +35,6 @@ public class StarVisibility : Visibility
     {
         star = GetComponent<Star>();
 
-        
-        
-        
         base.Initialise();
 
         SetVisibility(false);
@@ -102,7 +99,7 @@ public class StarVisibility : Visibility
                 continue;
             }
             
-            Master.instance.enviroment.grid[star.starConnections.connections[i]].starVisibility.IncrementFogOfWar(increment,distance,star.position);
+            Master.instance.enviroment.stars[star.starConnections.connections[i]].starVisibility.IncrementFogOfWar(increment,distance,star.index);
         }
     }
 
@@ -132,7 +129,7 @@ public class StarVisibility : Visibility
             {
                 continue;
             }
-            Master.instance.enviroment.grid[star.starConnections.connections[i]].starVisibility.SetFogOfWar(fogVisibility-1,reset,star.position);
+            Master.instance.enviroment.stars[star.starConnections.connections[i]].starVisibility.SetFogOfWar(fogVisibility-1,reset,star.index);
         }
     }
 }

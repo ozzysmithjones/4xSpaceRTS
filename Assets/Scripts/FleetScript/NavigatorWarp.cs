@@ -88,8 +88,8 @@ public class NavigatorWarp : MonoBehaviour
         isWarping = true;
         warpAlpha = 0.0f;
 
-        warpStart = Master.instance.enviroment.grid[star.position].starConnections.GetStarGate(destinationCoordinates).position;
-        warpEnd = Master.instance.enviroment.grid[destinationCoordinates].starConnections.GetStarGate(star.position).position;
+        warpStart = Master.instance.enviroment.stars[star.index].starConnections.GetStarGate(destinationCoordinates).position;
+        warpEnd = Master.instance.enviroment.stars[destinationCoordinates].starConnections.GetStarGate(star.index).position;
 
         return isWarping;
     }
@@ -136,7 +136,7 @@ public class NavigatorWarp : MonoBehaviour
             star.starShipManager.RequestExit(navigator);
         }
         isWarping = false;
-        star = Master.instance.enviroment.grid[newStarCoordinate];
+        star = Master.instance.enviroment.stars[newStarCoordinate];
         star.starShipManager.Entry(navigator);
         LandShips(endPosition);
 

@@ -11,10 +11,9 @@ using UnityEngine;
 [RequireComponent(typeof(Variety))]
 public class Master : MonoBehaviour
 {
-    public float averageFrameRate = 60f;
+   
     public float frameRate = 1f;
     public float lowestFrameRate = 60f;
-    private float seconds = 0.0f;
 
     public static Master instance;
     public Variety variety;
@@ -47,42 +46,28 @@ public class Master : MonoBehaviour
 
         variety.Initialise();
 
+        enviroment.BreadthFirstGenerate();
+
         factions.SpawnFactions(variety.builtShips,variety.builtStructures);
 
-        enviroment.RandomGrid(5);
+
 
         //set the main camera to be above the players home world.
         Vector3 position = factions.factions[0].territory[0].transform.position;
         Camera.main.transform.position = new Vector3(position.x, position.y, -10);
-        /*
-        //function to test ship movement, all the ships will move to the first star ever created.
-        int targetPosition = enviroment.stars[0].position;
-       
-        for (int i = 1; i < enviroment.stars.Length; i++)
-        {
-            enviroment.stars[i].starShipManager.fleets[0].SetPath(PathFind(enviroment.stars[i].position, enviroment.stars[0].position));
-        }
-        */
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        seconds += Time.deltaTime;
         frameRate = 1f / Time.deltaTime;
-        if (frameRate < lowestFrameRate && seconds > 3f)
+        if (frameRate < lowestFrameRate && Time.time > 3f)
         {
             lowestFrameRate = frameRate;
         }
 
-        if (seconds < 3f)
-        {
-            averageFrameRate = frameRate;
-        }
-        else
-        {
-            averageFrameRate = (averageFrameRate + frameRate) / 2f;
-        }
+
     }
 
     bool Singleton()
@@ -136,47 +121,6 @@ public class Master : MonoBehaviour
 
     public List<int> PathFind(int start, int end, int[] factionsAllowed = null, float maxLength = 0f)
     {
-        /*
-        List<Master.Node> frontier = new List<Master.Node>();
-        List<Master.Node> visited = new List<Master.Node>();
-
-
-        Master.Node current = new Master.Node(start, -1, 0f);
-
-        frontier.Add(current);
-        visited.Add(current);
-
-        //Master.instance.enviroment.GetNeighbouringTiles(start);
-
-        //int iterations = 100;
-        while (frontier.Count > 0)
-        {
-            frontier.Remove(current);
-
-            if (current.position == end)
-            {
-                break;
-            }
-            else
-            {
-                Expand(current, frontier, visited,end);
-            }
-
-            if (frontier.Count > 0)
-            {
-                current = SmallestNode(frontier);
-            }
-
-            /*
-            //print("frontier size = " + frontier.Count + " visited size = " + visited.Count);
-            iterations--;
-            if(iterations <= 0)
-            {
-                print("prevent crash.");
-                break;
-            }
-            */
-
        return pathFindAlgorithm.PathFind(start, end,factionsAllowed,maxLength);
     }
     /*
@@ -206,7 +150,7 @@ public class Master : MonoBehaviour
     }
     void Expand(Master.Node node, List<Master.Node> frontier, List<Master.Node> visited, int end)
     {
-        List<int> neighbours = Master.instance.enviroment.grid[node.position].starConnections.connections;
+        List<int> neighbours = Master.instance.enviroment.stars[node.position].starConnections.connections;
 
        // int counter = 0;
         for (int n = 0; n < neighbours.Count; n++)

@@ -38,24 +38,11 @@ public class StarUI : MonoBehaviour
 
             factionBorderAnimator = factionBorder.GetComponent<Animator>();
         }
-        //if (starFogOfWar.visibility >= 1)
-        //{
 
-        //}
 
         factionBorderAnimator.SetBool("growing", visibility);
 
-        /*
-        for(int i = 0; i < starConnections.lines.Count; i++)
-        {
-            starConnections.lines[i].enabled = visibility;
-        }
-        */
-
         IconHandler.SetActive(visibility);
-        
-
-
 
     }
 
@@ -64,4 +51,5 @@ public class StarUI : MonoBehaviour
         factionBorder.color = color;
         starConnections.ChangeColor(color);
     }
+
 }

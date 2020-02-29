@@ -26,7 +26,7 @@ public class Faction
     public Resources resources = new Resources();
     public Resources resourceProduction = new Resources();
 
-    public BiomeGradient.Point homePlanet = new BiomeGradient.Point(0f, "Home World", Color.green, 0, 0);
+    public BiomeGradient.Point homePlanet = new BiomeGradient.Point(0f, BiomeType.CARBON, Color.green, ResourceType.ENERGY, 0);
 
     //randomises this faction.
     public Faction(int index = 0,bool random = false,Color[] ColorArray = null,string[] NameArray = null)
@@ -86,7 +86,6 @@ public class Faction
             if(outerRim[index].factionIndex < 0)
             {
                 outerRim[index].TakeOver(factionIndex);
-                
             }
             else
             {

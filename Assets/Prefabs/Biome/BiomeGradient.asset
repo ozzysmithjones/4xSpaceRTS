@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a35c22506edf37b46b0c8a34b7d7a8f3, type: 3}
+  m_Name: BiomeGradient
+  m_EditorClassIdentifier: 
+  timeline:
+  - time: 0
+    biomeType: 0
+    color: {r: 0.7264151, g: 0.41460484, b: 0.41460484, a: 1}
+    resourceType: 1
+    resources: 1
+  - time: 0.125
+    biomeType: 1
+    color: {r: 0.7254902, g: 0.6924606, b: 0.41568628, a: 1}
+    resourceType: 0
+    resources: 1
+  - time: 0.25
+    biomeType: 2
+    color: {r: 0.8481235, g: 0.8584906, b: 0.64386797, a: 1}
+    resourceType: 2
+    resources: 1
+  - time: 0.375
+    biomeType: 3
+    color: {r: 0.5086028, g: 0.7254902, b: 0.41568628, a: 1}
+    resourceType: 1
+    resources: 1
+  - time: 0.5
+    biomeType: 4
+    color: {r: 0.41568628, g: 0.7254902, b: 0.56168854, a: 1}
+    resourceType: 1
+    resources: 1
+  - time: 0.625
+    biomeType: 5
+    color: {r: 0.41568628, g: 0.6391247, b: 0.7254902, a: 1}
+    resourceType: 0
+    resources: 1
+  - time: 0.75
+    biomeType: 7
+    color: {r: 0.43236765, g: 0.41568628, b: 0.7254902, a: 1}
+    resourceType: 2
+    resources: 1
+  - time: 0.875
+    biomeType: 6
+    color: {r: 0.6442353, g: 0.7254902, b: 0.7254902, a: 1}
+    resourceType: 0
+    resources: 1
+  - time: 1
+    biomeType: 0
+    color: {r: 0.5471698, g: 0.49855497, b: 0.46199715, a: 1}
+    resourceType: 1
+    resources: 1

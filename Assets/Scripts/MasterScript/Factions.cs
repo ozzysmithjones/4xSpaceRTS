@@ -23,24 +23,20 @@ public class Factions : MonoBehaviour
     {
         factions.Add(CreateFaction(0,shipTypes,structureTypes,true));
 
-        //player home world:
-        //Star playerStar = Master.instance.enviroment.RandomStar();
-        //playerStar.isColony = true;
-        //playerStar.TakeOver(0);
+        Star star = Master.instance.enviroment.RandomStar();
+        star.isColony = true;
+        star.TakeOver(0);
+        star.Colonise(0);
 
-
-        for(int i = 0; i < 5;i++)
+        for (int i = 1; i < 5;i++)
         {
             factions.Add(CreateFaction(i,shipTypes, structureTypes));
-        }
-        /*
-        //AI home worlds:
-        for (int i = 1; i < 5; i++)
-        {
-            factions.Add(CreateFaction(i));
-            Star star = Master.instance.enviroment.RandomStar();
+
+            star = Master.instance.enviroment.RandomStar();
             star.isColony = true;
             star.TakeOver(i);
+            star.Colonise(0);
+
         }
         //random expansion:
         for(int i = 0; i < factions.Count; i++)
@@ -48,7 +44,7 @@ public class Factions : MonoBehaviour
             
             factions[i].RandomlyExpand();
         }
-        */
+        
     }
 
     public Faction CreateFaction(int index, BuiltShip[] shipTypes, BuiltStructure[] structureTypes,bool player = false)
@@ -73,7 +69,7 @@ public class Factions : MonoBehaviour
 
         instance.structureTypes = structureTypes;
         instance.shipTypes = shipTypes;
-        
+
         return instance;
     }
 

@@ -2,6 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public struct PlanetTextureData
+{
+
+   public Color land;
+   public Color sea;
+   public Vector2 noiseSeed;
+   public float zoomAmount;
+
+    public PlanetTextureData(Color land, Color sea, Vector2 noiseSeed, float zoomAmount)
+    {
+        this.land = land;
+        this.sea = sea;
+        this.noiseSeed = noiseSeed;
+        this.zoomAmount = zoomAmount;
+    }
+}
+
 [RequireComponent(typeof(SpriteRenderer))]
 public class PlanetTexture : MonoBehaviour
 {
@@ -22,18 +40,25 @@ public class PlanetTexture : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Generate();
+    }
+
+    public void Initialise()
+    {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         //if there is no sprite Renderer, then this script is disabled.
-        if(spriteRenderer == null)
+        if (spriteRenderer == null)
         {
             this.enabled = false;
             return;
         }
+    }
 
-       
 
-        texture2D = new Texture2D(32,32,TextureFormat.RGBA32,false);
+    public void Generate()
+    {
+        texture2D = new Texture2D(32, 32, TextureFormat.RGBA32, false);
         Graphics.CopyTexture(spriteRenderer.sprite.texture, texture2D);
 
         texture2D.filterMode = FilterMode.Point;
@@ -41,26 +66,11 @@ public class PlanetTexture : MonoBehaviour
         //if the texture on the sprite render cannot be edited, then this script is disabled too.
         if (!texture2D.isReadable)
         {
-            print("the texture "+texture2D.name+" is not readable");
+            print("the texture " + texture2D.name + " is not readable");
             this.enabled = false;
             return;
         }
-        //otherwise, the planets texture is changed depending upon the seed and values set on the script. 
-        Generate();
 
-        
-    }
-
-    private void Update()
-    {
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-            //Generate();
-       //}
-    }
-
-    void Generate()
-    {
         if (isGasGiant)
         {
             spriteRenderer.sprite = GasGiantSprite;
@@ -115,12 +125,12 @@ public class PlanetTexture : MonoBehaviour
 
     }
 
-    public void SetValues(Color land, Color sea, Vector2 noiseSeed,float zoomAmount)
+    public void SetValues(PlanetTextureData planetTextureData)
     {
-        landColor = land;
-        seaColor = sea;
-        seed = noiseSeed;
-        zoom = zoomAmount;
+        landColor = planetTextureData.land;
+        seaColor = planetTextureData.sea;
+        seed = planetTextureData.noiseSeed;
+        zoom = planetTextureData.zoomAmount;
 
     }
 }

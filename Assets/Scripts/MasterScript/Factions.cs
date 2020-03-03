@@ -59,11 +59,11 @@ public class Factions : MonoBehaviour
 
         if (!player)
         {
-            instance = new Faction(index, true, colors, names);
+            instance = new AI(index, colors[0],names[0]);
         }
         else
         {
-            instance = new Player(index, true, colors, names);
+            instance = new Player(index, colors[0],names[0]);
         }
 
         instance.structureTypes = structureTypes;

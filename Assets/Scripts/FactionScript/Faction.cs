@@ -21,22 +21,19 @@ public class Faction
     //this integer indicates which index this faction is in the array.
     public int factionIndex;
 
-    private int randomExpansion = 5;
+    
 
     public Resources resources = new Resources();
     public Resources resourceProduction = new Resources();
+    public int expansionCost = 100;
 
 
     //randomises this faction.
-    public Faction(int index = 0,bool random = false,Color[] ColorArray = null,string[] NameArray = null)
+    public Faction(int index,Color flagColor, string factionName)
     {
         factionIndex = index;
-        if (random)
-        {
-            flagColor = ColorArray[Random.Range(0, ColorArray.Length)];
-            factionName = NameArray[Random.Range(0, NameArray.Length)];
-
-        }
+        this.factionName = factionName;
+        this.flagColor = flagColor;
 
         
     }
@@ -140,9 +137,10 @@ public class Faction
     }
 
 
-    public void RandomlyExpand()
+    public void RandomlyExpand(int lowest = 3, int highest = 8)
     {
-        for(int i = 0; i < randomExpansion; i++)
+        int length = Random.Range(lowest, highest);
+        for(int i = 0; i < length; i++)
         {
             if(outerRim.Count <= 0){
                 break;

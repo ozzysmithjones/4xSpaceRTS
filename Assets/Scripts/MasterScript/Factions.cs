@@ -24,18 +24,18 @@ public class Factions : MonoBehaviour
         factions.Add(CreateFaction(0,shipTypes,structureTypes,true));
 
         Star star = Master.instance.enviroment.RandomStar();
-        star.isColony = true;
-        star.TakeOver(0);
         star.Colonise(0);
+        star.TakeOver(0);
+
 
         for (int i = 1; i < 5;i++)
         {
             factions.Add(CreateFaction(i,shipTypes, structureTypes));
 
             star = Master.instance.enviroment.RandomStar();
-            star.isColony = true;
-            star.TakeOver(i);
             star.Colonise(0);
+            star.TakeOver(i);
+
 
         }
         //random expansion:

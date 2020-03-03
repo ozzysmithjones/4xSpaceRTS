@@ -6,7 +6,7 @@ using UnityEngine;
 public class BuildQueueItem : ScriptableObject {
 
     public int classIndex = 0;
-    public string name = "mine";
+    public new string name = "mine";
     public string description = "gets resources";
 
 

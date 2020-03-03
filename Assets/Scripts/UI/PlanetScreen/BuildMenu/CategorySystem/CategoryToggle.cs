@@ -24,7 +24,6 @@ public class CategoryToggle : MonoBehaviour
     {
         if (toggle.isOn)
         {
-            print("is being toggled");
             categoryOverview.UpdateCategory(category, true);
         }
     }

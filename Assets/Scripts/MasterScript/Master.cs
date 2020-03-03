@@ -29,15 +29,8 @@ public class Master : MonoBehaviour
     void Awake()
     {
         Random.InitState(seed);
-        if (Singleton())
-        {
-            //enviroment = GetComponent<Enviroment>();
-            //factions = GetComponent<Factions>();
-            // userInterface = GetComponent<Interface>();
-
-
-
-        }
+        Singleton();
+        
         pathFindAlgorithm = new PathFindAlgorithm();
         enviroment = GetComponent<Enviroment>();
         factions = GetComponent<Factions>();
@@ -49,7 +42,6 @@ public class Master : MonoBehaviour
         enviroment.BreadthFirstGenerate();
 
         factions.SpawnFactions(variety.builtShips,variety.builtStructures);
-
 
 
         //set the main camera to be above the players home world.
@@ -117,19 +109,10 @@ public class Master : MonoBehaviour
 
     }
 
-    //Pathfind algorithm could be used in multiple different scripts: 
-
     public List<int> PathFind(int start, int end, int[] factionsAllowed = null, float maxLength = 0f)
     {
        return pathFindAlgorithm.PathFind(start, end,factionsAllowed,maxLength);
     }
-    /*
-        return ReadPath(start,current,visited);
-    */
-
-   
-
-
 
 
     public Master.Node SmallestNode(List<Master.Node> frontier)
@@ -148,96 +131,9 @@ public class Master : MonoBehaviour
 
         return frontier[smallestIndex];
     }
-    void Expand(Master.Node node, List<Master.Node> frontier, List<Master.Node> visited, int end)
-    {
-        List<int> neighbours = Master.instance.enviroment.stars[node.position].starConnections.connections;
+  
 
-       // int counter = 0;
-        for (int n = 0; n < neighbours.Count; n++)
-        {
-            bool found = false;
-            for (int v = 0; v < visited.Count; v++)
-            {
-                if (visited[v].position == neighbours[n])
-                {
-                    //print("neighbour already found: " + neighbours[n]);
-                    //counter++;
-                    found = true;
-                    float distanceToEnd = DistanceBetweenTwoPoints(neighbours[n], end);
-                    Master.Node neighbour = new Master.Node(neighbours[n], node.position, node.distance + 1f + distanceToEnd);
-                    if (visited[v].distance > neighbour.distance)
-                    {
-                        
-                        visited.RemoveAt(v);
-                        visited.Insert(v,neighbour);
-                        frontier.Add(neighbour);
-                    }
-                    break;
-                    
-                }
-
-            }
-            if (!found)
-            {
-                float distanceToEnd = DistanceBetweenTwoPoints(neighbours[n], end);
-                Master.Node neighbour = new Master.Node(neighbours[n], node.position, node.distance + 1f + distanceToEnd);
-                visited.Add(neighbour);
-                frontier.Add(neighbour);
-            }
-        }
-
-        //print("neighbours visited before = " + counter);
-
-    }
-
-    float DistanceBetweenTwoPoints(int a, int b)
-    {
-        OneDimToTwoDim(a, enviroment.rows, out int aX, out int aY);
-        OneDimToTwoDim(b, enviroment.rows, out int bX, out int bY);
-
-        return Vector2.Distance(new Vector2(aX,aY), new Vector2(bX,bY));
-    }
-
-    //reads the path created by the pathfinding algorithm, by following the breadcrumbs backwards.
-    List<int> ReadPath(int startPosition, Node endNode, List<Node> visited)
-    {
-        List<int> path = new List<int>();
-        path.Add(endNode.position);
-       
-
-        bool found = false;
-        Node current = endNode;
-        while (!found)
-        {
-            bool crash = true;
-            for(int i = 0; i < visited.Count; i++)
-            {
-                if(current.position == startPosition)
-                {
-                    found = true;
-                    crash = false;
-                    break;
-                }
-
-
-                if(visited[i].position == current.lastPosition)
-                {
-                    path.Add(visited[i].position);
-                    current = visited[i];
-                    crash = false;
-                    break;
-                }
-            }
-            if (crash)
-            {
-                print("Prevent crash");
-                return new List<int>();
-            }
-        }
-
-        path.Reverse();
-        return path;
-    }
+   
 
     
    

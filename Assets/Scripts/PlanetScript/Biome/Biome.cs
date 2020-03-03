@@ -18,7 +18,7 @@ public class Biome : ScriptableObject
 {
     public BiomeType biomeType;
     public PlanetTextureData planetTextureData;
-    [SerializeField] private  ResourceRange[] resourceRanges;
+    [SerializeField] private  ResourceRange[] resourceRanges = new ResourceRange[0];
 
     [System.Serializable]
     private struct ResourceRange
@@ -26,6 +26,13 @@ public class Biome : ScriptableObject
         public ResourceType resourceType;
         public int lowest;
         public int highest;
+
+        private ResourceRange(ResourceType resourceType,int lowest, int highest)
+        {
+            this.resourceType = resourceType;
+            this.lowest = lowest;
+            this.highest = highest;
+        }
 
     }
 

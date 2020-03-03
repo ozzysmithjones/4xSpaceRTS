@@ -12,7 +12,6 @@ public class BuiltShip : BuildQueueItem
     public override void Build(Planet planet)
     {
 
-        Debug.Log("building a ship");
         base.Build(planet);
         planet.star.starConstruction.Build(prefab, type);
     }

@@ -6,17 +6,12 @@ public class StarShipManager : MonoBehaviour
 {
     //for later use.
     //public Dictionary<int, List<Navigator>> fleetsByFaction = new Dictionary<int,List<Navigator>>();
-
-    private bool conflict = false;
     public List<Navigator> fleets = new List<Navigator>();
     public Transform visuals;
 
     public IconHandler iconHandler;
     private Star star;
 
-    private int opposing= 0;
-    private int defending = 0;
-    
     // Start is called before the first frame update
     void Start()
     {

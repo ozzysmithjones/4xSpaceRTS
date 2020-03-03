@@ -2,6 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+class StarGate
+{
+    public Transform gate;
+    public int targetStarIndex;
+
+    public StarGate(Transform form, int connection)
+    {
+        gate = form;
+        targetStarIndex = connection;
+    }
+}
+
 public class StarConnections : MonoBehaviour
 {
     public GameObject gateParent;
@@ -16,158 +28,12 @@ public class StarConnections : MonoBehaviour
     private List<int> linesStartingHere = new List<int>();
 
 
-    //breadth first search for nearest starts.
-    public void ConnectToNearestStars(int start, int minConnectedStars = 1)
-    {
-        List<Master.Node> frontier = new List<Master.Node>();
-        List<Master.Node> visited = new List<Master.Node>();
-
-
-        Master.Node current = new Master.Node(start, -1, 0f);
-
-        frontier.Add(current);
-        visited.Add(current);
-
-        //Master.instance.enviroment.GetNeighbouringTiles(start);
-        
-        //int iterations = 100;
-        while(frontier.Count > 0)
-        {
-            frontier.Remove(current);
-
-            if (Check(current) && current.position != start)
-            {
-                connections.Add(current.position);
-                minConnectedStars--;
-                if (minConnectedStars <= 0)
-                {
-                    break;
-                }
-            }
-            else
-            {
-                Expand(current,frontier,visited);
-            }
-
-            if (frontier.Count > 0)
-            {
-                current = Master.instance.SmallestNode(frontier);
-            }
-
-            /*
-            //print("frontier size = " + frontier.Count + " visited size = " + visited.Count);
-            iterations--;
-            if(iterations <= 0)
-            {
-                print("prevent crash.");
-                break;
-            }
-            */
-        }
-        
-        Connect(start);
-
-    }
-
-
-    void Expand(Master.Node node,List<Master.Node> frontier,List<Master.Node> visited)
-    {
-        List<int> neighbours = Master.instance.enviroment.GetNeighbouringTiles(node.position);
-
-        //int counter = 0; 
-        for (int n = 0; n < neighbours.Count; n++)
-        {
-           bool found = false;
-           for(int v = 0; v < visited.Count; v++)
-            {
-                if(visited[v].position == neighbours[n])
-                {
-                    
-                    found = true;
-                    break;
-                    /*
-                    if(visited[v].distance > node.distance + 1f)
-                    {
-                        Master.Node newNode = new Master.Node(neighbours[n], node.position, node.distance + 1f);
-                        visited.RemoveAt(v);
-                        visited.Insert(v,newNode);
-                        frontier.Add(newNode);
-                    }
-                    */
-                }
-                
-            }
-            if (!found)
-            {
-                Master.Node neighbour = new Master.Node(neighbours[n], node.position, node.distance + 1f);
-                visited.Add(neighbour);
-                frontier.Add(neighbour);
-            }
-        }
-
-       
-       
-    }
-
-    bool Check(Master.Node node)
-    {
-
-        if(Master.instance.enviroment.stars[node.position] != null)
-        {
-            if (!connections.Contains(node.position))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    
-
-    void Connect(int center)
-    {
-        //the other stars connect to this star.
-
-        for(int i = 0; i < connections.Count; i++)
-
-        {   //get the other stars connections.
-            StarConnections starConnections;
-            if (Master.instance.enviroment.stars[connections[i]].starConnections == null)
-            {
-                starConnections = Master.instance.enviroment.stars[connections[i]].GetComponent<StarConnections>();
-                Master.instance.enviroment.stars[connections[i]].starConnections = starConnections;
-            }
-            else
-            {
-                starConnections = Master.instance.enviroment.stars[connections[i]].starConnections;
-            }
-            //connect that star to this one.
-            if (!starConnections.connections.Contains(center))
-            {
-                starConnections.connections.Add(center);
-                LineRenderer line = DrawLine(center, connections[i]);
-
-                starConnections.lines.Add(line);
-                lines.Add(line);
-                linesStartingHere.Add(i);
-
-                //create the gateway on this side and that side. 
-                SpawnStarGate((Vector2)Master.instance.enviroment.stars[connections[i]].transform.position, connections[i]);
-                starConnections.SpawnStarGate((Vector2)transform.position, center);
-
-            }
-        }
-
-        
-    }
-    
-    LineRenderer DrawLine(int start, int end, float starRadius = 15f)
+  
+    LineRenderer DrawLine(int startCoordinates, int endCoordinates, float starRadius = 15f)
     {
         //the two transforms to draw the line between.
-        Star startStar = Master.instance.enviroment.stars[start];
-        Star endStar = Master.instance.enviroment.stars[end];
-
-
+        Star startStar = Master.instance.enviroment.stars[startCoordinates];
+        Star endStar = Master.instance.enviroment.stars[endCoordinates];
 
         //spawn a line object. 
         LineRenderer line = Instantiate(linePrefab, startStar.transform.position, startStar.transform.rotation).GetComponent<LineRenderer>();
@@ -183,12 +49,6 @@ public class StarConnections : MonoBehaviour
         //set correct colors:
         line.startColor = startStar.factionIndex >= 0 ? Master.instance.factions.factions[startStar.factionIndex].flagColor : line.startColor;
         line.endColor = endStar.factionIndex >= 0 ? Master.instance.factions.factions[endStar.factionIndex].flagColor : line.endColor;
-        //fog of war purposes.
-        //line.gameObject.SetActive(false);
-
-        
-        //line.enabled = false;
-        
 
         return line;
     }
@@ -268,17 +128,6 @@ public class StarConnections : MonoBehaviour
         return null;
     }
 
-    class StarGate
-    {
-        public Transform gate;
-        public int targetStarIndex;
-
-        public StarGate(Transform form, int connection)
-        {
-            gate = form;
-            targetStarIndex = connection;
-        }
-    }
 
     public bool IsConnectedToFaction(int faction = -1)
     {
@@ -298,19 +147,6 @@ public class StarConnections : MonoBehaviour
 
     public static void Connect(Star star, Star other)
     {
-        if(star == null || other == null)
-        {
-            Debug.Log("objects are null");
-        }
-       
-
-        if(other.starConnections == null)
-        {
-            Debug.Log("starConnections is null");
-        }else if(other.starConnections.connections == null)
-        {
-            Debug.Log("array is null");
-        }
         //connect that star to this one.
         if (!other.starConnections.connections.Contains(star.index))
         {

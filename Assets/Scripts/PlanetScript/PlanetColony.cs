@@ -61,12 +61,10 @@ public class PlanetColony : MonoBehaviour
         {
             OnBuildQueueChange += buildQueueChange;
             
-            Debug.Log("added listerner");
         }
         else
         {
             OnBuildQueueChange -= buildQueueChange;
-            Debug.Log("removed listerner");
         }
     }
 

@@ -16,7 +16,7 @@ public class Planet : MonoBehaviour
 
     public bool isColony = false;
 
-    //how much the colony produces:
+    //how much the planet produces.
     public Resources resourceProduction = new Resources();
 
 

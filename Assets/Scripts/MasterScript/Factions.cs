@@ -34,18 +34,18 @@ public class Factions : MonoBehaviour
         factions.Add(CreateFaction(0,shipTypes,structureTypes,true));
 
         Star star = Master.instance.enviroment.RandomStar();
-        star.Colonise(0);
+        star.isColony = true;
         star.TakeOver(0);
-
+        star.Colonise(0);
 
         for (int i = 1; i < 5;i++)
         {
             factions.Add(CreateFaction(i,shipTypes, structureTypes));
 
             star = Master.instance.enviroment.RandomStar();
-            star.Colonise(0);
+            star.isColony = true;
             star.TakeOver(i);
-
+            star.Colonise(0);
 
         }
         for (int i = 0; i < factions.Count; i++)
@@ -73,11 +73,11 @@ public class Factions : MonoBehaviour
 
         if (!player)
         {
-            instance = new AI(index, colors[0],names[0]);
+            instance = new Faction(index, true, colors, names);
         }
         else
         {
-            instance = new Player(index, colors[0],names[0]);
+            instance = new Player(index, true, colors, names);
         }
 
         instance.structureTypes = structureTypes;

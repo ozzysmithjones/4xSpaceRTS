@@ -85,22 +85,15 @@ public class Star : MonoBehaviour
     {
 <<<<<<< Updated upstream
 
-        if (factionIndex >= 0)
+        for(int i = 0; i < starGeneration.planets.Length; i++)
         {
-            for (int i = 0; i < starGeneration.planets.Length; i++)
-            {
-                starGeneration.planets[i].ApplyResourceproduction(false);
-            }
+            starGeneration.planets[i].ApplyResourceproduction(false);
+        }
 
 
-            if (factionIndex == 0)
-            {
-                starVisibility.IncrementFogOfWar(-1, 1);
-            }
-
-            Faction oldFaction = Master.instance.factions.factions[factionIndex];
-            oldFaction.RemoveFromTerritory(this, false, isColony);
-
+        if (factionIndex == 0)
+        {
+            starVisibility.IncrementFogOfWar(-1, 1);
         }
 =======
         RemovePreviousOwnership();
@@ -113,12 +106,7 @@ public class Star : MonoBehaviour
             return;
         }
 
-<<<<<<< HEAD
 <<<<<<< Updated upstream
-=======
-       
-
->>>>>>> eef69385ad9dd06bb4d34d8e2ec82af48de9bee0
         //print(invader + " is taking over");
 =======
         ApplyInvaderOwnership(invader, showOuterRim);
@@ -129,9 +117,8 @@ public class Star : MonoBehaviour
     {
 >>>>>>> Stashed changes
         factionIndex = invader;
-        Faction invadingFaction = Master.instance.factions.factions[factionIndex];
+        Faction faction = Master.instance.factions.factions[factionIndex];
 
-<<<<<<< HEAD
 <<<<<<< Updated upstream
         starUI.SetUIColor(faction.flagColor);
        
@@ -142,12 +129,6 @@ public class Star : MonoBehaviour
 
         invadingFaction.AddToTerritory(this, showOuterRim, isColony);
 >>>>>>> Stashed changes
-=======
-        starUI.SetUIColor(invadingFaction.flagColor);
-       
-        //faction.territory.Add(this);
-        invadingFaction.AddToTerritory(this,showOuterRim,isColony);
->>>>>>> eef69385ad9dd06bb4d34d8e2ec82af48de9bee0
 
         if (!isColony)
         {
@@ -188,7 +169,7 @@ public class Star : MonoBehaviour
 
     public void Colonise(int planetIndex = 0)
     {
-        isColony = true;
+
         starGeneration.planets[planetIndex].Colonise();
     }
 

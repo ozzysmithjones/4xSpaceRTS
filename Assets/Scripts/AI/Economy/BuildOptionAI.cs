@@ -5,11 +5,11 @@ using UnityEngine;
 public class BuildOptionAI
 {
     public BuildQueueItem buildQueueItem;
-    public Worth optionWorth;
+    public OptionWorth optionWorth;
 
-    public float GetValue()
+    public float GetValue(AI ai)
     {
-        return optionWorth.Calculate();
+        return optionWorth.Calculate(ai);
     }
 
 

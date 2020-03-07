@@ -9,9 +9,17 @@ public class Player : Faction
 
 
     //randomises this faction.
-    public Player(int index, Color flagColor, string factionName) : base(index,flagColor,factionName)
+    public Player(int index = 0, bool random = false, Color[] ColorArray = null, string[] NameArray = null)
     {
         resourcesText = Master.instance.userInterface.resourcesText;
+
+        factionIndex = index;
+        if (random)
+        {
+            flagColor = ColorArray[Random.Range(0, ColorArray.Length)];
+            factionName = NameArray[Random.Range(0, NameArray.Length)];
+
+        }
     }
 
 

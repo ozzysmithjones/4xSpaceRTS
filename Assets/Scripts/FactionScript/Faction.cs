@@ -6,7 +6,7 @@ using UnityEngine;
 public class Faction  
 {
     //the territory owned by the faction.(some wanderer factions may not own any territory.)
-    public List<Star> colonies = new List<Star>();
+    public List<Star> Colonies = new List<Star>();
     public List<Star> territory = new List<Star>();
     public List<Star> outerRim = new List<Star>();
 
@@ -21,18 +21,16 @@ public class Faction
     //this integer indicates which index this faction is in the array.
     public int factionIndex;
 
-    
+    private int randomExpansion = 5;
 
     public Resources resources = new Resources();
     public Resources resourceProduction = new Resources();
-    public int expansionCost = 100;
 
 
     //randomises this faction.
-    public Faction(int index,Color flagColor, string factionName)
+    public Faction(int index = 0,bool random = false,Color[] ColorArray = null,string[] NameArray = null)
     {
         factionIndex = index;
-<<<<<<< HEAD
 <<<<<<< Updated upstream
         if (random)
 =======
@@ -65,33 +63,15 @@ public class Faction
             factionName = NameArray[Random.Range(0, NameArray.Length)];
 
         }
-=======
-        this.factionName = factionName;
-        this.flagColor = flagColor;
->>>>>>> eef69385ad9dd06bb4d34d8e2ec82af48de9bee0
 
         
     }
 
-    void OuterRimChange(Star star, bool addition = false,bool showOuterRim = false)
-    {
-
-        if (addition)
-        {
-            outerRim.Add(star);
-            star.SetSelector(showOuterRim, Color.white);
-        }
-        else
-        {
-            outerRim.Remove(star);
-            star.SetSelector(false, Color.white);
-        }
-    }
-
     
-    public void AddToTerritory(Star star, bool showOuterRim = false, bool colony = false)
+    public void Influence(Star star, bool showOuterRim = false, bool colony = false)
     {
 
+        
         if (territory.Contains(star))
         {
             return;
@@ -101,7 +81,7 @@ public class Faction
         territory.Add(star);
         if (colony)
         {
-            colonies.Add(star);
+            Colonies.Add(star);
         }
 
         List<Star> connectedStars = star.starConnections.GetConnectedStars();
@@ -112,70 +92,16 @@ public class Faction
                 outerRim.Add(connectedStars[i]);
                 if (showOuterRim && connectedStars[i].factionIndex < 0)
                 {
-                    OuterRimChange(connectedStars[i], true, true);
+                    connectedStars[i].SetSelector(true, Color.white);
                 }
             }
         }
 
     }
 
-    public void RemoveFromTerritory(Star star, bool showOuterRim = false, bool colony = false)
+    public void RandomlyExpand()
     {
-
-        if (!territory.Contains(star))
-        {
-            return;
-        }
-
-        territory.Remove(star);
-
-        if (colony)
-        {
-            colonies.Remove(star);
-        }
-
-        bool shouldBeInOuterRim = star.starConnections.IsConnectedToFaction(factionIndex);
-        if (shouldBeInOuterRim != outerRim.Contains(star))
-        {
-            if (shouldBeInOuterRim)
-            {
-                OuterRimChange(star, true, showOuterRim);
-
-            }
-            else
-            {
-                OuterRimChange(star, false, showOuterRim);
-
-            }
-
-        }
-
-        List<Star> connectedStars = star.starConnections.GetConnectedStars();
-        for (int i = 0; i < connectedStars.Count; i++)
-        {
-            shouldBeInOuterRim = connectedStars[i].starConnections.IsConnectedToFaction(factionIndex);
-            if (shouldBeInOuterRim != outerRim.Contains(connectedStars[i]))
-            {
-                if (shouldBeInOuterRim)
-                {
-                    OuterRimChange(star, true, showOuterRim);
-
-                }
-                else 
-                {
-                    OuterRimChange(star, false, showOuterRim);
-
-                }
-
-            }
-        }
-    }
-
-
-    public void RandomlyExpand(int lowest = 3, int highest = 8)
-    {
-        int length = Random.Range(lowest, highest);
-        for(int i = 0; i < length; i++)
+        for(int i = 0; i < randomExpansion; i++)
         {
             if(outerRim.Count <= 0){
                 break;

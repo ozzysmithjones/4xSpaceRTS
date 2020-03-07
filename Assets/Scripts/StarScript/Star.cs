@@ -86,15 +86,22 @@ public class Star : MonoBehaviour
     public void TakeOver(int invader, bool showOuterRim = false)
     {
 
-        for(int i = 0; i < starGeneration.planets.Length; i++)
+        if (factionIndex >= 0)
         {
-            starGeneration.planets[i].ApplyResourceproduction(false);
-        }
+            for (int i = 0; i < starGeneration.planets.Length; i++)
+            {
+                starGeneration.planets[i].ApplyResourceproduction(false);
+            }
 
 
-        if (factionIndex == 0)
-        {
-            starVisibility.IncrementFogOfWar(-1, 1);
+            if (factionIndex == 0)
+            {
+                starVisibility.IncrementFogOfWar(-1, 1);
+            }
+
+            Faction oldFaction = Master.instance.factions.factions[factionIndex];
+            oldFaction.RemoveFromTerritory(this, false, isColony);
+
         }
 
         if (invader < 0)
@@ -104,14 +111,16 @@ public class Star : MonoBehaviour
             return;
         }
 
+       
+
         //print(invader + " is taking over");
         factionIndex = invader;
-        Faction faction = Master.instance.factions.factions[factionIndex];
+        Faction invadingFaction = Master.instance.factions.factions[factionIndex];
 
-        starUI.SetUIColor(faction.flagColor);
+        starUI.SetUIColor(invadingFaction.flagColor);
        
         //faction.territory.Add(this);
-        faction.Influence(this,showOuterRim,isColony);
+        invadingFaction.AddToTerritory(this,showOuterRim,isColony);
 
         if (!isColony)
         {
@@ -132,7 +141,7 @@ public class Star : MonoBehaviour
 
     public void Colonise(int planetIndex = 0)
     {
-
+        isColony = true;
         starGeneration.planets[planetIndex].Colonise();
     }
 

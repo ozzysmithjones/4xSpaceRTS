@@ -17,5 +17,6 @@ public class Option : ScriptableObject
 
         return weight.values[empire];
     }
+
   
 }

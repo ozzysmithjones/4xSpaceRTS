@@ -32,10 +32,7 @@ public class Faction
     public Faction(int index,Color flagColor, string factionName)
     {
         factionIndex = index;
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-        if (random)
-=======
+
         this.factionName = factionName;
         this.flagColor = flagColor;
 
@@ -51,26 +48,6 @@ public class Faction
     public virtual void Update(float deltaTime)
     {
 
-    }
-
-
-
-    void OuterRimChange(Star star, bool addition = false,bool showOuterRim = false)
-    {
-
-        if (addition)
->>>>>>> Stashed changes
-        {
-            flagColor = ColorArray[Random.Range(0, ColorArray.Length)];
-            factionName = NameArray[Random.Range(0, NameArray.Length)];
-
-        }
-=======
-        this.factionName = factionName;
-        this.flagColor = flagColor;
->>>>>>> eef69385ad9dd06bb4d34d8e2ec82af48de9bee0
-
-        
     }
 
     void OuterRimChange(Star star, bool addition = false,bool showOuterRim = false)

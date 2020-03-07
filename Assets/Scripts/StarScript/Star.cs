@@ -83,28 +83,7 @@ public class Star : MonoBehaviour
 
     public void TakeOver(int invader, bool showOuterRim = false)
     {
-<<<<<<< Updated upstream
-
-        if (factionIndex >= 0)
-        {
-            for (int i = 0; i < starGeneration.planets.Length; i++)
-            {
-                starGeneration.planets[i].ApplyResourceproduction(false);
-            }
-
-
-            if (factionIndex == 0)
-            {
-                starVisibility.IncrementFogOfWar(-1, 1);
-            }
-
-            Faction oldFaction = Master.instance.factions.factions[factionIndex];
-            oldFaction.RemoveFromTerritory(this, false, isColony);
-
-        }
-=======
         RemovePreviousOwnership();
->>>>>>> Stashed changes
 
         if (invader < 0)
         {
@@ -113,41 +92,24 @@ public class Star : MonoBehaviour
             return;
         }
 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
-       
-
->>>>>>> eef69385ad9dd06bb4d34d8e2ec82af48de9bee0
-        //print(invader + " is taking over");
-=======
         ApplyInvaderOwnership(invader, showOuterRim);
 
     }
 
     private void ApplyInvaderOwnership(int invader, bool showOuterRim)
     {
->>>>>>> Stashed changes
-        factionIndex = invader;
-        Faction invadingFaction = Master.instance.factions.factions[factionIndex];
 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
+        factionIndex = invader;
+        Faction faction = Master.instance.factions.factions[factionIndex];
+
         starUI.SetUIColor(faction.flagColor);
        
         //faction.territory.Add(this);
-        faction.Influence(this,showOuterRim,isColony);
-=======
-        starUI.SetUIColor(invadingFaction.flagColor);
+        faction.AddToTerritory(this,showOuterRim,isColony);
 
-        invadingFaction.AddToTerritory(this, showOuterRim, isColony);
->>>>>>> Stashed changes
-=======
-        starUI.SetUIColor(invadingFaction.flagColor);
-       
-        //faction.territory.Add(this);
-        invadingFaction.AddToTerritory(this,showOuterRim,isColony);
->>>>>>> eef69385ad9dd06bb4d34d8e2ec82af48de9bee0
+        starUI.SetUIColor(faction.flagColor);
+
+        faction.AddToTerritory(this, showOuterRim, isColony);
 
         if (!isColony)
         {

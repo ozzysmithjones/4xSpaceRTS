@@ -6,28 +6,18 @@ public class Factions : MonoBehaviour
 {
     
     public List<Faction> factions;
-    public Weight[] weights; 
 
     // Start is called before the first frame update
     void Start()
     {
-        for(int i = 0; i < weights.Length; i++)
-        {
-            weights[i].Initialise(factions.Count);
-        }
         StartCoroutine(ResourceProduction());
     }
 
     // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i < factions.Count; i++)
-        {
-            factions[i].Update(Time.deltaTime);
-        }
+        
     }
-
-
 
     public void SpawnFactions(BuiltShip[] shipTypes, BuiltStructure[] structureTypes)
     {
@@ -48,15 +38,11 @@ public class Factions : MonoBehaviour
             star.Colonise(0);
 
         }
-        for (int i = 0; i < factions.Count; i++)
-        {
-            factions[i].Start();
-        }
         //random expansion:
-        for (int i = 0; i < factions.Count; i++)
-        {
+        for(int i = 0; i < factions.Count; i++)
+       {
             factions[i].RandomlyExpand();
-        }
+       }
         
     }
 

@@ -7,7 +7,17 @@ public class Player : Faction
 {
     private Text[] resourcesText;
 
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
 
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
     //randomises this faction.
     public Player(int index = 0, bool random = false, Color[] ColorArray = null, string[] NameArray = null)
     {

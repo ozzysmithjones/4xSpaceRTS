@@ -3863,7 +3863,7 @@ MonoBehaviour:
   starPrefab: {fileID: 879585075006794828, guid: 3f8792eb139b9ad438bbbb2e5908c95a,
     type: 3}
   radius: 50
-  numberOfStars: 200
+  numberOfStars: 100
   collums: 50
   rows: 50
   stars: []

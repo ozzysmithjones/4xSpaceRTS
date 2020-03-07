@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 
 [RequireComponent(typeof(StarGeneration))]
@@ -83,7 +85,6 @@ public class Star : MonoBehaviour
 
     public void TakeOver(int invader, bool showOuterRim = false)
     {
-<<<<<<< Updated upstream
 
         for(int i = 0; i < starGeneration.planets.Length; i++)
         {
@@ -95,9 +96,6 @@ public class Star : MonoBehaviour
         {
             starVisibility.IncrementFogOfWar(-1, 1);
         }
-=======
-        RemovePreviousOwnership();
->>>>>>> Stashed changes
 
         if (invader < 0)
         {
@@ -106,29 +104,14 @@ public class Star : MonoBehaviour
             return;
         }
 
-<<<<<<< Updated upstream
         //print(invader + " is taking over");
-=======
-        ApplyInvaderOwnership(invader, showOuterRim);
-
-    }
-
-    private void ApplyInvaderOwnership(int invader, bool showOuterRim)
-    {
->>>>>>> Stashed changes
         factionIndex = invader;
         Faction faction = Master.instance.factions.factions[factionIndex];
 
-<<<<<<< Updated upstream
         starUI.SetUIColor(faction.flagColor);
        
         //faction.territory.Add(this);
         faction.Influence(this,showOuterRim,isColony);
-=======
-        starUI.SetUIColor(invadingFaction.flagColor);
-
-        invadingFaction.AddToTerritory(this, showOuterRim, isColony);
->>>>>>> Stashed changes
 
         if (!isColony)
         {
@@ -144,27 +127,7 @@ public class Star : MonoBehaviour
         {
             starGeneration.planets[i].ApplyResourceproduction(true);
         }
-    }
 
-    private void RemovePreviousOwnership()
-    {
-        if (factionIndex >= 0)
-        {
-            for (int i = 0; i < starGeneration.planets.Length; i++)
-            {
-                starGeneration.planets[i].ApplyResourceproduction(false);
-            }
-
-
-            if (factionIndex == 0)
-            {
-                starVisibility.IncrementFogOfWar(-1, 1);
-            }
-
-            Faction oldFaction = Master.instance.factions.factions[factionIndex];
-            oldFaction.RemoveFromTerritory(this, false, isColony);
-
-        }
     }
 
     public void Colonise(int planetIndex = 0)

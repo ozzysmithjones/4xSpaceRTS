@@ -94,11 +94,44 @@ public class Master : MonoBehaviour
     }
 
 
+
+    public class Node {
+        public int position;
+        public int lastPosition;
+        public float distance;
+
+        public Node(int position, int lastPosition, float distance)
+        {
+            this.position = position;
+            this.lastPosition = lastPosition;
+            this.distance = distance;
+        }
+
+    }
+
     public List<int> PathFind(int start, int end, int[] factionsAllowed = null, float maxLength = 0f)
     {
        return pathFindAlgorithm.PathFind(start, end,factionsAllowed,maxLength);
     }
 
+
+    public Master.Node SmallestNode(List<Master.Node> frontier)
+    {
+        float smallest = 0f;
+        int smallestIndex = 0;
+
+        for (int i = 0; i < frontier.Count; i++)
+        {
+            if (frontier[i].distance < smallest || i == 0)
+            {
+                smallest = frontier[i].distance;
+                smallestIndex = i;
+            }
+        }
+
+        return frontier[smallestIndex];
+    }
+  
 
    
 

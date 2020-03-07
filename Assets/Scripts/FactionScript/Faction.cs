@@ -31,33 +31,7 @@ public class Faction
     public Faction(int index = 0,bool random = false,Color[] ColorArray = null,string[] NameArray = null)
     {
         factionIndex = index;
-<<<<<<< Updated upstream
         if (random)
-=======
-        this.factionName = factionName;
-        this.flagColor = flagColor;
-
-        
-    }
-
-
-    public virtual void Start()
-    {
-
-    }
-
-    public virtual void Update(float deltaTime)
-    {
-
-    }
-
-
-
-    void OuterRimChange(Star star, bool addition = false,bool showOuterRim = false)
-    {
-
-        if (addition)
->>>>>>> Stashed changes
         {
             flagColor = ColorArray[Random.Range(0, ColorArray.Length)];
             factionName = NameArray[Random.Range(0, NameArray.Length)];

@@ -48,6 +48,8 @@ public class Master : MonoBehaviour
         Vector3 position = factions.factions[0].territory[0].transform.position;
         Camera.main.transform.position = new Vector3(position.x, position.y, -10);
 
+        
+
     }
 
     // Update is called once per frame
@@ -98,7 +100,7 @@ public class Master : MonoBehaviour
     {
        return pathFindAlgorithm.PathFind(start, end,factionsAllowed,maxLength);
     }
-
+    
 
    
 

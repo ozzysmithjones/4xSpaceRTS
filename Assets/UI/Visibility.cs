@@ -10,7 +10,7 @@ public class Visibility : MonoBehaviour
     private List<Renderer> renderers = new List<Renderer>();
     private List<Image> images = new List<Image>();
     public bool visibility = false;
-
+    public static bool fogOfWarEnabled = false;
 
     private void Start()
    {
@@ -28,11 +28,19 @@ public class Visibility : MonoBehaviour
 
     public virtual void Initialise()
     {
+        if (!fogOfWarEnabled)
+        {
+            visibility = true;
+        }
         SetVisibleObjects();
     }
 
    public virtual void SetVisibility(bool visible)
    {
+        if (!fogOfWarEnabled)
+        {
+            visible = true;
+        }
 
         if (visibility == visible)
         {

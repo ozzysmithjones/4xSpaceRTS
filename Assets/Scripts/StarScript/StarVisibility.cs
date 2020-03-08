@@ -47,7 +47,10 @@ public class StarVisibility : Visibility
         
         base.SetVisibility(visible);
 
-
+        if (!fogOfWarEnabled)
+        {
+            visible = true;
+        }
         
         for(int i = 0; i < star.starConnections.lines.Count; i++)
         {

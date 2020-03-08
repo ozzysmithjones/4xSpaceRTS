@@ -50,60 +50,39 @@ public class Faction
 
     }
 
-    void OuterRimChange(Star star, bool addition = false,bool showOuterRim = false)
-    {
-
-        if (addition)
-        {
-            outerRim.Add(star);
-            star.SetSelector(showOuterRim, Color.white);
-        }
-        else
-        {
-            outerRim.Remove(star);
-            star.SetSelector(false, Color.white);
-        }
-    }
 
     
     public void AddToTerritory(Star star, bool showOuterRim = false, bool colony = false)
     {
+        
+        outerRim.Remove(star);
 
         if (territory.Contains(star))
         {
             return;
         }
-        outerRim.Remove(star);
-
         territory.Add(star);
+
         if (colony)
         {
             colonies.Add(star);
         }
 
         List<Star> connectedStars = star.starConnections.GetConnectedStars();
+
         for(int i = 0; i < connectedStars.Count; i++)
         {
-            if (!territory.Contains(connectedStars[i]) && !outerRim.Contains(connectedStars[i]))
+            if(!outerRim.Contains(connectedStars[i]) && connectedStars[i].factionIndex != factionIndex)
             {
                 outerRim.Add(connectedStars[i]);
-                if (showOuterRim && connectedStars[i].factionIndex < 0)
-                {
-                    OuterRimChange(connectedStars[i], true, true);
-                }
             }
         }
+       
 
     }
 
     public void RemoveFromTerritory(Star star, bool showOuterRim = false, bool colony = false)
     {
-
-        if (!territory.Contains(star))
-        {
-            return;
-        }
-
         territory.Remove(star);
 
         if (colony)
@@ -111,41 +90,19 @@ public class Faction
             colonies.Remove(star);
         }
 
-        bool shouldBeInOuterRim = star.starConnections.IsConnectedToFaction(factionIndex);
-        if (shouldBeInOuterRim != outerRim.Contains(star))
-        {
-            if (shouldBeInOuterRim)
-            {
-                OuterRimChange(star, true, showOuterRim);
-
-            }
-            else
-            {
-                OuterRimChange(star, false, showOuterRim);
-
-            }
-
-        }
-
         List<Star> connectedStars = star.starConnections.GetConnectedStars();
+
         for (int i = 0; i < connectedStars.Count; i++)
         {
-            shouldBeInOuterRim = connectedStars[i].starConnections.IsConnectedToFaction(factionIndex);
-            if (shouldBeInOuterRim != outerRim.Contains(connectedStars[i]))
+            if (outerRim.Contains(connectedStars[i]) && !connectedStars[i].starConnections.IsConnectedToFaction(factionIndex))
             {
-                if (shouldBeInOuterRim)
-                {
-                    OuterRimChange(star, true, showOuterRim);
-
-                }
-                else 
-                {
-                    OuterRimChange(star, false, showOuterRim);
-
-                }
-
+                outerRim.Remove(connectedStars[i]);
             }
         }
+
+
+
+
     }
 
 

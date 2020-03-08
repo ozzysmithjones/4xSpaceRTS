@@ -10,27 +10,37 @@ public class StarEconomy : MonoBehaviour
     //this script also has a few values associated with production, which impacts how the star is generated.(e.g energy focused systems
     //have plenty of gas giants)
 
-    public Resources resources = new Resources();
+    public Resources resourceProduction = new Resources();
+    private Star star;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
+    public void StartEconomy()
     {
         
     }
 
     public void Initialise()
     {
+        star = GetComponent<Star>();
+    }
+
+    public void ApplyResourceproduction(bool positive)
+    {
+        if (star.factionIndex < 0)
+        {
+            return;
+        }
+        Faction faction = Master.instance.factions.factions[star.factionIndex];
+
+        for (int i = 0; i < resourceProduction.amounts.Length; i++)
+        {
+            faction.ImproveResourceProduction((ResourceType)i, resourceProduction.amounts[i] * (positive ? 1 : -1));
+        }
 
     }
 
-    public void StartEconomy()
+    public void ImproveResourceProduction(ResourceType resourceType, int amount)
     {
-        
+        resourceProduction.amounts[(int)resourceType] += amount;
+        Master.instance.factions.factions[star.factionIndex].ImproveResourceProduction(resourceType, amount);
     }
 }

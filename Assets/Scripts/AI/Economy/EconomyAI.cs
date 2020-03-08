@@ -4,11 +4,19 @@ using UnityEngine;
 
 public class EconomyAI : Manager
 {
+    public SubManager[] subManagers;
 
-    public override void Update()
+    public EconomyAI(AI ai) : base(ai)
     {
-        base.Update();
+        subManagers = new SubManager[2];
+        subManagers[0] = new ExpansionAI(ai);
+        subManagers[1] = new ColonyAI(ai);
+    }
 
-
+    public override void Update(float deltaTime)
+    {
+        base.Update(deltaTime);
+        HighestRatedSubManager(subManagers).Manage(deltaTime);
+       
     }
 }

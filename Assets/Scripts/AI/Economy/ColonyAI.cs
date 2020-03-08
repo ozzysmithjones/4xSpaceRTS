@@ -2,17 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ColonyAI : MonoBehaviour
+public class ColonyAI : SubManager
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public ColonyAI(AI ai) : base(ai)
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -38,6 +38,8 @@ public class Star : MonoBehaviour
         
     }
 
+
+
     public void Initialise(int faction = -1)
     {
 
@@ -123,7 +125,7 @@ public class Star : MonoBehaviour
 
         for (int i = 0; i < starGeneration.planets.Length; i++)
         {
-            starGeneration.planets[i].ApplyResourceproduction(true);
+            starEconomy.ApplyResourceproduction(true);
         }
     }
 
@@ -133,7 +135,7 @@ public class Star : MonoBehaviour
         {
             for (int i = 0; i < starGeneration.planets.Length; i++)
             {
-                starGeneration.planets[i].ApplyResourceproduction(false);
+                starEconomy.ApplyResourceproduction(false);
             }
 
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Factions : MonoBehaviour
 {
-    
+    public const int totalFactions = 15;
     public List<Faction> factions;
     public Weight[] weights; 
 
@@ -38,7 +38,7 @@ public class Factions : MonoBehaviour
         star.TakeOver(0);
 
 
-        for (int i = 1; i < 5;i++)
+        for (int i = 1; i < totalFactions-1;i++)
         {
             factions.Add(CreateFaction(i,shipTypes, structureTypes));
 

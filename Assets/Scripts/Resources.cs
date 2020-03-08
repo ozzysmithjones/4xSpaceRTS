@@ -10,6 +10,7 @@ public enum ResourceType
     DEATHMATTER
 }
 
+[System.Serializable]
 public class Resources 
 {
     public int[] amounts = new int[3];

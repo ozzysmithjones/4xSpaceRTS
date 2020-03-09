@@ -69,7 +69,7 @@ public class Fighter : SpaceShip
                 shooting = true;
                 for (int i = 0; i < weapons.Length; i++)
                 {
-                    weapons[i].Shoot();
+                    weapons[i].Shoot(damage);
                 }
             }    
 

@@ -18,7 +18,7 @@ public class AI : Faction
 
     }
 
-    protected Weight LoadWeight(string path)
+    public Weight LoadWeight(string path)
     {
         return UnityEngine.Resources.Load<Weight>(path);
     }

@@ -166,9 +166,12 @@ public class PlanetColony : MonoBehaviour
         if (!buildQueueRunning)
         {
             StartCoroutine(BeginBuildQueue());
-            
+
         }
-        OnBuildQueueChange.Invoke(buildQueue);
+        if (OnBuildQueueChange != null)
+        {
+            OnBuildQueueChange.Invoke(buildQueue);
+        }
     }
 
     public void RemoveFromBuildQueue(int itemIndex, bool all)

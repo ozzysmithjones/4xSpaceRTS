@@ -15,9 +15,9 @@ public class Laser : Weapon
         beam.SetPositions(new Vector3[2] { new Vector3(0, 0, 0), new Vector3(0, 0, 0) });
     }
 
-    public override void Shoot()
+    public override void Shoot(float damage = 1.0f)
     {
-        base.Shoot();
+        base.Shoot(damage);
 
         StartCoroutine(ConstantBeam());
     }

@@ -21,11 +21,11 @@ public class Faction
     //this integer indicates which index this faction is in the array.
     public int factionIndex;
 
-    
-
     public Resources resources = new Resources();
     public Resources resourceProduction = new Resources();
     public int expansionCost = 100;
+
+    public List<Navigator> fleets = new List<Navigator>();
 
 
     //randomises this faction.
@@ -145,6 +145,16 @@ public class Faction
     public virtual void ImproveResourceProduction(ResourceType resourceType, int amount)
     {
         resourceProduction.amounts[(int)resourceType] += amount;
+    }
+
+    public bool Pay(int cost, ResourceType resourceType = ResourceType.MATERIALS)
+    {
+        if(resources.amounts[(int)resourceType] >= cost)
+        {
+            resources.amounts[(int)resourceType] -= cost;
+            return true;
+        }
+        return false;
     }
 
 

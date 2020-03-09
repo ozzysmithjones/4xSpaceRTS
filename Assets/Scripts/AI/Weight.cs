@@ -10,5 +10,6 @@ public class Weight : ScriptableObject
     public void Initialise(int empireCount)
     {
         values = new float[empireCount];
+       // Debug.Log("Initialised " + this.name + " with a size of " + values.Length);
     }
 }

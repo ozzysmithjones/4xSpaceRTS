@@ -13,6 +13,7 @@ public class Master : MonoBehaviour
 {
    
     public float frameRate = 1f;
+    public float highestFrameRate = 0.0f;
     public float lowestFrameRate = 60f;
 
     public static Master instance;
@@ -59,6 +60,10 @@ public class Master : MonoBehaviour
         if (frameRate < lowestFrameRate && Time.time > 3f)
         {
             lowestFrameRate = frameRate;
+        }
+        if(frameRate > highestFrameRate && Time.time > 3f)
+        {
+            highestFrameRate = frameRate;
         }
 
 

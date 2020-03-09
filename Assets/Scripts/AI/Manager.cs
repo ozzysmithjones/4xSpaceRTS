@@ -13,6 +13,13 @@ public class Manager
     {
         
     }
+    protected void CalculateSubManagers(SubManager[] subManagers)
+    {
+        for(int i = 0; i < subManagers.Length; i++)
+        {
+            subManagers[i].Worth();
+        }
+    }
     
     protected SubManager HighestRatedSubManager(SubManager[] subManagers)
     {
@@ -20,9 +27,9 @@ public class Manager
         int index = 0;
         for (int i = 0; i < subManagers.Length; i++)
         {
-            if (subManagers[i].Worth() >= highestValue)
+            if (subManagers[i].value >= highestValue)
             {
-                highestValue = subManagers[i].Worth();
+                highestValue = subManagers[i].value;
                 index = i;
             }
         }

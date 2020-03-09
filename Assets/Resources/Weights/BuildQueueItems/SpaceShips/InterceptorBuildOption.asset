@@ -9,7 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51fde2e6c81e9f0489229f7c72b912ba, type: 3}
-  m_Name: InterceptorWeight
+  m_Script: {fileID: 11500000, guid: 8ec65a6795a0abb479e862af7020e706, type: 3}
+  m_Name: InterceptorBuildOption
   m_EditorClassIdentifier: 
-  values: []
+  weight: {fileID: 11400000, guid: d1daf8a567f78d54f85a0eccf18beeca, type: 2}
+  buildQueueItem: {fileID: 11400000, guid: a81fa00d84a62c243975ebc7a05ece1a, type: 2}

@@ -52,12 +52,8 @@ public class StarConstruction : MonoBehaviour
             else
             {
                 Navigator navigator = Instantiate(emptyFleetPrefab, transform.position, transform.rotation).GetComponent<Navigator>();
-                navigator.Initialise();
-
                 navigator.AddShip(spaceShip);
-                navigator.SetStar(star);
-                navigator.faction = star.factionIndex;
-                star.starShipManager.Entry(navigator);
+                InitialiseNavigator(navigator,star);
                 return navigator;
 
             }
@@ -65,14 +61,18 @@ public class StarConstruction : MonoBehaviour
         if(type == StarConstructionType.fleet)
         {
             Navigator navigator = spawned.GetComponent<Navigator>();
-            navigator.Initialise();
-
-            navigator.SetStar(star);
-            navigator.faction = star.factionIndex;
-            star.starShipManager.Entry(navigator);
+            InitialiseNavigator(navigator, star);
             return navigator;
            
         }
         return null;
+    }
+
+    private void InitialiseNavigator(Navigator navigator, Star star)
+    {
+        navigator.Initialise();
+        navigator.SetStar(star);
+        navigator.AddToFaction(star.factionIndex);
+        star.starShipManager.Entry(navigator);
     }
 }

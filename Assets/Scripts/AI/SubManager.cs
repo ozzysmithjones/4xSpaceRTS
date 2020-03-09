@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SubManager : Manager
 {
-
+    public float value;
     public SubManager(AI ai) : base(ai)
     {
 

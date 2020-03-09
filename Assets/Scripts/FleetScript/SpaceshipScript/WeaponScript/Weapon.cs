@@ -9,7 +9,7 @@ public class Weapon : MonoBehaviour
     public bool shooting = false;
 
     public float range = 10f;
-    public float damage = 10f;
+    protected float damage = 0.0f;
 
     protected Fighter spaceShip;
 
@@ -44,8 +44,9 @@ public class Weapon : MonoBehaviour
 
     }
     
-    public virtual void Shoot()
+    public virtual void Shoot(float damage = 1f)
     {
+        this.damage = damage;
         shooting = true;
         shootEffect.Play();
 

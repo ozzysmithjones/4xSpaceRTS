@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class Factions : MonoBehaviour
 {
-    public const int totalFactions = 15;
+    public const int totalFactions = 3;
     public List<Faction> factions;
     public Weight[] weights; 
 
     // Start is called before the first frame update
     void Start()
     {
+        weights = UnityEngine.Resources.LoadAll<Weight>("Weights");
         for(int i = 0; i < weights.Length; i++)
         {
-            weights[i].Initialise(factions.Count);
+            weights[i].Initialise(totalFactions);
         }
         StartCoroutine(ResourceProduction());
     }
@@ -90,7 +91,7 @@ public class Factions : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(10.0f);
+            yield return new WaitForSeconds(1.0f);
 
             for(int i = 0; i < factions.Count; i++)
             {

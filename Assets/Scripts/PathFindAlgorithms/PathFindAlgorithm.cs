@@ -80,15 +80,6 @@ public class PathFindAlgorithm
                 current = SmallestNode(frontier);
             }
 
-            /*
-            //print("frontier size = " + frontier.Count + " visited size = " + visited.Count);
-            iterations--;
-            if(iterations <= 0)
-            {
-                print("prevent crash.");
-                break;
-            }
-            */
         }
         return ReadPath(start, current, visited);
     }

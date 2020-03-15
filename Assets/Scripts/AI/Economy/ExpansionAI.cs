@@ -12,7 +12,7 @@ public class ExpansionAI : SubManager
     public override float Worth()
     {
         value = HighestStarValue(out int index);
-        return Calculation.ExpansionEconomic(value);
+        return value;
     }
 
     public override void Manage(float deltaTime)

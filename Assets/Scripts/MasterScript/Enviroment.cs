@@ -24,8 +24,10 @@ public class Enviroment : MonoBehaviour
     public Star[] stars;
 
 
-    public void BreadthFirstGenerate()
+    public void BreadthFirstGenerate(int collums, int rows)
     {
+        this.collums = collums;
+        this.rows = rows;
 
         stars = new Star[numberOfStars];
         grid = new Star[collums * rows];
@@ -176,7 +178,6 @@ public class Enviroment : MonoBehaviour
     bool InsideBounds(int x, int y)
     {
         
-
         if (x >= 0 && x < collums)
         {
             if (y >= 0 && y < rows)

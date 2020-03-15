@@ -15,8 +15,7 @@ public class ColonyMilitaryAI : SubManager
         if(ai.resources.amounts[(int)ResourceType.MATERIALS] < 100){
             return 0.0f;
         }
-        value = (Calculation.InvasionEconomic(ai, Master.instance.factions.factions[0]) + Calculation.InvasionEconomic(Master.instance.factions.factions[0],ai)) / 2.0f;
-       // Debug.Log(value);
+       
         return value;
     }
 

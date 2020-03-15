@@ -23,8 +23,13 @@ public class Master : MonoBehaviour
     public Interface userInterface;
 
     public int seed = 0;
+    public const int collums = 50;
+    public const int rows = 50;
+    
 
     private PathFindAlgorithm pathFindAlgorithm;
+
+
 
     // Start is called before the first frame update
     void Awake()
@@ -40,7 +45,7 @@ public class Master : MonoBehaviour
 
         variety.Initialise();
 
-        enviroment.BreadthFirstGenerate();
+        enviroment.BreadthFirstGenerate(collums,rows);
 
         factions.SpawnFactions(variety.builtShips,variety.builtStructures);
 
@@ -98,6 +103,27 @@ public class Master : MonoBehaviour
 
         y = xy % height;
         x = Mathf.FloorToInt(value);
+    }
+
+    public bool InsideBounds(int x, int y)
+    {
+        if (x >= 0 && x < collums)
+        {
+            if (y >= 0 && y < rows)
+            {
+                return true;
+            }
+            else
+            {
+
+                return false;
+            }
+        }
+        else
+        {
+
+            return false;
+        }
     }
 
 

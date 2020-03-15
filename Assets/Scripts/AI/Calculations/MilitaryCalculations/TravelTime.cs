@@ -12,7 +12,7 @@ public static partial class Calculation
     public static float TimeToReachDestination(int startCoordinate, int endCoordinate, float speed = 5.0f)
     {
         int count =  Master.instance.PathFind(startCoordinate, endCoordinate).Count;
-        return count * TimeToMoveThroughStar(speed);
+        return (count * TimeToMoveThroughStar(speed)) - (TimeToMoveThroughStar(speed) / 2);
     }
 
     public static float TimeToreachFaction(int startCoordinate, int endFaction, float speed = 5.0f)
@@ -36,4 +36,6 @@ public static partial class Calculation
 
         return time;
     }
+
+
 }

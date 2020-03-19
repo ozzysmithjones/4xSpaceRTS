@@ -17,7 +17,7 @@ public class Manager
     {
         for(int i = 0; i < subManagers.Length; i++)
         {
-            subManagers[i].Worth();
+            subManagers[i].CalculateValue();
         }
     }
     

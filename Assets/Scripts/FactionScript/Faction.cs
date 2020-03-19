@@ -28,6 +28,7 @@ public class Faction
     public List<Navigator> fleets = new List<Navigator>();
 
 
+
     //randomises this faction.
     public Faction(int index,Color flagColor, string factionName)
     {

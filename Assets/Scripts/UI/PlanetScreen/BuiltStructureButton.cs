@@ -19,7 +19,7 @@ public class BuiltStructureButton : MonoBehaviour
 
     private void Start()
     { 
-        builtStructure = Master.instance.factions.factions[0].structureTypes[classIndex];
+        builtStructure = Master.instance.characters.factions[0].structureTypes[classIndex];
         structureName.text = builtStructure.name;
         structureQuantity.text = quantity.ToString();
         classIndex++;

@@ -352,13 +352,13 @@ public class Navigator : MonoBehaviour
             RemoveFromFaction(faction);
         }
         faction = newFaction;
-        Master.instance.factions.factions[faction].fleets.Add(this);
+        Master.instance.characters.factions[faction].fleets.Add(this);
     }
 
     public void RemoveFromFaction(int oldFaction)
     {
        
-        Master.instance.factions.factions[faction].fleets.Remove(this);
+        Master.instance.characters.factions[faction].fleets.Remove(this);
         faction = -1;
     }
 }

@@ -158,10 +158,8 @@ public class PathFindAlgorithm
 
     float DistanceBetweenTwoPoints(int a, int b)
     {
-        OneDimToTwoDim(a, Master.instance.enviroment.rows, out int aX, out int aY);
-        OneDimToTwoDim(b, Master.instance.enviroment.rows, out int bX, out int bY);
 
-        return Vector2.Distance(new Vector2(aX, aY), new Vector2(bX, bY));
+        return Calculation.SquareDistance(a,b);
     }
     //used to convert between two dimensional arrays(filled one collumm at a time) to one dimensional arrays. 
     public int TwoDimToOneDim(int x, int y, int height)

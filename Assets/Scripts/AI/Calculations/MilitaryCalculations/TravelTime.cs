@@ -17,7 +17,7 @@ public static partial class Calculation
 
     public static float TimeToreachFaction(int startCoordinate, int endFaction, float speed = 5.0f)
     {
-        List<Faction> factions = Master.instance.factions.factions;
+        List<Faction> factions = Master.instance.characters.factions;
         List<int> path = Master.instance.PathFind(startCoordinate,factions[endFaction].colonies[0].index);
 
         float time = 0.0f;

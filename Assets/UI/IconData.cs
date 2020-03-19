@@ -27,7 +27,7 @@ public class IconData : MonoBehaviour
 
         if(faction >= 0 && interactable)
         {
-            image.color = Master.instance.factions.factions[faction].flagColor;
+            image.color = Master.instance.characters.factions[faction].flagColor;
         }
 
 

@@ -11,11 +11,11 @@ public class ExpandTool : Tool
         
         base.OnSelected();
         
-        for(int i = 0; i < Master.instance.factions.factions[0].outerRim.Count; i++)
+        for(int i = 0; i < Master.instance.characters.factions[0].outerRim.Count; i++)
         {
-            if (Master.instance.factions.factions[0].outerRim[i].factionIndex <= 0)
+            if (Master.instance.characters.factions[0].outerRim[i].factionIndex <= 0)
             {
-                Master.instance.factions.factions[0].outerRim[i].SetSelector(true, Color.white);
+                Master.instance.characters.factions[0].outerRim[i].SetSelector(true, Color.white);
             }
         }
 
@@ -25,9 +25,9 @@ public class ExpandTool : Tool
     {
         base.OnDeselected();
 
-        for (int i = 0; i < Master.instance.factions.factions[0].outerRim.Count; i++)
+        for (int i = 0; i < Master.instance.characters.factions[0].outerRim.Count; i++)
         {
-            Master.instance.factions.factions[0].outerRim[i].SetSelector(false, Color.white);
+            Master.instance.characters.factions[0].outerRim[i].SetSelector(false, Color.white);
         }
     }
 

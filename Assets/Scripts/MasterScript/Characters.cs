@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Factions : MonoBehaviour
+public class Characters : MonoBehaviour
 {
     public const int totalFactions = 3;
     public List<Faction> factions;
@@ -85,6 +85,23 @@ public class Factions : MonoBehaviour
         instance.shipTypes = shipTypes;
 
         return instance;
+    }
+
+    public Weight FindWeight(string name)
+    {
+        for(int i = 0; i < weights.Length; i++)
+        {
+            if(weights[i].name == name)
+            {
+                return weights[i];
+
+
+            }
+
+
+        }
+        Debug.LogError("couldn't find the AI weight: " + name);
+        return null;
     }
 
     private IEnumerator ResourceProduction()

@@ -10,7 +10,7 @@ public class SubManager : Manager
 
     }
 
-    public virtual float Worth()
+    public virtual float CalculateValue()
     {
         return 0.0f;
     }

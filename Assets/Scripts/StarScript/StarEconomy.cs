@@ -29,7 +29,7 @@ public class StarEconomy : MonoBehaviour
         {
             return;
         }
-        Faction faction = Master.instance.factions.factions[star.factionIndex];
+        Faction faction = Master.instance.characters.factions[star.factionIndex];
 
         for (int i = 0; i < resourceProduction.amounts.Length; i++)
         {
@@ -41,6 +41,6 @@ public class StarEconomy : MonoBehaviour
     public void ImproveResourceProduction(ResourceType resourceType, int amount)
     {
         resourceProduction.amounts[(int)resourceType] += amount;
-        Master.instance.factions.factions[star.factionIndex].ImproveResourceProduction(resourceType, amount);
+        Master.instance.characters.factions[star.factionIndex].ImproveResourceProduction(resourceType, amount);
     }
 }

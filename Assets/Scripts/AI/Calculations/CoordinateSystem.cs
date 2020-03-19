@@ -19,6 +19,21 @@ public static partial class Calculation
         x = Mathf.FloorToInt(value);
     }
 
+    public static float SquareDistance(int a, int b)
+    {
+
+        Enviroment enviroment = Master.instance.enviroment;
+
+        OneDimToTwoDim(enviroment.stars[a].position, out int aX, out int aY);
+        OneDimToTwoDim(enviroment.stars[b].position, out int bX, out int bY);
+
+        float x = Mathf.Abs(bX - aX);
+        float y = Mathf.Abs(bY - aY);
+
+        return (x * x) + (y * y);
+
+    }
+
 
 }
 

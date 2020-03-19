@@ -40,7 +40,7 @@ public class StarConstruction : MonoBehaviour
         if(type == StarConstructionType.spaceShip)
         {
             SpaceShip spaceShip = spawned.GetComponent<SpaceShip>();
-            spaceShip.Initialise(Master.instance.factions.factions[star.factionIndex].flagColor);
+            spaceShip.Initialise(Master.instance.characters.factions[star.factionIndex].flagColor);
             int fleetIndex = star.starShipManager.GetSmallestFleet(star.factionIndex,true);
 
             if(fleetIndex >= 0)

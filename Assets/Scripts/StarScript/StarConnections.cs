@@ -47,8 +47,8 @@ public class StarConnections : MonoBehaviour
         line.SetPosition(1, b);
         
         //set correct colors:
-        line.startColor = startStar.factionIndex >= 0 ? Master.instance.factions.factions[startStar.factionIndex].flagColor : line.startColor;
-        line.endColor = endStar.factionIndex >= 0 ? Master.instance.factions.factions[endStar.factionIndex].flagColor : line.endColor;
+        line.startColor = startStar.factionIndex >= 0 ? Master.instance.characters.factions[startStar.factionIndex].flagColor : line.startColor;
+        line.endColor = endStar.factionIndex >= 0 ? Master.instance.characters.factions[endStar.factionIndex].flagColor : line.endColor;
 
         return line;
     }

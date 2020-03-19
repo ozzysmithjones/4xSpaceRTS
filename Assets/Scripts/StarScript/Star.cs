@@ -7,7 +7,7 @@
 public class Star : MonoBehaviour
 {
     public int index;
-  //  public int position;
+    public int position;
     public int planets;
 
     
@@ -37,6 +37,8 @@ public class Star : MonoBehaviour
     {
         
     }
+
+
 
     public void Initialise(int faction = -1)
     {
@@ -74,7 +76,7 @@ public class Star : MonoBehaviour
 
             for (int i = 0; i < 3; i++)
             {
-                starConstruction.Build(Master.instance.factions.factions[0].shipTypes[0].prefab, StarConstruction.StarConstructionType.spaceShip);
+                starConstruction.Build(Master.instance.characters.factions[0].shipTypes[0].prefab, StarConstruction.StarConstructionType.spaceShip);
             }
         }
     }
@@ -100,7 +102,7 @@ public class Star : MonoBehaviour
     {
 
         factionIndex = invader;
-        Faction faction = Master.instance.factions.factions[factionIndex];
+        Faction faction = Master.instance.characters.factions[factionIndex];
 
         starUI.SetUIColor(faction.flagColor);
        
@@ -123,7 +125,7 @@ public class Star : MonoBehaviour
 
         for (int i = 0; i < starGeneration.planets.Length; i++)
         {
-            starGeneration.planets[i].ApplyResourceproduction(true);
+            starEconomy.ApplyResourceproduction(true);
         }
     }
 
@@ -133,7 +135,7 @@ public class Star : MonoBehaviour
         {
             for (int i = 0; i < starGeneration.planets.Length; i++)
             {
-                starGeneration.planets[i].ApplyResourceproduction(false);
+                starEconomy.ApplyResourceproduction(false);
             }
 
 
@@ -142,7 +144,7 @@ public class Star : MonoBehaviour
                 starVisibility.IncrementFogOfWar(-1, 1);
             }
 
-            Faction oldFaction = Master.instance.factions.factions[factionIndex];
+            Faction oldFaction = Master.instance.characters.factions[factionIndex];
             oldFaction.RemoveFromTerritory(this, false, isColony);
 
         }
@@ -174,7 +176,7 @@ public class Star : MonoBehaviour
         Master.instance.userInterface.currentTool.OnInteract(this);
     }
 
-    private void OnMouseOver()
+    private void OnMouseEnter()
     {
         if (!starVisibility.visibility)
         {

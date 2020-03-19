@@ -16,10 +16,6 @@ public class Planet : MonoBehaviour
 
     public bool isColony = false;
 
-    //how much the planet produces.
-    public Resources resourceProduction = new Resources();
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -62,29 +58,19 @@ public class Planet : MonoBehaviour
         planetTexture.Generate();
 
 
-        resourceProduction.amounts = biome.GetRandomResourceAmounts();
+        int[] newResources = biome.GetRandomResourceAmounts();
+        int[] resourceProduction = star.starEconomy.resourceProduction.amounts;
 
-    }
-
-    public void ApplyResourceproduction(bool positive)
-    {
-        if(star.factionIndex < 0)
+        for(int i = 0; i < newResources.Length; i++)
         {
-            return;
-        }
-        Faction faction = Master.instance.factions.factions[star.factionIndex];
-
-        for(int i = 0; i < resourceProduction.amounts.Length; i++)
-        {
-            faction.ImproveResourceProduction((ResourceType)i, resourceProduction.amounts[i] * (positive ? 1 : -1));
+            resourceProduction[i] += newResources[i];
         }
 
     }
 
     public void ImproveResourceproduction(ResourceType resourceType, int amount)
     {
-        resourceProduction.amounts[(int)resourceType] += amount;
-        Master.instance.factions.factions[star.factionIndex].ImproveResourceProduction(resourceType, amount);
+        star.starEconomy.ImproveResourceProduction(resourceType, amount);
     }
 
     

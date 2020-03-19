@@ -5,7 +5,6 @@ using UnityEngine;
 [System.Serializable]
 public class Tool 
 {
-    
 
     public virtual void OnSelected()
     {

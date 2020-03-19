@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Factions : MonoBehaviour
+public class Characters : MonoBehaviour
 {
-    
+    public const int totalFactions = 3;
     public List<Faction> factions;
     public Weight[] weights; 
 
     // Start is called before the first frame update
     void Start()
     {
+        weights = UnityEngine.Resources.LoadAll<Weight>("Weights");
         for(int i = 0; i < weights.Length; i++)
         {
-            weights[i].Initialise(factions.Count);
+            weights[i].Initialise(totalFactions);
         }
         StartCoroutine(ResourceProduction());
     }
@@ -38,7 +39,7 @@ public class Factions : MonoBehaviour
         star.TakeOver(0);
 
 
-        for (int i = 1; i < 5;i++)
+        for (int i = 1; i < totalFactions-1;i++)
         {
             factions.Add(CreateFaction(i,shipTypes, structureTypes));
 
@@ -86,11 +87,28 @@ public class Factions : MonoBehaviour
         return instance;
     }
 
+    public Weight FindWeight(string name)
+    {
+        for(int i = 0; i < weights.Length; i++)
+        {
+            if(weights[i].name == name)
+            {
+                return weights[i];
+
+
+            }
+
+
+        }
+        Debug.LogError("couldn't find the AI weight: " + name);
+        return null;
+    }
+
     private IEnumerator ResourceProduction()
     {
         while (true)
         {
-            yield return new WaitForSeconds(10.0f);
+            yield return new WaitForSeconds(1.0f);
 
             for(int i = 0; i < factions.Count; i++)
             {

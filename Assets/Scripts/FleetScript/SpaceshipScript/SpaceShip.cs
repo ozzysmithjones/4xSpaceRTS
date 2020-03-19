@@ -15,43 +15,40 @@ public enum Defence { SHIELDS, ARMOR, EVASION };
 
 public class SpaceShip : MonoBehaviour
 {
-    public float speed = 3f;
-    public float rotationSpeed = 60f;
-
     public SpaceShipState spaceShipState = SpaceShipState.IDLE;
 
-    public bool formation = false;
-    public bool pointing = false;
-    protected bool isPath = false;
-    private Transform destination;
+    //initialisation
+    public Renderer rend;
+    protected Navigator fleet;
+    private bool Initialised = false;
 
-    //the target could be a destination or an enemy to defeat.
+
+    //targeting.
     public Transform target;
+    private Transform destination;
+    private Transform vectorTarget;
 
     private float angleCalculationTimer = 0f;
     protected float targetAngle;
 
-    public Renderer rend;
 
-    //cargo:
-    public Resources cargo = new Resources();
+    //movement progress
+    public bool formation = false;
+    public bool pointing = false;
+    protected bool isPath = false;
 
-    private Transform vectorTarget;
-
-
-    public bool conflict = false;
-    protected Navigator fleet;
-
-    private bool Initialised = false;
+    //movement
+    public float speed = 3f;
+    public float rotationSpeed = 60f;
 
     //combat:
+    protected bool conflict = false;
     public Defence primaryDefence = Defence.EVASION;
     public float hitPoints = 10f;
+    public float damage = 1.0f;
 
-
-
-    //public TrailRenderer[] thrusters;
-    // Start is called before the first frame update
+    //cargo:
+    protected Resources cargo = new Resources();
 
     void Start()
     {
@@ -161,7 +158,7 @@ public class SpaceShip : MonoBehaviour
     
     public virtual void GiveCargo(int faction)
     {
-        Master.instance.factions.factions[faction].Gather(cargo);
+        Master.instance.characters.factions[faction].Gather(cargo);
 
         for (int i = 0; i < cargo.amounts.Length; i++)
         {

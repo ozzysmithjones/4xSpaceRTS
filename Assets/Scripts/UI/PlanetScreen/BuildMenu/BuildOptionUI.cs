@@ -26,12 +26,12 @@ public class BuildOptionUI : MonoBehaviour
     {
         if (!isShip) {
 
-            buildQueueItem = Master.instance.factions.factions[0].structureTypes[classIndex];
+            buildQueueItem = Master.instance.characters.factions[0].structureTypes[classIndex];
 
         }
         else
         {
-            buildQueueItem = Master.instance.factions.factions[0].shipTypes[classIndex];
+            buildQueueItem = Master.instance.characters.factions[0].shipTypes[classIndex];
         }
 
         category = buildQueueItem.category;

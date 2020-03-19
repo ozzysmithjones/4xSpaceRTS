@@ -32,7 +32,7 @@ public class BuildMenu : MonoBehaviour
     {
         
         //pay for it first.
-        Faction faction = Master.instance.factions.factions[planetOverview.planet.star.factionIndex];
+        Faction faction = Master.instance.characters.factions[planetOverview.planet.star.factionIndex];
         int price = amount * buildQueueItem.buildCost;
 
         /*

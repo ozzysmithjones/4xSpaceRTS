@@ -74,6 +74,13 @@ public class Navigator : MonoBehaviour
     {
         return navigatorWarp.star;
     }
+    public virtual void ConflictReaction(bool conflict)
+    {
+        for (int i = 0; i < spaceShips.Count; i++)
+        {
+            spaceShips[i].SetConflict(conflict);
+        }
+    }
 
     public void AddShip(SpaceShip spaceShip)
     {
@@ -82,13 +89,7 @@ public class Navigator : MonoBehaviour
         spaceShip.transform.SetParent(shipsParent);
     }
 
-    public virtual void ConflictReaction(bool conflict)
-    {
-        for (int i = 0; i < spaceShips.Count; i++)
-        {
-            spaceShips[i].SetConflict(conflict);
-        }
-    }
+    
 
     public void RemoveShip(SpaceShip spaceShip)
     {
@@ -98,6 +99,7 @@ public class Navigator : MonoBehaviour
         if (spaceShips.Count <= 0)
         {
             GetStar().starShipManager.RequestExit(this);
+            RemoveFromFaction(faction);
             Destroy(gameObject);
         }
 
@@ -341,5 +343,22 @@ public class Navigator : MonoBehaviour
         }
         return allInFormation;
 
+    }
+
+    public void AddToFaction(int newFaction)
+    {
+        if(faction >= 0)
+        {
+            RemoveFromFaction(faction);
+        }
+        faction = newFaction;
+        Master.instance.characters.factions[faction].fleets.Add(this);
+    }
+
+    public void RemoveFromFaction(int oldFaction)
+    {
+       
+        Master.instance.characters.factions[faction].fleets.Remove(this);
+        faction = -1;
     }
 }

@@ -102,33 +102,23 @@ public class MoveFleetTool : Tool
 
     public override void OnInteract(Star star)
     {
-        //Debug.Log("interact with" + star.name + " at " + star.transform.position);
         base.OnInteract(star);
-        
         
         if(path[path.Count-1] == star.index)
         {
-           // Debug.Log("same as last position, return");
-            //Master.instance.userInterface.SetTool(0);
             return;
         }
 
-        //Debug.Log("draw line and stuff");
-        int startIndex = path.Count - 1;
-        List<int> extension = Master.instance.PathFind(path[startIndex], star.index);
+        bool addition = path.Count > 0;
+
+        List<int> extension = Master.instance.PathFind(path[path.Count-1], star.index);
+        if (addition)
+        {
+            extension.RemoveAt(0);
+        }
         path.AddRange(extension);
         DrawLine(path);
 
-        
-        if (path.Count > 2)
-        {
-            //Debug.Log("remove extension start");
-            path.RemoveAt(startIndex);
-
-           // Master.instance.userInterface.StartCoroutine(printPath(path));
-
-            
-        }
         
         if (Input.GetKey(KeyCode.Mouse1))
         {
@@ -145,24 +135,6 @@ public class MoveFleetTool : Tool
           
     }
 
-    /*
-    public IEnumerator printPath(List<int> printedPath)
-    {
-        for(int i = 0; i < printedPath.Count; i++)
-        {
-            Master.instance.enviroment.grid[printedPath[i]].starVisibility.SetVisibility(false);
-        }
-
-        yield return new WaitForSeconds(2f);
-
-        for (int i = 0; i < printedPath.Count; i++)
-        {
-            Master.instance.enviroment.grid[printedPath[i]].starVisibility.SetVisibility(true);
-        }
-    }
-    */
-
-    
 
     public override void OnHover(Star star)
     {

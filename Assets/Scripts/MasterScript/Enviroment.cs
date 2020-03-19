@@ -24,8 +24,10 @@ public class Enviroment : MonoBehaviour
     public Star[] stars;
 
 
-    public void BreadthFirstGenerate()
+    public void BreadthFirstGenerate(int collums, int rows)
     {
+        this.collums = collums;
+        this.rows = rows;
 
         stars = new Star[numberOfStars];
         grid = new Star[collums * rows];
@@ -36,6 +38,7 @@ public class Enviroment : MonoBehaviour
         //spawn a star at the center.
         Star center = SpawnStar(collums / 2, rows / 2);
         center.index = 0;
+        center.position = TwoDimToOneDim(collums / 2, rows / 2, rows);
         stars[0] = center;
         grid[TwoDimToOneDim(collums / 2, rows / 2, rows)] = center;
         spawnedStars++;
@@ -54,7 +57,7 @@ public class Enviroment : MonoBehaviour
 
 
         }
-
+        
         for (int i = 0; i < stars.Length; i++)
         {
             stars[i].InitialisePlanets();
@@ -102,6 +105,7 @@ public class Enviroment : MonoBehaviour
                     spawnedStars++;
                     Star newStar = SpawnStar(x + centerX, y + centerY);
                     newStar.index = spawnedStars - 1;
+                    newStar.position = coord;
 
                     stars[spawnedStars - 1] = newStar;
                     grid[coord] = newStar;
@@ -176,7 +180,6 @@ public class Enviroment : MonoBehaviour
     bool InsideBounds(int x, int y)
     {
         
-
         if (x >= 0 && x < collums)
         {
             if (y >= 0 && y < rows)

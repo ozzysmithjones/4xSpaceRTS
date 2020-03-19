@@ -27,7 +27,6 @@ public class Master : MonoBehaviour
     public const int rows = 50;
     
 
-    private PathFindAlgorithm pathFindAlgorithm;
 
 
 
@@ -37,9 +36,6 @@ public class Master : MonoBehaviour
         Random.InitState(seed);
         Singleton();
 
-       
-
-        pathFindAlgorithm = new PathFindAlgorithm();
         enviroment = GetComponent<Enviroment>();
         characters = GetComponent<Characters>();
         userInterface = GetComponent<Interface>();
@@ -134,7 +130,7 @@ public class Master : MonoBehaviour
 
     public List<int> PathFind(int start, int end, int[] factionsAllowed = null, float maxLength = 0f)
     {
-        return  GraphSearchAlgorithms.instance.PathFind(start, end); //pathFindAlgorithm.PathFind(start, end,factionsAllowed,maxLength); 
+        return  GraphSearchAlgorithms.instance.PathFind(start, end);
     }
     
 

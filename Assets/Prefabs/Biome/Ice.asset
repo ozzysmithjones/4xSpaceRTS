@@ -22,3 +22,9 @@ MonoBehaviour:
   - resourceType: 0
     lowest: 1
     highest: 1
+  - resourceType: 2
+    lowest: 1
+    highest: 1
+  - resourceType: 3
+    lowest: 1
+    highest: 1

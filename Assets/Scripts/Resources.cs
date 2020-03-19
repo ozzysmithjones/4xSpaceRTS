@@ -5,15 +5,20 @@ using UnityEngine;
 
 public enum ResourceType
 {
-    ENERGY,
+    FOOD,
+    STABILITY,
     MATERIALS,
-    DEATHMATTER
+    SCIENCE
 }
-
-[System.Serializable]
 public class Resources 
 {
-    public int[] amounts = new int[3];
+    public int[] amounts;
+
+    public Resources()
+    {
+        int length = ResourceType.GetValues(typeof(ResourceType)).Length;
+        amounts = new int[length];
+    }
 
     public int Total()
     {

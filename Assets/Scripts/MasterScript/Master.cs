@@ -22,12 +22,15 @@ public class Master : MonoBehaviour
     public Characters characters;
     public Interface userInterface;
 
+
+
+
     public int seed = 0;
     public const int collums = 50;
     public const int rows = 50;
-    
 
 
+  
 
 
     // Start is called before the first frame update

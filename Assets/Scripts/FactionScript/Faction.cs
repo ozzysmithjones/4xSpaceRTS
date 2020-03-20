@@ -5,39 +5,39 @@ using UnityEngine;
 [System.Serializable]
 public class Faction  
 {
-    //the territory owned by the faction.(some wanderer factions may not own any territory.)
+    public int factionIndex;
+
+    //territory control
     public List<Star> colonies = new List<Star>();
     public List<Star> territory = new List<Star>();
     public List<Star> outerRim = new List<Star>();
 
-    //the colour of this faction.
+    //cosmetic
     public string factionName;
     public Color flagColor;
 
-    //the different ship and structure types avalible to this faction:
+    //building
     public BuiltShip[] shipTypes;
     public BuiltStructure[] structureTypes;
 
-    //this integer indicates which index this faction is in the array.
-    public int factionIndex;
-
+    //Economy
     public Resources resources = new Resources();
     public Resources resourceProduction = new Resources();
     public int expansionCost = 100;
 
+    //military:
     public List<Navigator> fleets = new List<Navigator>();
 
+    //species and internal politics: 
+    public List<Species> species;
 
 
-    //randomises this faction.
     public Faction(int index,Color flagColor, string factionName)
     {
         factionIndex = index;
 
         this.factionName = factionName;
         this.flagColor = flagColor;
-
-        
     }
 
 
@@ -50,9 +50,6 @@ public class Faction
     {
 
     }
-
-
-    
     public void AddToTerritory(Star star, bool showOuterRim = false, bool colony = false)
     {
         
@@ -100,10 +97,6 @@ public class Faction
                 outerRim.Remove(connectedStars[i]);
             }
         }
-
-
-
-
     }
 
 

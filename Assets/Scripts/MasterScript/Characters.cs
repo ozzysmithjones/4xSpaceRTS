@@ -5,6 +5,8 @@ using UnityEngine;
 public class Characters : MonoBehaviour
 {
     public const int totalFactions = 3;
+    public Species[] species;
+    public PoliticalGroup[] politicalGroups;
     public List<Faction> factions;
     public Weight[] weights; 
 

@@ -5,22 +5,14 @@ using UnityEngine;
 public class PlanetColony : MonoBehaviour
 {
 
-
-
-    public List<Queue> buildQueue = new List<Queue>();
-    public int buildQueueIndex = -1;
     public Planet planet;
 
-    //public List<BuiltStructure> builtStructures = new List<BuiltStructure>();
-    public int[] builtStructures = new int[10];
-
-
-    //the speed at which new buildings and ships are built.
-    public float manufactoring = 1f;
-
-
-
     public bool buildQueueRunning = false;
+    public List<Queue> buildQueue = new List<Queue>();
+    public int buildQueueIndex = -1;
+
+    public int[] builtStructures = new int[10];
+   
 
     public delegate void BuildQueueChange(List<Queue> buildQueue);
     public event BuildQueueChange OnBuildQueueChange;

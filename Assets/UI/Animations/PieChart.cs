@@ -61,7 +61,7 @@ public class PieChart : MonoBehaviour
             wedges[i].SetStartAngle(lastAngle);
             wedges[i].SetSize(relativeSizes[i]);
             wedges[i].SetColor(colors[i]);
-            lastAngle -= relativeSizes[i] * 360f;
+            lastAngle += relativeSizes[i] * 360f;
         }
 
     }
@@ -77,7 +77,7 @@ public class PieChart : MonoBehaviour
         {
             wedges[i].SetStartAngle(lastAngle);
             wedges[i].SetSize(relativeSizes[i]);
-            lastAngle -= relativeSizes[i] * 360f;
+            lastAngle += relativeSizes[i] * 360f;
         }
     }
 

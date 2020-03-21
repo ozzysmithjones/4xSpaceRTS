@@ -7,6 +7,8 @@ public class PieChartWedge : MonoBehaviour
 {
     public Image wedgeImage;
 
+    public float startAngle = 0.0f;
+    public float endAngle = 0.0f;
     public void SetColor(Color color)
     {
         wedgeImage.color = color;
@@ -18,15 +20,7 @@ public class PieChartWedge : MonoBehaviour
     }
     public float GetStartAngle()
     {
-        if(transform.eulerAngles.z < 0.0f)
-        {
-            return 360.0f - transform.eulerAngles.z;
-        }
-        else
-        {
-            return transform.eulerAngles.z;
-        }
-        
+        return Calculation.WrapAngle(transform.eulerAngles.z); ;
     }
     public void SetSize(float size)
     {
@@ -38,6 +32,15 @@ public class PieChartWedge : MonoBehaviour
     }
     public float GetEndAngle()
     {
-        return GetStartAngle() - (wedgeImage.fillAmount * 360.0f);
+        float angle = GetStartAngle() + (wedgeImage.fillAmount * 360.0f);
+        if(angle >= 360.0f)
+        {
+            angle = 360.0f;
+        }
+        return angle;
+
+        
     }
+
+   
 }

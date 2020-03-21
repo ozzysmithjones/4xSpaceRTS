@@ -3317,7 +3317,6 @@ GameObject:
   - component: {fileID: 451658976}
   - component: {fileID: 451658978}
   - component: {fileID: 451658980}
-  - component: {fileID: 451658979}
   m_Layer: 5
   m_Name: Wedge (2)
   m_TagString: Untagged
@@ -3394,18 +3393,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wedgeImage: {fileID: 451658976}
---- !u!114 &451658979
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 451658974}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed28efbb8f3f90748a9fef7553ffb16f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &451658980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5169,7 +5156,6 @@ GameObject:
   - component: {fileID: 687856918}
   - component: {fileID: 687856920}
   - component: {fileID: 687856922}
-  - component: {fileID: 687856921}
   m_Layer: 5
   m_Name: Wedge (1)
   m_TagString: Untagged
@@ -5246,18 +5232,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wedgeImage: {fileID: 687856918}
---- !u!114 &687856921
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 687856916}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed28efbb8f3f90748a9fef7553ffb16f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &687856922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5671,7 +5645,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 391286634}
   m_HandleRect: {fileID: 391286633}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -5767,7 +5741,6 @@ GameObject:
   - component: {fileID: 751327805}
   - component: {fileID: 751327804}
   - component: {fileID: 751327807}
-  - component: {fileID: 751327803}
   m_Layer: 5
   m_Name: Wedge (3)
   m_TagString: Untagged
@@ -5794,18 +5767,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0.000030517578, y: -0.000030517578}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &751327803
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 751327801}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed28efbb8f3f90748a9fef7553ffb16f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &751327804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6089,7 +6050,6 @@ GameObject:
   - component: {fileID: 830415788}
   - component: {fileID: 830415789}
   - component: {fileID: 830415791}
-  - component: {fileID: 830415790}
   - component: {fileID: 830415787}
   m_Layer: 5
   m_Name: Wedge
@@ -6167,18 +6127,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wedgeImage: {fileID: 830415787}
---- !u!114 &830415790
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 830415785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed28efbb8f3f90748a9fef7553ffb16f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &830415791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6911,7 +6859,6 @@ GameObject:
   - component: {fileID: 914923567}
   - component: {fileID: 914923566}
   - component: {fileID: 914923569}
-  - component: {fileID: 914923565}
   m_Layer: 5
   m_Name: Wedge (4)
   m_TagString: Untagged
@@ -6938,18 +6885,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0.000030517578, y: -0.000030517578}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &914923565
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 914923563}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed28efbb8f3f90748a9fef7553ffb16f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &914923566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17086,6 +17021,9 @@ GameObject:
   - component: {fileID: 1976442251}
   - component: {fileID: 1976442252}
   - component: {fileID: 1976442253}
+  - component: {fileID: 1976442256}
+  - component: {fileID: 1976442255}
+  - component: {fileID: 1976442254}
   m_Layer: 5
   m_Name: PieChart
   m_TagString: Untagged
@@ -17155,6 +17093,55 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &1976442254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1976442250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 21300000, guid: 27ecfa977af8d014ab46d349982a0f34, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+--- !u!222 &1976442255
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1976442250}
+  m_CullTransparentMesh: 0
+--- !u!114 &1976442256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1976442250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed28efbb8f3f90748a9fef7553ffb16f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1983465396
 PrefabInstance:
   m_ObjectHideFlags: 0

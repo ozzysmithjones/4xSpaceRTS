@@ -6,29 +6,41 @@ using UnityEngine.EventSystems;
 public class WedgePress : MonoBehaviour, IPointerDownHandler
 {
     RectTransform rectTransform;
-    PieChartWedge pieChartWedge;
+    PieChart pieChart;
 
     private void Start()
     {
         rectTransform = transform as RectTransform;
-        pieChartWedge = GetComponent<PieChartWedge>();
+        pieChart = GetComponent<PieChart>();
     }
     public void OnPointerDown(PointerEventData eventData)
     {
         Vector2 diff = eventData.position - (Vector2)rectTransform.position;
         float angle = VectorToPieAngle(diff);
 
-        if(angle < pieChartWedge.GetStartAngle() && angle > pieChartWedge.GetEndAngle())
+        Debug.Log(angle);
+        for (int i = 0; i < pieChart.wedges.Length; i++)
         {
-            Debug.Log("hit " + name);
+            if(pieChart.wedges[i].wedgeImage.fillAmount <= 0.0f)
+            {
+                continue;
+            }
+            float startAngle = pieChart.wedges[i].GetStartAngle();
+            float endAngle = pieChart.wedges[i].GetEndAngle();
+
+            if (angle > startAngle && angle < endAngle) 
+            {
+                Debug.Log("hit " + pieChart.wedges[i].name);
+            } 
+            
         }
+ 
     }
 
     private static float VectorToPieAngle(Vector2 diff)
     {
         float angle = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
-        angle *= -1;
-        angle -= 90.0f;
+        angle += 90.0f;
 
         if (angle < 0.0f)
         {
@@ -40,5 +52,13 @@ public class WedgePress : MonoBehaviour, IPointerDownHandler
         }
 
         return angle;
+    }
+
+    private float AngleDifference(float a, float b)
+    {
+        float diff = b - a;
+
+        return Calculation.WrapAngle(diff);
+
     }
 }

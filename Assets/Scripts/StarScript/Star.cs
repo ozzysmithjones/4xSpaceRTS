@@ -72,7 +72,7 @@ public class Star : MonoBehaviour
         {
             isColony = true;
             TakeOver(factionIndex, true);
-            starGeneration.planets[0].Colonise();
+            starGeneration.planets[0].Colonise(factionIndex);
 
             for (int i = 0; i < 3; i++)
             {
@@ -150,10 +150,10 @@ public class Star : MonoBehaviour
         }
     }
 
-    public void Colonise(int planetIndex = 0)
+    public void Colonise(int factionIndex,int planetIndex = 0)
     {
         isColony = true;
-        starGeneration.planets[planetIndex].Colonise();
+        starGeneration.planets[planetIndex].Colonise(factionIndex);
     }
 
     public void SetSelector(bool active, Color color)

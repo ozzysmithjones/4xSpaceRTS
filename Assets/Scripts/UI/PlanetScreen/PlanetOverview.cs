@@ -11,6 +11,8 @@ public class PlanetOverview : MonoBehaviour
     public PlanetOverviewBuildQueue buildQueue;
     public BuildMenu buildMenu;
 
+    public PlanetOverviewSpeciesOverview speciesOverview;
+
 
     private void Awake()
     {
@@ -25,6 +27,8 @@ public class PlanetOverview : MonoBehaviour
         planet = newPlanet;
         buildQueue.UpdateQueueChange(planet.planetColony.buildQueue);
         planet.planetColony.ListenToBuildQueue(buildQueue.UpdateQueueChange, true);
+        speciesOverview.OnPopulationChange(planet.planetColony.populations);
+        planet.planetColony.ListenToPopulation(speciesOverview.OnPopulationChange, true);
         alreadyBuilt.UpdateAllQuantities();
         description.UpdateDescription(newPlanet);
     }
@@ -42,6 +46,7 @@ public class PlanetOverview : MonoBehaviour
         if (planet != null)
         {
             planet.planetColony.ListenToBuildQueue(buildQueue.UpdateQueueChange, false);
+            planet.planetColony.ListenToPopulation(speciesOverview.OnPopulationChange, false);
         }
         Master.instance.userInterface.planetOverviewOpen = false;
         gameObject.SetActive(false);

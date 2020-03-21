@@ -43,10 +43,10 @@ public class Planet : MonoBehaviour
 
 
 
-    public void Colonise()
+    public void Colonise(int factionIndex)
     {
         isColony = true;
-        planetColony.Colonise();
+        planetColony.Colonise(factionIndex);
       
     }
 

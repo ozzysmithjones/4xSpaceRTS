@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
 public class PieChartWedge : MonoBehaviour
 {
     public Image wedgeImage;
 
+    public int index = -1;
     public float startAngle = 0.0f;
     public float endAngle = 0.0f;
+
     public void SetColor(Color color)
     {
         wedgeImage.color = color;

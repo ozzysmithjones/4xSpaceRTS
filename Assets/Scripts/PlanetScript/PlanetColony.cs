@@ -11,11 +11,16 @@ public class PlanetColony : MonoBehaviour
     public List<Queue> buildQueue = new List<Queue>();
     public int buildQueueIndex = -1;
 
+    public int totalStructures = 0;
     public int[] builtStructures = new int[10];
-   
+    public delegate void OnBuildQueueChange(List<Queue> buildQueue);
+    public event OnBuildQueueChange BuildQueueChange;
 
-    public delegate void BuildQueueChange(List<Queue> buildQueue);
-    public event BuildQueueChange OnBuildQueueChange;
+
+    public int totalPopulation = 0;
+    public List<Population> populations = new List<Population>();
+    public delegate void OnPopulationChange(List<Population> populations);
+    public event OnPopulationChange PopulationChange;
 
     // Start is called before the first frame update
     void Start()
@@ -30,38 +35,53 @@ public class PlanetColony : MonoBehaviour
 
     }
 
-    public void Colonise()
+    public void Colonise(int factionIndex)
     {
-        
+        AddPop(Master.instance.characters.factions[factionIndex].species[0].index);
     }
 
+    
+    public void ListenToPopulation(OnPopulationChange onPopulationChange, bool listening)
+    {
+        if (listening)
+        {
+            PopulationChange += onPopulationChange;
+
+        }
+        else
+        {
+             PopulationChange -= onPopulationChange;
+        }
+    }
+
+    public void ListenToBuildQueue(OnBuildQueueChange onBuildQueueChange, bool listening)
+    {
+        if (listening)
+        {
+            BuildQueueChange += onBuildQueueChange;
+            
+        }
+        else
+        {
+            BuildQueueChange -= onBuildQueueChange;
+        }
+    }
     public void AddStructure(BuiltStructure builtStructure)
     {
-        
+        totalStructures++;
         builtStructures[builtStructure.classIndex]++;
 
         if (Master.instance.userInterface.planetOverviewOpen && Master.instance.userInterface.planetOverview.planet == planet)
         {
             Master.instance.userInterface.planetOverview.alreadyBuilt.UpdateQuantity(builtStructure.classIndex);
         }
-        
+
     }
 
-    public void ListenToBuildQueue(BuildQueueChange buildQueueChange, bool listening)
-    {
-        if (listening)
-        {
-            OnBuildQueueChange += buildQueueChange;
-            
-        }
-        else
-        {
-            OnBuildQueueChange -= buildQueueChange;
-        }
-    }
 
     public void RemoveStructure(BuiltStructure builtStructure)
     {
+        totalStructures--;
         builtStructures[builtStructure.classIndex]--;
 
         if(builtStructures[builtStructure.classIndex] < 0)
@@ -74,7 +94,52 @@ public class PlanetColony : MonoBehaviour
         }
     }
 
-    
+
+    public void AddPop(int speciesIndex)
+    {
+        totalPopulation++;
+        for (int i = 0; i < populations.Count; i++)
+        {
+            if (populations[i].species.index == speciesIndex)
+            {
+                populations[i].size++;
+                if (PopulationChange != null)
+                {
+                    PopulationChange.Invoke(populations);
+                }
+                return;
+            }
+        }
+        populations.Add(new Population(Master.instance.characters.species[speciesIndex], 1, 1.0f));
+        if (PopulationChange != null)
+        {
+            PopulationChange.Invoke(populations);
+        }
+    }
+
+    public void RemovePop(int speciesIndex)
+    {
+        for (int i = 0; i < populations.Count; i++)
+        {
+            if (populations[i].species.index == speciesIndex)
+            {
+                totalPopulation--;
+                populations[i].size--;
+                if (PopulationChange != null)
+                {
+                    PopulationChange.Invoke(populations);
+                }
+                if (populations[i].size <= 0)
+                {
+                    populations.RemoveAt(i);
+                }
+                return;
+            }
+        }
+    }
+
+
+
     public IEnumerator BeginBuildQueue()
     {
         if(buildQueue.Count <= 0)
@@ -111,9 +176,9 @@ public class PlanetColony : MonoBehaviour
                // i--;
             }
 
-            if (OnBuildQueueChange != null)
+            if (BuildQueueChange != null)
             {
-                OnBuildQueueChange.Invoke(buildQueue);
+                BuildQueueChange.Invoke(buildQueue);
             }
         }
         buildQueueRunning = false;
@@ -152,9 +217,9 @@ public class PlanetColony : MonoBehaviour
             StartCoroutine(BeginBuildQueue());
 
         }
-        if (OnBuildQueueChange != null)
+        if (BuildQueueChange != null)
         {
-            OnBuildQueueChange.Invoke(buildQueue);
+            BuildQueueChange.Invoke(buildQueue);
         }
     }
 
@@ -181,7 +246,7 @@ public class PlanetColony : MonoBehaviour
            // StartCoroutine(BeginBuildQueue());
         }
 
-        OnBuildQueueChange.Invoke(buildQueue);
+        BuildQueueChange.Invoke(buildQueue);
 
     }
 

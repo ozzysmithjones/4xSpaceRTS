@@ -31,6 +31,8 @@ public class Faction
     //species and internal politics: 
     public List<Species> species;
 
+    private Timer PopulationGrowthTimer;
+    public float PopulationGrowthSpeed = 0.1f;
 
     public Faction(int index,Color flagColor, string factionName)
     {
@@ -38,6 +40,8 @@ public class Faction
 
         this.factionName = factionName;
         this.flagColor = flagColor;
+
+        PopulationGrowthTimer = new Timer(1.0f, GrowPopulation);
     }
 
 
@@ -48,8 +52,16 @@ public class Faction
 
     public virtual void Update(float deltaTime)
     {
-
+        PopulationGrowthTimer.Tick(PopulationGrowthSpeed * Time.deltaTime / colonies.Count);
     }
+    public void GrowPopulation()
+    {
+        for(int i = 0; i < colonies.Count; i++)
+        {
+            colonies[i].starGeneration.planets[0].planetColony.AddPop(species[0].index);
+        }
+    }
+  
     public void AddToTerritory(Star star, bool showOuterRim = false, bool colony = false)
     {
         

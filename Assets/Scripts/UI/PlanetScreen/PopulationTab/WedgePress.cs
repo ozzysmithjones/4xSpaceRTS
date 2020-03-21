@@ -8,17 +8,29 @@ public class WedgePress : MonoBehaviour, IPointerDownHandler
     RectTransform rectTransform;
     PieChart pieChart;
 
+    public delegate void OnClickWedge(PieChartWedge pieChartWedge);
+    public event OnClickWedge ClickWedge;
+
     private void Start()
     {
         rectTransform = transform as RectTransform;
         pieChart = GetComponent<PieChart>();
     }
+
+    public void AddToClickEvent(OnClickWedge onClickWedge)
+    {
+        ClickWedge += onClickWedge;
+    }
+    public void RemoveFromClickEvent(OnClickWedge onClickWedge)
+    {
+        ClickWedge -= onClickWedge;
+    }
+
     public void OnPointerDown(PointerEventData eventData)
     {
         Vector2 diff = eventData.position - (Vector2)rectTransform.position;
         float angle = VectorToPieAngle(diff);
 
-        Debug.Log(angle);
         for (int i = 0; i < pieChart.wedges.Length; i++)
         {
             if(pieChart.wedges[i].wedgeImage.fillAmount <= 0.0f)
@@ -30,7 +42,8 @@ public class WedgePress : MonoBehaviour, IPointerDownHandler
 
             if (angle > startAngle && angle < endAngle) 
             {
-                Debug.Log("hit " + pieChart.wedges[i].name);
+                ClickWedge.Invoke(pieChart.wedges[i]);
+                break;
             } 
             
         }

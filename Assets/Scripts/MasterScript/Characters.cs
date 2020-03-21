@@ -46,7 +46,7 @@ public class Characters : MonoBehaviour
             factions.Add(CreateFaction(i,shipTypes, structureTypes));
 
             star = Master.instance.enviroment.RandomStar();
-            star.Colonise(0);
+            star.Colonise(i,0);
             star.TakeOver(i);
 
 
@@ -86,6 +86,9 @@ public class Characters : MonoBehaviour
         instance.structureTypes = structureTypes;
         instance.shipTypes = shipTypes;
 
+        instance.species = new List<Species>();
+        instance.species.Add(species[0]);
+
         return instance;
     }
 
@@ -96,8 +99,6 @@ public class Characters : MonoBehaviour
             if(weights[i].name == name)
             {
                 return weights[i];
-
-
             }
 
 
@@ -119,4 +120,5 @@ public class Characters : MonoBehaviour
         }
 
     }
+  
 }

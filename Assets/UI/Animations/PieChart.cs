@@ -51,6 +51,11 @@ public class PieChart : MonoBehaviour
 
     public void UpdateWedges(float[] values, Color[] colors)
     {
+        for(int i = 0; i < wedges.Length; i++)
+        {
+            wedges[i].index = -1;
+            wedges[i].SetSize(0.0f);
+        }
         this.values = values;
         this.colors = colors;
         this.relativeSizes = RelativeSizes(values);
@@ -58,6 +63,7 @@ public class PieChart : MonoBehaviour
         float lastAngle = 0.0f; 
         for(int i = 0; i < relativeSizes.Length;i++)
         {
+            wedges[i].index = i;
             wedges[i].SetStartAngle(lastAngle);
             wedges[i].SetSize(relativeSizes[i]);
             wedges[i].SetColor(colors[i]);
@@ -75,6 +81,7 @@ public class PieChart : MonoBehaviour
         float lastAngle = 0.0f;
         for (int i = 0; i < relativeSizes.Length; i++)
         {
+            wedges[i].index = i;
             wedges[i].SetStartAngle(lastAngle);
             wedges[i].SetSize(relativeSizes[i]);
             lastAngle += relativeSizes[i] * 360f;

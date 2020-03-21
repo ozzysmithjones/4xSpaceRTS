@@ -9,20 +9,19 @@ using UnityEngine;
 
 public class Population 
 {
-    public int speciesIndex;
+    public Species species;
     public int size;
     public float happyness;
 
-    public Population(int speciesIndex, int size, float happyness)
+    public Population(Species speciesIndex, int size, float happyness)
     {
-        this.speciesIndex = speciesIndex;
+        this.species = speciesIndex;
         this.size = size;
         this.happyness = happyness;
     }
 
     public float CalculateHappyness(float[] politicalStance)
     {
-        Species species = Master.instance.characters.species[speciesIndex];
         float value = 0.0f;
         float max = 0.0f;
         for(int i = 0; i < species.politicalBias.Length; i++)

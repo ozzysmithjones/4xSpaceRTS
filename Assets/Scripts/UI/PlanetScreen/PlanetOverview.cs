@@ -25,10 +25,15 @@ public class PlanetOverview : MonoBehaviour
     {
 
         planet = newPlanet;
+
         buildQueue.UpdateQueueChange(planet.planetColony.buildQueue);
         planet.planetColony.ListenToBuildQueue(buildQueue.UpdateQueueChange, true);
+
+        speciesOverview.DisplayDominantPopulation(planet.planetColony.populations);
         speciesOverview.OnPopulationChange(planet.planetColony.populations);
         planet.planetColony.ListenToPopulation(speciesOverview.OnPopulationChange, true);
+
+
         alreadyBuilt.UpdateAllQuantities();
         description.UpdateDescription(newPlanet);
     }

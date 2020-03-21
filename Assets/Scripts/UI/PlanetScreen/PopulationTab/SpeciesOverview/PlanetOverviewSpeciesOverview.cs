@@ -19,6 +19,37 @@ public class PlanetOverviewSpeciesOverview : MonoBehaviour
     {
         wedgePress.AddToClickEvent(OnPieChartWedgePress);
     }
+    public void DisplayDominantPopulation(List<Population> populations)
+    {
+        if(populations.Count <= 0)
+        {
+            return;
+        }
+
+        int highest = 0;
+        int index = 0;
+        for(int i = 0; i < populations.Count; i++)
+        {
+            if(populations[i].size > highest)
+            {
+                highest = populations[i].size;
+                index = i;
+            }
+        }
+
+        selectedSpecies = populations[index].species;
+        speciesAnimation.SetInteger("SpeciesType", selectedSpecies.animation);
+        speciesTitle.text = selectedSpecies.name;
+        speciesDescription.text = selectedSpecies.description;
+
+    }
+
+    public void OnPopulationChange(List<Population> populations)
+    {
+        this.populations = populations;
+        UpdatePieChart(populations);
+    }
+
     private void OnPieChartWedgePress(PieChartWedge pieChartWedge)
     {
         selectedSpecies = populations[pieChartWedge.index].species;
@@ -27,11 +58,7 @@ public class PlanetOverviewSpeciesOverview : MonoBehaviour
         speciesDescription.text = selectedSpecies.description;
     }
 
-    public void OnPopulationChange(List<Population> populations)
-    {
-        this.populations = populations;
-        UpdatePieChart(populations);
-    }
+   
 
     private void UpdatePieChart(List<Population> populations)
     {
@@ -47,5 +74,7 @@ public class PlanetOverviewSpeciesOverview : MonoBehaviour
         }
         pieChart.UpdateWedges(values, colors);
     }
+
+    
     
 }

@@ -84,17 +84,10 @@ public class PlanetColony : MonoBehaviour
         }
 
         buildQueueRunning = true;
-
-        //buildQueueIndex = 0;
-
         buildQueue[0].startTime = Time.time;
 
         while(buildQueue.Count > 0)
-        //for (; ; )
         {
-
-            //buildQueueIndex = i;
-
             yield return StartCoroutine(BuildSequence(0));
             if(buildQueue.Count <= 0)
             {
@@ -123,7 +116,6 @@ public class PlanetColony : MonoBehaviour
                 OnBuildQueueChange.Invoke(buildQueue);
             }
         }
-        //buildQueue.Clear();
         buildQueueRunning = false;
         buildQueueIndex = -1;
         yield break;

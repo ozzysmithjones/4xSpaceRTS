@@ -70,7 +70,7 @@ public class Planet : MonoBehaviour
 
     public void ImproveResourceproduction(ResourceType resourceType, int amount)
     {
-        star.starEconomy.ImproveResourceProduction(resourceType, amount);
+        star.starEconomy.ModifyResourceProduction(resourceType, amount);
     }
 
     

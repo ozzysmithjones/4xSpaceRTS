@@ -38,7 +38,7 @@ public class StarEconomy : MonoBehaviour
 
     }
 
-    public void ImproveResourceProduction(ResourceType resourceType, int amount)
+    public void ModifyResourceProduction(ResourceType resourceType, int amount)
     {
         resourceProduction.amounts[(int)resourceType] += amount;
         Master.instance.characters.factions[star.factionIndex].ImproveResourceProduction(resourceType, amount);

@@ -27,16 +27,20 @@ public class Player : Faction
 
     }
 
-    public override void ImproveResourceProduction(ResourceType resourceType, int amount)
+    public override void ProduceResources()
     {
-        base.ImproveResourceProduction(resourceType, amount);
+        base.ProduceResources();
 
-        resourcesText[(int)resourceType].text = ResourceText(resourceType);
+        for(int i = 0; i < totalResourceProduction.amounts.Length; i++)
+        {
+            ResourceText((ResourceType)i);
+        }
+       
     }
 
     private string ResourceText(ResourceType resourceType)
     {
-        string production = resourceProduction.amounts[(int)resourceType] >= 0 ? "+" + resourceProduction.amounts[(int)resourceType] : "-" + -resourceProduction.amounts[(int)resourceType];
+        string production = totalResourceProduction.amounts[(int)resourceType] >= 0 ? "+" + totalResourceProduction.amounts[(int)resourceType] : "-" + -totalResourceProduction.amounts[(int)resourceType];
         return resourceType.ToString() + ": " + this.resources.amounts[(int)resourceType] + " " + production;
     }
 }

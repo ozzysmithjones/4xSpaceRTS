@@ -24,4 +24,10 @@ public class Resources
             amount += amounts[i];
         return amount;
     }
+
+    public void Clear()
+    {
+        for (int i = 0; i < amounts.Length; i++)
+            amounts[i] = 0;
+    }
 }

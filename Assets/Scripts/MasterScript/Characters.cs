@@ -115,7 +115,7 @@ public class Characters : MonoBehaviour
 
             for (int i = 0; i < factions.Count; i++)
             {
-                factions[i].Gather(factions[i].resourceProduction);
+                factions[i].ProduceResources();
             }
         }
 

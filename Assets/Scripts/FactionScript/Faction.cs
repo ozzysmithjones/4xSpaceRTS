@@ -21,7 +21,8 @@ public class Faction
 
     //Economy
     public Resources resources = new Resources();
-    public Resources resourceProduction = new Resources();
+    public Resources spaceResourceProduction = new Resources();
+    protected Resources totalResourceProduction = new Resources();
     public int expansionCost = 100;
 
     //military:
@@ -54,6 +55,10 @@ public class Faction
 
         PopulationGrowthTimer.Tick(PopulationGrowthSpeed * deltaTime / colonies.Count);
     }
+
+ 
+
+
     public void GrowPopulation()
     {
 
@@ -155,11 +160,44 @@ public class Faction
 
     }
 
-    public virtual void ImproveResourceProduction(ResourceType resourceType, int amount)
+    public virtual void ProduceResources()
     {
-        resourceProduction.amounts[(int)resourceType] += amount;
+        totalResourceProduction.Clear();
+        int[] colonyproduction = GetColonyResourceProduction();
 
+        for (int i = 0; i < totalResourceProduction.amounts.Length; i++)
+        {
+            totalResourceProduction.amounts[i] += colonyproduction[i] + spaceResourceProduction.amounts[i];
+        }
+
+        Gather(totalResourceProduction);
         
+    }
+
+
+    public void SetResourceAmount(ResourceType resourceType, int amount)
+    {
+        this.resources.amounts[(int)resourceType] = amount;
+    }
+
+    public void ModifySpaceResourceProduction(ResourceType resourceType, int amount)
+    {
+        spaceResourceProduction.amounts[(int)resourceType] += amount;
+    }
+
+    public int[] GetColonyResourceProduction()
+    {
+        int[] totalOutput = new int[spaceResourceProduction.amounts.Length];
+        for (int i = 0; i < colonies.Count; i++)
+        {
+            int[] colonyOutput = colonies[i].starEconomy.GetColonyResourceproduction();
+            for (int o = 0; o < totalOutput.Length; o++)
+            {
+                totalOutput[o] += colonyOutput[o];
+            }
+        }
+
+        return totalOutput;
     }
 
     public bool Pay(int cost, ResourceType resourceType = ResourceType.MATERIALS)

@@ -261,22 +261,42 @@ public class PlanetColony : MonoBehaviour
 
     }
 
-    public int ModifyResourceProduction(ResourceType resourceType, int amount)
+    public void ModifyResourceProduction(ResourceType resourceType, int amount)
     {
         resourceProduction.amounts[(int)resourceType] += amount;
-        planet.star.starEconomy.ModifyResourceProduction(resourceType, Mathf.RoundToInt(amount * resourceBonus[(int)resourceType] * stability));
-        return resourceProduction.amounts[(int)resourceType];
     }
 
-    public float ModifyResourceBonus(ResourceType resourceType, float amount)
+    
+
+    public int[] ProduceResources()
     {
-        int oldPrtoduction = Mathf.RoundToInt(resourceProduction.amounts[(int)resourceType] * resourceBonus[(int)resourceType] * stability);
-        resourceBonus[(int)resourceType] += amount;
-        int newProduction = Mathf.RoundToInt(resourceProduction.amounts[(int)resourceType] * resourceBonus[(int)resourceType] * stability);
+        CalculateStability();
+        int[] output = new int[resourceProduction.amounts.Length];
+        for(int i = 0; i < output.Length; i++)
+        {
+            float stability = resourceProduction.amounts[i] > 0 ? this.stability : 1.0f;
+            output[i] = (int)(resourceProduction.amounts[i] * stability * resourceBonus[i]);
+        }
 
-        planet.star.starEconomy.ModifyResourceProduction(resourceType, newProduction - oldPrtoduction);
-        return resourceBonus[(int)resourceType];
+        return output;
     }
+
+    private float CalculateStability()
+    {
+        Faction faction = Master.instance.characters.factions[planet.star.factionIndex];
+
+        if (faction.resources.amounts[(int)ResourceType.FOOD] > 0)
+        {
+            stability = 1.0f;
+            return 1.0f;
+        }
+        else
+        {
+            stability = 0.25f;
+            return 0.0f;
+        }
+    }
+
 
 
 

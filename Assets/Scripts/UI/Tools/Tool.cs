@@ -1,14 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-[System.Serializable]
-public class Tool 
+﻿[System.Serializable]
+public class Tool
 {
 
     public virtual void OnSelected()
     {
-       
+
     }
 
     public virtual void OnDeselected()

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Player : Faction
@@ -9,7 +7,7 @@ public class Player : Faction
 
 
     //randomises this faction.
-    public Player(int index, Color flagColor, string factionName) : base(index,flagColor,factionName)
+    public Player(int index, Color flagColor, string factionName) : base(index, flagColor, factionName)
     {
         resourcesText = Master.instance.userInterface.resourcesText;
     }
@@ -18,21 +16,27 @@ public class Player : Faction
     public override void Gather(Resources resources)
     {
         base.Gather(resources);
-        for(int i = 0; i < resourcesText.Length; i++)
+        for (int i = 0; i < resourcesText.Length; i++)
         {
-            if(resources.amounts[i] == 0)
+            if (resources.amounts[i] == 0)
             {
                 continue;
             }
-            resourcesText[i].text = ((ResourceType)i).ToString() + ": " + this.resources.amounts[i] + " +" + this.resourceProduction.amounts[i];
+            resourcesText[i].text = ResourceText((ResourceType)i);
         }
-       
+
     }
 
     public override void ImproveResourceProduction(ResourceType resourceType, int amount)
     {
         base.ImproveResourceProduction(resourceType, amount);
-        string pos = resourceProduction.amounts[(int)resourceType] > 0 ? " +" : " -";
-        resourcesText[(int)resourceType].text = resourceType.ToString() + ": " + this.resources.amounts[(int)resourceType] + pos + this.resourceProduction.amounts[(int)resourceType];
+
+        resourcesText[(int)resourceType].text = ResourceText(resourceType);
+    }
+
+    private string ResourceText(ResourceType resourceType)
+    {
+        string production = resourceProduction.amounts[(int)resourceType] >= 0 ? "+" + resourceProduction.amounts[(int)resourceType] : "-" + -resourceProduction.amounts[(int)resourceType];
+        return resourceType.ToString() + ": " + this.resources.amounts[(int)resourceType] + " " + production;
     }
 }

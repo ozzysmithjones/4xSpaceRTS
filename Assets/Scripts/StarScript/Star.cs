@@ -10,7 +10,7 @@ public class Star : MonoBehaviour
     public int position;
     public int planets;
 
-    
+
     public LineRenderer starSelect;
     public StarConstruction starConstruction;
     public StarVisibility starVisibility;
@@ -29,13 +29,13 @@ public class Star : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       // Initialise();
+        // Initialise();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
 
@@ -54,7 +54,7 @@ public class Star : MonoBehaviour
         starUI = GetComponent<StarUI>();
 
         starShipManager.Initialise();
-        
+
     }
 
     public void InitialisePlanets()
@@ -81,7 +81,7 @@ public class Star : MonoBehaviour
         }
     }
 
-    
+
 
     public void TakeOver(int invader, bool showOuterRim = false)
     {
@@ -105,9 +105,9 @@ public class Star : MonoBehaviour
         Faction faction = Master.instance.characters.factions[factionIndex];
 
         starUI.SetUIColor(faction.flagColor);
-       
+
         //faction.territory.Add(this);
-        faction.AddToTerritory(this,showOuterRim,isColony);
+        faction.AddToTerritory(this, showOuterRim, isColony);
 
         starUI.SetUIColor(faction.flagColor);
 
@@ -122,22 +122,14 @@ public class Star : MonoBehaviour
         {
             starVisibility.IncrementFogOfWar(1, 1);
         }
-
-        for (int i = 0; i < starGeneration.planets.Length; i++)
-        {
-            starEconomy.ApplyResourceproduction(true);
-        }
+        starEconomy.ApplyResourceproduction(true);
     }
 
     private void RemovePreviousOwnership()
     {
         if (factionIndex >= 0)
         {
-            for (int i = 0; i < starGeneration.planets.Length; i++)
-            {
-                starEconomy.ApplyResourceproduction(false);
-            }
-
+            starEconomy.ApplyResourceproduction(false);
 
             if (factionIndex == 0)
             {
@@ -150,10 +142,11 @@ public class Star : MonoBehaviour
         }
     }
 
-    public void Colonise(int factionIndex,int planetIndex = 0)
+    public void Colonise(int factionIndex, int planetIndex = 0)
     {
         isColony = true;
         starGeneration.planets[planetIndex].Colonise(factionIndex);
+        Master.instance.characters.factions[factionIndex].colonies.Add(this);
     }
 
     public void SetSelector(bool active, Color color)

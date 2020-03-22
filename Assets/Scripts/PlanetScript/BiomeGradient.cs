@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
-[System.Serializable]
+﻿[System.Serializable]
 public class BiomeGradient
 {
 
@@ -11,10 +6,10 @@ public class BiomeGradient
 
     public Biome GetBiomeAtPoint(float point)
     {
-        int index = (int)((float)(biomes.Length-1) * point);
+        int index = (int)((float)(biomes.Length - 1) * point);
         return biomes[index];
 
     }
 
-   
+
 }

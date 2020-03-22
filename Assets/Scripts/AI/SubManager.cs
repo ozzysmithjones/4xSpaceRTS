@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class SubManager : Manager
+﻿public class SubManager : Manager
 {
     public float value;
     public SubManager(AI ai) : base(ai)

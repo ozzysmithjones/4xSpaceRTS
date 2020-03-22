@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class WedgePress : MonoBehaviour, IPointerDownHandler
@@ -33,21 +31,21 @@ public class WedgePress : MonoBehaviour, IPointerDownHandler
 
         for (int i = 0; i < pieChart.wedges.Length; i++)
         {
-            if(pieChart.wedges[i].wedgeImage.fillAmount <= 0.0f)
+            if (pieChart.wedges[i].wedgeImage.fillAmount <= 0.0f)
             {
                 continue;
             }
             float startAngle = pieChart.wedges[i].GetStartAngle();
             float endAngle = pieChart.wedges[i].GetEndAngle();
 
-            if (angle > startAngle && angle < endAngle) 
+            if (angle > startAngle && angle < endAngle)
             {
                 ClickWedge.Invoke(pieChart.wedges[i]);
                 break;
-            } 
-            
+            }
+
         }
- 
+
     }
 
     private static float VectorToPieAngle(Vector2 diff)

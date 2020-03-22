@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Visibility : MonoBehaviour
 {
-    
+
     //private Renderer[] renderers;
     private List<Renderer> renderers = new List<Renderer>();
     private List<Image> images = new List<Image>();
@@ -13,17 +12,17 @@ public class Visibility : MonoBehaviour
     public static bool fogOfWarEnabled = false;
 
     private void Start()
-   {
+    {
         //SetVisibility(false);
         //SetVisibleObjects();
-   }
-    
-   public void SetVisibleObjects()
-   {
+    }
+
+    public void SetVisibleObjects()
+    {
         //lines = GetComponentsInChildren<LineRenderer>();
         renderers.AddRange(GetComponentsInChildren<Renderer>(false));
         images.AddRange(GetComponentsInChildren<Image>(false));
-   }
+    }
 
 
     public virtual void Initialise()
@@ -35,8 +34,8 @@ public class Visibility : MonoBehaviour
         SetVisibleObjects();
     }
 
-   public virtual void SetVisibility(bool visible)
-   {
+    public virtual void SetVisibility(bool visible)
+    {
         if (!fogOfWarEnabled)
         {
             visible = true;
@@ -47,10 +46,10 @@ public class Visibility : MonoBehaviour
             return;
         }
         visibility = visible;
-        
+
         for (int i = 0; i < renderers.Count; i++)
         {
-            if(renderers[i] == null)
+            if (renderers[i] == null)
             {
                 continue;
             }
@@ -66,7 +65,7 @@ public class Visibility : MonoBehaviour
 
     }
 
-   public void AddStaticObject(GameObject thing)
+    public void AddStaticObject(GameObject thing)
     {
         Renderer[] rends = thing.GetComponentsInParent<Renderer>();
         Image[] ims = thing.GetComponentsInChildren<Image>();
@@ -87,12 +86,12 @@ public class Visibility : MonoBehaviour
         images.AddRange(ims);
     }
 
-    
-
-    
 
 
- 
+
+
+
+
 
 
 }

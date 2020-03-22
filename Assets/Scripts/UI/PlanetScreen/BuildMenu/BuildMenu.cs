@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BuildMenu : MonoBehaviour
 {
@@ -9,7 +7,7 @@ public class BuildMenu : MonoBehaviour
 
     private void Awake()
     {
-        for(int i = 0; i < buildOptions.Length; i++)
+        for (int i = 0; i < buildOptions.Length; i++)
         {
             buildOptions[i].buildMenu = this;
         }
@@ -19,18 +17,18 @@ public class BuildMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void Build(BuildQueueItem buildQueueItem, int amount)
     {
-        
+
         //pay for it first.
         Faction faction = Master.instance.characters.factions[planetOverview.planet.star.factionIndex];
         int price = amount * buildQueueItem.buildCost;
@@ -59,5 +57,5 @@ public class BuildMenu : MonoBehaviour
         planetOverview.planet.planetColony.AddToBuildQueue(queue);
     }
 
-   
+
 }

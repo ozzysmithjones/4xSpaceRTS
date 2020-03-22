@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +10,7 @@ public class ShipCarrier : SpaceShip
 
     public IEnumerator WaitForDrones()
     {
-        while(unDockedDrones > 0)
+        while (unDockedDrones > 0)
         {
             yield return new WaitForSeconds(3f);
         }
@@ -26,12 +25,12 @@ public class ShipCarrier : SpaceShip
         }
         if (useAllDrones)
         {
-            
+
             int pathIndex = 0;
 
-            for(int i = 0; i < drones.Count; i++)
+            for (int i = 0; i < drones.Count; i++)
             {
-                
+
                 drones[i].shipCarrier = this;
 
                 drones[i].SetPath(paths[pathIndex]);
@@ -39,18 +38,18 @@ public class ShipCarrier : SpaceShip
                 unDockedDrones++;
 
                 pathIndex++;
-                
-                if(pathIndex >= paths.Count)
+
+                if (pathIndex >= paths.Count)
                 {
                     pathIndex = 0;
                 }
-               
+
             }
             return;
         }
 
 
-        for(int i = 0; i < paths.Count; i++)
+        for (int i = 0; i < paths.Count; i++)
         {
             if (i >= drones.Count)
             {
@@ -63,7 +62,7 @@ public class ShipCarrier : SpaceShip
             drones[i].SetPath(paths[i]);
             drones[i].transform.SetParent(transform.parent);
             unDockedDrones++;
-           
+
         }
     }
 
@@ -75,7 +74,7 @@ public class ShipCarrier : SpaceShip
 
     public void DockAll()
     {
-        for(int i = 0; i < drones.Count; i++)
+        for (int i = 0; i < drones.Count; i++)
         {
             Dock(drones[i]);
         }
@@ -87,7 +86,7 @@ public class ShipCarrier : SpaceShip
         drone.transform.SetParent(transform.parent);
         unDockedDrones++;
     }
-    
+
 
     public void Dock(Drone drone)
     {
@@ -98,7 +97,7 @@ public class ShipCarrier : SpaceShip
 
     public override void SetVisibility(bool visible)
     {
-        for(int i = 0; i < drones.Count; i++)
+        for (int i = 0; i < drones.Count; i++)
         {
             drones[i].SetVisibility(visible);
         }
@@ -108,7 +107,7 @@ public class ShipCarrier : SpaceShip
     {
         base.GiveCargo(faction);
 
-        for(int i = 0; i < drones.Count; i++)
+        for (int i = 0; i < drones.Count; i++)
         {
             drones[i].GiveCargo(faction);
         }

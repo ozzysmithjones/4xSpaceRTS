@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Enviroment : MonoBehaviour
@@ -44,9 +43,9 @@ public class Enviroment : MonoBehaviour
         spawnedStars++;
 
         //add it to the frontier and visited arrays.
-        Node centerNode = new Node(TwoDimToOneDim(collums/2,rows/2,rows),-1,0);
+        Node centerNode = new Node(TwoDimToOneDim(collums / 2, rows / 2, rows), -1, 0);
         frontier.Add(centerNode);
-       
+
 
         while (spawnedStars < numberOfStars && frontier.Count > 0)
         {
@@ -57,7 +56,7 @@ public class Enviroment : MonoBehaviour
 
 
         }
-        
+
         for (int i = 0; i < stars.Length; i++)
         {
             stars[i].InitialisePlanets();
@@ -130,9 +129,9 @@ public class Enviroment : MonoBehaviour
 
     private void InsertNodeBySteps(Node node, List<Node> nodes)
     {
-        for(int i = nodes.Count-1;i >= 0; i--)
+        for (int i = nodes.Count - 1; i >= 0; i--)
         {
-            if(nodes[i].steps < node.steps || i == 0)
+            if (nodes[i].steps < node.steps || i == 0)
             {
                 nodes.Insert(i, node);
                 break;
@@ -142,18 +141,18 @@ public class Enviroment : MonoBehaviour
 
     private Star SpawnStar(int x, int y)
     {
-        Star newStar =  Instantiate(starPrefab, new Vector2(x, y) * space + RandomOffset(), Quaternion.identity).GetComponent<Star>();
+        Star newStar = Instantiate(starPrefab, new Vector2(x, y) * space + RandomOffset(), Quaternion.identity).GetComponent<Star>();
         newStar.Initialise();
 
 
         return newStar;
     }
 
-    int ArrayContains(int[] array,int integer)
+    int ArrayContains(int[] array, int integer)
     {
-        for(int i = 0; i < array.Length; i++)
+        for (int i = 0; i < array.Length; i++)
         {
-            if(array[i] == integer)
+            if (array[i] == integer)
             {
                 return i;
             }
@@ -161,7 +160,7 @@ public class Enviroment : MonoBehaviour
         return -1;
     }
 
-    
+
     //used to convert between two dimensional arrays(filled one collumm at a time) to one dimensional arrays. 
     public int TwoDimToOneDim(int x, int y, int height)
     {
@@ -179,7 +178,7 @@ public class Enviroment : MonoBehaviour
 
     bool InsideBounds(int x, int y)
     {
-        
+
         if (x >= 0 && x < collums)
         {
             if (y >= 0 && y < rows)
@@ -188,13 +187,13 @@ public class Enviroment : MonoBehaviour
             }
             else
             {
-                
+
                 return false;
             }
         }
         else
         {
-            
+
             return false;
         }
     }
@@ -228,12 +227,12 @@ public class Enviroment : MonoBehaviour
         }
         int iterations = 200;
 
-        for(int i = 0; i < iterations; i++)
-        { 
+        for (int i = 0; i < iterations; i++)
+        {
 
             int roll = Random.Range(0, stars.Length);
 
-            if(stars[roll].factionIndex < 0)
+            if (stars[roll].factionIndex < 0)
             {
                 return stars[roll];
             }
@@ -242,7 +241,7 @@ public class Enviroment : MonoBehaviour
         return null;
     }
 
-   
+
 
 
 

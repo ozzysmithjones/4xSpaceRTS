@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class IconData : MonoBehaviour 
+public class IconData : MonoBehaviour
 {
     private IconHandler iconHandler;
     public int ID = -1;
@@ -14,7 +12,7 @@ public class IconData : MonoBehaviour
     private bool fleetCanBeControlled = false;
     private void Start()
     {
-        
+
         //image = GetComponent<Image>();
         toggle = GetComponent<Toggle>();
         iconHandler = GetComponentInParent<IconHandler>();
@@ -25,7 +23,7 @@ public class IconData : MonoBehaviour
     {
         image.sprite = sprite;
 
-        if(faction >= 0 && interactable)
+        if (faction >= 0 && interactable)
         {
             image.color = Master.instance.characters.factions[faction].flagColor;
         }
@@ -38,7 +36,7 @@ public class IconData : MonoBehaviour
             toggle = GetComponent<Toggle>();
             //toggle.isOn = false;
         }
-        
+
         if (!gameObject.activeSelf)
         {
             return;
@@ -49,10 +47,10 @@ public class IconData : MonoBehaviour
             toggle.interactable = interactable;
         }
 
-       // Debug.Log(interactable);
+        // Debug.Log(interactable);
 
 
-       
+
         //toggle.enabled = interactable;
         //fleetCanBeControlled = interactable;
     }
@@ -72,7 +70,7 @@ public class IconData : MonoBehaviour
 
         Navigator navigator = iconHandler.FindFleet(ID);
 
-        if(navigator == null)
+        if (navigator == null)
         {
             Debug.LogWarning("couldn't find the fleet to add to the move tool");
             return;

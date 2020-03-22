@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 
@@ -16,6 +14,7 @@ public class Planet : MonoBehaviour
 
     public bool isColony = false;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +24,7 @@ public class Planet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void Initialise(Star planetsStar)
@@ -47,7 +46,7 @@ public class Planet : MonoBehaviour
     {
         isColony = true;
         planetColony.Colonise(factionIndex);
-      
+
     }
 
 
@@ -59,21 +58,14 @@ public class Planet : MonoBehaviour
 
 
         int[] newResources = biome.GetRandomResourceAmounts();
-        int[] resourceProduction = star.starEconomy.resourceProduction.amounts;
+        int[] resourceProduction = star.starEconomy.totalResourceProduction.amounts;
 
-        for(int i = 0; i < newResources.Length; i++)
+        for (int i = 0; i < newResources.Length; i++)
         {
             resourceProduction[i] += newResources[i];
         }
 
     }
-
-    public void ImproveResourceproduction(ResourceType resourceType, int amount)
-    {
-        star.starEconomy.ModifyResourceProduction(resourceType, amount);
-    }
-
-    
 
 
 }

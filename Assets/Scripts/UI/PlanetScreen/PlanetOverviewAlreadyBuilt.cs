@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlanetOverviewAlreadyBuilt : MonoBehaviour
 {
@@ -16,13 +14,13 @@ public class PlanetOverviewAlreadyBuilt : MonoBehaviour
             builtStructureButtons[i].structureClassIndex = i;
         }
         */
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void UpdateQuantity(int classIndex)
@@ -38,7 +36,7 @@ public class PlanetOverviewAlreadyBuilt : MonoBehaviour
 
     public void UpdateAllQuantities()
     {
-        for(int i = 0; i < builtStructureButtons.Length; i++)
+        for (int i = 0; i < builtStructureButtons.Length; i++)
         {
             UpdateQuantity(i);
         }

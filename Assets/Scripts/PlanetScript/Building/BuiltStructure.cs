@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "Structure", menuName = "Economy/Structure")]
 public class BuiltStructure : BuildQueueItem
@@ -15,7 +13,7 @@ public class BuiltStructure : BuildQueueItem
         OnBuild();
     }
 
-   
+
 
     public virtual void OnBuild()
     {
@@ -26,11 +24,12 @@ public class BuiltStructure : BuildQueueItem
 
     }
 
-    public BuiltStructure (string name, string description) : base(name,description){
+    public BuiltStructure(string name, string description) : base(name, description)
+    {
 
 
 
     }
 
-    
+
 }

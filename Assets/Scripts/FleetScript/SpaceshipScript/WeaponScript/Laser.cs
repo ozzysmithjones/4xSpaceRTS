@@ -1,12 +1,11 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Laser : Weapon
 {
     private float fireRate = 60f;
     private LineRenderer beam;
-   
+
     // Start is called before the first frame update
     protected override void ChildInitialise()
     {
@@ -33,14 +32,14 @@ public class Laser : Weapon
                 //transform.up = (spaceShip.target.position - transform.position).normalized;
 
                 //hit damage.
-                DealDamage(damage * 1f / fireRate,spaceShip.target);
+                DealDamage(damage * 1f / fireRate, spaceShip.target);
             }
             else
             {
                 beam.SetPosition(1, Vector2.up * range);
             }
 
-            
+
             yield return new WaitForSeconds(1f / fireRate);
         }
 
@@ -49,5 +48,5 @@ public class Laser : Weapon
         yield return null;
     }
 
-   
+
 }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class AlphaHitTestMinimum : MonoBehaviour
@@ -14,5 +12,5 @@ public class AlphaHitTestMinimum : MonoBehaviour
         image.alphaHitTestMinimumThreshold = threshold;
     }
 
-   
+
 }

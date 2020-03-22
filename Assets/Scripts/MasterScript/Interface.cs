@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -30,12 +28,12 @@ public class Interface : MonoBehaviour
 
 
 
-   
+
     public MoveFleetTool moveFleetTool;
     // Start is called before the first frame update
     void Start()
     {
-        
+
 
         //SetMapUI(true);
         tools[0] = new Tool();
@@ -54,7 +52,7 @@ public class Interface : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
 
@@ -76,13 +74,13 @@ public class Interface : MonoBehaviour
     {
         planetOverview.Close();
     }
-   
+
 
     public void SetMapUI(bool visibility)
     {
         Star[] stars = Master.instance.enviroment.stars;
 
-        for(int i = 0; i < stars.Length; i++)
+        for (int i = 0; i < stars.Length; i++)
         {
             stars[i].starUI.SetUIVisibility(visibility);
         }
@@ -102,5 +100,5 @@ public class Interface : MonoBehaviour
         //print(Camera.main.cullingMask);
     }
 
-    
+
 }

@@ -8,13 +8,13 @@ public class Characters : MonoBehaviour
     public Species[] species;
     public PoliticalGroup[] politicalGroups;
     public List<Faction> factions;
-    public Weight[] weights; 
+    public Weight[] weights;
 
     // Start is called before the first frame update
     void Start()
     {
         weights = UnityEngine.Resources.LoadAll<Weight>("Weights");
-        for(int i = 0; i < weights.Length; i++)
+        for (int i = 0; i < weights.Length; i++)
         {
             weights[i].Initialise(totalFactions);
         }
@@ -34,21 +34,21 @@ public class Characters : MonoBehaviour
 
     public void SpawnFactions(BuiltShip[] shipTypes, BuiltStructure[] structureTypes)
     {
-        factions.Add(CreateFaction(0,shipTypes,structureTypes,true));
+        factions.Add(CreateFaction(0, shipTypes, structureTypes, true));
 
         Star star = Master.instance.enviroment.RandomStar();
-        star.Colonise(0);
         star.TakeOver(0);
+        star.Colonise(0);
 
 
-        for (int i = 1; i < totalFactions-1;i++)
+
+        for (int i = 1; i < totalFactions - 1; i++)
         {
-            factions.Add(CreateFaction(i,shipTypes, structureTypes));
+            factions.Add(CreateFaction(i, shipTypes, structureTypes));
 
             star = Master.instance.enviroment.RandomStar();
-            star.Colonise(i,0);
             star.TakeOver(i);
-
+            star.Colonise(i, 0);
 
         }
         for (int i = 0; i < factions.Count; i++)
@@ -56,18 +56,18 @@ public class Characters : MonoBehaviour
             factions[i].Start();
         }
         //random expansion:
-        for (int i = 0; i < factions.Count; i++)
-        {
-            factions[i].RandomlyExpand();
-        }
-        
+        //for (int i = 0; i < factions.Count; i++)
+        //   {
+        // factions[i].RandomlyExpand();
+        //  }
+
     }
 
-    public Faction CreateFaction(int index, BuiltShip[] shipTypes, BuiltStructure[] structureTypes,bool player = false)
+    public Faction CreateFaction(int index, BuiltShip[] shipTypes, BuiltStructure[] structureTypes, bool player = false)
     {
 
         Color[] colors = new Color[1];
-        colors[0] = new Color(Random.Range(0f,1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1f);
+        colors[0] = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1f);
 
         string[] names = new string[1];
         names[0] = "bob";
@@ -76,11 +76,11 @@ public class Characters : MonoBehaviour
 
         if (!player)
         {
-            instance = new AI(index, colors[0],names[0]);
+            instance = new AI(index, colors[0], names[0]);
         }
         else
         {
-            instance = new Player(index, colors[0],names[0]);
+            instance = new Player(index, colors[0], names[0]);
         }
 
         instance.structureTypes = structureTypes;
@@ -94,9 +94,9 @@ public class Characters : MonoBehaviour
 
     public Weight FindWeight(string name)
     {
-        for(int i = 0; i < weights.Length; i++)
+        for (int i = 0; i < weights.Length; i++)
         {
-            if(weights[i].name == name)
+            if (weights[i].name == name)
             {
                 return weights[i];
             }
@@ -113,12 +113,12 @@ public class Characters : MonoBehaviour
         {
             yield return new WaitForSeconds(1.0f);
 
-            for(int i = 0; i < factions.Count; i++)
+            for (int i = 0; i < factions.Count; i++)
             {
                 factions[i].Gather(factions[i].resourceProduction);
             }
         }
 
     }
-  
+
 }

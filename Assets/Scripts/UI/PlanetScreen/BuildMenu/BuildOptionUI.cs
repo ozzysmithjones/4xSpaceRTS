@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
 public class BuildOptionUI : MonoBehaviour
 {
@@ -18,13 +15,14 @@ public class BuildOptionUI : MonoBehaviour
 
     private void Awake()
     {
-        
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        if (!isShip) {
+        if (!isShip)
+        {
 
             buildQueueItem = Master.instance.characters.factions[0].structureTypes[classIndex];
 
@@ -38,13 +36,13 @@ public class BuildOptionUI : MonoBehaviour
         itemName.text = buildQueueItem.name;
         price.text = "MAT: " + buildQueueItem.buildCost.ToString();
 
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void Build()

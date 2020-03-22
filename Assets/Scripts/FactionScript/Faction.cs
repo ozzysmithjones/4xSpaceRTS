@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Faction  
+public class Faction
 {
     public int factionIndex;
 
@@ -34,7 +33,7 @@ public class Faction
     private Timer PopulationGrowthTimer;
     public float PopulationGrowthSpeed = 0.1f;
 
-    public Faction(int index,Color flagColor, string factionName)
+    public Faction(int index, Color flagColor, string factionName)
     {
         factionIndex = index;
 
@@ -52,19 +51,21 @@ public class Faction
 
     public virtual void Update(float deltaTime)
     {
-        PopulationGrowthTimer.Tick(PopulationGrowthSpeed * Time.deltaTime / colonies.Count);
+
+        PopulationGrowthTimer.Tick(PopulationGrowthSpeed * deltaTime / colonies.Count);
     }
     public void GrowPopulation()
     {
-        for(int i = 0; i < colonies.Count; i++)
+
+        for (int i = 0; i < colonies.Count; i++)
         {
-            colonies[i].starGeneration.planets[0].planetColony.AddPop(species[0].index);
+            colonies[i].starEconomy.colonies[0].AddPop(species[0].index);
         }
     }
-  
+
     public void AddToTerritory(Star star, bool showOuterRim = false, bool colony = false)
     {
-        
+
         outerRim.Remove(star);
 
         if (territory.Contains(star))
@@ -80,14 +81,14 @@ public class Faction
 
         List<Star> connectedStars = star.starConnections.GetConnectedStars();
 
-        for(int i = 0; i < connectedStars.Count; i++)
+        for (int i = 0; i < connectedStars.Count; i++)
         {
-            if(!outerRim.Contains(connectedStars[i]) && connectedStars[i].factionIndex != factionIndex)
+            if (!outerRim.Contains(connectedStars[i]) && connectedStars[i].factionIndex != factionIndex)
             {
                 outerRim.Add(connectedStars[i]);
             }
         }
-       
+
 
     }
 
@@ -115,14 +116,15 @@ public class Faction
     public void RandomlyExpand(int lowest = 3, int highest = 8)
     {
         int length = Random.Range(lowest, highest);
-        for(int i = 0; i < length; i++)
+        for (int i = 0; i < length; i++)
         {
-            if(outerRim.Count <= 0){
+            if (outerRim.Count <= 0)
+            {
                 break;
             }
             int index = Random.Range(0, outerRim.Count);
 
-            if(outerRim[index].factionIndex < 0)
+            if (outerRim[index].factionIndex < 0)
             {
                 outerRim[index].TakeOver(factionIndex);
             }
@@ -131,18 +133,23 @@ public class Faction
                 outerRim.RemoveAt(index);
                 i--;
             }
-            
+
         }
     }
 
     public virtual void Gather(Resources resources)
     {
 
-        for(int i = 0; i < resources.amounts.Length; i++)
+        for (int i = 0; i < resources.amounts.Length; i++)
         {
-            if(i < this.resources.amounts.Length)
+            if (i < this.resources.amounts.Length)
             {
                 this.resources.amounts[i] += resources.amounts[i];
+
+                if (this.resources.amounts[i] < 0)
+                {
+                    this.resources.amounts[i] = 0;
+                }
             }
         }
 
@@ -151,11 +158,13 @@ public class Faction
     public virtual void ImproveResourceProduction(ResourceType resourceType, int amount)
     {
         resourceProduction.amounts[(int)resourceType] += amount;
+
+        
     }
 
     public bool Pay(int cost, ResourceType resourceType = ResourceType.MATERIALS)
     {
-        if(resources.amounts[(int)resourceType] >= cost)
+        if (resources.amounts[(int)resourceType] >= cost)
         {
             resources.amounts[(int)resourceType] -= cost;
             return true;

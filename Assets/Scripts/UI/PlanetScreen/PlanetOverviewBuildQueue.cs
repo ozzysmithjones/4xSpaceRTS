@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class PlanetOverviewBuildQueue : MonoBehaviour
@@ -19,7 +18,7 @@ public class PlanetOverviewBuildQueue : MonoBehaviour
     {
         maxPoolCount = pool.Count;
         //disable every object in the pool.
-        for(int i = 0; i < pool.Count; i++)
+        for (int i = 0; i < pool.Count; i++)
         {
             pool[i].planetOverview = planetOverview;
             pool[i].gameObject.SetActive(false);
@@ -31,12 +30,12 @@ public class PlanetOverviewBuildQueue : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     void UpdateQueueTimer()
     {
-        if(planetOverview.planet.planetColony.buildQueue.Count <= 0)
+        if (planetOverview.planet.planetColony.buildQueue.Count <= 0)
         {
             return;
         }
@@ -61,7 +60,7 @@ public class PlanetOverviewBuildQueue : MonoBehaviour
             UpdateQueueElement(index);
         }
         */
-        
+
         int length = Mathf.Max(queueUIs.Count, queue.Count);
         for (int i = 0; i < length; i++)
         {
@@ -92,9 +91,9 @@ public class PlanetOverviewBuildQueue : MonoBehaviour
             }
             length = Mathf.Max(queueUIs.Count, planetOverview.planet.planetColony.buildQueue.Count);
         }
-        
 
-        
+
+
         /*
         int iterations = Mathf.Max(queueUIs.Count, queue.Count) - Mathf.Min(queueUIs.Count, queue.Count);
         for (int i = 0; i < iterations; i++)
@@ -115,34 +114,36 @@ public class PlanetOverviewBuildQueue : MonoBehaviour
             }
         }
         */
-        
 
-        
+
+
 
     }
 
     //this code was made before I knew events were a thing. TODO: rewrite to use events.
     void UpdateQueue()
     {
-        if(queueUIs.Count <= 0 && planetOverview.planet.planetColony.buildQueue.Count <= 0)
+        if (queueUIs.Count <= 0 && planetOverview.planet.planetColony.buildQueue.Count <= 0)
         {
             return;
         }
         int length = Mathf.Max(queueUIs.Count, planetOverview.planet.planetColony.buildQueue.Count);
-        for(int i = 0; i < length; i++)
+        for (int i = 0; i < length; i++)
         {
             //if the element is within both arrays update it.
             if (i < planetOverview.planet.planetColony.buildQueue.Count && i < queueUIs.Count)
             {
                 UpdateQueueElement(i);
-               
-            }else if( i >= queueUIs.Count && i >= planetOverview.planet.planetColony.buildQueue.Count){
+
+            }
+            else if (i >= queueUIs.Count && i >= planetOverview.planet.planetColony.buildQueue.Count)
+            {
                 break;
             }
             //if the element is in the queue, but not in the UI queue, add a UI queue element.
             else if (i >= queueUIs.Count && i < planetOverview.planet.planetColony.buildQueue.Count)
             {
-               // print("add UI");
+                // print("add UI");
                 AddQueueUIElement();
                 UpdateQueueElement(i);
             }
@@ -155,7 +156,7 @@ public class PlanetOverviewBuildQueue : MonoBehaviour
             }
             length = Mathf.Max(queueUIs.Count, planetOverview.planet.planetColony.buildQueue.Count);
         }
-            
+
 
     }
 
@@ -178,7 +179,7 @@ public class PlanetOverviewBuildQueue : MonoBehaviour
         }
         else
         {
-            queueUI = Instantiate(queueUIPrefab,transform).GetComponent<QueueUI>();
+            queueUI = Instantiate(queueUIPrefab, transform).GetComponent<QueueUI>();
             queueUI.planetOverview = planetOverview;
             queueUIs.Add(queueUI);
             queueUIs[queueUIs.Count - 1].itemIndex = queueUIs.Count - 1;
@@ -210,7 +211,7 @@ public class PlanetOverviewBuildQueue : MonoBehaviour
         {
             Destroy(queueUI.gameObject);
         }
-        
+
     }
 
 
@@ -220,7 +221,7 @@ public class PlanetOverviewBuildQueue : MonoBehaviour
     {
         QueueUI queueUI = AddQueueUIElement();
         UpdateQueueElement(queueUIs.Count - 1);
-       
+
     }
 
     // Update is called once per frame

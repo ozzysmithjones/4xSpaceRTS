@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 enum NavigatorState
@@ -27,7 +26,7 @@ public class Navigator : MonoBehaviour
 
     public List<SpaceShip> spaceShips;
     private float targetAngle = 0.0f;
-    
+
     public int scoutingRange = 1;
 
     public bool military = true;
@@ -89,7 +88,7 @@ public class Navigator : MonoBehaviour
         spaceShip.transform.SetParent(shipsParent);
     }
 
-    
+
 
     public void RemoveShip(SpaceShip spaceShip)
     {
@@ -106,21 +105,21 @@ public class Navigator : MonoBehaviour
     }
     private void OnDestroy()
     {
-       //remove from the fleet tool.
-       if (faction == 0)
-       {
-          if (Master.instance.userInterface.moveFleetTool.controlledFleets.Contains(this))
-          {
-             Master.instance.userInterface.moveFleetTool.RemoveFleet(this);
-          }
-       }
+        //remove from the fleet tool.
+        if (faction == 0)
+        {
+            if (Master.instance.userInterface.moveFleetTool.controlledFleets.Contains(this))
+            {
+                Master.instance.userInterface.moveFleetTool.RemoveFleet(this);
+            }
+        }
         //TODO: remove from the AI.(if the AI is currently holding a reference to it)
 
         if (!navigatorWarp.IsWarping())
         {
             GetStar().starShipManager.RequestExit(this);
         }
-         
+
     }
 
     public void Scout(bool show)
@@ -144,7 +143,7 @@ public class Navigator : MonoBehaviour
     {
 
         navigatorWarp.ClearPath();
-       
+
         for (int i = 0; i < spaceShips.Count; i++)
         {
             spaceShips[i].ClearPath();
@@ -175,37 +174,38 @@ public class Navigator : MonoBehaviour
 
     private void Update()
     {
-        
+
         if (navigatorWarp.IsPath() && navigatorWarp.IsWarping())
         {
             navigatorWarp.WarpUpdate();
         }
         else
         {
-          center.position = (Vector3)AveragePosition();  
-          if (navigatorWarp.IsPath())
-          {
+            center.position = (Vector3)AveragePosition();
+            if (navigatorWarp.IsPath())
+            {
                 if (UpdateFormation())
                 {
                     starGateProximityTimer.Tick(Time.deltaTime);
                 }
-          }
-          else if (moveToDestination)
-          {
+            }
+            else if (moveToDestination)
+            {
                 if (UpdateFormation())
                 {
                     destinationProximityTimer.Tick(Time.deltaTime);
                 }
 
-           }
-            
+            }
+
         }
     }
 
-    void StarGateScan(){
+    void StarGateScan()
+    {
         float distance = Vector2.Distance((Vector2)center.position, (Vector2)destination.position);
 
-        if(distance <= 3f)
+        if (distance <= 3f)
         {
             if (!GetStar().starShipManager.RequestExit(this))
             {
@@ -227,7 +227,7 @@ public class Navigator : MonoBehaviour
     {
         float distance = Vector2.Distance((Vector2)center.position, (Vector2)destination.position);
 
-        if(distance <= 1f)
+        if (distance <= 1f)
         {
             moveToDestination = false;
             for (int i = 0; i < spaceShips.Count; i++)
@@ -258,9 +258,10 @@ public class Navigator : MonoBehaviour
         }
     }
 
-    public void SetShipsPosition(Vector2 position, float maxDeviancy = 3f){
+    public void SetShipsPosition(Vector2 position, float maxDeviancy = 3f)
+    {
 
-        for(int i = 0; i < spaceShips.Count; i++)
+        for (int i = 0; i < spaceShips.Count; i++)
         {
             spaceShips[i].transform.position = (Vector3)(position + Random.insideUnitCircle * maxDeviancy);
         }
@@ -268,24 +269,24 @@ public class Navigator : MonoBehaviour
         AveragePosition();
     }
 
-   public void UpdateVisibility()
-   {
-        if(GetStar() == null)
+    public void UpdateVisibility()
+    {
+        if (GetStar() == null)
         {
             return;
         }
 
         bool visible = GetStar().starVisibility.visibility;
 
-        for(int i = 0; i < spaceShips.Count; i++)
+        for (int i = 0; i < spaceShips.Count; i++)
         {
 
             spaceShips[i].SetVisibility(visible);
         }
 
         navigatorWarp.movingIcon.SetActive(visible);
-        
-   }
+
+    }
 
     public virtual void OnEnterStar()
     {
@@ -347,7 +348,7 @@ public class Navigator : MonoBehaviour
 
     public void AddToFaction(int newFaction)
     {
-        if(faction >= 0)
+        if (faction >= 0)
         {
             RemoveFromFaction(faction);
         }
@@ -357,7 +358,7 @@ public class Navigator : MonoBehaviour
 
     public void RemoveFromFaction(int oldFaction)
     {
-       
+
         Master.instance.characters.factions[faction].fleets.Remove(this);
         faction = -1;
     }

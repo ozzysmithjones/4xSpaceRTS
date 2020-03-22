@@ -15,20 +15,20 @@ public class CameraControl : MonoBehaviour
     public int zoomStep = 0;
 
     private float size = 0;
-    
+
     //private float minSize = 5f;
-   // private float maxSize = 500f;
+    // private float maxSize = 500f;
 
     private Camera cam;
 
     public bool visible = false;
-    
+
     private List<Collider2D> viewables = new List<Collider2D>();
     public float visibilityMaxSize = 20f;
     public float VisibilityMaxDistance = 20f;
     public float visibilityRadius = 20f;
 
-   
+
 
     private Vector3 viewPosition;
     private float viewDistanceAlpha = 0f;
@@ -61,19 +61,19 @@ public class CameraControl : MonoBehaviour
     void Movement()
     {
         float zoomBonus = Mathf.InverseLerp(1f, 20f, (float)zoomStep);
-        zoomBonus = Mathf.Clamp(zoomBonus,0.05f, zoomBonus);
+        zoomBonus = Mathf.Clamp(zoomBonus, 0.05f, zoomBonus);
         //panning the camera.
         transform.Translate(new Vector3(horizontal, vertical, 0f) * Time.fixedDeltaTime * panSpeed * zoomBonus);
         //HideFarAwayStars();
         //ShowCloseStars();
-       
+
     }
 
     void Zoom()
     {
         if (zoom != 0)
         {
-          if (zoom > 0)
+            if (zoom > 0)
             {
                 zoomStep -= 1;
             }
@@ -81,13 +81,13 @@ public class CameraControl : MonoBehaviour
             {
                 zoomStep += 1;
             }
-          zoomStep = Mathf.Clamp(zoomStep, 1, 30);
-          size = Mathf.Pow((float)zoomStep,2f);
+            zoomStep = Mathf.Clamp(zoomStep, 1, 30);
+            size = Mathf.Pow((float)zoomStep, 2f);
 
-           cam.orthographicSize = size;
-            
-        // 
-         //ZoomVisibility();
+            cam.orthographicSize = size;
+
+            // 
+            //ZoomVisibility();
 
         }
     }
@@ -106,7 +106,7 @@ public class CameraControl : MonoBehaviour
 
     IEnumerator ZoomVisibility(float wait = 1f)
     {
-      
+
         while (true)
         {
             yield return new WaitForSeconds(wait);
@@ -120,12 +120,12 @@ public class CameraControl : MonoBehaviour
             else if (size > visibilityMaxSize && visible)
             {
                 Hide();
-                
+
             }
 
         }
-        
-       
+
+
     }
 
     void Show()
@@ -148,7 +148,7 @@ public class CameraControl : MonoBehaviour
                 {
                     viewables.Add(hits[i].collider);
                     //visibility.ZoomVisibility(visibility.transform, true);
-                    
+
                     hits[i].collider.enabled = false;
                 }
             }
@@ -165,22 +165,22 @@ public class CameraControl : MonoBehaviour
         Master.instance.userInterface.SetMapUI(true);
         for (int i = 0; i < viewables.Count; i++)
         {
-            
+
             viewables[i].enabled = true;
-            
+
 
         }
 
     }
 
-    
+
 
     void HideFarAwayStars()
     {
         if (visible)
         {
             viewDistanceAlpha += Time.fixedDeltaTime;
-            if(viewDistanceAlpha >= 0.5f)
+            if (viewDistanceAlpha >= 0.5f)
             {
                 viewDistanceAlpha = 0f;
                 float distance = Vector2.Distance(new Vector3(transform.position.x, transform.position.y, 0), viewPosition);
@@ -212,8 +212,8 @@ public class CameraControl : MonoBehaviour
 
     }
 
-    
-   
+
+
 
 
 

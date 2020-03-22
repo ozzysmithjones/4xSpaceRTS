@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 public enum BiomeType
 {
     BARREN,
@@ -18,7 +16,7 @@ public class Biome : ScriptableObject
 {
     public BiomeType biomeType;
     public PlanetTextureData planetTextureData;
-    [SerializeField] private  ResourceRange[] resourceRanges = new ResourceRange[0];
+    [SerializeField] private ResourceRange[] resourceRanges = new ResourceRange[0];
 
     [System.Serializable]
     private struct ResourceRange
@@ -27,7 +25,7 @@ public class Biome : ScriptableObject
         public int lowest;
         public int highest;
 
-        private ResourceRange(ResourceType resourceType,int lowest, int highest)
+        private ResourceRange(ResourceType resourceType, int lowest, int highest)
         {
             this.resourceType = resourceType;
             this.lowest = lowest;
@@ -42,9 +40,9 @@ public class Biome : ScriptableObject
         int length = ResourceType.GetValues(typeof(ResourceType)).Length;
         resources = new int[length];
 
-        for(int i = 0; i < resourceRanges.Length; i++)
+        for (int i = 0; i < resourceRanges.Length; i++)
         {
-            resources[(int)resourceRanges[i].resourceType] = Random.Range(resourceRanges[i].lowest,resourceRanges[i].highest+1);
+            resources[(int)resourceRanges[i].resourceType] = Random.Range(resourceRanges[i].lowest, resourceRanges[i].highest + 1);
         }
         return resources;
     }

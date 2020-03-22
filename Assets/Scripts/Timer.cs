@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-//does a thing at an interval.Very common behaviour, so this should clean code up quite a lot.
+﻿//does a thing at an interval.Very common behaviour, so this should clean code up quite a lot.
 public class Timer
 {
     public bool looping;
@@ -26,7 +22,7 @@ public class Timer
             return true;
         }
         timePassed += deltaTime;
-        if(timePassed > endTime)
+        if (timePassed > endTime)
         {
             effect();
             timePassed = 0;

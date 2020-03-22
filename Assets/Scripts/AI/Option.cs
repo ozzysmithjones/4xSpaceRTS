@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "AI Option",menuName = "AI/AI option")]
+[CreateAssetMenu(fileName = "AI Option", menuName = "AI/AI option")]
 public class Option : ScriptableObject
 {
     public Weight weight;
@@ -18,5 +16,5 @@ public class Option : ScriptableObject
         return weight.values[empire];
     }
 
-  
+
 }

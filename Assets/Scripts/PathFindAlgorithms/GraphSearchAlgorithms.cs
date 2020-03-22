@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GraphNode
@@ -20,15 +19,15 @@ public class GraphNode
     {
         return value;
     }
-    public virtual bool CanGoHere(List<GraphNode> visited,bool seekingSmallestNodeValue = true)
+    public virtual bool CanGoHere(List<GraphNode> visited, bool seekingSmallestNodeValue = true)
     {
-        for(int i = 0; i < visited.Count; i++)
+        for (int i = 0; i < visited.Count; i++)
         {
-            if(visited[i].coordinate == coordinate)
+            if (visited[i].coordinate == coordinate)
             {
                 if (seekingSmallestNodeValue)
                 {
-                    if(visited[i].value > value)
+                    if (visited[i].value > value)
                     {
                         visited.RemoveAt(i);
                     }
@@ -39,7 +38,7 @@ public class GraphNode
                 }
                 else
                 {
-                    if(visited[i].value < value)
+                    if (visited[i].value < value)
                     {
                         visited.RemoveAt(i);
                     }
@@ -63,22 +62,22 @@ public class GraphNode
 
         for (int i = 0; i < neighbours.Count; i++)
         {
-            if(neighbours[i] == lastCoordinate)
+            if (neighbours[i] == lastCoordinate)
             {
                 continue;
             }
 
             GraphNode neighbourNode = CreateNeighbour(neighbours[i]);
             neighbourNode.CalculateValue(this);
-          
 
-            if (neighbourNode.CanGoHere(visited,seekingSmallestNodeValue))
+
+            if (neighbourNode.CanGoHere(visited, seekingSmallestNodeValue))
             {
-                
+
                 visited.Add(neighbourNode);
                 frontier.Add(neighbourNode);
             }
-           
+
         }
     }
 
@@ -99,7 +98,7 @@ public class GraphSearchAlgorithms
         instance = this;
     }
 
-    public GraphNode Search(GraphNode first,List<GraphNode> visited, bool seekingSmallestNodeValue = true)
+    public GraphNode Search(GraphNode first, List<GraphNode> visited, bool seekingSmallestNodeValue = true)
     {
         List<GraphNode> frontier = new List<GraphNode>();
         GraphNode current = first;
@@ -109,15 +108,15 @@ public class GraphSearchAlgorithms
         int removeIndex = 0;
         int iterations = 0;
 
-        while(frontier.Count > 0 && !current.EndHere())
+        while (frontier.Count > 0 && !current.EndHere())
         {
             frontier.RemoveAt(removeIndex);
             current.Expand(frontier, visited);
-            if(frontier.Count <= 0)
+            if (frontier.Count <= 0)
             {
                 break;
             }
-            removeIndex = GetNodeIndexByValue(frontier,seekingSmallestNodeValue);
+            removeIndex = GetNodeIndexByValue(frontier, seekingSmallestNodeValue);
             current = frontier[removeIndex];
         }
         Debug.Log(iterations);
@@ -127,7 +126,7 @@ public class GraphSearchAlgorithms
 
     public List<int> PathFind(int start, int end)
     {
-        if(start == end)
+        if (start == end)
         {
             return new List<int>();
         }
@@ -135,24 +134,25 @@ public class GraphSearchAlgorithms
         List<GraphNode> visited = new List<GraphNode>();
         GraphNode last = Search(first, visited);
 
-        return ReadPath(start,last,visited);
+        return ReadPath(start, last, visited);
     }
 
- 
+
     int GetNodeIndexByValue(List<GraphNode> nodes, bool smallest = true)
     {
 
         float greatestValue = nodes[0].value;
         int index = 0;
 
-        for(int i = 0; i < nodes.Count; i++)
+        for (int i = 0; i < nodes.Count; i++)
         {
-            if(nodes[i].value < greatestValue && smallest)
+            if (nodes[i].value < greatestValue && smallest)
             {
                 greatestValue = nodes[i].value;
                 index = i;
 
-            }else if(nodes[i].value > greatestValue && !smallest)
+            }
+            else if (nodes[i].value > greatestValue && !smallest)
             {
                 greatestValue = nodes[i].value;
                 index = i;
@@ -200,7 +200,7 @@ public class GraphSearchAlgorithms
             if (crash)
             {
                 Debug.LogError("Prevented crash with pathfinding");
-                for(int i = 0; i < path.Count; i++)
+                for (int i = 0; i < path.Count; i++)
                 {
                     Debug.LogError("path so far" + i + " is at coordinate " + path[i]);
                 }
@@ -215,6 +215,6 @@ public class GraphSearchAlgorithms
     }
 
 
-   
-   
+
+
 }

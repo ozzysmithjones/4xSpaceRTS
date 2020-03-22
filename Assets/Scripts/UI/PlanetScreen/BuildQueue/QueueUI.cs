@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class QueueUI : MonoBehaviour
 {
@@ -26,7 +24,7 @@ public class QueueUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void SetProgress(float value)
@@ -48,7 +46,7 @@ public class QueueUI : MonoBehaviour
         itemName.text = this.queue.item.name;
         quantity.text = this.queue.quantity.ToString();
     }
-    public void UpdateUI(int index,float progressValue, string newItemName, string newQuantity)
+    public void UpdateUI(int index, float progressValue, string newItemName, string newQuantity)
     {
         itemIndex = index;
         progressBar.normalizedValue = progressValue;

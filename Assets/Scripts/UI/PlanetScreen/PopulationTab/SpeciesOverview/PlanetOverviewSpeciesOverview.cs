@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
 
 public class PlanetOverviewSpeciesOverview : MonoBehaviour
 {
@@ -21,16 +19,16 @@ public class PlanetOverviewSpeciesOverview : MonoBehaviour
     }
     public void DisplayDominantPopulation(List<Population> populations)
     {
-        if(populations.Count <= 0)
+        if (populations.Count <= 0)
         {
             return;
         }
 
         int highest = 0;
         int index = 0;
-        for(int i = 0; i < populations.Count; i++)
+        for (int i = 0; i < populations.Count; i++)
         {
-            if(populations[i].size > highest)
+            if (populations[i].size > highest)
             {
                 highest = populations[i].size;
                 index = i;
@@ -58,12 +56,12 @@ public class PlanetOverviewSpeciesOverview : MonoBehaviour
         speciesDescription.text = selectedSpecies.description;
     }
 
-   
+
 
     private void UpdatePieChart(List<Population> populations)
     {
         float[] values = new float[populations.Count];
-        for(int i = 0; i < values.Length; i++)
+        for (int i = 0; i < values.Length; i++)
         {
             values[i] = populations[i].size;
         }
@@ -75,6 +73,6 @@ public class PlanetOverviewSpeciesOverview : MonoBehaviour
         pieChart.UpdateWedges(values, colors);
     }
 
-    
-    
+
+
 }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Fighter : SpaceShip
 {
@@ -39,7 +37,7 @@ public class Fighter : SpaceShip
         }
 
         targetTimer.Tick(Time.deltaTime);
-        
+
         //move towards them.
         FightMove();
 
@@ -62,7 +60,7 @@ public class Fighter : SpaceShip
         {
             return;
         }
-        if(Mathf.DeltaAngle(targetAngle,transform.eulerAngles.z) < 50f)
+        if (Mathf.DeltaAngle(targetAngle, transform.eulerAngles.z) < 50f)
         {
             if (!shooting)
             {
@@ -71,18 +69,18 @@ public class Fighter : SpaceShip
                 {
                     weapons[i].Shoot(damage);
                 }
-            }    
+            }
 
         }
-        else if(shooting)
+        else if (shooting)
         {
             shooting = false;
-            for(int i = 0; i < weapons.Length; i++)
+            for (int i = 0; i < weapons.Length; i++)
             {
                 weapons[i].StopShooting();
             }
         }
-        
+
     }
 
 
@@ -92,9 +90,9 @@ public class Fighter : SpaceShip
 
         float lowestHP = 0.0f;
         int index = 0;
-        for(int i = 0; i < fleet.navigatorCombat.target.spaceShips.Count; i++)
+        for (int i = 0; i < fleet.navigatorCombat.target.spaceShips.Count; i++)
         {
-            if(fleet.navigatorCombat.target.spaceShips[i].hitPoints < lowestHP || i == 0)
+            if (fleet.navigatorCombat.target.spaceShips[i].hitPoints < lowestHP || i == 0)
             {
                 lowestHP = fleet.navigatorCombat.target.spaceShips[i].hitPoints;
                 index = i;
@@ -108,7 +106,7 @@ public class Fighter : SpaceShip
     protected override void OnConflictChange()
     {
         base.OnConflictChange();
-        if(!conflict && shooting)
+        if (!conflict && shooting)
         {
             shooting = false;
             for (int i = 0; i < weapons.Length; i++)

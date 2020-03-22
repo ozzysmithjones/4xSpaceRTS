@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PieChart : MonoBehaviour
 {
@@ -12,13 +10,13 @@ public class PieChart : MonoBehaviour
 
     public void Start()
     {
-        UpdateWedges(values,colors);
+        UpdateWedges(values, colors);
     }
 
     private float[] RelativeSizes(float[] values)
     {
         float total = 0.0f;
-        for(int i = 0; i < values.Length; i++)
+        for (int i = 0; i < values.Length; i++)
         {
             total += values[i];
         }
@@ -27,7 +25,7 @@ public class PieChart : MonoBehaviour
             return values;
         }
         float[] relativeSizes = new float[values.Length];
-        for(int i = 0; i < values.Length; i++)
+        for (int i = 0; i < values.Length; i++)
         {
             relativeSizes[i] = values[i] / total;
         }
@@ -41,7 +39,7 @@ public class PieChart : MonoBehaviour
         {
             total += values[i];
         }
-        if(total <= 0.0f)
+        if (total <= 0.0f)
         {
             return 0.0f;
         }
@@ -51,7 +49,7 @@ public class PieChart : MonoBehaviour
 
     public void UpdateWedges(float[] values, Color[] colors)
     {
-        for(int i = 0; i < wedges.Length; i++)
+        for (int i = 0; i < wedges.Length; i++)
         {
             wedges[i].index = -1;
             wedges[i].SetSize(0.0f);
@@ -60,8 +58,8 @@ public class PieChart : MonoBehaviour
         this.colors = colors;
         this.relativeSizes = RelativeSizes(values);
 
-        float lastAngle = 0.0f; 
-        for(int i = 0; i < relativeSizes.Length;i++)
+        float lastAngle = 0.0f;
+        for (int i = 0; i < relativeSizes.Length; i++)
         {
             wedges[i].index = i;
             wedges[i].SetStartAngle(lastAngle);
@@ -75,7 +73,7 @@ public class PieChart : MonoBehaviour
     public void UpdateWedge(int wedgeIndex, float value, Color color)
     {
         values[wedgeIndex] = value;
-        relativeSizes[wedgeIndex] = RelativeSize(wedgeIndex,values);
+        relativeSizes[wedgeIndex] = RelativeSize(wedgeIndex, values);
         wedges[wedgeIndex].SetColor(color);
 
         float lastAngle = 0.0f;

@@ -1,18 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
-public enum ResourceType
+﻿public enum ResourceType
 {
     FOOD,
     STABILITY,
     MATERIALS,
     SCIENCE
 }
-public class Resources 
+
+[System.Serializable]
+public class Resources
 {
-    public int[] amounts;
+    public int[] amounts = new int[4];
 
     public Resources()
     {

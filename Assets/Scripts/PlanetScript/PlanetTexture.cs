@@ -1,15 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [System.Serializable]
 public struct PlanetTextureData
 {
 
-   public Color land;
-   public Color sea;
-   public Vector2 noiseSeed;
-   public float zoomAmount;
+    public Color land;
+    public Color sea;
+    public Vector2 noiseSeed;
+    public float zoomAmount;
 
     public PlanetTextureData(Color land, Color sea, Vector2 noiseSeed, float zoomAmount)
     {
@@ -36,7 +34,7 @@ public class PlanetTexture : MonoBehaviour
     public float zoom = 20f;
     public Vector2 seed;
 
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -84,16 +82,16 @@ public class PlanetTexture : MonoBehaviour
 
         MaterialPropertyBlock block = new MaterialPropertyBlock();
         block.SetTexture("_MainTex", texture2D);
-        
+
         spriteRenderer.SetPropertyBlock(block);
-        for (int x= 0; x < 32; x++)
+        for (int x = 0; x < 32; x++)
         {
-            for(int y = 0;y < 32; y++)
+            for (int y = 0; y < 32; y++)
             {
                 ColorPixel(x, y);
             }
         }
-        
+
         texture2D.Apply();
     }
 
@@ -111,12 +109,12 @@ public class PlanetTexture : MonoBehaviour
 
             if (perlin > 0.5f)
             {
-               
+
                 color = landColor;
             }
             else
             {
-                
+
                 color = seaColor;
             }
 

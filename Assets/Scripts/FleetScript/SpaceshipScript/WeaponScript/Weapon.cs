@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum WeaponType { laser, explosive, slugthrower }
 
@@ -14,7 +12,7 @@ public class Weapon : MonoBehaviour
     protected Fighter spaceShip;
 
     private ParticleSystem shootEffect;
-   
+
 
     public WeaponType weaponType = WeaponType.laser;
 
@@ -32,7 +30,7 @@ public class Weapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
 
@@ -43,30 +41,30 @@ public class Weapon : MonoBehaviour
 
 
     }
-    
+
     public virtual void Shoot(float damage = 1f)
     {
         this.damage = damage;
         shooting = true;
         shootEffect.Play();
 
-        
+
     }
 
 
     public virtual void StopShooting()
     {
-        
+
         shooting = false;
         shootEffect.Stop();
     }
 
     protected void DealDamage(float amount, Transform target)
     {
-        
+
         if (target != hitTransform)
         {
-            
+
             SpaceShip enemyShip = target.GetComponent<SpaceShip>();
             if (enemyShip != null)
             {
@@ -78,7 +76,7 @@ public class Weapon : MonoBehaviour
         else
         {
             hitEnemy.TakeDamage(spaceShip, weaponType, amount);
-           
+
         }
     }
 }

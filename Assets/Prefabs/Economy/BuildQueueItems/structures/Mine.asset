@@ -19,5 +19,5 @@ MonoBehaviour:
   buildCost: 10
   category: 0
   planetBuiltOn: {fileID: 0}
-  resourceType: 1
-  resourceproduction: 1
+  resourceType: 2
+  resourceProduction: 1

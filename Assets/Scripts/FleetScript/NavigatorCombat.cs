@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class NavigatorCombat : MonoBehaviour
@@ -20,10 +19,10 @@ public class NavigatorCombat : MonoBehaviour
     public void UpdateTarget()
     {
         float shortestDistance = 0.0f;
-        for(int i = 0; i < enemies.Count; i++)
+        for (int i = 0; i < enemies.Count; i++)
         {
             //prioritises those fighting it.
-            if(enemies[i].navigatorCombat.target == navigator)
+            if (enemies[i].navigatorCombat.target == navigator)
             {
                 target = enemies[i];
                 break;
@@ -34,24 +33,24 @@ public class NavigatorCombat : MonoBehaviour
             {
                 shortestDistance = dist;
                 target = enemies[i];
-                
+
             }
         }
 
-        if(target == null)
+        if (target == null)
         {
             SetConflict(false);
         }
-       
+
 
     }
 
     public bool IsConflict(List<Navigator> fleets)
     {
         bool newConflict = false;
-        for(int i = 0; i < fleets.Count; i++)
+        for (int i = 0; i < fleets.Count; i++)
         {
-            if(fleets[i].faction != navigator.faction)
+            if (fleets[i].faction != navigator.faction)
             {
                 newConflict = true;
                 enemies.Add(fleets[i]);
@@ -66,7 +65,7 @@ public class NavigatorCombat : MonoBehaviour
 
     public bool AddEnemy(Navigator possibleEnemy)
     {
-        if(navigator.faction != possibleEnemy.faction)
+        if (navigator.faction != possibleEnemy.faction)
         {
             if (!enemies.Contains(possibleEnemy))
             {
@@ -78,7 +77,7 @@ public class NavigatorCombat : MonoBehaviour
                 }
                 return true;
             }
-          
+
         }
 
 
@@ -87,7 +86,7 @@ public class NavigatorCombat : MonoBehaviour
     }
     public bool RemoveEnemy(Navigator possibleEnemy)
     {
-        
+
         if (enemies.Contains(possibleEnemy))
         {
             enemies.Remove(possibleEnemy);
@@ -107,12 +106,12 @@ public class NavigatorCombat : MonoBehaviour
 
     void SetConflict(bool value)
     {
-        if(conflict == value)
+        if (conflict == value)
         {
             return;
         }
 
-        if(value)
+        if (value)
         {
             UpdateTarget();
         }
@@ -127,7 +126,7 @@ public class NavigatorCombat : MonoBehaviour
         navigator.ConflictReaction(conflict);
 
     }
-        
-        
+
+
 
 }

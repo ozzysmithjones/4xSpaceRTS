@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
 public class BuiltStructureButton : MonoBehaviour
 {
@@ -13,17 +10,17 @@ public class BuiltStructureButton : MonoBehaviour
     public TextMeshProUGUI structureQuantity;
     public BuiltStructure builtStructure;
     public int quantity = 0;
-   
+
 
     private static int classIndex = 0;
 
     private void Start()
-    { 
+    {
         builtStructure = Master.instance.characters.factions[0].structureTypes[classIndex];
         structureName.text = builtStructure.name;
         structureQuantity.text = quantity.ToString();
         classIndex++;
-        
+
     }
 
 
@@ -43,12 +40,12 @@ public class BuiltStructureButton : MonoBehaviour
 
     public void UpdateDescription()
     {
-        if(quantity <= 0)
+        if (quantity <= 0)
         {
             return;
         }
         buildQueueItemDescription.UpdateDescription(builtStructure.name, builtStructure.description);
     }
-    
+
 
 }

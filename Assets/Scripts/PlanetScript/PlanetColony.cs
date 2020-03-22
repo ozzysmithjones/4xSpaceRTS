@@ -22,11 +22,18 @@ public class PlanetColony : MonoBehaviour
     public delegate void OnPopulationChange(List<Population> populations);
     public event OnPopulationChange PopulationChange;
 
+    public Resources resourceProduction = new Resources();
+    public float[] resourceBonus;
+    public float stability = 1.0f;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-       
-       
+        resourceBonus = new float[resourceProduction.amounts.Length];
+        for (int i = 0; i < resourceBonus.Length; i++)
+        {
+            resourceBonus[i] = 1.0f;
+        }
+
     }
 
     // Update is called once per frame
@@ -38,9 +45,10 @@ public class PlanetColony : MonoBehaviour
     public void Colonise(int factionIndex)
     {
         AddPop(Master.instance.characters.factions[factionIndex].species[0].index);
+        planet.star.starEconomy.colonies.Add(this);
     }
 
-    
+
     public void ListenToPopulation(OnPopulationChange onPopulationChange, bool listening)
     {
         if (listening)
@@ -50,7 +58,7 @@ public class PlanetColony : MonoBehaviour
         }
         else
         {
-             PopulationChange -= onPopulationChange;
+            PopulationChange -= onPopulationChange;
         }
     }
 
@@ -59,7 +67,7 @@ public class PlanetColony : MonoBehaviour
         if (listening)
         {
             BuildQueueChange += onBuildQueueChange;
-            
+
         }
         else
         {
@@ -84,7 +92,7 @@ public class PlanetColony : MonoBehaviour
         totalStructures--;
         builtStructures[builtStructure.classIndex]--;
 
-        if(builtStructures[builtStructure.classIndex] < 0)
+        if (builtStructures[builtStructure.classIndex] < 0)
         {
             builtStructures[builtStructure.classIndex] = 0;
         }
@@ -98,6 +106,7 @@ public class PlanetColony : MonoBehaviour
     public void AddPop(int speciesIndex)
     {
         totalPopulation++;
+        ModifyResourceProduction(ResourceType.FOOD, -1);
         for (int i = 0; i < populations.Count; i++)
         {
             if (populations[i].species.index == speciesIndex)
@@ -119,10 +128,12 @@ public class PlanetColony : MonoBehaviour
 
     public void RemovePop(int speciesIndex)
     {
+
         for (int i = 0; i < populations.Count; i++)
         {
             if (populations[i].species.index == speciesIndex)
             {
+                ModifyResourceProduction(ResourceType.FOOD, 1);
                 totalPopulation--;
                 populations[i].size--;
                 if (PopulationChange != null)
@@ -142,7 +153,7 @@ public class PlanetColony : MonoBehaviour
 
     public IEnumerator BeginBuildQueue()
     {
-        if(buildQueue.Count <= 0)
+        if (buildQueue.Count <= 0)
         {
             //Debug.LogWarning("no items in queue");
             yield break;
@@ -151,10 +162,10 @@ public class PlanetColony : MonoBehaviour
         buildQueueRunning = true;
         buildQueue[0].startTime = Time.time;
 
-        while(buildQueue.Count > 0)
+        while (buildQueue.Count > 0)
         {
             yield return StartCoroutine(BuildSequence(0));
-            if(buildQueue.Count <= 0)
+            if (buildQueue.Count <= 0)
             {
                 break;
             }
@@ -163,7 +174,7 @@ public class PlanetColony : MonoBehaviour
             buildQueue[0].quantity--;
             if (buildQueue[0].quantity <= 0)
             {
-                
+
                 buildQueue.RemoveAt(0);
                 if (buildQueue.Count > 0)
                 {
@@ -173,7 +184,7 @@ public class PlanetColony : MonoBehaviour
             else
             {
                 buildQueue[0].startTime = Time.time;
-               // i--;
+                // i--;
             }
 
             if (BuildQueueChange != null)
@@ -192,12 +203,12 @@ public class PlanetColony : MonoBehaviour
         buildQueue[index].startTime = Time.time;
         while (true)
         {
-            if(index >= buildQueue.Count)
+            if (index >= buildQueue.Count)
             {
                 break;
             }
 
-            if(Time.time - buildQueue[index].startTime > buildQueue[index].item.buildTime)
+            if (Time.time - buildQueue[index].startTime > buildQueue[index].item.buildTime)
             {
                 break;
             }
@@ -206,7 +217,7 @@ public class PlanetColony : MonoBehaviour
 
         }
     }
-    
+
 
 
     public void AddToBuildQueue(Queue queue)
@@ -227,7 +238,7 @@ public class PlanetColony : MonoBehaviour
     {
         if (all)
         {
-           buildQueue[itemIndex].quantity = 0;
+            buildQueue[itemIndex].quantity = 0;
         }
         else
         {
@@ -235,7 +246,7 @@ public class PlanetColony : MonoBehaviour
         }
         if (buildQueue[itemIndex].quantity <= 0)
         {
-           // StopCoroutine(BeginBuildQueue());
+            // StopCoroutine(BeginBuildQueue());
 
             buildQueue.RemoveAt(itemIndex);
             if (buildQueue.Count > 0 && itemIndex < buildQueue.Count)
@@ -243,16 +254,33 @@ public class PlanetColony : MonoBehaviour
                 buildQueue[itemIndex].startTime = Time.time;
             }
 
-           // StartCoroutine(BeginBuildQueue());
+            // StartCoroutine(BeginBuildQueue());
         }
 
         BuildQueueChange.Invoke(buildQueue);
 
     }
 
+    public int ModifyResourceProduction(ResourceType resourceType, int amount)
+    {
+        resourceProduction.amounts[(int)resourceType] += amount;
+        planet.star.starEconomy.ModifyResourceProduction(resourceType, Mathf.RoundToInt(amount * resourceBonus[(int)resourceType] * stability));
+        return resourceProduction.amounts[(int)resourceType];
+    }
+
+    public float ModifyResourceBonus(ResourceType resourceType, float amount)
+    {
+        int oldPrtoduction = Mathf.RoundToInt(resourceProduction.amounts[(int)resourceType] * resourceBonus[(int)resourceType] * stability);
+        resourceBonus[(int)resourceType] += amount;
+        int newProduction = Mathf.RoundToInt(resourceProduction.amounts[(int)resourceType] * resourceBonus[(int)resourceType] * stability);
+
+        planet.star.starEconomy.ModifyResourceProduction(resourceType, newProduction - oldPrtoduction);
+        return resourceBonus[(int)resourceType];
+    }
 
 
-    
+
+
 }
 
-    
+

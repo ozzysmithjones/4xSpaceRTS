@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Variety : MonoBehaviour
 {
@@ -13,17 +11,17 @@ public class Variety : MonoBehaviour
 
     public void Initialise()
     {
-     
-        for(int i = 0; i < builtStructures.Length; i++)
+
+        for (int i = 0; i < builtStructures.Length; i++)
         {
             builtStructures[i].classIndex = i;
         }
 
-        for(int i = 0; i < builtShips.Length; i++)
+        for (int i = 0; i < builtShips.Length; i++)
         {
             builtShips[i].classIndex = i;
         }
     }
 
-    
+
 }

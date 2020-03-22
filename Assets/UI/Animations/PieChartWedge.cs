@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 public class PieChartWedge : MonoBehaviour
 {
@@ -34,14 +32,14 @@ public class PieChartWedge : MonoBehaviour
     public float GetEndAngle()
     {
         float angle = GetStartAngle() + (wedgeImage.fillAmount * 360.0f);
-        if(angle >= 360.0f)
+        if (angle >= 360.0f)
         {
             angle = 360.0f;
         }
         return angle;
 
-        
+
     }
 
-   
+
 }

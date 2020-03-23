@@ -39,7 +39,7 @@ public class PlanetOverviewAlreadyBuilt : MonoBehaviour
         int totalPopulation = planetOverview.planet.planetColony.totalPopulation;
         int totalStructures = planetOverview.planet.planetColony.totalStructures;
 
-        int efficiency = totalStructures > 0 ? Mathf.FloorToInt((float)totalPopulation / (float)totalStructures * 100) : 100;
+        int efficiency = totalStructures > 0 ? Mathf.FloorToInt(Mathf.Clamp((float)totalPopulation / (float)totalStructures,0.0f,1.0f) * 100) : 100;
         string enoughPops = totalStructures <= totalPopulation ? " Beacuse There is enough Population for every job" : " Beacuse there's not enough population for every job.";
 
         productivityText.text = totalPopulation + " pops : " + totalStructures + " jobs";

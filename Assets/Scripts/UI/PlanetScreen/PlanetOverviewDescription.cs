@@ -14,6 +14,7 @@ public class PlanetOverviewDescription : MonoBehaviour
     public void UpdateDescription(Planet planet)
     {
         image.texture = planet.planetTexture.texture2D;
-        buildQueueItemDescription.UpdateDescription("Planet", "descrpition");
+        buildQueueItemDescription.SetDefaultDescription(planet.name, "description");
+        buildQueueItemDescription.ResetToDefaultDescription();
     }
 }

@@ -20,4 +20,4 @@ MonoBehaviour:
   category: 0
   planetBuiltOn: {fileID: 0}
   resourceType: 3
-  resourceProduction: 1
+  resourceProduction: 8

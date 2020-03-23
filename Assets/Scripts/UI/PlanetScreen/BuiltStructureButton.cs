@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
-
-public class BuiltStructureButton : MonoBehaviour
+using UnityEngine.EventSystems;
+public class BuiltStructureButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public BuildQueueItemDescription buildQueueItemDescription;
 
@@ -38,7 +38,7 @@ public class BuiltStructureButton : MonoBehaviour
         }
     }
 
-    public void UpdateDescription()
+    private void UpdateDescription()
     {
         if (quantity <= 0)
         {
@@ -47,5 +47,18 @@ public class BuiltStructureButton : MonoBehaviour
         buildQueueItemDescription.UpdateDescription(builtStructure.name, builtStructure.description);
     }
 
+    private void ClearDescription()
+    {
+        buildQueueItemDescription.ResetToDefaultDescription();
+    }
 
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        UpdateDescription();
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        ClearDescription();
+    }
 }

@@ -62,7 +62,7 @@ public class PlanetOverviewSpeciesOverview : MonoBehaviour
     private void OnPieChartWedgeEnter(PieChartWedge pieChartWedge)
     {
         selectedSpecies = populations[pieChartWedge.index].species;
-        populationToolTip.SetText(selectedSpecies.name + " at " + populations[pieChartWedge.index].size + " Population");
+        populationToolTip.SetTextAndView(selectedSpecies.name + " at " + populations[pieChartWedge.index].size + " Population");
     }
 
 

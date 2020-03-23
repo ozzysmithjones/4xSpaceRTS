@@ -18,13 +18,21 @@ public class ToolTipSystem : MonoBehaviour
     {
         transform.position = Input.mousePosition;
     }
-    public void SetText(string text)
+    public void ActivateToolTip(string text)
     {
         gameObject.SetActive(true);
         toolTipText.text = text;
     }
+    public void UpdateText(string text)
+    {
+        this.text = text;
+        if (gameObject.activeSelf)
+        {
+            toolTipText.text = text;
+        }
+    }
 
-    public void ClearText()
+    public void DeActivateToolTip()
     {
         toolTipText.text = ".";
         gameObject.SetActive(false);

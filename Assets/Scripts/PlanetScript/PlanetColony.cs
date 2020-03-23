@@ -276,8 +276,9 @@ public class PlanetColony : MonoBehaviour
         int[] output = new int[resourceProduction.amounts.Length];
         for(int i = 0; i < output.Length; i++)
         {
-            float stability = resourceProduction.amounts[i] > 0 ? this.stability : 1.0f;
-            output[i] = (int)(resourceProduction.amounts[i] * stability * resourceBonus[i]);
+            float JobFill = Mathf.Clamp((float)totalPopulation / (float)totalStructures,0.0f,1.0f);
+            float productivity = resourceProduction.amounts[i] > 0 ? this.stability * JobFill : 1.0f;
+            output[i] = (int)(resourceProduction.amounts[i] * productivity * resourceBonus[i]);
         }
 
         return output;

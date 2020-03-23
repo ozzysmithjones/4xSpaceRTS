@@ -2665,7 +2665,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0.9999999}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4337,7 +4337,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: Build space = 3
+  m_text: '5 pops : 10 jobs'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c93e48a266357db4f84b9ba1d384b82b, type: 2}
   m_sharedMaterial: {fileID: 21111869745395122, guid: c93e48a266357db4f84b9ba1d384b82b,
@@ -4407,10 +4407,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 569093413}
-    characterCount: 15
+    characterCount: 16
     spriteCount: 0
-    spaceCount: 3
-    wordCount: 3
+    spaceCount: 4
+    wordCount: 4
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -13588,6 +13588,7 @@ GameObject:
   - component: {fileID: 1531536447}
   - component: {fileID: 1531536446}
   - component: {fileID: 1531536444}
+  - component: {fileID: 1531536445}
   m_Layer: 5
   m_Name: BuildSpace
   m_TagString: Untagged
@@ -13634,6 +13635,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1531536445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531536442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6fc6a3cc05c3a945bd50b682c334a5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: 
 --- !u!114 &1531536446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14027,8 +14041,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2db83608121659f42af974a9313b57bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BuildSpaceText: {fileID: 569093413}
-  planetOverview: {fileID: 0}
+  productionToolTip: {fileID: 1531536445}
+  productivityText: {fileID: 569093413}
+  planetOverview: {fileID: 1695472892}
   builtStructureButtons:
   - {fileID: 1666796067826198771}
   - {fileID: 1246553992}

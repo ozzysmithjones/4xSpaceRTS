@@ -5,39 +5,19 @@ using UnityEngine.UI;
 using TMPro;
 public class PlanetOverviewAlreadyBuilt : MonoBehaviour
 {
-    public TMP_Text BuildSpaceText;
+    public ToolTip productionToolTip;
+    public TMP_Text productivityText;
     public PlanetOverview planetOverview;
     public BuiltStructureButton[] builtStructureButtons = new BuiltStructureButton[10];
-
-    // Start is called before the first frame update
-    void Awake()
-    {
-        /*
-        for (int i = 0; i < builtStructureButtons.Length; i++)
-        {
-            builtStructureButtons[i].structureClassIndex = i;
-        }
-        */
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public void UpdateQuantity(int classIndex)
     {
 
         BuiltStructureButton builtStructureButton = builtStructureButtons[classIndex];
-
         int quantity = planetOverview.planet.planetColony.builtStructures[classIndex];
 
         builtStructureButton.UpdateQuantity(quantity);
-
-        int buildSpace = planetOverview.planet.planetColony.totalPopulation - planetOverview.planet.planetColony.totalStructures;
-        BuildSpaceText.text = "BUILD SPACE = " + buildSpace;
+        UpdateProductionUI();
     }
 
     public void UpdateAllQuantities()
@@ -50,7 +30,19 @@ public class PlanetOverviewAlreadyBuilt : MonoBehaviour
 
     public void OnPopulationChange(List<Population> populations)
     {
-        int buildSpace = planetOverview.planet.planetColony.totalPopulation - planetOverview.planet.planetColony.totalStructures;
-        BuildSpaceText.text = "BUILD SPACE = " + buildSpace;
+        UpdateProductionUI();
+    }
+
+    private void UpdateProductionUI()
+    {
+ 
+        int totalPopulation = planetOverview.planet.planetColony.totalPopulation;
+        int totalStructures = planetOverview.planet.planetColony.totalStructures;
+
+        int efficiency = totalStructures > 0 ? Mathf.FloorToInt((float)totalPopulation / (float)totalStructures * 100) : 100;
+        string enoughPops = totalStructures <= totalPopulation ? " Beacuse There is enough Population for every job" : " Beacuse there's not enough population for every job.";
+
+        productivityText.text = totalPopulation + " pops : " + totalStructures + " jobs";
+        productionToolTip.SetText("This planet is working at " + efficiency + " % Efficiency" + enoughPops);
     }
 }

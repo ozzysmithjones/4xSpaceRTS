@@ -45,22 +45,6 @@ public class PlanetOverviewBuildQueue : MonoBehaviour
 
     public void UpdateQueueChange(List<Queue> queue)
     {
-        /*
-        if(!added)
-        {
-            RemoveQueueUIElement(index);
-            if (queueUIs.Count > 0)
-            {
-               UpdateQueueElement(index);
-            }
-        }
-        else
-        {
-            AddQueueUIElement();
-            UpdateQueueElement(index);
-        }
-        */
-
         int length = Mathf.Max(queueUIs.Count, queue.Count);
         for (int i = 0; i < length; i++)
         {
@@ -91,32 +75,6 @@ public class PlanetOverviewBuildQueue : MonoBehaviour
             }
             length = Mathf.Max(queueUIs.Count, planetOverview.planet.planetColony.buildQueue.Count);
         }
-
-
-
-        /*
-        int iterations = Mathf.Max(queueUIs.Count, queue.Count) - Mathf.Min(queueUIs.Count, queue.Count);
-        for (int i = 0; i < iterations; i++)
-        {
-            if(queueUIs.Count < queue.Count)
-            {
-
-                AddQueueUIElement();
-                UpdateQueueElement(queueUIs.Count-1);
-            }
-            else
-            {
-                RemoveQueueUIElement();
-                if (queueUIs.Count > 0)
-                {
-                    UpdateQueueElement(0);
-                }
-            }
-        }
-        */
-
-
-
 
     }
 

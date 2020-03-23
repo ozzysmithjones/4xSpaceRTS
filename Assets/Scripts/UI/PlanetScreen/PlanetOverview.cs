@@ -30,7 +30,7 @@ public class PlanetOverview : MonoBehaviour
         speciesOverview.DisplayDominantPopulation(planet.planetColony.populations);
         speciesOverview.OnPopulationChange(planet.planetColony.populations);
         planet.planetColony.ListenToPopulation(speciesOverview.OnPopulationChange, true);
-
+        planet.planetColony.ListenToPopulation(alreadyBuilt.OnPopulationChange, true);
 
         alreadyBuilt.UpdateAllQuantities();
         description.UpdateDescription(newPlanet);
@@ -50,6 +50,7 @@ public class PlanetOverview : MonoBehaviour
         {
             planet.planetColony.ListenToBuildQueue(buildQueue.UpdateQueueChange, false);
             planet.planetColony.ListenToPopulation(speciesOverview.OnPopulationChange, false);
+            planet.planetColony.ListenToPopulation(alreadyBuilt.OnPopulationChange, false);
         }
         Master.instance.userInterface.planetOverviewOpen = false;
         gameObject.SetActive(false);

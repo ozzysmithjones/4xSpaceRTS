@@ -164,14 +164,16 @@ public class PlanetColony : MonoBehaviour
 
         while (buildQueue.Count > 0)
         {
+
             yield return StartCoroutine(BuildSequence(0));
             if (buildQueue.Count <= 0)
             {
                 break;
             }
-            buildQueue[0].item.Build(planet);
 
+            buildQueue[0].item.Build(planet);
             buildQueue[0].quantity--;
+
             if (buildQueue[0].quantity <= 0)
             {
 

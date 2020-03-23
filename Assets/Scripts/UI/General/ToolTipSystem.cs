@@ -11,7 +11,7 @@ public class ToolTipSystem : MonoBehaviour
 
     private void Start()
     {
-        SetText("Hello world");
+        gameObject.SetActive(false);
     }
 
     private void LateUpdate()

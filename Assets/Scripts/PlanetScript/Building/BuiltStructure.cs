@@ -5,6 +5,12 @@ public class BuiltStructure : BuildQueueItem
 {
     [HideInInspector]
     public Planet planetBuiltOn;
+
+    public override bool CanBuild(Planet planet)
+    {
+        return (planet.planetColony.totalPopulation > planet.planetColony.totalStructures);
+
+    }
     public override void Build(Planet planet)
     {
         base.Build(planet);

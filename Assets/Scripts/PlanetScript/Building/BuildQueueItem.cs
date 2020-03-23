@@ -14,6 +14,11 @@ public class BuildQueueItem : ScriptableObject
     public enum Category { Economy, Diplomacy, Military };
     public Category category = Category.Economy;
 
+    public virtual bool CanBuild(Planet planet)
+    {
+        return true;
+    }
+
     public virtual void Build(Planet planet)
     {
 

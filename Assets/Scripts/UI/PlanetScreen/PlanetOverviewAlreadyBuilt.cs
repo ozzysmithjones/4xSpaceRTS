@@ -1,7 +1,11 @@
-﻿using UnityEngine;
-
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 public class PlanetOverviewAlreadyBuilt : MonoBehaviour
 {
+    public TMP_Text BuildSpaceText;
     public PlanetOverview planetOverview;
     public BuiltStructureButton[] builtStructureButtons = new BuiltStructureButton[10];
 
@@ -28,10 +32,12 @@ public class PlanetOverviewAlreadyBuilt : MonoBehaviour
 
         BuiltStructureButton builtStructureButton = builtStructureButtons[classIndex];
 
-
         int quantity = planetOverview.planet.planetColony.builtStructures[classIndex];
 
         builtStructureButton.UpdateQuantity(quantity);
+
+        int buildSpace = planetOverview.planet.planetColony.totalPopulation - planetOverview.planet.planetColony.totalStructures;
+        BuildSpaceText.text = "BUILD SPACE = " + buildSpace;
     }
 
     public void UpdateAllQuantities()
@@ -40,5 +46,11 @@ public class PlanetOverviewAlreadyBuilt : MonoBehaviour
         {
             UpdateQuantity(i);
         }
+    }
+
+    public void OnPopulationChange(List<Population> populations)
+    {
+        int buildSpace = planetOverview.planet.planetColony.totalPopulation - planetOverview.planet.planetColony.totalStructures;
+        BuildSpaceText.text = "BUILD SPACE = " + buildSpace;
     }
 }

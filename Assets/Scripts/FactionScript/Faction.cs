@@ -32,7 +32,7 @@ public class Faction
     public List<Species> species;
 
     private Timer PopulationGrowthTimer;
-    public float PopulationGrowthSpeed = 0.1f;
+    public float PopulationGrowthSpeed = 0.02f;
 
     public Faction(int index, Color flagColor, string factionName)
     {

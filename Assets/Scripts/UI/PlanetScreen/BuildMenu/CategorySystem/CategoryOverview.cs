@@ -4,21 +4,21 @@ public class CategoryOverview : MonoBehaviour
 {
     public BuildMenu buildMenu;
     // Start is called before the first frame update
-    void Start()
-    {
-        UpdateCategory(BuildQueueItem.Category.Economy, true);
-    }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-
+       // UpdateCategory(BuildQueueItem.Category.Economy, true);
     }
 
     public void UpdateCategory(BuildQueueItem.Category category, bool active)
     {
         for (int i = 0; i < buildMenu.buildOptions.Length; i++)
         {
+            if (!buildMenu.buildOptions[i].Initialised)
+            {
+                continue;
+            }
+
             if (buildMenu.buildOptions[i].category != category && active)
             {
                 //print("deactivation happens");

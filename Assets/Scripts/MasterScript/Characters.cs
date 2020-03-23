@@ -75,8 +75,8 @@ public class Characters : MonoBehaviour
             instance = new Player(index, colors[0], names[0]);
         }
 
-        instance.structureTypes = structureTypes;
-        instance.shipTypes = shipTypes;
+        instance.structureTypes = new List<BuiltStructure>(structureTypes);
+        instance.shipTypes = new List<BuiltShip>(shipTypes);
 
         instance.species = new List<Species>();
         instance.species.Add(species[0]);

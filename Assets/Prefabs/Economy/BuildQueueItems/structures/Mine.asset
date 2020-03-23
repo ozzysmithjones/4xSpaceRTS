@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   classIndex: 1
   name: Mine
-  description: +1 material production
+  description: +8 material production
   buildTime: 10
   buildCost: 10
   category: 0

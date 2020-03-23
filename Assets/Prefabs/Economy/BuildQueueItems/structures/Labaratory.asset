@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f98ec1fcf00c55e4c9ac327f6cd2336a, type: 3}
-  m_Name: EvilFacility
+  m_Name: Labaratory
   m_EditorClassIdentifier: 
   classIndex: 2
-  name: Evil Facility
-  description: +1 death matter production
-  buildTime: 60
+  name: Labaratory
+  description: +8 science production
+  buildTime: 10
   buildCost: 10
   category: 0
   planetBuiltOn: {fileID: 0}

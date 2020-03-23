@@ -16,8 +16,8 @@ public class Faction
     public Color flagColor;
 
     //building
-    public BuiltShip[] shipTypes;
-    public BuiltStructure[] structureTypes;
+    public List<BuiltShip> shipTypes;
+    public List<BuiltStructure> structureTypes;
 
     //Economy
     public Resources resources = new Resources();

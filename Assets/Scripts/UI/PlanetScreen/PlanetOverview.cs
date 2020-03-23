@@ -32,6 +32,7 @@ public class PlanetOverview : MonoBehaviour
         planet.planetColony.ListenToPopulation(speciesOverview.OnPopulationChange, true);
         planet.planetColony.ListenToPopulation(alreadyBuilt.OnPopulationChange, true);
 
+        
         alreadyBuilt.UpdateAllQuantities();
         description.UpdateDescription(newPlanet);
     }

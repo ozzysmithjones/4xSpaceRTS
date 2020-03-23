@@ -1,52 +1,54 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using System;
+using TMPro;
 using UnityEngine;
-
-public class BuildOptionUI : MonoBehaviour
+using UnityEngine.EventSystems;
+public class BuildOptionUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    public bool Initialised = false;
     public BuildQueueItem.Category category = BuildQueueItem.Category.Economy;
 
     public BuildMenu buildMenu;
-    public bool isShip = false;
-    public int classIndex = 0;
     private BuildQueueItem buildQueueItem;
     public TextMeshProUGUI itemName;
     public TMP_InputField quantity;
     public TextMeshProUGUI price;
 
-    private void Awake()
+
+    public void Initialise(BuildQueueItem buildQueueItem)
     {
-
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        if (!isShip)
-        {
-
-            buildQueueItem = Master.instance.characters.factions[0].structureTypes[classIndex];
-
-        }
-        else
-        {
-            buildQueueItem = Master.instance.characters.factions[0].shipTypes[classIndex];
-        }
+        Initialised = true;
+        gameObject.SetActive(true);
+        this.buildQueueItem = buildQueueItem;
 
         category = buildQueueItem.category;
         itemName.text = buildQueueItem.name;
-        price.text = "MAT: " + buildQueueItem.buildCost.ToString();
-
-
+        price.text = "MAT: " + (buildQueueItem.buildCost * int.Parse(quantity.text));
+        
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Remove()
     {
-
+        Initialised = false;
+        gameObject.SetActive(false);
+    }
+    public void UpdatePrice()
+    {
+        price.text = "MAT: " + (buildQueueItem.buildCost * int.Parse(quantity.text));
     }
 
     public void Build()
     {
         buildMenu.Build(buildQueueItem, int.Parse(quantity.text));
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        buildMenu.BuildOptionDescription.text = buildQueueItem.description;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        buildMenu.BuildOptionDescription.text = ".";
     }
 }

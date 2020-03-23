@@ -39,9 +39,6 @@ public class Characters : MonoBehaviour
         Star star = Master.instance.enviroment.RandomStar();
         star.TakeOver(0);
         star.Colonise(0);
-
-
-
         for (int i = 1; i < totalFactions - 1; i++)
         {
             factions.Add(CreateFaction(i, shipTypes, structureTypes));
@@ -55,11 +52,6 @@ public class Characters : MonoBehaviour
         {
             factions[i].Start();
         }
-        //random expansion:
-        //for (int i = 0; i < factions.Count; i++)
-        //   {
-        // factions[i].RandomlyExpand();
-        //  }
 
     }
 
@@ -100,8 +92,6 @@ public class Characters : MonoBehaviour
             {
                 return weights[i];
             }
-
-
         }
         Debug.LogError("couldn't find the AI weight: " + name);
         return null;
@@ -111,8 +101,7 @@ public class Characters : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(1.0f);
-
+            yield return new WaitForSeconds(20.0f);
             for (int i = 0; i < factions.Count; i++)
             {
                 factions[i].ProduceResources();

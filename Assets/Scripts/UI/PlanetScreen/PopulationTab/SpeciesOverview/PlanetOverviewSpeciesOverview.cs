@@ -8,14 +8,17 @@ public class PlanetOverviewSpeciesOverview : MonoBehaviour
     public Animator speciesAnimation;
     public TMP_Text speciesTitle;
     public TMP_Text speciesDescription;
-    public WedgePress wedgePress;
+    public WedgeMouseInput wedgePress;
 
     private List<Population> populations;
     private Species selectedSpecies;
 
+    public ToolTip populationToolTip;
+
     private void Start()
     {
-        wedgePress.AddToClickEvent(OnPieChartWedgePress);
+        wedgePress.AddToMouseClickEvent(OnPieChartWedgePress,true);
+        wedgePress.AddToMouseEnterEvent(OnPieChartWedgeEnter, true);
     }
     public void DisplayDominantPopulation(List<Population> populations)
     {
@@ -50,11 +53,18 @@ public class PlanetOverviewSpeciesOverview : MonoBehaviour
 
     private void OnPieChartWedgePress(PieChartWedge pieChartWedge)
     {
-        selectedSpecies = populations[pieChartWedge.index].species;
+      
         speciesAnimation.SetInteger("SpeciesType", selectedSpecies.animation);
         speciesTitle.text = selectedSpecies.name;
         speciesDescription.text = selectedSpecies.description;
     }
+
+    private void OnPieChartWedgeEnter(PieChartWedge pieChartWedge)
+    {
+        selectedSpecies = populations[pieChartWedge.index].species;
+        populationToolTip.SetText(selectedSpecies.name + " at " + populations[pieChartWedge.index].size + " Population");
+    }
+
 
 
 

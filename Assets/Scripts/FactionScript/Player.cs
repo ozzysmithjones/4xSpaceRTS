@@ -22,9 +22,20 @@ public class Player : Faction
             {
                 continue;
             }
-            resourcesText[i].text = ResourceText((ResourceType)i);
+            
         }
 
+    }
+    public override void SetResourceAmount(ResourceType resourceType, int amount)
+    {
+        base.SetResourceAmount(resourceType, amount);
+        resourcesText[(int)resourceType].text =  ResourceText(resourceType);
+    }
+
+    public override void ModifySpaceResourceProduction(ResourceType resourceType, int amount)
+    {
+        base.ModifySpaceResourceProduction(resourceType, amount);
+        resourcesText[(int)resourceType].text =  ResourceText(resourceType);
     }
 
     public override void ProduceResources()
@@ -33,7 +44,7 @@ public class Player : Faction
 
         for(int i = 0; i < totalResourceProduction.amounts.Length; i++)
         {
-            ResourceText((ResourceType)i);
+            resourcesText[i].text =  ResourceText((ResourceType)i);
         }
        
     }

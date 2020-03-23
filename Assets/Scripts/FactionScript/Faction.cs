@@ -53,7 +53,8 @@ public class Faction
     public virtual void Update(float deltaTime)
     {
 
-        PopulationGrowthTimer.Tick(PopulationGrowthSpeed * deltaTime / colonies.Count);
+        PopulationGrowthTimer.endTime = colonies.Count;
+        PopulationGrowthTimer.Tick(PopulationGrowthSpeed * deltaTime);
     }
 
  
@@ -61,7 +62,6 @@ public class Faction
 
     public void GrowPopulation()
     {
-
         for (int i = 0; i < colonies.Count; i++)
         {
             colonies[i].starEconomy.colonies[0].AddPop(species[0].index);
@@ -144,7 +144,6 @@ public class Faction
 
     public virtual void Gather(Resources resources)
     {
-
         for (int i = 0; i < resources.amounts.Length; i++)
         {
             if (i < this.resources.amounts.Length)
@@ -175,14 +174,16 @@ public class Faction
     }
 
 
-    public void SetResourceAmount(ResourceType resourceType, int amount)
+    public virtual void SetResourceAmount(ResourceType resourceType, int amount)
     {
         this.resources.amounts[(int)resourceType] = amount;
+        totalResourceProduction.amounts[(int)resourceType] = amount;
     }
 
-    public void ModifySpaceResourceProduction(ResourceType resourceType, int amount)
+    public virtual void ModifySpaceResourceProduction(ResourceType resourceType, int amount)
     {
         spaceResourceProduction.amounts[(int)resourceType] += amount;
+        totalResourceProduction.amounts[(int)resourceType] += amount;
     }
 
     public int[] GetColonyResourceProduction()

@@ -16,7 +16,7 @@ public class Interface : MonoBehaviour
     //to the fleet managers fleets array. If it's just a ship it is added on the fleet manager to any fleet in the system otherwise it 
     //creates a new fleet with that ship.
 
-
+    public ToolTipSystem toolTipSystem;
     public Tool currentTool;
 
     private Tool[] tools = new Tool[4];

@@ -22,8 +22,6 @@ public class Master : MonoBehaviour
     public Interface userInterface;
 
 
-
-
     public int seed = 0;
     public const int collums = 50;
     public const int rows = 50;
@@ -92,42 +90,6 @@ public class Master : MonoBehaviour
         }
     }
 
-
-    //used to convert between two dimensional arrays(filled one collumm at a time) to one dimensional arrays. 
-    public int TwoDimToOneDim(int x, int y, int height)
-    {
-        return x * height + y;
-
-    }
-
-    public void OneDimToTwoDim(int xy, int height, out int x, out int y)
-    {
-        float value = (float)xy / (float)height;
-
-        y = xy % height;
-        x = Mathf.FloorToInt(value);
-    }
-
-    public bool InsideBounds(int x, int y)
-    {
-        if (x >= 0 && x < collums)
-        {
-            if (y >= 0 && y < rows)
-            {
-                return true;
-            }
-            else
-            {
-
-                return false;
-            }
-        }
-        else
-        {
-
-            return false;
-        }
-    }
 
 
     public List<int> PathFind(int start, int end, int[] factionsAllowed = null, float maxLength = 0f)

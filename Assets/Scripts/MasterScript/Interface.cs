@@ -25,6 +25,8 @@ public class Interface : MonoBehaviour
     public bool planetOverviewOpen = false;
     public PlanetOverview planetOverview;
 
+    public ResearchOverview researchOverview;
+
     public MoveFleetTool moveFleetTool;
     // Start is called before the first frame update
     void Start()
@@ -62,13 +64,14 @@ public class Interface : MonoBehaviour
         //Debug.Log(tool.ToString() + "tool c);
     }
 
-    public void OpenResearchOverview(){
-
+    public void OpenResearchOverview(Research research)
+    {
+        researchOverview.Open(research);
     }
 
     public void CloseResearchOverview()
     {
-
+        researchOverview.Close();
     }
     public void OpenPlanetOverview(Planet planet)
     {

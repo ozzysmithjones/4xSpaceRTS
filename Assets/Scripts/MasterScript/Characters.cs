@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Characters : MonoBehaviour
 {
+    public ResearchQueueItem startingResearch;
     public const int totalFactions = 3;
     public Species[] species;
     public PoliticalGroup[] politicalGroups;
@@ -52,6 +53,8 @@ public class Characters : MonoBehaviour
         {
             factions[i].Start();
         }
+
+        factions[0].research.BeginResearch(startingResearch);
 
     }
 

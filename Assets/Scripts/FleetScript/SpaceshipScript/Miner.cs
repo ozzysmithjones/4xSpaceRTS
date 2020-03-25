@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Miner : Drone
@@ -11,8 +10,8 @@ public class Miner : Drone
     private float distance = 0.0f;
     private Transform planet;
 
-    
-    public enum Process { APROACH, MINE, RETURN, DOCKED};
+
+    public enum Process { APROACH, MINE, RETURN, DOCKED };
     public Process process = Process.DOCKED;
 
 
@@ -23,7 +22,7 @@ public class Miner : Drone
         animator = GetComponent<Animator>();
         base.Initialise(flagColor);
 
-       
+
     }
 
     public override void OnPoint(Transform goal)
@@ -50,27 +49,27 @@ public class Miner : Drone
     public override void PathUpdate()
     {
 
-        
+
         if (!pointing || conflict)
         {
             base.PathUpdate();
         }
         else
         {
-            
+
             alpha += Time.deltaTime * (speed / distance);
 
             transform.Translate(Vector3.up * Time.deltaTime * speed);
 
-            if(alpha >= 1f)
+            if (alpha >= 1f)
             {
                 alpha = 0.0f;
                 if (process == Process.APROACH)
                 {
                     //StartCoroutine(Mine());
-                    
+
                     ClearPath();
-                    if(animator == null)
+                    if (animator == null)
                     {
                         Debug.LogError("Animator is null");
                         animator = GetComponent<Animator>();
@@ -82,18 +81,18 @@ public class Miner : Drone
                     Invoke("ReturnToDock", 4f);
 
                 }
-                else if(process == Process.RETURN)
+                else if (process == Process.RETURN)
                 {
                     //dock the ship. 
-                   
-                   
+
+
                     shipCarrier.Dock(this);
                     process = Process.DOCKED;
                 }
 
             }
         }
-        
+
     }
 
     IEnumerator Mine(float miningTime = 4f)

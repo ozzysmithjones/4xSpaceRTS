@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class StarGeneration : MonoBehaviour
 {
@@ -16,17 +14,17 @@ public class StarGeneration : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
 
-    public void Generate(Star star,int radius,int numberOfPlanets, float colony = 0.25f, int faction = -1)
+    public void Generate(Star star, int radius, int numberOfPlanets, float colony = 0.25f, int faction = -1)
     {
         planets = new Planet[numberOfPlanets];
         radius = Mathf.Max(radius, numberOfPlanets);
@@ -34,7 +32,7 @@ public class StarGeneration : MonoBehaviour
         bool[] planetPositions = new bool[radius];
 
         //make array
-        for(int i = 0; i < planetPositions.Length; i++)
+        for (int i = 0; i < planetPositions.Length; i++)
         {
             if (i < numberOfPlanets)
             {
@@ -83,8 +81,8 @@ public class StarGeneration : MonoBehaviour
         }
 
         //make all the children invisible.
-       
-       // Master.instance.userInterface.SetMapUI(true);
+
+        // Master.instance.userInterface.SetMapUI(true);
 
 
     }
@@ -92,7 +90,7 @@ public class StarGeneration : MonoBehaviour
     private void SetBiomeOfPlanet(int furthestPlanetPosition, int planetPosition, Planet planet)
     {
 
-        Biome biome = Master.instance.variety.biomeGradient.GetBiomeAtPoint((float)planetPosition / (furthestPlanetPosition-1));
+        Biome biome = Master.instance.variety.biomeGradient.GetBiomeAtPoint((float)planetPosition / (furthestPlanetPosition - 1));
         planet.SetBiome(biome);
     }
 
@@ -123,5 +121,5 @@ public class StarGeneration : MonoBehaviour
         return planet;
     }
 
-   
+
 }

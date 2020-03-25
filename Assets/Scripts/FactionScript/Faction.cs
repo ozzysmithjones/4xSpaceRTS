@@ -1,61 +1,84 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Faction  
+//OOP approach, apologies for the multi-functionality of this script.This script handles population growth, resource production and territory control.Properties that all factions have in the game.Uses inheritence to override some of these effects for AI and player differences.
+//Having all the main important variables in one place helps to keep the AI and player organised, as these will be used regularly.
+public class Faction
 {
-    //the territory owned by the faction.(some wanderer factions may not own any territory.)
+    public int factionIndex;
+
+    //territory control
     public List<Star> colonies = new List<Star>();
     public List<Star> territory = new List<Star>();
     public List<Star> outerRim = new List<Star>();
 
-    //the colour of this faction.
+    //cosmetic
     public string factionName;
     public Color flagColor;
 
-    //the different ship and structure types avalible to this faction:
-    public BuiltShip[] shipTypes;
-    public BuiltStructure[] structureTypes;
+    //building
+    public List<BuiltShip> shipTypes;
+    public List<BuiltStructure> structureTypes;
 
-    //this integer indicates which index this faction is in the array.
-    public int factionIndex;
-
+    //Economy
     public Resources resources = new Resources();
-    public Resources resourceProduction = new Resources();
+    public Resources spaceResourceProduction = new Resources();
+    protected Resources totalResourceProduction = new Resources();
     public int expansionCost = 100;
 
+    //Research
+    public Research research;
+
+    //military:
     public List<Navigator> fleets = new List<Navigator>();
 
+    //species and internal politics: 
+    public List<Species> species;
 
+    private Timer PopulationGrowthTimer;
+    public float PopulationGrowthSpeed = 0.02f;
 
-    //randomises this faction.
-    public Faction(int index,Color flagColor, string factionName)
+    public Faction(int index, Color flagColor, string factionName)
     {
         factionIndex = index;
 
         this.factionName = factionName;
         this.flagColor = flagColor;
 
-        
+        PopulationGrowthTimer = new Timer(1.0f, GrowPopulation);
+        research = new Research(this);
     }
 
 
     public virtual void Start()
     {
-
+        
     }
 
     public virtual void Update(float deltaTime)
     {
 
+        PopulationGrowthTimer.endTime = colonies.Count;
+        PopulationGrowthTimer.Tick(PopulationGrowthSpeed * deltaTime);
+
+        research.Update();
     }
 
+ 
 
-    
+
+    public void GrowPopulation()
+    {
+        for (int i = 0; i < colonies.Count; i++)
+        {
+            colonies[i].starEconomy.colonies[0].AddPop(species[0].index);
+        }
+    }
+
     public void AddToTerritory(Star star, bool showOuterRim = false, bool colony = false)
     {
-        
+
         outerRim.Remove(star);
 
         if (territory.Contains(star))
@@ -71,14 +94,14 @@ public class Faction
 
         List<Star> connectedStars = star.starConnections.GetConnectedStars();
 
-        for(int i = 0; i < connectedStars.Count; i++)
+        for (int i = 0; i < connectedStars.Count; i++)
         {
-            if(!outerRim.Contains(connectedStars[i]) && connectedStars[i].factionIndex != factionIndex)
+            if (!outerRim.Contains(connectedStars[i]) && connectedStars[i].factionIndex != factionIndex)
             {
                 outerRim.Add(connectedStars[i]);
             }
         }
-       
+
 
     }
 
@@ -100,24 +123,21 @@ public class Faction
                 outerRim.Remove(connectedStars[i]);
             }
         }
-
-
-
-
     }
 
 
     public void RandomlyExpand(int lowest = 3, int highest = 8)
     {
         int length = Random.Range(lowest, highest);
-        for(int i = 0; i < length; i++)
+        for (int i = 0; i < length; i++)
         {
-            if(outerRim.Count <= 0){
+            if (outerRim.Count <= 0)
+            {
                 break;
             }
             int index = Random.Range(0, outerRim.Count);
 
-            if(outerRim[index].factionIndex < 0)
+            if (outerRim[index].factionIndex < 0)
             {
                 outerRim[index].TakeOver(factionIndex);
             }
@@ -126,31 +146,72 @@ public class Faction
                 outerRim.RemoveAt(index);
                 i--;
             }
-            
+
         }
     }
 
     public virtual void Gather(Resources resources)
     {
-
-        for(int i = 0; i < resources.amounts.Length; i++)
+        for (int i = 0; i < resources.amounts.Length; i++)
         {
-            if(i < this.resources.amounts.Length)
+            if (i < this.resources.amounts.Length)
             {
                 this.resources.amounts[i] += resources.amounts[i];
+
+                if (this.resources.amounts[i] < 0)
+                {
+                    this.resources.amounts[i] = 0;
+                }
             }
         }
 
     }
 
-    public virtual void ImproveResourceProduction(ResourceType resourceType, int amount)
+    public virtual void ProduceResources()
     {
-        resourceProduction.amounts[(int)resourceType] += amount;
+        totalResourceProduction.Clear();
+        int[] colonyproduction = GetColonyResourceProduction();
+
+        for (int i = 0; i < totalResourceProduction.amounts.Length; i++)
+        {
+            totalResourceProduction.amounts[i] += colonyproduction[i] + spaceResourceProduction.amounts[i];
+        }
+
+        Gather(totalResourceProduction);
+        
+    }
+
+
+    public virtual void SetResourceAmount(ResourceType resourceType, int amount)
+    {
+        this.resources.amounts[(int)resourceType] = amount;
+        
+    }
+
+    public virtual void ModifySpaceResourceProduction(ResourceType resourceType, int amount)
+    {
+        spaceResourceProduction.amounts[(int)resourceType] += amount;
+        totalResourceProduction.amounts[(int)resourceType] += amount;
+    }
+
+    public int[] GetColonyResourceProduction()
+    {
+        int[] totalOutput = new int[spaceResourceProduction.amounts.Length];
+        for (int i = 0; i < colonies.Count; i++)
+        {
+            int[] colonyOutput = colonies[i].starEconomy.GetColonyResourceproduction();
+            for (int o = 0; o < totalOutput.Length; o++)
+            {
+                totalOutput[o] += colonyOutput[o];
+            }
+        }
+
+        return totalOutput;
     }
 
     public bool Pay(int cost, ResourceType resourceType = ResourceType.MATERIALS)
     {
-        if(resources.amounts[(int)resourceType] >= cost)
+        if (resources.amounts[(int)resourceType] >= cost)
         {
             resources.amounts[(int)resourceType] -= cost;
             return true;

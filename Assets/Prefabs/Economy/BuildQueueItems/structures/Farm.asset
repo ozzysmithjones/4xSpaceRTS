@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f98ec1fcf00c55e4c9ac327f6cd2336a, type: 3}
-  m_Name: Reactor
+  m_Name: Farm
   m_EditorClassIdentifier: 
   classIndex: 0
-  name: Reactor
-  description: +1 Energy production
+  name: farm
+  description: +4 food production
   buildTime: 10
   buildCost: 10
   category: 0
   planetBuiltOn: {fileID: 0}
   resourceType: 0
-  resourceproduction: 1
+  resourceProduction: 4

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 //the master is devided into three scripts: the Enviroment, the Factions and the Interface, these will interact with each other. 
@@ -11,7 +10,7 @@ using UnityEngine;
 [RequireComponent(typeof(Variety))]
 public class Master : MonoBehaviour
 {
-   
+
     public float frameRate = 1f;
     public float highestFrameRate = 0.0f;
     public float lowestFrameRate = 60f;
@@ -22,10 +21,11 @@ public class Master : MonoBehaviour
     public Characters characters;
     public Interface userInterface;
 
+
     public int seed = 0;
     public const int collums = 50;
     public const int rows = 50;
-    
+
 
 
 
@@ -43,8 +43,8 @@ public class Master : MonoBehaviour
 
         variety.Initialise();
 
-        enviroment.BreadthFirstGenerate(collums,rows);
-        characters.SpawnFactions(variety.builtShips,variety.builtStructures);
+        enviroment.BreadthFirstGenerate(collums, rows);
+        characters.SpawnFactions(variety.builtShips, variety.builtStructures);
 
 
         GraphSearchAlgorithms graph = new GraphSearchAlgorithms();
@@ -55,7 +55,7 @@ public class Master : MonoBehaviour
         Vector3 position = characters.factions[0].territory[0].transform.position;
         Camera.main.transform.position = new Vector3(position.x, position.y, -10);
 
-        
+
 
     }
 
@@ -67,7 +67,7 @@ public class Master : MonoBehaviour
         {
             lowestFrameRate = frameRate;
         }
-        if(frameRate > highestFrameRate && Time.time > 3f)
+        if (frameRate > highestFrameRate && Time.time > 3f)
         {
             highestFrameRate = frameRate;
         }
@@ -91,51 +91,15 @@ public class Master : MonoBehaviour
     }
 
 
-    //used to convert between two dimensional arrays(filled one collumm at a time) to one dimensional arrays. 
-    public int TwoDimToOneDim(int x, int y, int height)
-    {
-        return x * height + y;
-
-    }
-
-    public void OneDimToTwoDim(int xy, int height, out int x, out int y)
-    {
-        float value = (float)xy / (float)height;
-
-        y = xy % height;
-        x = Mathf.FloorToInt(value);
-    }
-
-    public bool InsideBounds(int x, int y)
-    {
-        if (x >= 0 && x < collums)
-        {
-            if (y >= 0 && y < rows)
-            {
-                return true;
-            }
-            else
-            {
-
-                return false;
-            }
-        }
-        else
-        {
-
-            return false;
-        }
-    }
-
 
     public List<int> PathFind(int start, int end, int[] factionsAllowed = null, float maxLength = 0f)
     {
-        return  GraphSearchAlgorithms.instance.PathFind(start, end);
+        return GraphSearchAlgorithms.instance.PathFind(start, end);
     }
-    
 
-   
 
-    
-   
+
+
+
+
 }

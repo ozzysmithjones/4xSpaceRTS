@@ -1,36 +1,63 @@
-﻿using System.Collections;
+﻿using UnityEngine;
+using System;
 using System.Collections.Generic;
-using UnityEngine;
+using TMPro;
 
 public class BuildMenu : MonoBehaviour
 {
+    public TMP_Text BuildOptionDescription;
     public PlanetOverview planetOverview;
     public BuildOptionUI[] buildOptions;
+    public CategoryOverview categoryOverview;
 
     private void Awake()
     {
-        for(int i = 0; i < buildOptions.Length; i++)
+        for (int i = 0; i < buildOptions.Length; i++)
         {
             buildOptions[i].buildMenu = this;
         }
     }
 
-
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
-        
+        UpdateOptions();
+        categoryOverview.UpdateCategory(BuildQueueItem.Category.Economy, true);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void UpdateOptions()
     {
-        
+        List<BuiltStructure> builtStructures = Master.instance.characters.factions[0].structureTypes;
+        List<BuiltShip> builtShips = Master.instance.characters.factions[0].shipTypes;
+        int structureIndex = 0, shipIndex = 0;
+
+        for (int i = 0; i < buildOptions.Length; i++)
+        {
+            if (structureIndex < builtStructures.Count)
+            {
+                buildOptions[i].Initialise(builtStructures[structureIndex]);
+                structureIndex++;
+
+            }
+            else if (shipIndex < builtShips.Count)
+            {
+                buildOptions[i].Initialise(builtShips[shipIndex]);
+                shipIndex++;
+            }
+            else
+            {
+                buildOptions[i].Remove();
+            }
+        }
     }
+
+    
 
     public void Build(BuildQueueItem buildQueueItem, int amount)
     {
-        
+        if(amount <= 0)
+        {
+            return;
+        }
         //pay for it first.
         Faction faction = Master.instance.characters.factions[planetOverview.planet.star.factionIndex];
         int price = amount * buildQueueItem.buildCost;
@@ -59,5 +86,5 @@ public class BuildMenu : MonoBehaviour
         planetOverview.planet.planetColony.AddToBuildQueue(queue);
     }
 
-   
+
 }

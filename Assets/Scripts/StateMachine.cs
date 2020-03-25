@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class StateMachine
+﻿public class StateMachine
 {
 
     protected State[] states = new State[1];
@@ -24,18 +20,19 @@ public class StateMachine
 
 
     // Start is called before the first frame update
-    public  void OnEnter()
+    public void OnEnter()
     {
         currentState = states[0];
         currentState.OnEnter();
     }
 
-    public virtual void AddStates() {
+    public virtual void AddStates()
+    {
 
     }
 
     // Update is called once per frame
-    public  void Tick()
+    public void Tick()
     {
         currentState.OnTick();
 
@@ -62,8 +59,8 @@ public class StateMachine
                 return;
             }
         }
-       
-        
+
+
     }
 
     public void SetState(State state)

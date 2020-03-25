@@ -5,31 +5,35 @@ using UnityEngine;
 public class PlanetColony : MonoBehaviour
 {
 
-
-
-    public List<Queue> buildQueue = new List<Queue>();
-    public int buildQueueIndex = -1;
     public Planet planet;
 
-    //public List<BuiltStructure> builtStructures = new List<BuiltStructure>();
-    public int[] builtStructures = new int[10];
-
-
-    //the speed at which new buildings and ships are built.
-    public float manufactoring = 1f;
-
-
-
     public bool buildQueueRunning = false;
+    public List<Queue> buildQueue = new List<Queue>();
+    public int buildQueueIndex = -1;
 
-    public delegate void BuildQueueChange(List<Queue> buildQueue);
-    public event BuildQueueChange OnBuildQueueChange;
+    public int totalStructures = 0;
+    public int[] builtStructures = new int[10];
+    public delegate void OnBuildQueueChange(List<Queue> buildQueue);
+    public event OnBuildQueueChange BuildQueueChange;
 
+
+    public int totalPopulation = 0;
+    public List<Population> populations = new List<Population>();
+    public delegate void OnPopulationChange(List<Population> populations);
+    public event OnPopulationChange PopulationChange;
+
+    public Resources resourceProduction = new Resources();
+    public float[] resourceBonus;
+    public float stability = 1.0f;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-       
-       
+        resourceBonus = new float[resourceProduction.amounts.Length];
+        for (int i = 0; i < resourceBonus.Length; i++)
+        {
+            resourceBonus[i] = 1.0f;
+        }
+
     }
 
     // Update is called once per frame
@@ -38,41 +42,57 @@ public class PlanetColony : MonoBehaviour
 
     }
 
-    public void Colonise()
+    public void Colonise(int factionIndex)
     {
-        
+        AddPop(Master.instance.characters.factions[factionIndex].species[0].index);
+        planet.star.starEconomy.colonies.Add(this);
     }
 
+
+    public void ListenToPopulation(OnPopulationChange onPopulationChange, bool listening)
+    {
+        if (listening)
+        {
+            PopulationChange += onPopulationChange;
+
+        }
+        else
+        {
+            PopulationChange -= onPopulationChange;
+        }
+    }
+
+    public void ListenToBuildQueue(OnBuildQueueChange onBuildQueueChange, bool listening)
+    {
+        if (listening)
+        {
+            BuildQueueChange += onBuildQueueChange;
+
+        }
+        else
+        {
+            BuildQueueChange -= onBuildQueueChange;
+        }
+    }
     public void AddStructure(BuiltStructure builtStructure)
     {
-        
+        totalStructures++;
         builtStructures[builtStructure.classIndex]++;
 
         if (Master.instance.userInterface.planetOverviewOpen && Master.instance.userInterface.planetOverview.planet == planet)
         {
             Master.instance.userInterface.planetOverview.alreadyBuilt.UpdateQuantity(builtStructure.classIndex);
         }
-        
+
     }
 
-    public void ListenToBuildQueue(BuildQueueChange buildQueueChange, bool listening)
-    {
-        if (listening)
-        {
-            OnBuildQueueChange += buildQueueChange;
-            
-        }
-        else
-        {
-            OnBuildQueueChange -= buildQueueChange;
-        }
-    }
 
     public void RemoveStructure(BuiltStructure builtStructure)
     {
+        totalStructures--;
         builtStructures[builtStructure.classIndex]--;
 
-        if(builtStructures[builtStructure.classIndex] < 0)
+        if (builtStructures[builtStructure.classIndex] < 0)
         {
             builtStructures[builtStructure.classIndex] = 0;
         }
@@ -82,38 +102,81 @@ public class PlanetColony : MonoBehaviour
         }
     }
 
-    
+
+    public void AddPop(int speciesIndex)
+    {
+        totalPopulation++;
+        ModifyResourceProduction(ResourceType.FOOD, -1);
+        for (int i = 0; i < populations.Count; i++)
+        {
+            if (populations[i].species.index == speciesIndex)
+            {
+                populations[i].size++;
+                if (PopulationChange != null)
+                {
+                    PopulationChange.Invoke(populations);
+                }
+                return;
+            }
+        }
+        populations.Add(new Population(Master.instance.characters.species[speciesIndex], 1, 1.0f));
+        if (PopulationChange != null)
+        {
+            PopulationChange.Invoke(populations);
+        }
+    }
+
+    public void RemovePop(int speciesIndex)
+    {
+
+        for (int i = 0; i < populations.Count; i++)
+        {
+            if (populations[i].species.index == speciesIndex)
+            {
+                ModifyResourceProduction(ResourceType.FOOD, 1);
+                totalPopulation--;
+                populations[i].size--;
+                if (PopulationChange != null)
+                {
+                    PopulationChange.Invoke(populations);
+                }
+                if (populations[i].size <= 0)
+                {
+                    populations.RemoveAt(i);
+                }
+                return;
+            }
+        }
+    }
+
+
+
     public IEnumerator BeginBuildQueue()
     {
-        if(buildQueue.Count <= 0)
+        if (buildQueue.Count <= 0)
         {
             //Debug.LogWarning("no items in queue");
             yield break;
         }
 
         buildQueueRunning = true;
-
-        //buildQueueIndex = 0;
-
         buildQueue[0].startTime = Time.time;
 
-        while(buildQueue.Count > 0)
-        //for (; ; )
+        while (buildQueue.Count > 0)
         {
 
-            //buildQueueIndex = i;
-
             yield return StartCoroutine(BuildSequence(0));
-            if(buildQueue.Count <= 0)
+            if (buildQueue.Count <= 0)
             {
                 break;
             }
-            buildQueue[0].item.Build(planet);
 
+            buildQueue[0].item.Build(planet);
             buildQueue[0].quantity--;
+
             if (buildQueue[0].quantity <= 0)
             {
-                
+
                 buildQueue.RemoveAt(0);
                 if (buildQueue.Count > 0)
                 {
@@ -123,15 +186,14 @@ public class PlanetColony : MonoBehaviour
             else
             {
                 buildQueue[0].startTime = Time.time;
-               // i--;
+                // i--;
             }
 
-            if (OnBuildQueueChange != null)
+            if (BuildQueueChange != null)
             {
-                OnBuildQueueChange.Invoke(buildQueue);
+                BuildQueueChange.Invoke(buildQueue);
             }
         }
-        //buildQueue.Clear();
         buildQueueRunning = false;
         buildQueueIndex = -1;
         yield break;
@@ -143,12 +205,12 @@ public class PlanetColony : MonoBehaviour
         buildQueue[index].startTime = Time.time;
         while (true)
         {
-            if(index >= buildQueue.Count)
+            if (index >= buildQueue.Count)
             {
                 break;
             }
 
-            if(Time.time - buildQueue[index].startTime > buildQueue[index].item.buildTime)
+            if (Time.time - buildQueue[index].startTime > buildQueue[index].item.buildTime)
             {
                 break;
             }
@@ -157,7 +219,7 @@ public class PlanetColony : MonoBehaviour
 
         }
     }
-    
+
 
 
     public void AddToBuildQueue(Queue queue)
@@ -168,9 +230,9 @@ public class PlanetColony : MonoBehaviour
             StartCoroutine(BeginBuildQueue());
 
         }
-        if (OnBuildQueueChange != null)
+        if (BuildQueueChange != null)
         {
-            OnBuildQueueChange.Invoke(buildQueue);
+            BuildQueueChange.Invoke(buildQueue);
         }
     }
 
@@ -178,7 +240,7 @@ public class PlanetColony : MonoBehaviour
     {
         if (all)
         {
-           buildQueue[itemIndex].quantity = 0;
+            buildQueue[itemIndex].quantity = 0;
         }
         else
         {
@@ -186,7 +248,7 @@ public class PlanetColony : MonoBehaviour
         }
         if (buildQueue[itemIndex].quantity <= 0)
         {
-           // StopCoroutine(BeginBuildQueue());
+            // StopCoroutine(BeginBuildQueue());
 
             buildQueue.RemoveAt(itemIndex);
             if (buildQueue.Count > 0 && itemIndex < buildQueue.Count)
@@ -194,16 +256,54 @@ public class PlanetColony : MonoBehaviour
                 buildQueue[itemIndex].startTime = Time.time;
             }
 
-           // StartCoroutine(BeginBuildQueue());
+            // StartCoroutine(BeginBuildQueue());
         }
 
-        OnBuildQueueChange.Invoke(buildQueue);
+        BuildQueueChange.Invoke(buildQueue);
 
+    }
+
+    public void ModifyResourceProduction(ResourceType resourceType, int amount)
+    {
+        resourceProduction.amounts[(int)resourceType] += amount;
+    }
+
+    
+
+    public int[] ProduceResources()
+    {
+        CalculateStability();
+        int[] output = new int[resourceProduction.amounts.Length];
+        for(int i = 0; i < output.Length; i++)
+        {
+            float JobFill = Mathf.Clamp((float)totalPopulation / (float)totalStructures,0.0f,1.0f);
+            float productivity = resourceProduction.amounts[i] > 0 ? this.stability * JobFill : 1.0f;
+            output[i] = Mathf.RoundToInt(resourceProduction.amounts[i] * productivity * resourceBonus[i]);
+        }
+
+        return output;
+    }
+
+    private float CalculateStability()
+    {
+        Faction faction = Master.instance.characters.factions[planet.star.factionIndex];
+
+        if (faction.resources.amounts[(int)ResourceType.FOOD] > 0)
+        {
+            stability = 1.0f;
+            return 1.0f;
+        }
+        else
+        {
+            stability = 0.25f;
+            return 0.0f;
+        }
     }
 
 
 
-    
+
+
 }
 
-    
+

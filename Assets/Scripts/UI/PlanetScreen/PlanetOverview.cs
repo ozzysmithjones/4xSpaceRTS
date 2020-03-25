@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlanetOverview : MonoBehaviour
 {
@@ -10,6 +8,8 @@ public class PlanetOverview : MonoBehaviour
     public PlanetOverviewAlreadyBuilt alreadyBuilt;
     public PlanetOverviewBuildQueue buildQueue;
     public BuildMenu buildMenu;
+
+    public PlanetOverviewSpeciesOverview speciesOverview;
 
 
     private void Awake()
@@ -23,9 +23,17 @@ public class PlanetOverview : MonoBehaviour
     {
 
         planet = newPlanet;
+
         buildQueue.UpdateQueueChange(planet.planetColony.buildQueue);
         planet.planetColony.ListenToBuildQueue(buildQueue.UpdateQueueChange, true);
-        alreadyBuilt.UpdateAllQuantities();
+
+        speciesOverview.DisplayDominantPopulation(planet.planetColony.populations);
+        speciesOverview.OnPopulationChange(planet.planetColony.populations);
+        planet.planetColony.ListenToPopulation(speciesOverview.OnPopulationChange, true);
+        planet.planetColony.ListenToPopulation(alreadyBuilt.OnPopulationChange, true);
+
+        
+        alreadyBuilt.Refresh();
         description.UpdateDescription(newPlanet);
     }
 
@@ -42,6 +50,8 @@ public class PlanetOverview : MonoBehaviour
         if (planet != null)
         {
             planet.planetColony.ListenToBuildQueue(buildQueue.UpdateQueueChange, false);
+            planet.planetColony.ListenToPopulation(speciesOverview.OnPopulationChange, false);
+            planet.planetColony.ListenToPopulation(alreadyBuilt.OnPopulationChange, false);
         }
         Master.instance.userInterface.planetOverviewOpen = false;
         gameObject.SetActive(false);

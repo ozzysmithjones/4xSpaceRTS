@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "AI weight",menuName ="AI/Weights")]
+[CreateAssetMenu(fileName = "AI weight", menuName = "AI/Weights")]
 public class Weight : ScriptableObject
 {
     public float[] values;
@@ -10,6 +8,6 @@ public class Weight : ScriptableObject
     public void Initialise(int empireCount)
     {
         values = new float[empireCount];
-       // Debug.Log("Initialised " + this.name + " with a size of " + values.Length);
+        // Debug.Log("Initialised " + this.name + " with a size of " + values.Length);
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class IconHandler : MonoBehaviour
@@ -25,7 +24,7 @@ public class IconHandler : MonoBehaviour
     {
         for (int i = 0; i < poolSize; i++)
         {
-            IconData icon = Instantiate(IconPrefab,transform).GetComponent<IconData>();
+            IconData icon = Instantiate(IconPrefab, transform).GetComponent<IconData>();
             //iconData.Add(icon);
             pool.Add(icon);
 
@@ -35,20 +34,20 @@ public class IconHandler : MonoBehaviour
         }
     }
 
-    public void AddIcon(Navigator navigator,Sprite sprite, bool military = true,int faction = -1)
+    public void AddIcon(Navigator navigator, Sprite sprite, bool military = true, int faction = -1)
     {
 
         int id = FirstAvalibleID();
         navigator.iconHandlerID = id;
 
         //if possible, re-use an icon from the pool
-        if(pool.Count > 0)
+        if (pool.Count > 0)
         {
-            
+
             pool[0].gameObject.SetActive(true);
-            pool[0].transform.SetParent(military ? this.military: this.civilian);
+            pool[0].transform.SetParent(military ? this.military : this.civilian);
             pool[0].ID = id;
-            pool[0].SetImage(sprite,military,faction);
+            pool[0].SetImage(sprite, military, faction);
 
             iconData.Add(pool[0]);
             pool.RemoveAt(0);
@@ -57,8 +56,8 @@ public class IconHandler : MonoBehaviour
         {
             IconData icon = Instantiate(IconPrefab, transform).GetComponent<IconData>();
             icon.ID = id;
-            icon.SetImage(sprite,military,faction);
-            icon.transform.SetParent(military ? this.military: this.civilian);
+            icon.SetImage(sprite, military, faction);
+            icon.transform.SetParent(military ? this.military : this.civilian);
             iconData.Add(icon);
         }
     }
@@ -70,9 +69,9 @@ public class IconHandler : MonoBehaviour
         int id = iconData.Count;
         bool first = true;
 
-        while(iterations < iconData.Count)
+        while (iterations < iconData.Count)
         {
-            if(iconData[iterations].ID != id)
+            if (iconData[iterations].ID != id)
             {
                 iterations++;
             }
@@ -105,21 +104,21 @@ public class IconHandler : MonoBehaviour
 
         bool delete = iconData.Count > poolSize ? true : false;
         int toRemove = -1;
-        
-        for(int i = 0; i < iconData.Count; i++)
+
+        for (int i = 0; i < iconData.Count; i++)
         {
-            if(iconData[i].ID == id)
+            if (iconData[i].ID == id)
             {
                 toRemove = i;
                 break;
             }
 
-            if(i >= iconData.Count - 1)
+            if (i >= iconData.Count - 1)
             {
                 return;
             }
         }
-        if(toRemove < 0)
+        if (toRemove < 0)
         {
             return;
         }
@@ -127,7 +126,7 @@ public class IconHandler : MonoBehaviour
 
         if (delete)
         {
-            
+
             Destroy(iconData[toRemove].gameObject);
             iconData.RemoveAt(toRemove);
         }
@@ -136,7 +135,7 @@ public class IconHandler : MonoBehaviour
             iconData[toRemove].gameObject.SetActive(false);
             iconData[toRemove].ID = -1;
             iconData[toRemove].SetImage(null);
-            
+
             pool.Add(iconData[toRemove]);
             iconData.RemoveAt(toRemove);
         }
@@ -147,9 +146,9 @@ public class IconHandler : MonoBehaviour
     {
         StarShipManager starShipManager = star.starShipManager;
 
-        for(int i = 0; i < starShipManager.fleets.Count; i++)
+        for (int i = 0; i < starShipManager.fleets.Count; i++)
         {
-            if(starShipManager.fleets[i].iconHandlerID == id)
+            if (starShipManager.fleets[i].iconHandlerID == id)
             {
                 return starShipManager.fleets[i];
             }
@@ -160,9 +159,9 @@ public class IconHandler : MonoBehaviour
 
     public IconData FindIcon(int id)
     {
-        for(int i = 0; i < iconData.Count; i++)
+        for (int i = 0; i < iconData.Count; i++)
         {
-            if(iconData[i].ID == id)
+            if (iconData[i].ID == id)
             {
                 return iconData[i];
             }

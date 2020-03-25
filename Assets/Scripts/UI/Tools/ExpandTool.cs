@@ -1,17 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [System.Serializable]
 public class ExpandTool : Tool
 {
-    
+
     public override void OnSelected()
     {
-        
+
         base.OnSelected();
-        
-        for(int i = 0; i < Master.instance.characters.factions[0].outerRim.Count; i++)
+
+        for (int i = 0; i < Master.instance.characters.factions[0].outerRim.Count; i++)
         {
             if (Master.instance.characters.factions[0].outerRim[i].factionIndex <= 0)
             {
@@ -41,7 +39,7 @@ public class ExpandTool : Tool
         }
 
         star.SetSelector(false, Color.white);
-        star.TakeOver(0,true);
+        star.TakeOver(0, true);
 
     }
 

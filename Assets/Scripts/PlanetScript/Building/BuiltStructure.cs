@@ -1,12 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "Structure", menuName = "Economy/Structure")]
 public class BuiltStructure : BuildQueueItem
 {
     [HideInInspector]
     public Planet planetBuiltOn;
+
+    public override bool CanBuild(Planet planet)
+    {
+        return (planet.planetColony.totalPopulation > planet.planetColony.totalStructures);
+
+    }
     public override void Build(Planet planet)
     {
         base.Build(planet);
@@ -15,7 +19,7 @@ public class BuiltStructure : BuildQueueItem
         OnBuild();
     }
 
-   
+
 
     public virtual void OnBuild()
     {
@@ -26,11 +30,12 @@ public class BuiltStructure : BuildQueueItem
 
     }
 
-    public BuiltStructure (string name, string description) : base(name,description){
+    public BuiltStructure(string name, string description) : base(name, description)
+    {
 
 
 
     }
 
-    
+
 }

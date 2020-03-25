@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 class StarGate
@@ -28,7 +27,7 @@ public class StarConnections : MonoBehaviour
     private List<int> linesStartingHere = new List<int>();
 
 
-  
+
     LineRenderer DrawLine(int startCoordinates, int endCoordinates, float starRadius = 15f)
     {
         //the two transforms to draw the line between.
@@ -45,7 +44,7 @@ public class StarConnections : MonoBehaviour
         //draw a line.
         line.SetPosition(0, a);
         line.SetPosition(1, b);
-        
+
         //set correct colors:
         line.startColor = startStar.factionIndex >= 0 ? Master.instance.characters.factions[startStar.factionIndex].flagColor : line.startColor;
         line.endColor = endStar.factionIndex >= 0 ? Master.instance.characters.factions[endStar.factionIndex].flagColor : line.endColor;
@@ -55,9 +54,9 @@ public class StarConnections : MonoBehaviour
 
     public void ChangeColor(Color color)
     {
-        for(int i = 0; i < lines.Count; i++)
+        for (int i = 0; i < lines.Count; i++)
         {
-            if(lines[i] == null)
+            if (lines[i] == null)
             {
                 return;
             }
@@ -69,19 +68,19 @@ public class StarConnections : MonoBehaviour
             {
                 lines[i].endColor = color;
             }
-            
-               
-            
+
+
+
         }
     }
 
     public List<Star> GetConnectedStars()
     {
         List<Star> stars = new List<Star>();
-        for(int i = 0; i < connections.Count; i++)
+        for (int i = 0; i < connections.Count; i++)
         {
             Star star = Master.instance.enviroment.stars[connections[i]];
-            if(star != null)
+            if (star != null)
             {
                 stars.Add(star);
             }
@@ -92,9 +91,9 @@ public class StarConnections : MonoBehaviour
 
     public int GetConnectionToStar(int star)
     {
-        for(int i = 0; i < connections.Count; i++)
+        for (int i = 0; i < connections.Count; i++)
         {
-            if(connections[i] == star)
+            if (connections[i] == star)
             {
                 return i;
             }
@@ -102,7 +101,7 @@ public class StarConnections : MonoBehaviour
         Debug.LogError("couldn't find what you were looking for");
         return connections[0];
     }
-    void SpawnStarGate(Vector2 targetStar,int targetStarPosition, float distance = 15f)
+    void SpawnStarGate(Vector2 targetStar, int targetStarPosition, float distance = 15f)
     {
         Vector2 spawnPoint = Vector2.MoveTowards((Vector2)transform.position, targetStar, distance);
         Transform form = Instantiate(starGatePrefab, spawnPoint, Quaternion.identity).transform;
@@ -112,14 +111,15 @@ public class StarConnections : MonoBehaviour
         starGate.gate.SetParent(gateParent.transform);
 
         starGates.Add(starGate);
-        
+
     }
 
     public Transform GetStarGate(int targetStarIndex)
     {
-        for (int i = 0; i < starGates.Count; i++){
+        for (int i = 0; i < starGates.Count; i++)
+        {
 
-           if(starGates[i].targetStarIndex == targetStarIndex)
+            if (starGates[i].targetStarIndex == targetStarIndex)
             {
                 return starGates[i].gate;
             }
@@ -133,9 +133,9 @@ public class StarConnections : MonoBehaviour
     {
         List<Star> stars = GetConnectedStars();
 
-        for(int i = 0; i < stars.Count; i++)
+        for (int i = 0; i < stars.Count; i++)
         {
-            if(stars[i].factionIndex == faction)
+            if (stars[i].factionIndex == faction)
             {
                 return true;
             }
@@ -154,11 +154,11 @@ public class StarConnections : MonoBehaviour
             star.starConnections.connections.Add(other.index);
             other.starConnections.connections.Add(star.index);
 
-            LineRenderer line = star.starConnections.DrawLine(star.index,other.index);
+            LineRenderer line = star.starConnections.DrawLine(star.index, other.index);
 
             other.starConnections.lines.Add(line);
             star.starConnections.lines.Add(line);
-            star.starConnections.linesStartingHere.Add(star.starConnections.connections.Count-1);
+            star.starConnections.linesStartingHere.Add(star.starConnections.connections.Count - 1);
 
             //create the gateway on this side and that side. 
             star.starConnections.SpawnStarGate(other.transform.position, other.index);

@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f98ec1fcf00c55e4c9ac327f6cd2336a, type: 3}
   m_Name: Mine
   m_EditorClassIdentifier: 
-  classIndex: 0
+  classIndex: 1
   name: Mine
-  description: +1 material production
+  description: +8 material production
   buildTime: 10
   buildCost: 10
   category: 0
   planetBuiltOn: {fileID: 0}
-  resourceType: 1
-  resourceproduction: 1
+  resourceType: 2
+  resourceProduction: 8

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class StarEconomy : MonoBehaviour
@@ -9,13 +8,14 @@ public class StarEconomy : MonoBehaviour
     //The mining script manages mining the nearby planets and loading the goods onto the freighters. 
     //this script also has a few values associated with production, which impacts how the star is generated.(e.g energy focused systems
     //have plenty of gas giants)
+    public List<PlanetColony> colonies = new List<PlanetColony>();
 
-    public Resources resourceProduction = new Resources();
+    public Resources totalResourceProduction = new Resources();
     private Star star;
 
     public void StartEconomy()
     {
-        
+
     }
 
     public void Initialise()
@@ -31,16 +31,32 @@ public class StarEconomy : MonoBehaviour
         }
         Faction faction = Master.instance.characters.factions[star.factionIndex];
 
-        for (int i = 0; i < resourceProduction.amounts.Length; i++)
+        for (int i = 0; i < totalResourceProduction.amounts.Length; i++)
         {
-            faction.ImproveResourceProduction((ResourceType)i, resourceProduction.amounts[i] * (positive ? 1 : -1));
+            faction.ModifySpaceResourceProduction((ResourceType)i, totalResourceProduction.amounts[i] * (positive ? 1 : -1));
         }
 
     }
 
-    public void ImproveResourceProduction(ResourceType resourceType, int amount)
+    public void ModifyTotalResourceProduction(ResourceType resourceType, int amount)
     {
-        resourceProduction.amounts[(int)resourceType] += amount;
-        Master.instance.characters.factions[star.factionIndex].ImproveResourceProduction(resourceType, amount);
+        totalResourceProduction.amounts[(int)resourceType] += amount;
+        Master.instance.characters.factions[star.factionIndex].ModifySpaceResourceProduction(resourceType, amount);
+    }
+
+    public int[] GetColonyResourceproduction()
+    {
+        int[] TotalOutput = new int[totalResourceProduction.amounts.Length];
+
+        for(int i = 0; i < colonies.Count; i++)
+        {
+            int[] colonyOuput = colonies[i].ProduceResources();
+            for(int o = 0; o < colonyOuput.Length; o++)
+            {
+                TotalOutput[o] += colonyOuput[o];
+            }
+        }
+
+        return TotalOutput;
     }
 }

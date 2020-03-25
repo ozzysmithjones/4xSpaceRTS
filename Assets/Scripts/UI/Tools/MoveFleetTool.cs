@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class MoveFleetTool : Tool
@@ -14,7 +13,7 @@ public class MoveFleetTool : Tool
     //returns true if this was an override, otherwise returns false.
     public bool AddFleet(Navigator navigator)
     {
-        if(Master.instance.userInterface.currentTool != this)
+        if (Master.instance.userInterface.currentTool != this)
         {
             Master.instance.userInterface.SetTool(3);
         }
@@ -49,7 +48,7 @@ public class MoveFleetTool : Tool
     {
         navigator.GetStar().starShipManager.iconHandler.FindIcon(navigator.iconHandlerID).setToggleOn(false);
         controlledFleets.Remove(navigator);
-        if(controlledFleets.Count <= 0 && !ignoreShutDown)
+        if (controlledFleets.Count <= 0 && !ignoreShutDown)
         {
             path.Clear();
             start = -1;
@@ -64,7 +63,7 @@ public class MoveFleetTool : Tool
     public override void OnSelected()
     {
         base.OnSelected();
-      
+
 
 
     }
@@ -94,24 +93,24 @@ public class MoveFleetTool : Tool
         */
 
         lineRenderer.positionCount = linePath.Count;
-        for(int i = 0; i < linePath.Count; i++)
+        for (int i = 0; i < linePath.Count; i++)
         {
-            lineRenderer.SetPosition(i,Master.instance.enviroment.stars[linePath[i]].transform.position + new Vector3(0f,0f,3f));
+            lineRenderer.SetPosition(i, Master.instance.enviroment.stars[linePath[i]].transform.position + new Vector3(0f, 0f, 3f));
         }
     }
 
     public override void OnInteract(Star star)
     {
         base.OnInteract(star);
-        
-        if(path[path.Count-1] == star.index)
+
+        if (path[path.Count - 1] == star.index)
         {
             return;
         }
 
         bool addition = path.Count > 0;
 
-        List<int> extension = Master.instance.PathFind(path[path.Count-1], star.index);
+        List<int> extension = Master.instance.PathFind(path[path.Count - 1], star.index);
         if (addition)
         {
             extension.RemoveAt(0);
@@ -119,7 +118,7 @@ public class MoveFleetTool : Tool
         path.AddRange(extension);
         DrawLine(path);
 
-        
+
         if (Input.GetKey(KeyCode.Mouse1))
         {
             //Debug.Log("right click, so ignore");
@@ -130,9 +129,9 @@ public class MoveFleetTool : Tool
             //Debug.Log("left clcik, so end");
             Master.instance.userInterface.SetTool(0);
         }
-       
 
-          
+
+
     }
 
 
@@ -160,23 +159,23 @@ public class MoveFleetTool : Tool
         {
             //CheckPath(path);
             // Debug.Log("set path");
-            
+
 
             for (int i = 0; i < controlledFleets.Count; i++)
             {
                 controlledFleets[i].SetPath(path);
-               
+
             }
         }
-        
+
         UnToggleFleetIcons();
     }
 
     void UnToggleFleetIcons(int exception = -1)
     {
-        for(int i = 0; i < controlledFleets.Count; i++)
+        for (int i = 0; i < controlledFleets.Count; i++)
         {
-            if(i == exception)
+            if (i == exception)
             {
                 continue;
             }
@@ -186,7 +185,7 @@ public class MoveFleetTool : Tool
 
 
 
-   
+
 
 
 

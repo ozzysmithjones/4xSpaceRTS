@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class Characters : MonoBehaviour
 {
+    public ResearchQueueItem startingResearch;
     public const int totalFactions = 3;
+    public Species[] species;
+    public PoliticalGroup[] politicalGroups;
     public List<Faction> factions;
-    public Weight[] weights; 
+    public Weight[] weights;
 
     // Start is called before the first frame update
     void Start()
     {
         weights = UnityEngine.Resources.LoadAll<Weight>("Weights");
-        for(int i = 0; i < weights.Length; i++)
+        for (int i = 0; i < weights.Length; i++)
         {
             weights[i].Initialise(totalFactions);
         }
@@ -32,40 +35,34 @@ public class Characters : MonoBehaviour
 
     public void SpawnFactions(BuiltShip[] shipTypes, BuiltStructure[] structureTypes)
     {
-        factions.Add(CreateFaction(0,shipTypes,structureTypes,true));
+        factions.Add(CreateFaction(0, shipTypes, structureTypes, true));
 
         Star star = Master.instance.enviroment.RandomStar();
-        star.Colonise(0);
         star.TakeOver(0);
-
-
-        for (int i = 1; i < totalFactions-1;i++)
+        star.Colonise(0);
+        for (int i = 1; i < totalFactions - 1; i++)
         {
-            factions.Add(CreateFaction(i,shipTypes, structureTypes));
+            factions.Add(CreateFaction(i, shipTypes, structureTypes));
 
             star = Master.instance.enviroment.RandomStar();
-            star.Colonise(0);
             star.TakeOver(i);
-
+            star.Colonise(i, 0);
 
         }
         for (int i = 0; i < factions.Count; i++)
         {
             factions[i].Start();
         }
-        //random expansion:
-        for (int i = 0; i < factions.Count; i++)
-        {
-            factions[i].RandomlyExpand();
-        }
-        
+
+        factions[0].research.BeginResearch(startingResearch);
+
     }
 
-    public Faction CreateFaction(int index, BuiltShip[] shipTypes, BuiltStructure[] structureTypes,bool player = false)
+    public Faction CreateFaction(int index, BuiltShip[] shipTypes, BuiltStructure[] structureTypes, bool player = false)
     {
 
         Color[] colors = new Color[1];
-        colors[0] = new Color(Random.Range(0f,1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1f);
+        colors[0] = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1f);
 
         string[] names = new string[1];
         names[0] = "bob";
@@ -74,31 +71,30 @@ public class Characters : MonoBehaviour
 
         if (!player)
         {
-            instance = new AI(index, colors[0],names[0]);
+            instance = new AI(index, colors[0], names[0]);
         }
         else
         {
-            instance = new Player(index, colors[0],names[0]);
+            instance = new Player(index, colors[0], names[0]);
         }
 
-        instance.structureTypes = structureTypes;
-        instance.shipTypes = shipTypes;
+        instance.structureTypes = new List<BuiltStructure>(structureTypes);
+        instance.shipTypes = new List<BuiltShip>(shipTypes);
+
+        instance.species = new List<Species>();
+        instance.species.Add(species[0]);
 
         return instance;
     }
 
     public Weight FindWeight(string name)
     {
-        for(int i = 0; i < weights.Length; i++)
+        for (int i = 0; i < weights.Length; i++)
         {
-            if(weights[i].name == name)
+            if (weights[i].name == name)
             {
                 return weights[i];
-
-
             }
-
-
         }
         Debug.LogError("couldn't find the AI weight: " + name);
         return null;
@@ -108,13 +104,13 @@ public class Characters : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(1.0f);
-
-            for(int i = 0; i < factions.Count; i++)
+            yield return new WaitForSeconds(20.0f);
+            for (int i = 0; i < factions.Count; i++)
             {
-                factions[i].Gather(factions[i].resourceProduction);
+                factions[i].ProduceResources();
             }
         }
 
     }
+
 }

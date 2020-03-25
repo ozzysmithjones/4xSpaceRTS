@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public static partial class Calculation
 {
@@ -11,7 +9,7 @@ public static partial class Calculation
 
     }
 
-    public static void OneDimToTwoDim(int xy,out int x, out int y, int height = 50)
+    public static void OneDimToTwoDim(int xy, out int x, out int y, int height = 50)
     {
         float value = (float)xy / (float)height;
 

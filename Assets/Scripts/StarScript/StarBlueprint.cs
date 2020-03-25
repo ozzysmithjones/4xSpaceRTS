@@ -1,15 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class StarBlueprint
+﻿public class StarBlueprint
 {
     public Economy economy;
     public Enviroment enviroment;
 
     public StarBlueprint(Star star)
     {
-        
+
 
 
 
@@ -32,7 +28,7 @@ public class StarBlueprint
         public Planet[] planets;
         public class Planet
         {
-            
+
         }
     }
 

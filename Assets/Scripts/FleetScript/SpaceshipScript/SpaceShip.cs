@@ -1,7 +1,4 @@
-﻿
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum SpaceShipState
 {
@@ -57,9 +54,9 @@ public class SpaceShip : MonoBehaviour
             Initialise(Color.white);
         }
 
-      
+
     }
-    
+
     public void SetNavigator(Navigator navigator)
     {
         fleet = navigator;
@@ -94,7 +91,7 @@ public class SpaceShip : MonoBehaviour
 
         if (isPath)
         {
-            if(spaceShipState != SpaceShipState.INDEPENDENT)
+            if (spaceShipState != SpaceShipState.INDEPENDENT)
             {
                 target = destination;
             }
@@ -108,7 +105,7 @@ public class SpaceShip : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        spaceShipState =  StateMachine();
+        spaceShipState = StateMachine();
         if (spaceShipState == SpaceShipState.INDEPENDENT)
         {
             PathUpdate();
@@ -131,7 +128,7 @@ public class SpaceShip : MonoBehaviour
 
         //work out the target angle(I use trigonometry).
         Vector2 difference = (transform.position - destination.position).normalized;
-        
+
         float angle = (Mathf.Rad2Deg * Mathf.Atan2(difference.y, difference.x));
 
         angle += 90f;
@@ -139,7 +136,7 @@ public class SpaceShip : MonoBehaviour
         targetAngle = angle;
         OnSetPath(target);
 
-        
+
     }
 
     public void SetVectorPath(Vector3 Destination)
@@ -149,13 +146,13 @@ public class SpaceShip : MonoBehaviour
     }
     public virtual void SetVisibility(bool visible)
     {
-        if(rend == null)
+        if (rend == null)
         {
             rend = GetComponent<Renderer>();
         }
         rend.enabled = visible;
     }
-    
+
     public virtual void GiveCargo(int faction)
     {
         Master.instance.characters.factions[faction].Gather(cargo);
@@ -164,19 +161,19 @@ public class SpaceShip : MonoBehaviour
         {
             cargo.amounts[i] = 0;
         }
-        
+
     }
 
 
 
     public virtual void OnPoint(Transform goal)
-    { 
-        
+    {
+
     }
 
     public virtual void OnNotPoint(Transform goal)
     {
-        
+
     }
 
     public virtual void OnSetPath(Transform goal)
@@ -189,16 +186,17 @@ public class SpaceShip : MonoBehaviour
 
     }
 
-    public virtual void Fight() {
+    public virtual void Fight()
+    {
 
-        
+
 
     }
 
-    
 
-    
-    
+
+
+
     public virtual void PathUpdate()
     {
         RotateTowardsTarget();
@@ -210,13 +208,13 @@ public class SpaceShip : MonoBehaviour
         pointing = false;
         isPath = false;
         OnClearPath();
-       
+
     }
 
     public void SetAngle(float _angle)
     {
 
-        transform.eulerAngles = new Vector3(0,0, positiveAngle(_angle));
+        transform.eulerAngles = new Vector3(0, 0, positiveAngle(_angle));
     }
 
     public void Move()
@@ -227,7 +225,7 @@ public class SpaceShip : MonoBehaviour
 
     protected void RotateTowardsTarget()
     {
-        if(target == null)
+        if (target == null)
         {
             return;
         }
@@ -244,7 +242,7 @@ public class SpaceShip : MonoBehaviour
         }
         bool temp = pointing;
         RotateTowards(targetAngle);
-        if(temp != pointing)
+        if (temp != pointing)
         {
             if (pointing)
             {
@@ -305,12 +303,12 @@ public class SpaceShip : MonoBehaviour
     {
         float difference = positiveAngle(targetAngle) - positiveAngle(angle);
 
-        
-        if(Mathf.Abs(difference) < maxProximity || difference == 0f)
+
+        if (Mathf.Abs(difference) < maxProximity || difference == 0f)
         {
             return 0f;
         }
-        
+
         if (difference > 180f || (difference < 0f && difference > -180f))
         {
             return -1f;

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class StarUI : MonoBehaviour
 {
@@ -10,18 +8,18 @@ public class StarUI : MonoBehaviour
     public StarConnections starConnections;
     public GameObject IconHandler;
 
-   // private StarFogOfWar starFogOfWar;
+    // private StarFogOfWar starFogOfWar;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void Initialise()
@@ -32,7 +30,7 @@ public class StarUI : MonoBehaviour
 
     public void SetUIVisibility(bool visibility)
     {
-        if(factionBorderAnimator == null)
+        if (factionBorderAnimator == null)
         {
             //the sprite renderer somehow isnt null but the animator is  *shrug*.
 

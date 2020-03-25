@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Drone : DogFighter
 {
@@ -19,7 +17,7 @@ public class Drone : DogFighter
         transform.localPosition = Vector3.zero;
         transform.localRotation = originalRotation;
 
-        
+
         ClearPath();
     }
 

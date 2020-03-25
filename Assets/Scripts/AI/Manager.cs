@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Manager
+﻿public class Manager
 {
     protected AI ai;
     public Manager(AI ai)
@@ -11,16 +7,16 @@ public class Manager
     }
     public virtual void Update(float deltaTime)
     {
-        
+
     }
     protected void CalculateSubManagers(SubManager[] subManagers)
     {
-        for(int i = 0; i < subManagers.Length; i++)
+        for (int i = 0; i < subManagers.Length; i++)
         {
             subManagers[i].CalculateValue();
         }
     }
-    
+
     protected SubManager HighestRatedSubManager(SubManager[] subManagers)
     {
         float highestValue = 0.0f;
@@ -35,7 +31,7 @@ public class Manager
         }
         return subManagers[index];
     }
-    
 
-   
+
+
 }

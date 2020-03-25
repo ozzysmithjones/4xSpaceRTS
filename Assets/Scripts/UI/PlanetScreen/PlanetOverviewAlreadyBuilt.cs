@@ -1,46 +1,53 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
+using TMPro;
 public class PlanetOverviewAlreadyBuilt : MonoBehaviour
 {
+    public ToolTip productionToolTip;
+    public TMP_Text productivityText;
     public PlanetOverview planetOverview;
     public BuiltStructureButton[] builtStructureButtons = new BuiltStructureButton[10];
-
-    // Start is called before the first frame update
-    void Awake()
-    {
-        /*
-        for (int i = 0; i < builtStructureButtons.Length; i++)
-        {
-            builtStructureButtons[i].structureClassIndex = i;
-        }
-        */
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void UpdateQuantity(int classIndex)
     {
 
         BuiltStructureButton builtStructureButton = builtStructureButtons[classIndex];
-
-
         int quantity = planetOverview.planet.planetColony.builtStructures[classIndex];
 
         builtStructureButton.UpdateQuantity(quantity);
+        UpdateProductionUI();
     }
 
-    public void UpdateAllQuantities()
+    public void Refresh()
     {
-        for(int i = 0; i < builtStructureButtons.Length; i++)
+        List<BuiltStructure> builtStructures = Master.instance.characters.factions[planetOverview.planet.star.factionIndex].structureTypes;
+        for(int i = 0; i < builtStructures.Count; i++)
+        {
+            builtStructureButtons[i].Initialise(builtStructures[i]);
+        }
+        for (int i = 0; i < builtStructureButtons.Length; i++)
         {
             UpdateQuantity(i);
         }
+    }
+
+    public void OnPopulationChange(List<Population> populations)
+    {
+        UpdateProductionUI();
+    }
+
+    private void UpdateProductionUI()
+    {
+ 
+        int totalPopulation = planetOverview.planet.planetColony.totalPopulation;
+        int totalStructures = planetOverview.planet.planetColony.totalStructures;
+
+        int efficiency = totalStructures > 0 ? Mathf.FloorToInt(Mathf.Clamp((float)totalPopulation / (float)totalStructures,0.0f,1.0f) * 100) : 100;
+        string enoughPops = totalStructures <= totalPopulation ? " Beacuse There is enough Population for every job" : " Beacuse there's not enough population for every job.";
+
+        productivityText.text = totalPopulation + " pops : " + totalStructures + " jobs";
+        productionToolTip.SetText("This planet is working at " + efficiency + " % Efficiency" + enoughPops);
     }
 }

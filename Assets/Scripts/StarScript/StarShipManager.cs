@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class StarShipManager : MonoBehaviour
@@ -15,13 +14,13 @@ public class StarShipManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void Initialise()
@@ -32,7 +31,7 @@ public class StarShipManager : MonoBehaviour
     //faction will be needed when there is multiple factions in one system.
     public bool RequestExit(Navigator navigator)
     {
-        
+
         if (navigator.faction == 0)
         {
             navigator.Scout(false);
@@ -48,21 +47,21 @@ public class StarShipManager : MonoBehaviour
         return true;
     }
 
-    public void Entry( Navigator navigator)
+    public void Entry(Navigator navigator)
     {
         if (navigator.faction == 0)
         {
             navigator.Scout(true);
         }
 
-        iconHandler.AddIcon(navigator,navigator.iconSprite,navigator.military,navigator.faction);
+        iconHandler.AddIcon(navigator, navigator.iconSprite, navigator.military, navigator.faction);
         navigator.transform.SetParent(visuals);
         navigator.UpdateVisibility();
 
 
         //combat check:
         navigator.navigatorCombat.IsConflict(fleets);
-        for(int i = 0; i < fleets.Count; i++)
+        for (int i = 0; i < fleets.Count; i++)
         {
             fleets[i].navigatorCombat.AddEnemy(navigator);
         }
@@ -83,7 +82,7 @@ public class StarShipManager : MonoBehaviour
 
     public int GetSmallestFleet(int faction = -1, bool military = true)
     {
-        
+
         if (fleets.Count <= 0)
         {
             return -1;
@@ -98,14 +97,14 @@ public class StarShipManager : MonoBehaviour
             //this works:
             if (fleets[i].military != military)
             {
-               // Debug.Log("Military is :" + military + " but this fleet is not");
+                // Debug.Log("Military is :" + military + " but this fleet is not");
                 continue;
             }
-            
+
 
             if (fleets[i].faction == faction || faction == -1)
             {
-                
+
                 if (first || fleets[i].spaceShips.Count < size)
                 {
                     first = false;
@@ -115,7 +114,7 @@ public class StarShipManager : MonoBehaviour
             }
         }
 
-        
+
         return index;
 
     }
@@ -123,25 +122,25 @@ public class StarShipManager : MonoBehaviour
 
     void UpdateFaction()
     {
-        if(fleets.Count <= 0 || star.factionIndex == -1)
+        if (fleets.Count <= 0 || star.factionIndex == -1)
         {
             return;
         }
 
-        int remainingFaction = fleets[0].faction; 
-        for(int i = 0; i < fleets.Count; i++)
+        int remainingFaction = fleets[0].faction;
+        for (int i = 0; i < fleets.Count; i++)
         {
-            if(fleets[i].faction == star.factionIndex)
+            if (fleets[i].faction == star.factionIndex)
             {
                 return;
             }
-            if(fleets[i].faction != remainingFaction)
+            if (fleets[i].faction != remainingFaction)
             {
                 remainingFaction = -1;
             }
-            
+
         }
-        if(star.factionIndex == remainingFaction)
+        if (star.factionIndex == remainingFaction)
         {
             return;
         }

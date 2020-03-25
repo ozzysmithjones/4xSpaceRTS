@@ -230,7 +230,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.8276928}
   m_AnchoredPosition: {x: 0.000015258789, y: 5.5199146}
-  m_SizeDelta: {x: -300.00247, y: 10.869996}
+  m_SizeDelta: {x: 0, y: 10.869996}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &72833394
 MonoBehaviour:
@@ -4996,7 +4996,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -7246,8 +7246,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 644943472}
-        m_MethodName: CloseResearchOverview
+      - m_Target: {fileID: 1130405602}
+        m_MethodName: Press
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10739,7 +10739,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1130405599}
   - component: {fileID: 1130405601}
-  - component: {fileID: 1130405600}
   - component: {fileID: 1130405602}
   m_Layer: 5
   m_Name: ResearchButton
@@ -10768,22 +10767,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 55.46666, y: 10}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1130405600
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1130405598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c62262e9855dae41b5115d6b87fbefb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  toggle: {fileID: 1130405601}
-  text: {fileID: 1277540350}
-  off: {r: 1, g: 1, b: 1, a: 1}
-  on: {r: 0.46666667, g: 0.8509804, b: 0.79010975, a: 1}
 --- !u!114 &1130405601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10827,17 +10810,6 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1130405600}
-        m_MethodName: ChangeColor
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1130405602}
         m_MethodName: Press
         m_Mode: 1
@@ -10864,6 +10836,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9125484e0c051e4392f1e79de44a0ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  text: {fileID: 1277540350}
+  onColor: {r: 1, g: 1, b: 1, a: 1}
+  offColor: {r: 0.46666667, g: 0.8509804, b: 0.79010975, a: 1}
 --- !u!1 &1147003826
 GameObject:
   m_ObjectHideFlags: 0
@@ -16733,7 +16708,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1725296164
 RectTransform:
   m_ObjectHideFlags: 0

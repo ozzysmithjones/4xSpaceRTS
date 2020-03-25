@@ -42,15 +42,12 @@ public class Faction
     public Faction(int index, Color flagColor, string factionName)
     {
         factionIndex = index;
+
         this.factionName = factionName;
         this.flagColor = flagColor;
 
         PopulationGrowthTimer = new Timer(1.0f, GrowPopulation);
         research = new Research(this);
-
-        resources.Initialise();
-        spaceResourceProduction.Initialise();
-        totalResourceProduction.Initialise();
     }
 
 

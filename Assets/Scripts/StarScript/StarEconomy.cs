@@ -20,7 +20,6 @@ public class StarEconomy : MonoBehaviour
 
     public void Initialise()
     {
-        totalResourceProduction.Initialise();
         star = GetComponent<Star>();
     }
 

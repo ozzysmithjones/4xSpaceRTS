@@ -163,10 +163,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f62636a14ad28a428f23dbf8a3ac6af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  title: {fileID: 0}
-  toolTip: {fileID: 0}
-  image: {fileID: 0}
-  backGround: {fileID: 0}
+  researchQueueItem: {fileID: 0}
+  title: {fileID: 4352745979185509169}
+  toolTip: {fileID: 4351072078378301594}
+  image: {fileID: 4352745977626419130}
+  backGround: {fileID: 4352745979031835395}
 --- !u!114 &4351072078378301594
 MonoBehaviour:
   m_ObjectHideFlags: 0

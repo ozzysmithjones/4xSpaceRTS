@@ -20,8 +20,13 @@ public class PlanetOverviewAlreadyBuilt : MonoBehaviour
         UpdateProductionUI();
     }
 
-    public void UpdateAllQuantities()
+    public void Refresh()
     {
+        List<BuiltStructure> builtStructures = Master.instance.characters.factions[planetOverview.planet.star.factionIndex].structureTypes;
+        for(int i = 0; i < builtStructures.Count; i++)
+        {
+            builtStructureButtons[i].Initialise(builtStructures[i]);
+        }
         for (int i = 0; i < builtStructureButtons.Length; i++)
         {
             UpdateQuantity(i);

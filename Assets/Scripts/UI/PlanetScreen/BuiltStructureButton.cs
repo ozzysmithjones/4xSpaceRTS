@@ -11,18 +11,12 @@ public class BuiltStructureButton : MonoBehaviour, IPointerEnterHandler, IPointe
     public BuiltStructure builtStructure;
     public int quantity = 0;
 
-
-    private static int classIndex = 0;
-
-    private void Start()
+    public void Initialise(BuiltStructure builtStructure)
     {
-        builtStructure = Master.instance.characters.factions[0].structureTypes[classIndex];
+        this.builtStructure = builtStructure;
         structureName.text = builtStructure.name;
         structureQuantity.text = quantity.ToString();
-        classIndex++;
-
     }
-
 
     public void UpdateQuantity(int amount)
     {

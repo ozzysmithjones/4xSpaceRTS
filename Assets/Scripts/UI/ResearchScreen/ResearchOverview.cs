@@ -14,6 +14,7 @@ public class ResearchOverview : MonoBehaviour
         this.research = research;
         researchProgressOverview.SetListen(research, true);
         currentResearchOverview.SetListen(research, true);
+        researchOptionsOverview.SetListen(research, true);
     }
 
 
@@ -31,6 +32,7 @@ public class ResearchOverview : MonoBehaviour
         {
             researchProgressOverview.SetListen(research, false);
             currentResearchOverview.SetListen(research, false);
+            researchOptionsOverview.SetListen(research, false);
         }
         gameObject.SetActive(false);
     }

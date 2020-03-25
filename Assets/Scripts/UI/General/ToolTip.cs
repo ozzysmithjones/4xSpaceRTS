@@ -34,4 +34,13 @@ public class ToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             Master.instance.userInterface.toolTipSystem.UpdateText(text);
         }
     }
+    public void Clear()
+    {
+        if (showing)
+        {
+            showing = false;
+            Master.instance.userInterface.toolTipSystem.DeActivateToolTip();
+        }
+    }
+
 }

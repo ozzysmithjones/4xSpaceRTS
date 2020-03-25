@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d042a0d82f7079746ab8cff1efa0024b, type: 3}
   m_Name: UnlockInterceptor
   m_EditorClassIdentifier: 
-  cost: 100
+  cost: 20
   repeatable: 0
   nextResearch:
   - {fileID: 11400000}

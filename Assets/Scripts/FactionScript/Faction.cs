@@ -185,7 +185,7 @@ public class Faction
     public virtual void SetResourceAmount(ResourceType resourceType, int amount)
     {
         this.resources.amounts[(int)resourceType] = amount;
-        totalResourceProduction.amounts[(int)resourceType] = amount;
+        
     }
 
     public virtual void ModifySpaceResourceProduction(ResourceType resourceType, int amount)

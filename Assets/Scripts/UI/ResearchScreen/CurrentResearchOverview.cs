@@ -22,7 +22,8 @@ public class CurrentResearchOverview : MonoBehaviour
         research.EventListener(Research.ResearchEventType.Begin, UpdateCurrentResearch, listen);
         research.EventListener(Research.ResearchEventType.Stop, ClearCurrentResearch, listen);
 
-        if (listen)
+        
+        if (listen && research.researchQueueItem != null)
         {
             UpdateCurrentResearch(research, research.researchQueueItem);
         }
@@ -33,6 +34,7 @@ public class CurrentResearchOverview : MonoBehaviour
     }
     private void UpdateCurrentResearch(Research research, ResearchQueueItem researchQueueItem)
     {
+
         title.text = researchQueueItem.name;
         description.text = researchQueueItem.description;
         image.sprite = researchQueueItem.sprite;

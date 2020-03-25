@@ -13,11 +13,12 @@ public class ResearchOptionUI : MonoBehaviour, IPointerDownHandler
     public Image image;
     public Image backGround;
 
+    
     public void Initialise(ResearchQueueItem researchQueueItem,Color backgroundColor)
     {
         
         title.text = researchQueueItem.name;
-        toolTip.SetText(researchQueueItem.description);
+        toolTip.text = researchQueueItem.description;
         image.sprite = researchQueueItem.sprite;
         backGround.color = backgroundColor;
 
@@ -27,6 +28,7 @@ public class ResearchOptionUI : MonoBehaviour, IPointerDownHandler
 
     public void DeActivate()
     {
+        toolTip.Clear();
         gameObject.SetActive(false);
     }
 

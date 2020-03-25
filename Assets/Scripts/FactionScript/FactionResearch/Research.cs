@@ -32,7 +32,7 @@ public class Research
     }
     public void Update()
     {
-        if (!researching)
+        if (!researching || researchQueueItem == null)
         {
             return;
         }
@@ -47,18 +47,14 @@ public class Research
     }
     public void ResearchAtRandom()
     {
-        if (researching)
-        {
-            return;
-        }
         BeginResearch(researchOptions[Random.Range(0, researchOptions.Count)]);
     }
 
     public void BeginResearch(ResearchQueueItem researchQueueItem)
     {
-        researching = true;
         this.researchQueueItem = researchQueueItem;
-        if(ResearchBegin != null) ResearchBegin.Invoke(this,this.researchQueueItem);
+        researching = true;
+        if (ResearchBegin != null) ResearchBegin.Invoke(this,this.researchQueueItem);
         researchOptions.Remove(researchQueueItem);
     }
     public void StopResearch()
@@ -70,10 +66,11 @@ public class Research
     }
     public float Getprogress()
     {
-        if(researchQueueItem == null)
+        if (!researching)
         {
-            return 0.0f;
+            return 1.0f;
         }
+ 
         return (float)faction.resources.amounts[(int)ResourceType.SCIENCE] / (float)researchQueueItem.cost;
     }
 

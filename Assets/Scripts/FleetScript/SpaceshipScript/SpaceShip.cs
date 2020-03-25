@@ -65,6 +65,7 @@ public class SpaceShip : MonoBehaviour
     public virtual void Initialise(Color flagColor)
     {
         Initialised = true;
+        cargo.Initialise();
         rend = GetComponent<Renderer>();
         fleet = GetComponentInParent<Navigator>();
 

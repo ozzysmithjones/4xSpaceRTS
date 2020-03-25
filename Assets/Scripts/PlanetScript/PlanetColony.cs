@@ -22,12 +22,13 @@ public class PlanetColony : MonoBehaviour
     public delegate void OnPopulationChange(List<Population> populations);
     public event OnPopulationChange PopulationChange;
 
-    public Resources resourceProduction = new Resources();
+    public Resources resourceProduction;
     public float[] resourceBonus;
     public float stability = 1.0f;
     // Start is called before the first frame update
     void Awake()
     {
+        resourceProduction.Initialise();
         resourceBonus = new float[resourceProduction.amounts.Length];
         for (int i = 0; i < resourceBonus.Length; i++)
         {

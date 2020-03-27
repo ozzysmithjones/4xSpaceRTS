@@ -8,12 +8,12 @@ public class ResearchOptionsOverview : MonoBehaviour
     public GameObject researchOptionPrefab;
     private List<ResearchOptionUI> researchOptionUIs = new List<ResearchOptionUI>();
 
-    private int deActivatedInPool = 10;
+    private int maxPoolSize = 10;
     private List<ResearchOptionUI> pool = new List<ResearchOptionUI>();
 
     private void Start()
     {
-        for(int i = 0; i < deActivatedInPool; i++)
+        for(int i = 0; i < maxPoolSize; i++)
         {
             pool.Add(Instantiate(researchOptionPrefab, transform).GetComponent<ResearchOptionUI>());
             pool[i].DeActivate();
@@ -32,13 +32,32 @@ public class ResearchOptionsOverview : MonoBehaviour
 
     private void Refresh(List<ResearchQueueItem> researchQueueItems)
     {
-        for(int i = 0; i < researchOptionUIs.Count; i++)
+        int length = Mathf.Max(researchQueueItems.Count, researchOptionUIs.Count);
+        for (int i = 0; i < length; i++)
         {
-            RemoveOptionUI(researchOptionUIs[i]);
-        }
-        for(int i = 0; i < researchQueueItems.Count; i++)
-        {
-            AddItem(researchQueueItems[i]);
+            if(i < researchQueueItems.Count && i < researchOptionUIs.Count)
+            {
+                if(researchQueueItems[i] == researchOptionUIs[i].researchQueueItem)
+                {
+                    continue;
+                }
+                else
+                {
+                    DestroyResearchOption(researchOptionUIs[i]);
+                    researchOptionUIs.RemoveAt(i); i--;
+                    AddItem(researchQueueItems[i]);
+                    continue;
+                }
+            }
+            if(i >= researchQueueItems.Count && i < researchOptionUIs.Count)
+            {
+                DestroyResearchOption(researchOptionUIs[i]);
+                researchOptionUIs.RemoveAt(i); i--;
+            }
+            if(i < researchQueueItems.Count && i >= researchOptionUIs.Count)
+            {
+                AddItem(researchQueueItems[i]);
+            }
         }
     }
 
@@ -55,12 +74,11 @@ public class ResearchOptionsOverview : MonoBehaviour
 
     private void AddItem(ResearchQueueItem researchQueueItem)
     {
-        if(deActivatedInPool > 0)
+        if(pool.Count > 0)
         {
             pool[pool.Count-1].Initialise(researchQueueItem, colors[(int)researchQueueItem.techType]);
             researchOptionUIs.Add(pool[pool.Count - 1]);
             pool.RemoveAt(pool.Count - 1);
-            deActivatedInPool--;
         }
         else
         {
@@ -70,14 +88,13 @@ public class ResearchOptionsOverview : MonoBehaviour
         }
     }
 
-    private void RemoveOptionUI(ResearchOptionUI researchOptionUI)
+    private void DestroyResearchOption(ResearchOptionUI researchOptionUI)
     {
         
-        if (deActivatedInPool < 10)
+        if (pool.Count < maxPoolSize)
         {
             researchOptionUI.DeActivate();
             pool.Add(researchOptionUI);
-            deActivatedInPool++;
         }
         else
         {
@@ -90,7 +107,7 @@ public class ResearchOptionsOverview : MonoBehaviour
         {
             if(researchOptionUIs[i].researchQueueItem == researchQueueItem)
             {
-                RemoveOptionUI(researchOptionUIs[i]);
+                DestroyResearchOption(researchOptionUIs[i]);
                 researchOptionUIs.RemoveAt(i);
                 return;
             }

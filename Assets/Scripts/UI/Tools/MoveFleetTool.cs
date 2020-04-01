@@ -4,14 +4,14 @@ using UnityEngine;
 public class MoveFleetTool : Tool
 {
     public LineRenderer lineRenderer;
-    public List<Navigator> controlledFleets = new List<Navigator>();
+    public List<Fleet> controlledFleets = new List<Fleet>();
     private List<int> path = new List<int>();
 
     public int start = -1;
 
     private bool ignoreShutDown = false;
     //returns true if this was an override, otherwise returns false.
-    public bool AddFleet(Navigator navigator)
+    public bool AddFleet(Fleet fleet)
     {
         if (Master.instance.userInterface.currentTool != this)
         {
@@ -19,18 +19,18 @@ public class MoveFleetTool : Tool
         }
 
 
-        navigator.ClearPath();
-        if (navigator.GetStar().index != start)
+        fleet.ClearPath();
+        if (fleet.star.index != start)
         {
             ignoreShutDown = true;
 
             UnToggleFleetIcons();
             controlledFleets.Clear();
-            controlledFleets.Add(navigator);
+            controlledFleets.Add(fleet);
 
             ignoreShutDown = false;
 
-            start = controlledFleets[0].GetStar().index;
+            start = controlledFleets[0].star.index;
             path.Clear();
             path.Add(start);
 
@@ -38,16 +38,16 @@ public class MoveFleetTool : Tool
         }
         else
         {
-            controlledFleets.Add(navigator);
+            controlledFleets.Add(fleet);
             return false;
         }
     }
 
     //returns true if it was the last fleet left in the move tool, otherwise returns false.
-    public bool RemoveFleet(Navigator navigator)
+    public bool RemoveFleet(Fleet fleet)
     {
-        navigator.GetStar().starShipManager.iconHandler.FindIcon(navigator.iconHandlerID).setToggleOn(false);
-        controlledFleets.Remove(navigator);
+        fleet.star.starShipManager.iconHandler.FindIcon(fleet.iconHandlerID).setToggleOn(false);
+        controlledFleets.Remove(fleet);
         if (controlledFleets.Count <= 0 && !ignoreShutDown)
         {
             path.Clear();
@@ -70,28 +70,6 @@ public class MoveFleetTool : Tool
 
     void DrawLine(List<int> linePath)
     {
-        /*
-        Debug.Log("drawLine");
-        Vector3[] positions = new Vector3[linePath.Count + lineRenderer.positionCount];
-
-        for(int i = 0; i < lineRenderer.positionCount; i++)
-        {
-            positions[i] = lineRenderer.GetPosition(i);
-        }
-
-        //bear in mind this doesn't include the first element, which shoiuld be exactly the same as the last element anyway.
-        for (int i = 0; i < linePath.Count-1; i++)
-        {
-            
-            Vector3 position = Master.instance.enviroment.grid[linePath[i+1]].transform.position;
-
-            positions[i+ lineRenderer.positionCount] = position;
-            Debug.Log(position + " new position of line");
-        }
-
-        lineRenderer.SetPositions(positions);
-        */
-
         lineRenderer.positionCount = linePath.Count;
         for (int i = 0; i < linePath.Count; i++)
         {
@@ -157,13 +135,9 @@ public class MoveFleetTool : Tool
 
         if (path.Count > 1)
         {
-            //CheckPath(path);
-            // Debug.Log("set path");
-
-
             for (int i = 0; i < controlledFleets.Count; i++)
             {
-                controlledFleets[i].SetPath(path);
+                controlledFleets[i].AddFleetOrder(new FollowPath(path));
 
             }
         }
@@ -179,7 +153,7 @@ public class MoveFleetTool : Tool
             {
                 continue;
             }
-            controlledFleets[i].GetStar().starShipManager.iconHandler.FindIcon(controlledFleets[i].iconHandlerID).setToggleOn(false);
+            controlledFleets[i].star.starShipManager.iconHandler.FindIcon(controlledFleets[i].iconHandlerID).setToggleOn(false);
         }
     }
 

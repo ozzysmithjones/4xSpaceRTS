@@ -31,7 +31,7 @@ public class Faction
     public Research research;
 
     //military:
-    public List<Navigator> fleets = new List<Navigator>();
+    public List<Fleet> fleets = new List<Fleet>();
 
     //species and internal politics: 
     public List<Species> species;

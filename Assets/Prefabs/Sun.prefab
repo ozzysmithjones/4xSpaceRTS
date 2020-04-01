@@ -175,7 +175,6 @@ MonoBehaviour:
     type: 3}
   spaceBetweenPlanets: 1.1
   spaceBetweenVoid: 1
-  groundGradient: {fileID: 11400000, guid: 8c66305b62149d14aa2fa4706dc749f6, type: 2}
   planets: []
 --- !u!114 &879585075006794824
 MonoBehaviour:
@@ -205,6 +204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 0
+  position: 0
   planets: 0
   starSelect: {fileID: 0}
   starConstruction: {fileID: 0}
@@ -314,7 +314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8b47de1e36d7e34892fe507c75b1f3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  emptyFleetPrefab: {fileID: 7359343602757720288, guid: 60877b53284e59c47bf7c6a776d36b08,
+  emptyFleetPrefab: {fileID: 7457036311145908002, guid: 60877b53284e59c47bf7c6a776d36b08,
     type: 3}
   visuals: {fileID: 3858813531035373117}
 --- !u!114 &809044322527810242
@@ -329,6 +329,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610d737b5c7849f4f9056e410ef3b2e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colonies: []
+  totalResourceProduction:
+    amounts: 00000000000000000000000000000000
 --- !u!1 &5175810016763546237
 GameObject:
   m_ObjectHideFlags: 0

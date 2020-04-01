@@ -16,7 +16,7 @@ public class SpaceShip : MonoBehaviour
 
     //initialisation
     public Renderer rend;
-    protected Navigator fleet;
+    protected Fleet fleet;
     private bool Initialised = false;
 
 
@@ -57,16 +57,16 @@ public class SpaceShip : MonoBehaviour
 
     }
 
-    public void SetNavigator(Navigator navigator)
+    public void SetFleet(Fleet fleet)
     {
-        fleet = navigator;
+        this.fleet = fleet;
     }
 
     public virtual void Initialise(Color flagColor)
     {
         Initialised = true;
         rend = GetComponent<Renderer>();
-        fleet = GetComponentInParent<Navigator>();
+        fleet = GetComponentInParent<Fleet>();
 
         SpriteRenderer spriteRenderer = rend as SpriteRenderer;
         spriteRenderer.color = flagColor;

@@ -5,7 +5,7 @@ public class StarShipManager : MonoBehaviour
 {
     //for later use.
     //public Dictionary<int, List<Navigator>> fleetsByFaction = new Dictionary<int,List<Navigator>>();
-    public List<Navigator> fleets = new List<Navigator>();
+    public List<Fleet> fleets = new List<Fleet>();
     public Transform visuals;
 
     public IconHandler iconHandler;
@@ -29,60 +29,49 @@ public class StarShipManager : MonoBehaviour
     }
 
     //faction will be needed when there is multiple factions in one system.
-    public bool RequestExit(Navigator navigator)
+    public bool RequestExit(Fleet fleet)
     {
 
-        if (navigator.faction == 0)
+        if (fleet.faction == 0)
         {
-            navigator.Scout(false);
+            fleet.Scout(false);
         }
         for (int i = 0; i < fleets.Count; i++)
         {
-            fleets[i].navigatorCombat.RemoveEnemy(navigator);
+            fleets[i].fleetCombat.RemoveEnemy(fleet);
         }
 
-        iconHandler.RemoveIcon(navigator.iconHandlerID);
-        fleets.Remove(navigator);
+        iconHandler.RemoveIcon(fleet.iconHandlerID);
+        fleets.Remove(fleet);
         UpdateFaction();
         return true;
     }
 
-    public void Entry(Navigator navigator)
+    public void Entry(Fleet fleet)
     {
-        if (navigator.faction == 0)
+        if (fleet.faction == 0)
         {
-            navigator.Scout(true);
+            fleet.Scout(true);
         }
 
-        iconHandler.AddIcon(navigator, navigator.iconSprite, navigator.military, navigator.faction);
-        navigator.transform.SetParent(visuals);
-        navigator.UpdateVisibility();
+        iconHandler.AddIcon(fleet, fleet.iconSprite, fleet.military, fleet.faction);
+        fleet.transform.SetParent(visuals);
+        fleet.UpdateVisibility();
 
 
         //combat check:
-        navigator.navigatorCombat.IsConflict(fleets);
+        fleet.fleetCombat.IsConflict(fleets);
         for (int i = 0; i < fleets.Count; i++)
         {
-            fleets[i].navigatorCombat.AddEnemy(navigator);
+            fleets[i].fleetCombat.AddEnemy(fleet);
         }
-        fleets.Add(navigator);
+        fleets.Add(fleet);
         UpdateFaction();
         return;
     }
 
-    //not used:
-    public void DestroyFleet(Navigator navigator)
-    {
-        RequestExit(navigator);
-        Destroy(navigator.gameObject);
-    }
-
-
-
-
     public int GetSmallestFleet(int faction = -1, bool military = true)
     {
-
         if (fleets.Count <= 0)
         {
             return -1;

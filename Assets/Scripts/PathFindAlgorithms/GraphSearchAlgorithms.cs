@@ -119,7 +119,6 @@ public class GraphSearchAlgorithms
             removeIndex = GetNodeIndexByValue(frontier, seekingSmallestNodeValue);
             current = frontier[removeIndex];
         }
-        Debug.Log(iterations);
         return current;
 
     }

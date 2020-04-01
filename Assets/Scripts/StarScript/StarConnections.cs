@@ -101,6 +101,10 @@ public class StarConnections : MonoBehaviour
         Debug.LogError("couldn't find what you were looking for");
         return connections[0];
     }
+
+
+
+
     void SpawnStarGate(Vector2 targetStar, int targetStarPosition, float distance = 15f)
     {
         Vector2 spawnPoint = Vector2.MoveTowards((Vector2)transform.position, targetStar, distance);

@@ -90,16 +90,16 @@ public class Fighter : SpaceShip
 
         float lowestHP = 0.0f;
         int index = 0;
-        for (int i = 0; i < fleet.navigatorCombat.target.spaceShips.Count; i++)
+        for (int i = 0; i < fleet.fleetCombat.target.spaceShips.Count; i++)
         {
-            if (fleet.navigatorCombat.target.spaceShips[i].hitPoints < lowestHP || i == 0)
+            if (fleet.fleetCombat.target.spaceShips[i].hitPoints < lowestHP || i == 0)
             {
-                lowestHP = fleet.navigatorCombat.target.spaceShips[i].hitPoints;
+                lowestHP = fleet.fleetCombat.target.spaceShips[i].hitPoints;
                 index = i;
             }
 
         }
-        enemyShip = fleet.navigatorCombat.target.spaceShips[index];
+        enemyShip = fleet.fleetCombat.target.spaceShips[index];
         target = enemyShip.transform;
     }
 

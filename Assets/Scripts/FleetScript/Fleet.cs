@@ -445,9 +445,7 @@ public class Fleet : MonoBehaviour
             SetFleetState(FleetState.IDLE);
             warpAlpha = 0.0f;
             star = Master.instance.enviroment.stars[targetWarpCoordinate];
-            star.starShipManager.Entry(this);
             LandShips(warpEnd);
-
             if (isPath)
             {
                 pathIndex++;
@@ -463,6 +461,9 @@ public class Fleet : MonoBehaviour
                     AddFleetOrder(new TravelToStar(path[pathIndex], usingGate), true);
                 }
             }
+            //this needs to be done last in-case there is a entry-reaction (such as a conflict) changing the fleets next step.
+            star.starShipManager.Entry(this);
+            
         }
 
     }

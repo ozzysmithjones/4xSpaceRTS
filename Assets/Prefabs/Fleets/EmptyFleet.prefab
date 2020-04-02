@@ -223,15 +223,12 @@ MonoBehaviour:
   isPath: 0
   conflictReaction: 0
   fleetState: 0
+  pathCode: -1
   path: 
   faction: -1
   center: {fileID: 4567367300801708025}
   spaceShips: []
-  isTarget: 0
-  isCloseToTarget: 0
-  target: {fileID: 0}
   iconHandlerID: 0
-  usingGate: 0
   spaceShipHandler: {fileID: 7268817307860948088}
   movingIcon: {fileID: 1175333375961065887}
   star: {fileID: 0}

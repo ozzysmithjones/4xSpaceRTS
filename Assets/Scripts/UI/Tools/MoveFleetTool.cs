@@ -137,6 +137,8 @@ public class MoveFleetTool : Tool
         {
             for (int i = 0; i < controlledFleets.Count; i++)
             {
+                controlledFleets[i].ClearPath();
+                controlledFleets[i].ClearFleetOrder();
                 controlledFleets[i].AddFleetOrder(new FollowPath(path));
 
             }

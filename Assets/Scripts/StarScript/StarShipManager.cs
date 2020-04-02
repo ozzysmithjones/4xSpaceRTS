@@ -58,7 +58,6 @@ public class StarShipManager : MonoBehaviour
         fleet.transform.SetParent(visuals);
         fleet.UpdateVisibility();
 
-
         //combat check:
         fleet.fleetCombat.IsConflict(fleets);
         for (int i = 0; i < fleets.Count; i++)
@@ -89,7 +88,6 @@ public class StarShipManager : MonoBehaviour
                 // Debug.Log("Military is :" + military + " but this fleet is not");
                 continue;
             }
-
 
             if (fleets[i].faction == faction || faction == -1)
             {

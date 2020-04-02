@@ -33,6 +33,7 @@ public class Fleet : MonoBehaviour
     public List<FleetOrder> fleetOrders = new List<FleetOrder>();
     private int currentFleetOrderIndex = 0;
 
+
     [SerializeField] private List<int> path;
     private int pathIndex = 0;
 
@@ -46,18 +47,19 @@ public class Fleet : MonoBehaviour
     private bool inFormation = false;
 
     private float proximityDistance = 3.0f;
-    [SerializeField] private bool isTarget = false;
-    [SerializeField] private bool isCloseToTarget = false;
-    [SerializeField] private Transform target;
+    private bool isTarget = false;
+    private bool isCloseToTarget = false;
+    private Transform target;
 
     [Header("SPACESHIP WARP")]
     [HideInInspector] public int iconHandlerID;
-    [SerializeField] private bool usingGate = false;
+    private bool usingGate = false;
     private int targetWarpCoordinate;
 
-    [SerializeField] private GameObject spaceShipHandler;
-    [SerializeField] private GameObject movingIcon;
+    public GameObject spaceShipHandler;
+    public GameObject movingIcon;
     public Star star;
+    private int previousCoordinates = -1;
     private float warpAlpha = 0.0f;
     private Vector2 warpStart;
     private Vector2 warpEnd;
@@ -79,7 +81,7 @@ public class Fleet : MonoBehaviour
 
     private void Update()
     {
-        if(fleetState != FleetState.IN_WARP && fleetState != FleetState.CHARGING_WARP)
+        if(fleetState == FleetState.IDLE)
             UpdateFleetOrder();
         switch (fleetState)
         {
@@ -155,9 +157,10 @@ public class Fleet : MonoBehaviour
             switch (conflictReaction)
             {
                 case ConflictReaction.FLEE:
-                    ReadyWarpTo(FleeCoordinate(), true);
+                    AddFleetOrder(new TravelToStar(FleeCoordinate(), usingGate), true);
                     break;
                 case ConflictReaction.FIGHT:
+                    SetFleetState(FleetState.FIGHTING);
                     for (int i = 0; i < spaceShips.Count; i++)
                     {
                         spaceShips[i].SetConflict(conflict);
@@ -171,6 +174,10 @@ public class Fleet : MonoBehaviour
 
         if (!conflict)
         {
+            if (fleetState == FleetState.FIGHTING)
+            {
+                SetFleetState(FleetState.IDLE);
+            }
             for (int i = 0; i < spaceShips.Count; i++)
             {
                 spaceShips[i].SetConflict(conflict);
@@ -180,6 +187,11 @@ public class Fleet : MonoBehaviour
 
     private int FleeCoordinate()
     {
+        //go back to the previous star we came from:
+        if(previousCoordinates >= 0)
+        {
+            return previousCoordinates;
+        }
         //go back the path we came.
         if (isPath && pathIndex > 0)
         {
@@ -280,18 +292,24 @@ public class Fleet : MonoBehaviour
         isPath = true;
         this.pathIndex = 0;
         this.usingGate = usingGates;
-        this.path = new List<int>();
-
-        for(int i = 0; i < path.Count; i++)
-        {
-            this.path.Add(path[i]);
-        }
-
+        this.path = new List<int>(path);
         ReadyWarpTo(path[1], usingGate);
 
     }
-    public void ClearPath()
+    public void ClearPath(bool interruptFleetOrder = false)
     {
+        if (!isPath)
+        {
+            return;
+        }
+        if(fleetState == FleetState.MOVING_TO_WARP_GATE || fleetState == FleetState.CHARGING_WARP)
+        {
+            ClearTarget();
+        }
+        if (interruptFleetOrder)
+        {
+            fleetOrders.RemoveAt(currentFleetOrderIndex);
+        }
         isPath = false;
         this.path.Clear();
     }
@@ -352,7 +370,7 @@ public class Fleet : MonoBehaviour
         {
             spaceShips[i].SetVisibility(visible);
         }
-        movingIcon.SetActive(visible);
+        movingIcon.SetActive(false);
     }
 
     private void UpdateCenter()
@@ -444,6 +462,7 @@ public class Fleet : MonoBehaviour
         {
             SetFleetState(FleetState.IDLE);
             warpAlpha = 0.0f;
+            previousCoordinates = star.index;
             star = Master.instance.enviroment.stars[targetWarpCoordinate];
             LandShips(warpEnd);
             if (isPath)

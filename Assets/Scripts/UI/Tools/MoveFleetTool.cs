@@ -139,7 +139,7 @@ public class MoveFleetTool : Tool
             {
                 controlledFleets[i].ClearPath();
                 controlledFleets[i].ClearFleetOrder();
-                controlledFleets[i].AddFleetOrder(new FollowPath(path));
+                controlledFleets[i].AddFleetOrder(new TravelToPoint(controlledFleets[i],path[path.Count-1],null,path));
 
             }
         }

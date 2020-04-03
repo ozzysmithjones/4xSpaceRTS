@@ -46,10 +46,10 @@ public class Fleet : MonoBehaviour
     public List<SpaceShip> spaceShips = new List<SpaceShip>();
     private bool inFormation = false;
 
-    private float proximityDistance = 3.0f;
-    private bool isTarget = false;
-    private bool isCloseToTarget = false;
-    private Transform target;
+    private float proximityDistance = 1.0f;
+    public bool isTarget = false;
+    public bool isCloseToTarget = false;
+    public Transform target;
 
     [Header("SPACESHIP WARP")]
     [HideInInspector] public int iconHandlerID;
@@ -81,7 +81,7 @@ public class Fleet : MonoBehaviour
 
     private void Update()
     {
-        if(fleetState == FleetState.IDLE)
+        if(fleetState != FleetState.CHARGING_WARP && fleetState != FleetState.IN_WARP)
             UpdateFleetOrder();
         switch (fleetState)
         {
@@ -113,6 +113,7 @@ public class Fleet : MonoBehaviour
         }
     }
 
+
     private void UpdateFleetOrder()
     {
         if (currentFleetOrderIndex >= fleetOrders.Count)
@@ -127,9 +128,13 @@ public class Fleet : MonoBehaviour
                 fleetOrders[currentFleetOrderIndex].Initialise(this);
             }
 
-            if (fleetOrders[currentFleetOrderIndex].Execute())
+            if (fleetOrders[currentFleetOrderIndex].Completed())
             {
                 currentFleetOrderIndex++;
+            }
+            else if(fleetState == FleetState.IDLE)
+            {
+                 fleetOrders[currentFleetOrderIndex].GetTask();
             }
         }
     }
@@ -157,7 +162,7 @@ public class Fleet : MonoBehaviour
             switch (conflictReaction)
             {
                 case ConflictReaction.FLEE:
-                    AddFleetOrder(new TravelToStar(FleeCoordinate(), usingGate), true);
+                    AddFleetOrder(new TravelToPoint(this,FleeCoordinate()), true);
                     break;
                 case ConflictReaction.FIGHT:
                     SetFleetState(FleetState.FIGHTING);
@@ -229,6 +234,7 @@ public class Fleet : MonoBehaviour
 
     public void AddShip(SpaceShip spaceShip)
     {
+        spaceShip.SetFleet(this);
         spaceShip.formation = inFormation;
         spaceShips.Add(spaceShip);
 
@@ -306,7 +312,7 @@ public class Fleet : MonoBehaviour
         {
             ClearTarget();
         }
-        if (interruptFleetOrder)
+        if (interruptFleetOrder && fleetOrders.Count >= 0)
         {
             fleetOrders.RemoveAt(currentFleetOrderIndex);
         }
@@ -316,6 +322,10 @@ public class Fleet : MonoBehaviour
     //Targets can only be within the star the fleet is in.
     public void SetTarget(Transform target, bool isWarpGate = false)
     {
+        if (isTarget)
+        {
+            ClearTarget(false);
+        }
         this.target = target;
         isTarget = true;
         SetFormation(true);
@@ -477,12 +487,11 @@ public class Fleet : MonoBehaviour
                 }
                 else
                 {
-                    AddFleetOrder(new TravelToStar(path[pathIndex], usingGate), true);
+                    AddFleetOrder(new TravelToPoint(this,path[pathIndex]), true);
                 }
             }
             //this needs to be done last in-case there is a entry-reaction (such as a conflict) changing the fleets next step.
             star.starShipManager.Entry(this);
-            
         }
 
     }

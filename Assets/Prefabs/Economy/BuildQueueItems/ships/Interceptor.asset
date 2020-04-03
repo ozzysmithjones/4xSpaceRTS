@@ -15,7 +15,7 @@ MonoBehaviour:
   classIndex: 0
   name: Interceptor
   description: Fast, dissposable ships designed for combat
-  buildTime: 10
+  buildTime: 0.5
   buildCost: 10
   category: 2
   prefab: {fileID: 1193765123588013134, guid: 005da5d0106bf8847aa4a1722d3c51dd, type: 3}

@@ -15,6 +15,7 @@ class StarGate
 
 public class StarConnections : MonoBehaviour
 {
+    public Color normalLineColor = Color.grey;
     public GameObject gateParent;
     public GameObject linePrefab;
     public GameObject starGatePrefab;
@@ -46,8 +47,8 @@ public class StarConnections : MonoBehaviour
         line.SetPosition(1, b);
 
         //set correct colors:
-        line.startColor = startStar.factionIndex >= 0 ? Master.instance.characters.factions[startStar.factionIndex].flagColor : line.startColor;
-        line.endColor = endStar.factionIndex >= 0 ? Master.instance.characters.factions[endStar.factionIndex].flagColor : line.endColor;
+        line.startColor = startStar.factionIndex >= 0 ? Master.instance.characters.factions[startStar.factionIndex].flagColor : line.startColor * normalLineColor;
+        line.endColor = endStar.factionIndex >= 0 ? Master.instance.characters.factions[endStar.factionIndex].flagColor : line.endColor * normalLineColor;
 
         return line;
     }

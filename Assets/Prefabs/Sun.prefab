@@ -228,6 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ccd9e242f1017e4cbc514f276ecde5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  normalLineColor: {r: 0.1617273, g: 0.13683698, b: 0.23584908, a: 1}
   gateParent: {fileID: 5985037012907228731}
   linePrefab: {fileID: 9106558677149656128, guid: 6696c277db76e914ab7487924f2677cd,
     type: 3}

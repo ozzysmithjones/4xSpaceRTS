@@ -47,22 +47,15 @@ public class IconData : MonoBehaviour
             toggle.interactable = interactable;
         }
 
-        // Debug.Log(interactable);
-
-
-
-        //toggle.enabled = interactable;
-        //fleetCanBeControlled = interactable;
     }
 
+    //referenced by the icons button.
     public void OnControlShip()
     {
         if (!fleetCanBeControlled)
         {
             return;
         }
-
-
         if (iconHandler == null)
         {
             iconHandler = GetComponentInParent<IconHandler>();

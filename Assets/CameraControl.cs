@@ -16,29 +16,20 @@ public class CameraControl : MonoBehaviour
 
     private float size = 0;
 
-    //private float minSize = 5f;
-    // private float maxSize = 500f;
-
     private Camera cam;
 
     public bool visible = false;
-
-    private List<Collider2D> viewables = new List<Collider2D>();
     public float visibilityMaxSize = 20f;
     public float VisibilityMaxDistance = 20f;
     public float visibilityRadius = 20f;
 
-
-
-    private Vector3 viewPosition;
-    private float viewDistanceAlpha = 0f;
+    private Star starBeingViewed = null;
 
     // Start is called before the first frame update
     void Start()
     {
         cam = GetComponent<Camera>();
         size = cam.orthographicSize;
-        StartCoroutine(ZoomVisibility(0.25f));
     }
 
     // Update is called once per frame
@@ -54,18 +45,13 @@ public class CameraControl : MonoBehaviour
     {
         Movement();
         Zoom();
-        //cam.orthographicSize = cam.pixelWidth / (((cam.pixelWidth / cam.pixelHeight) * 2f) * Mathf.Pow((float)zoomStep,2f));
-        //ZoomVisibility();
     }
 
     void Movement()
     {
         float zoomBonus = Mathf.InverseLerp(1f, 20f, (float)zoomStep);
         zoomBonus = Mathf.Clamp(zoomBonus, 0.05f, zoomBonus);
-        //panning the camera.
         transform.Translate(new Vector3(horizontal, vertical, 0f) * Time.fixedDeltaTime * panSpeed * zoomBonus);
-        //HideFarAwayStars();
-        //ShowCloseStars();
 
     }
 
@@ -86,71 +72,39 @@ public class CameraControl : MonoBehaviour
 
             cam.orthographicSize = size;
 
-            // 
-            //ZoomVisibility();
-
-        }
-    }
-    //finds out if a value has decimals.
-    bool Decimals(float value)
-    {
-        if (value % 1f == 0f)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
+            ZoomVisibility();
         }
     }
 
-    IEnumerator ZoomVisibility(float wait = 1f)
+    void ZoomVisibility()
     {
-
-        while (true)
+        if (size < visibilityMaxSize && !visible)
         {
-            yield return new WaitForSeconds(wait);
-
-            if (size < visibilityMaxSize)
-            {
-                Hide();
-                Show();
-
-            }
-            else if (size > visibilityMaxSize && visible)
-            {
-                Hide();
-
-            }
+            Show();
 
         }
-
-
+        else if (size > visibilityMaxSize && visible)
+        {
+            Hide();
+        }
     }
 
     void Show()
     {
-        viewables.Clear();
 
         visible = true;
-        Vector3 center = new Vector3(transform.position.x, transform.position.y, 0);
-        viewPosition = center;
-
-        RaycastHit2D[] hits = Physics2D.CircleCastAll(center, visibilityRadius, Vector3.zero);
-
         Master.instance.userInterface.SetMapUI(false);
+
+        Vector3 center = new Vector3(transform.position.x, transform.position.y, 0);
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(center, visibilityRadius, Vector3.zero);
         for (int i = 0; i < hits.Length; i++)
         {
-            if (hits[i].collider.GetComponent<Star>() != null)
+            Star star = hits[i].collider.GetComponent<Star>();
+            if (star != null)
             {
-                Visibility visibility = hits[i].collider.GetComponent<Visibility>();
-                if (visibility != null)
-                {
-                    viewables.Add(hits[i].collider);
-                    //visibility.ZoomVisibility(visibility.transform, true);
-
-                    hits[i].collider.enabled = false;
-                }
+                starBeingViewed = star;
+                starBeingViewed.starUI.SetUIVisibility(false);
+                return;
             }
         }
     }
@@ -160,58 +114,12 @@ public class CameraControl : MonoBehaviour
 
     void Hide()
     {
-        viewDistanceAlpha = 0f;
+        
         visible = false;
         Master.instance.userInterface.SetMapUI(true);
-        for (int i = 0; i < viewables.Count; i++)
-        {
-
-            viewables[i].enabled = true;
-
-
-        }
-
+        if (starBeingViewed != null)
+            starBeingViewed.starUI.SetUIVisibility(true);
     }
-
-
-
-    void HideFarAwayStars()
-    {
-        if (visible)
-        {
-            viewDistanceAlpha += Time.fixedDeltaTime;
-            if (viewDistanceAlpha >= 0.5f)
-            {
-                viewDistanceAlpha = 0f;
-                float distance = Vector2.Distance(new Vector3(transform.position.x, transform.position.y, 0), viewPosition);
-
-                if (distance > VisibilityMaxDistance)
-                {
-                    Hide();
-                }
-
-            }
-        }
-    }
-
-
-    void ShowCloseStars()
-    {
-        if (size < visibilityMaxSize)
-        {
-            viewDistanceAlpha += Time.fixedDeltaTime;
-            if (viewDistanceAlpha >= 0.5f)
-            {
-                viewDistanceAlpha = 0f;
-                Show();
-
-            }
-        }
-
-
-
-    }
-
 
 
 

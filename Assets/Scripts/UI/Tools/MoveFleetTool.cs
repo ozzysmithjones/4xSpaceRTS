@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
+using System;
 using UnityEngine;
 
 public class MoveFleetTool : Tool
 {
     public LineRenderer lineRenderer;
     public List<Fleet> controlledFleets = new List<Fleet>();
-    private List<int> path = new List<int>();
+    public List<int> path = new List<int>();
 
     public int start = -1;
 
-    private bool ignoreShutDown = false;
-    //returns true if this was an override, otherwise returns false.
     public bool AddFleet(Fleet fleet)
     {
         if (Master.instance.userInterface.currentTool != this)
@@ -18,17 +18,13 @@ public class MoveFleetTool : Tool
             Master.instance.userInterface.SetTool(3);
         }
 
-
         fleet.ClearPath();
         if (fleet.star.index != start)
         {
-            ignoreShutDown = true;
-
             UnToggleFleetIcons();
             controlledFleets.Clear();
             controlledFleets.Add(fleet);
 
-            ignoreShutDown = false;
 
             start = controlledFleets[0].star.index;
             path.Clear();
@@ -44,15 +40,14 @@ public class MoveFleetTool : Tool
     }
 
     //returns true if it was the last fleet left in the move tool, otherwise returns false.
-    public bool RemoveFleet(Fleet fleet)
+    public bool RemoveFleet(Fleet fleet, bool clearPathIfLast = true)
     {
         fleet.star.starShipManager.iconHandler.FindIcon(fleet.iconHandlerID).setToggleOn(false);
         controlledFleets.Remove(fleet);
-        if (controlledFleets.Count <= 0 && !ignoreShutDown)
+        if (controlledFleets.Count <= 0 && clearPathIfLast)
         {
             path.Clear();
-            start = -1;
-            Master.instance.userInterface.SetTool(0);
+            path.Add(start);
             return true;
         }
 
@@ -81,56 +76,51 @@ public class MoveFleetTool : Tool
     {
         base.OnInteract(star);
 
-        if (path[path.Count - 1] == star.index)
+        if (Input.GetKey(KeyCode.LeftShift))
         {
-            return;
-        }
-
-        bool addition = path.Count > 0;
-
-        List<int> extension = Master.instance.PathFind(path[path.Count - 1], star.index);
-        if (addition)
-        {
-            extension.RemoveAt(0);
-        }
-        path.AddRange(extension);
-        DrawLine(path);
-
-
-        if (Input.GetKey(KeyCode.Mouse1))
-        {
-            //Debug.Log("right click, so ignore");
             return;
         }
         else
         {
-            //Debug.Log("left clcik, so end");
             Master.instance.userInterface.SetTool(0);
         }
 
-
-
     }
-
 
     public override void OnHover(Star star)
     {
         base.OnHover(star);
 
-        //just draw a line:
-        int startIndex = path.Count - 1;
-        List<int> extension = Master.instance.PathFind(path[startIndex], star.index);
-        List<int> total = new List<int>(path);
+        if (controlledFleets.Count <= 0)
+            return;
+        if(star.index == start)
+            return;
 
-        total.AddRange(extension);
-        DrawLine(total);
+        for(int i = path.Count-1; i >= 0; i--)
+        {
+            if(path[i] == star.index)
+            {
+                path.RemoveRange(i, path.Count - i);
+                DrawLine(path);
+                return;
+            }
+        }
+
+        List<int> extension = Master.instance.PathFind(path[path.Count - 1], star.index);
+        if (extension.Count <= 1)
+        {
+            return;
+        }
+        extension.RemoveAt(0);
+        path.AddRange(extension);
+        DrawLine(path);
+
     }
 
     public override void OnDeselected()
     {
-        //Debug.Log("deselected");
         base.OnDeselected();
-
+        start = -1;
         lineRenderer.positionCount = 0;
 
         if (path.Count > 1)
@@ -145,16 +135,13 @@ public class MoveFleetTool : Tool
         }
 
         UnToggleFleetIcons();
+        controlledFleets.Clear();
     }
 
-    void UnToggleFleetIcons(int exception = -1)
+    void UnToggleFleetIcons()
     {
         for (int i = 0; i < controlledFleets.Count; i++)
         {
-            if (i == exception)
-            {
-                continue;
-            }
             controlledFleets[i].star.starShipManager.iconHandler.FindIcon(controlledFleets[i].iconHandlerID).setToggleOn(false);
         }
     }

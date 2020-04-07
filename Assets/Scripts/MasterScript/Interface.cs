@@ -90,10 +90,12 @@ public class Interface : MonoBehaviour
     {
         Star[] stars = Master.instance.enviroment.stars;
 
+        /*
         for (int i = 0; i < stars.Length; i++)
         {
             stars[i].starUI.SetUIVisibility(visibility);
         }
+        */
 
         int layerHidden = Camera.main.cullingMask;
         if (visibility)
@@ -107,7 +109,6 @@ public class Interface : MonoBehaviour
         }
 
         Camera.main.cullingMask = ~(layerHidden);
-        //print(Camera.main.cullingMask);
     }
 
 }

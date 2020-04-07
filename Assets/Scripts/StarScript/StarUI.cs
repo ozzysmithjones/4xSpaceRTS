@@ -8,12 +8,15 @@ public class StarUI : MonoBehaviour
     public StarConnections starConnections;
     public GameObject IconHandler;
 
+    private CircleCollider2D uiHitCollider;
+
     // private StarFogOfWar starFogOfWar;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-
+        uiHitCollider = GetComponent<CircleCollider2D>();
+        factionBorderAnimator = factionBorder.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -30,16 +33,8 @@ public class StarUI : MonoBehaviour
 
     public void SetUIVisibility(bool visibility)
     {
-        if (factionBorderAnimator == null)
-        {
-            //the sprite renderer somehow isnt null but the animator is  *shrug*.
-
-            factionBorderAnimator = factionBorder.GetComponent<Animator>();
-        }
-
-
+        uiHitCollider.enabled = visibility;
         factionBorderAnimator.SetBool("growing", visibility);
-
         IconHandler.SetActive(visibility);
 
     }

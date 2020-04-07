@@ -166,7 +166,7 @@ public class Star : MonoBehaviour
             return;
         }
 
-        Master.instance.userInterface.currentTool.OnInteract(this);
+        Master.instance.userInterface.currentTool.OnInteractStar(this);
     }
 
     private void OnMouseEnter()
@@ -178,11 +178,11 @@ public class Star : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse1))
         {
-            Master.instance.userInterface.currentTool.OnInteract(this);
+            Master.instance.userInterface.currentTool.OnInteractStar(this);
         }
         else
         {
-            Master.instance.userInterface.currentTool.OnHover(this);
+            Master.instance.userInterface.currentTool.OnHoverStar(this);
         }
     }
 

@@ -19,11 +19,10 @@ public class Interface : MonoBehaviour
     public ResearchOverview researchOverview;
 
     public MoveFleetTool moveFleetTool;
+    private LineRenderer moveFleetToolLine;
     // Start is called before the first frame update
     void Start()
     {
-
-
         //SetMapUI(true);
         tools[0] = new Tool();
         tools[1] = new ExpandTool();
@@ -31,7 +30,7 @@ public class Interface : MonoBehaviour
         tools[3] = new MoveFleetTool();
 
 
-        LineRenderer moveFleetToolLine = GetComponent<LineRenderer>();
+        moveFleetToolLine = GetComponent<LineRenderer>();
         moveFleetTool = tools[3] as MoveFleetTool;
         moveFleetTool.lineRenderer = moveFleetToolLine;
 
@@ -45,12 +44,13 @@ public class Interface : MonoBehaviour
     }
 
 
-
     public void SetTool(int tool)
     {
+        currentTool.active = false;
         currentTool.OnDeselected();
         currentTool = tools[tool];
         currentTool.OnSelected();
+        currentTool.active = true;
 
         //Debug.Log(tool.ToString() + "tool c);
     }
@@ -89,22 +89,17 @@ public class Interface : MonoBehaviour
     public void SetMapUI(bool visibility)
     {
         Star[] stars = Master.instance.enviroment.stars;
-
-        /*
-        for (int i = 0; i < stars.Length; i++)
-        {
-            stars[i].starUI.SetUIVisibility(visibility);
-        }
-        */
-
         int layerHidden = Camera.main.cullingMask;
         if (visibility)
         {
+            moveFleetToolLine.startWidth = 3.0f;
+            moveFleetToolLine.endWidth = 3.0f;
             layerHidden = 1 << LayerMask.NameToLayer("PlanetUI");
         }
         else
         {
-
+            moveFleetToolLine.startWidth = 0.5f;
+            moveFleetToolLine.endWidth = 0.5f;
             layerHidden = 1 << LayerMask.NameToLayer("MapUI");
         }
 

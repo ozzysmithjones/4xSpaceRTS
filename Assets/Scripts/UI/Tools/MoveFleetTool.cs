@@ -11,6 +11,10 @@ public class MoveFleetTool : Tool
 
     public int start = -1;
 
+    private Transform targetPoint;
+    private Planet targetPlanet;
+
+
     public bool AddFleet(Fleet fleet)
     {
         if (Master.instance.userInterface.currentTool != this)
@@ -65,16 +69,21 @@ public class MoveFleetTool : Tool
 
     void DrawLine(List<int> linePath)
     {
-        lineRenderer.positionCount = linePath.Count;
+        lineRenderer.positionCount = linePath.Count + (targetPoint != null ? 1 : 0);
         for (int i = 0; i < linePath.Count; i++)
         {
             lineRenderer.SetPosition(i, Master.instance.enviroment.stars[linePath[i]].transform.position + new Vector3(0f, 0f, 3f));
         }
+
+        if(targetPoint != null)
+        {
+            lineRenderer.SetPosition(linePath.Count, targetPoint.position + new Vector3(0f, 0f, 3f));
+        }
     }
 
-    public override void OnInteract(Star star)
+    public override void OnInteractStar(Star star)
     {
-        base.OnInteract(star);
+        base.OnInteractStar(star);
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -87,9 +96,9 @@ public class MoveFleetTool : Tool
 
     }
 
-    public override void OnHover(Star star)
+    public override void OnHoverStar(Star star)
     {
-        base.OnHover(star);
+        base.OnHoverStar(star);
 
         if (controlledFleets.Count <= 0)
             return;
@@ -117,6 +126,30 @@ public class MoveFleetTool : Tool
 
     }
 
+    public override void OnInteractPlanet(Planet planet)
+    {
+        base.OnInteractPlanet(planet);
+        Master.instance.userInterface.SetTool(0);
+
+    }
+
+    public override void OnHoverPlanet(Planet planet)
+    {
+        base.OnHoverPlanet(planet);
+        targetPlanet = planet;
+        targetPoint = targetPlanet.transform;
+
+        if (!path.Contains(planet.star.index))
+        {
+            OnHoverStar(planet.star);
+        }
+        else
+        {
+            DrawLine(path);
+        }
+
+    }
+
     public override void OnDeselected()
     {
         base.OnDeselected();
@@ -129,13 +162,14 @@ public class MoveFleetTool : Tool
             {
                 controlledFleets[i].ClearPath();
                 controlledFleets[i].ClearFleetOrder();
-                controlledFleets[i].AddFleetOrder(new TravelToPoint(controlledFleets[i],path[path.Count-1],null,path));
+                controlledFleets[i].AddFleetOrder(new TravelToPoint(controlledFleets[i],path[path.Count-1],targetPoint,path));
 
             }
         }
 
         UnToggleFleetIcons();
         controlledFleets.Clear();
+        targetPoint = null;
     }
 
     void UnToggleFleetIcons()

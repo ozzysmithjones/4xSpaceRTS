@@ -5427,7 +5427,7 @@ GameObject:
   - component: {fileID: 644943471}
   - component: {fileID: 644943476}
   - component: {fileID: 644943477}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Master
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5467,6 +5467,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toolTipSystem: {fileID: 1531731656}
+  currentTool:
+    active: 0
   resourcesText:
   - {fileID: 929933183}
   - {fileID: 2093177972}

@@ -29,9 +29,9 @@ public class ExpandTool : Tool
         }
     }
 
-    public override void OnInteract(Star star)
+    public override void OnInteractStar(Star star)
     {
-        base.OnInteract(star);
+        base.OnInteractStar(star);
 
         if (!star.starConnections.IsConnectedToFaction(0) || star.factionIndex != -1)
         {

@@ -32,6 +32,12 @@ public static partial class Calculation
 
     }
 
+    public static float SquareDistance(Vector2 a, Vector2 b)
+    {
+        return Vector2.SqrMagnitude(b - a);
+
+    }
+
 
 }
 

@@ -21,12 +21,6 @@ public class Planet : MonoBehaviour
         planetTexture = GetComponent<PlanetTexture>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void Initialise(Star planetsStar)
     {
         star = planetsStar;
@@ -66,6 +60,7 @@ public class Planet : MonoBehaviour
         }
 
     }
+
 
 
 }

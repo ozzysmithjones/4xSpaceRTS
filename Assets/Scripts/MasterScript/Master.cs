@@ -46,10 +46,8 @@ public class Master : MonoBehaviour
         enviroment.BreadthFirstGenerate(collums, rows);
         characters.SpawnFactions(variety.builtShips, variety.builtStructures);
 
-
-        GraphSearchAlgorithms graph = new GraphSearchAlgorithms();
-        graph.Initialise();
-
+        //doesn't need to be stored as it already has a static reference.
+        PathFindAlgorithm pathFindAlgorithm = new PathFindAlgorithm();
 
         //set the main camera to be above the players home world.
         Vector3 position = characters.factions[0].territory[0].transform.position;
@@ -94,7 +92,7 @@ public class Master : MonoBehaviour
 
     public List<int> PathFind(int start, int end, int[] factionsAllowed = null, float maxLength = 0f)
     {
-        return GraphSearchAlgorithms.instance.PathFind(start, end);
+        return PathFindAlgorithm.instance.Path(start, end);
     }
 
 

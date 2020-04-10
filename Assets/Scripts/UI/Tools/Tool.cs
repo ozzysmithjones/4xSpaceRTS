@@ -1,7 +1,7 @@
 ﻿[System.Serializable]
 public class Tool
 {
-
+    public bool active = false;
     public virtual void OnSelected()
     {
 
@@ -12,12 +12,22 @@ public class Tool
 
     }
 
-    public virtual void OnInteract(Star star)
+    public virtual void OnInteractStar(Star star)
     {
 
     }
 
-    public virtual void OnHover(Star star)
+    public virtual void OnHoverStar(Star star)
+    {
+
+    }
+
+    public virtual void OnInteractPlanet(Planet planet)
+    {
+
+    }
+
+    public virtual void OnHoverPlanet(Planet planet)
     {
 
     }

@@ -47,41 +47,34 @@ public class IconData : MonoBehaviour
             toggle.interactable = interactable;
         }
 
-        // Debug.Log(interactable);
-
-
-
-        //toggle.enabled = interactable;
-        //fleetCanBeControlled = interactable;
     }
 
+    //referenced by the icons button.
     public void OnControlShip()
     {
         if (!fleetCanBeControlled)
         {
             return;
         }
-
-
         if (iconHandler == null)
         {
             iconHandler = GetComponentInParent<IconHandler>();
         }
 
-        Navigator navigator = iconHandler.FindFleet(ID);
+        Fleet fleet = iconHandler.FindFleet(ID);
 
-        if (navigator == null)
+        if (fleet == null)
         {
             Debug.LogWarning("couldn't find the fleet to add to the move tool");
             return;
         }
         if (toggle.isOn)
         {
-            Master.instance.userInterface.moveFleetTool.AddFleet(navigator);
+            Master.instance.userInterface.moveFleetTool.AddFleet(fleet);
         }
         else
         {
-            Master.instance.userInterface.moveFleetTool.RemoveFleet(navigator);
+            Master.instance.userInterface.moveFleetTool.RemoveFleet(fleet);
         }
     }
 

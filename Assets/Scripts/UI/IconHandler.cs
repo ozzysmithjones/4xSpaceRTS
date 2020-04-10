@@ -5,7 +5,6 @@ public class IconHandler : MonoBehaviour
 {
 
     public Star star;
-
     public GameObject IconPrefab;
 
     //the first four icons are in object pools to improve performance.
@@ -13,7 +12,6 @@ public class IconHandler : MonoBehaviour
     //overwhelmed.
     private int poolSize = 4;
     public List<IconData> iconData = new List<IconData>();
-
     private List<IconData> pool = new List<IconData>();
 
     public Transform military;
@@ -25,20 +23,17 @@ public class IconHandler : MonoBehaviour
         for (int i = 0; i < poolSize; i++)
         {
             IconData icon = Instantiate(IconPrefab, transform).GetComponent<IconData>();
-            //iconData.Add(icon);
+
             pool.Add(icon);
-
             icon.gameObject.SetActive(false);
-
-
         }
     }
 
-    public void AddIcon(Navigator navigator, Sprite sprite, bool military = true, int faction = -1)
+    public void AddIcon(Fleet fleet, Sprite sprite, bool military = true, int faction = -1)
     {
 
         int id = FirstAvalibleID();
-        navigator.iconHandlerID = id;
+        fleet.iconHandlerID = id;
 
         //if possible, re-use an icon from the pool
         if (pool.Count > 0)
@@ -64,7 +59,6 @@ public class IconHandler : MonoBehaviour
 
     int FirstAvalibleID()
     {
-
         int iterations = 0;
         int id = iconData.Count;
         bool first = true;
@@ -142,7 +136,7 @@ public class IconHandler : MonoBehaviour
 
     }
 
-    public Navigator FindFleet(int id)
+    public Fleet FindFleet(int id)
     {
         StarShipManager starShipManager = star.starShipManager;
 

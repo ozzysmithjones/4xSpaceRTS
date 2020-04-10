@@ -26,6 +26,7 @@ public class Star : MonoBehaviour
     public int factionIndex = -1;
     private Color factionlessColor = Color.grey;
 
+    public SpriteRenderer spriteRenderer;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,7 +38,10 @@ public class Star : MonoBehaviour
     {
 
     }
-
+    public void SetColor(Color color)
+    {
+        spriteRenderer.color = color;
+    }
 
 
     public void Initialise(int faction = -1)
@@ -166,7 +170,7 @@ public class Star : MonoBehaviour
             return;
         }
 
-        Master.instance.userInterface.currentTool.OnInteract(this);
+        Master.instance.userInterface.currentTool.OnInteractStar(this);
     }
 
     private void OnMouseEnter()
@@ -178,11 +182,11 @@ public class Star : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse1))
         {
-            Master.instance.userInterface.currentTool.OnInteract(this);
+            Master.instance.userInterface.currentTool.OnInteractStar(this);
         }
         else
         {
-            Master.instance.userInterface.currentTool.OnHover(this);
+            Master.instance.userInterface.currentTool.OnHoverStar(this);
         }
     }
 

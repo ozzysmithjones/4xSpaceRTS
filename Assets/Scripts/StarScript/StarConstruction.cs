@@ -25,7 +25,7 @@ public class StarConstruction : MonoBehaviour
 
     }
 
-    public Navigator Build(GameObject prefab, StarConstruction.StarConstructionType type)
+    public Fleet Build(GameObject prefab, StarConstruction.StarConstructionType type)
     {
 
         GameObject spawned = Instantiate(prefab, transform.position, transform.rotation);
@@ -49,28 +49,27 @@ public class StarConstruction : MonoBehaviour
             }
             else
             {
-                Navigator navigator = Instantiate(emptyFleetPrefab, transform.position, transform.rotation).GetComponent<Navigator>();
+                Fleet navigator = Instantiate(emptyFleetPrefab, transform.position, transform.rotation).GetComponent<Fleet>();
                 navigator.AddShip(spaceShip);
-                InitialiseNavigator(navigator, star);
+                InitialiseFleet(navigator, star);
                 return navigator;
 
             }
         }
         if (type == StarConstructionType.fleet)
         {
-            Navigator navigator = spawned.GetComponent<Navigator>();
-            InitialiseNavigator(navigator, star);
+            Fleet navigator = spawned.GetComponent<Fleet>();
+            InitialiseFleet(navigator, star);
             return navigator;
 
         }
         return null;
     }
 
-    private void InitialiseNavigator(Navigator navigator, Star star)
+    private void InitialiseFleet(Fleet fleet, Star star)
     {
-        navigator.Initialise();
-        navigator.SetStar(star);
-        navigator.AddToFaction(star.factionIndex);
-        star.starShipManager.Entry(navigator);
+        fleet.star = star;
+        fleet.AddToFaction(star.factionIndex);
+        star.starShipManager.Entry(fleet);
     }
 }

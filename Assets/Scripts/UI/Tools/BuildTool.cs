@@ -11,9 +11,9 @@ public class BuildTool : Tool
 
     }
 
-    public override void OnInteract(Star star)
+    public override void OnInteractStar(Star star)
     {
-        base.OnInteract(star);
+        base.OnInteractStar(star);
 
 
 

@@ -1,20 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class NavigatorCombat : MonoBehaviour
+public class FleetCombat : MonoBehaviour
 {
-    private Navigator navigator;
-    private List<Navigator> enemies = new List<Navigator>();
-    private bool conflict = false;
+    private bool conflict;
+    private Fleet fleet;
+    private List<Fleet> enemies = new List<Fleet>();
 
-    public Navigator target;
+    public Fleet target;
 
 
-    private void Awake()
+    // Start is called before the first frame update
+    void Awake()
     {
-        navigator = GetComponent<Navigator>();
+        fleet = GetComponent<Fleet>();
     }
-
 
     public void UpdateTarget()
     {
@@ -22,13 +23,13 @@ public class NavigatorCombat : MonoBehaviour
         for (int i = 0; i < enemies.Count; i++)
         {
             //prioritises those fighting it.
-            if (enemies[i].navigatorCombat.target == navigator)
+            if (enemies[i].fleetCombat.target == this.fleet)
             {
                 target = enemies[i];
                 break;
             }
             //otherwise closest:
-            float dist = Vector2.Distance(navigator.center.position, enemies[i].center.position);
+            float dist = Vector2.Distance(fleet.center.position, enemies[i].center.position);
             if (dist < shortestDistance || i == 0)
             {
                 shortestDistance = dist;
@@ -45,27 +46,25 @@ public class NavigatorCombat : MonoBehaviour
 
     }
 
-    public bool IsConflict(List<Navigator> fleets)
+    public bool IsConflict(List<Fleet> fleets)
     {
         bool newConflict = false;
         for (int i = 0; i < fleets.Count; i++)
         {
-            if (fleets[i].faction != navigator.faction)
+            if (fleets[i].faction != fleet.faction)
             {
                 newConflict = true;
                 enemies.Add(fleets[i]);
             }
 
         }
-
         SetConflict(newConflict);
-
         return conflict;
     }
 
-    public bool AddEnemy(Navigator possibleEnemy)
+    public bool AddEnemy(Fleet possibleEnemy)
     {
-        if (navigator.faction != possibleEnemy.faction)
+        if (fleet.faction != possibleEnemy.faction)
         {
             if (!enemies.Contains(possibleEnemy))
             {
@@ -80,11 +79,9 @@ public class NavigatorCombat : MonoBehaviour
 
         }
 
-
-
         return false;
     }
-    public bool RemoveEnemy(Navigator possibleEnemy)
+    public bool RemoveEnemy(Fleet possibleEnemy)
     {
 
         if (enemies.Contains(possibleEnemy))
@@ -123,10 +120,7 @@ public class NavigatorCombat : MonoBehaviour
         conflict = value;
 
         //could be used to force the fleet to flee, or something instead. By default sets the spaceships to be in conflict.
-        navigator.ConflictReaction(conflict);
+        fleet.ReactToConflict(conflict);
 
     }
-
-
-
 }

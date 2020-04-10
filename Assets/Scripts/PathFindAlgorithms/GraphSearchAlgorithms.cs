@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+/*
 public class GraphNode
 {
     public int coordinate;
@@ -119,7 +120,6 @@ public class GraphSearchAlgorithms
             removeIndex = GetNodeIndexByValue(frontier, seekingSmallestNodeValue);
             current = frontier[removeIndex];
         }
-        Debug.Log(iterations);
         return current;
 
     }
@@ -173,7 +173,6 @@ public class GraphSearchAlgorithms
         List<int> path = new List<int>();
         path.Add(endNode.coordinate);
 
-
         bool found = false;
         GraphNode current = endNode;
         while (!found)
@@ -187,8 +186,6 @@ public class GraphSearchAlgorithms
                     crash = false;
                     break;
                 }
-
-
                 if (visited[i].coordinate == current.lastCoordinate)
                 {
                     path.Add(visited[i].coordinate);
@@ -218,3 +215,5 @@ public class GraphSearchAlgorithms
 
 
 }
+*/
+

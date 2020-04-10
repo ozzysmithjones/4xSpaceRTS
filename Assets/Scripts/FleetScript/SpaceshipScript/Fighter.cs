@@ -20,7 +20,7 @@ public class Fighter : SpaceShip
     public override void Initialise(Color flagColor)
     {
         base.Initialise(flagColor);
-        targetTimer = new Timer(3f, FindTarget);
+        targetTimer = new Timer(3f, RandomTarget);
         targetAngleTimer = new Timer(0.2f, UpdateTargetAngle);
     }
 
@@ -90,17 +90,27 @@ public class Fighter : SpaceShip
 
         float lowestHP = 0.0f;
         int index = 0;
-        for (int i = 0; i < fleet.navigatorCombat.target.spaceShips.Count; i++)
+        for (int i = 0; i < fleet.fleetCombat.target.spaceShips.Count; i++)
         {
-            if (fleet.navigatorCombat.target.spaceShips[i].hitPoints < lowestHP || i == 0)
+            if (fleet.fleetCombat.target.spaceShips[i].hitPoints < lowestHP || i == 0)
             {
-                lowestHP = fleet.navigatorCombat.target.spaceShips[i].hitPoints;
+                lowestHP = fleet.fleetCombat.target.spaceShips[i].hitPoints;
                 index = i;
             }
 
         }
-        enemyShip = fleet.navigatorCombat.target.spaceShips[index];
+        enemyShip = fleet.fleetCombat.target.spaceShips[index];
         target = enemyShip.transform;
+    }
+
+    private void RandomTarget()
+    {
+        if(target != null)
+            return;
+        enemyShip = fleet.fleetCombat.target.spaceShips[Random.Range(0, fleet.fleetCombat.target.spaceShips.Count)];
+        target = enemyShip.transform;
+
+
     }
 
     protected override void OnConflictChange()

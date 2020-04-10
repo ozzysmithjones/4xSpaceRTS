@@ -2,8 +2,6 @@
 using UnityEngine;
 
 [System.Serializable]
-//OOP approach, apologies for the multi-functionality of this script.This script handles population growth, resource production and territory control.Properties that all factions have in the game.Uses inheritence to override some of these effects for AI and player differences.
-//Having all the main important variables in one place helps to keep the AI and player organised, as these will be used regularly.
 public class Faction
 {
     public int factionIndex;

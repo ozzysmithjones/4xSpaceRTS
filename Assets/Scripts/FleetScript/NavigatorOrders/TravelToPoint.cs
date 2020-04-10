@@ -10,7 +10,7 @@ public class TravelToPoint : FleetOrder
     {
         if(initialPath == null)
         {
-            this.path = GraphSearchAlgorithms.instance.PathFind(fleet.star.index, starCoordinate);
+            this.path = Master.instance.PathFind(fleet.star.index, starCoordinate);
         }
         else
         {
@@ -37,7 +37,7 @@ public class TravelToPoint : FleetOrder
         }
         else if(fleet.star.index != path[path.Count-1])
         {
-            this.path = GraphSearchAlgorithms.instance.PathFind(fleet.star.index, path[path.Count - 1]);
+            this.path = Master.instance.PathFind(fleet.star.index, path[path.Count - 1]);
             fleet.SetPath(path);
         }
         if (fleet.star.index == path[path.Count - 1])
@@ -71,7 +71,7 @@ public class TravelToPoint : FleetOrder
         }
         if (!fleet.isPath)
         {
-            this.path = GraphSearchAlgorithms.instance.PathFind(fleet.star.index, path[path.Count-1]);
+            this.path = Master.instance.PathFind(fleet.star.index, path[path.Count-1]);
             fleet.SetPath(path);
             return;
         }

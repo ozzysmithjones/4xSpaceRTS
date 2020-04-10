@@ -199,6 +199,7 @@ MonoBehaviour:
   starUI: {fileID: 0}
   isColony: 0
   factionIndex: -1
+  spriteRenderer: {fileID: 8855455204542578351}
 --- !u!114 &3212184093518475599
 MonoBehaviour:
   m_ObjectHideFlags: 0

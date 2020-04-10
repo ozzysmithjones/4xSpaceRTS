@@ -26,6 +26,7 @@ public class Star : MonoBehaviour
     public int factionIndex = -1;
     private Color factionlessColor = Color.grey;
 
+    public SpriteRenderer spriteRenderer;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,7 +38,10 @@ public class Star : MonoBehaviour
     {
 
     }
-
+    public void SetColor(Color color)
+    {
+        spriteRenderer.color = color;
+    }
 
 
     public void Initialise(int faction = -1)

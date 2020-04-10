@@ -1,4 +1,5 @@
-﻿public class PathNode : GraphNode
+﻿/*
+public class PathNode : GraphNode
 {
     private int end = -1;
     private int distanceToBegining, distanceToEnd;
@@ -27,3 +28,4 @@
     }
 
 }
+*/

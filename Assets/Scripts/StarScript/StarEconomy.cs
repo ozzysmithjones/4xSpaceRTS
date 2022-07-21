@@ -29,7 +29,7 @@ public class StarEconomy : MonoBehaviour
         {
             return;
         }
-        Faction faction = Master.instance.characters.factions[star.factionIndex];
+        Empire faction = Master.instance.characters.factions[star.factionIndex];
 
         for (int i = 0; i < totalResourceProduction.amounts.Length; i++)
         {

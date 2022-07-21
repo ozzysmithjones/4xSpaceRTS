@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class AI : Faction
+public class AI : Empire
 {
     public AI(int index, Color flagColor, string factionName) : base(index, flagColor, factionName)
     {

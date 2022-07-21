@@ -4,12 +4,12 @@ using UnityEngine;
 class StarGate
 {
     public Transform gate;
-    public int targetStarIndex;
+    public Star targetStar;
 
-    public StarGate(Transform form, int connection)
+    public StarGate(Transform form, Star targetStar)
     {
         gate = form;
-        targetStarIndex = connection;
+        this.targetStar = targetStar;
     }
 }
 
@@ -23,7 +23,7 @@ public class StarConnections : MonoBehaviour
     private List<StarGate> starGates = new List<StarGate>();
 
     //private List<LineRenderer> lines = new List<LineRenderer>();
-    public List<int> connections = new List<int>();
+    public List<Star> connections = new List<Star>();
     public List<LineRenderer> lines = new List<LineRenderer>();
     private List<int> linesStartingHere = new List<int>();
 
@@ -77,20 +77,10 @@ public class StarConnections : MonoBehaviour
 
     public List<Star> GetConnectedStars()
     {
-        List<Star> stars = new List<Star>();
-        for (int i = 0; i < connections.Count; i++)
-        {
-            Star star = Master.instance.enviroment.stars[connections[i]];
-            if (star != null)
-            {
-                stars.Add(star);
-            }
-        }
-
-        return stars;
+        return connections;
     }
 
-    public int GetConnectionToStar(int star)
+    public int GetConnectionToStar(Star star)
     {
         for (int i = 0; i < connections.Count; i++)
         {
@@ -100,18 +90,16 @@ public class StarConnections : MonoBehaviour
             }
         }
         Debug.LogError("couldn't find what you were looking for");
-        return connections[0];
+        return 0;
     }
 
 
-
-
-    void SpawnStarGate(Vector2 targetStar, int targetStarPosition, float distance = 15f)
+    void SpawnStarGate(Vector2 targetPosition, Star targetStar, float distance = 15f)
     {
-        Vector2 spawnPoint = Vector2.MoveTowards((Vector2)transform.position, targetStar, distance);
+        Vector2 spawnPoint = Vector2.MoveTowards((Vector2)transform.position, targetPosition, distance);
         Transform form = Instantiate(starGatePrefab, spawnPoint, Quaternion.identity).transform;
 
-        StarGate starGate = new StarGate(form, targetStarPosition);
+        StarGate starGate = new StarGate(form, targetStar);
 
         starGate.gate.SetParent(gateParent.transform);
 
@@ -119,12 +107,12 @@ public class StarConnections : MonoBehaviour
 
     }
 
-    public Transform GetStarGate(int targetStarIndex)
+    public Transform GetStarGate(Star targetStar)
     {
         for (int i = 0; i < starGates.Count; i++)
         {
 
-            if (starGates[i].targetStarIndex == targetStarIndex)
+            if (starGates[i].targetStar == targetStar)
             {
                 return starGates[i].gate;
             }
@@ -153,11 +141,11 @@ public class StarConnections : MonoBehaviour
     public static void Connect(Star star, Star other)
     {
         //connect that star to this one.
-        if (!other.starConnections.connections.Contains(star.index))
+        if (!other.starConnections.connections.Contains(star))
         {
 
-            star.starConnections.connections.Add(other.index);
-            other.starConnections.connections.Add(star.index);
+            star.starConnections.connections.Add(other);
+            other.starConnections.connections.Add(star);
 
             LineRenderer line = star.starConnections.DrawLine(star.index, other.index);
 
@@ -166,8 +154,8 @@ public class StarConnections : MonoBehaviour
             star.starConnections.linesStartingHere.Add(star.starConnections.connections.Count - 1);
 
             //create the gateway on this side and that side. 
-            star.starConnections.SpawnStarGate(other.transform.position, other.index);
-            other.starConnections.SpawnStarGate(star.transform.position, star.index);
+            star.starConnections.SpawnStarGate(other.transform.position, other);
+            other.starConnections.SpawnStarGate(star.transform.position, star);
 
         }
     }

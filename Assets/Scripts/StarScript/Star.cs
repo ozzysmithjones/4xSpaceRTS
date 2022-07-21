@@ -1,15 +1,23 @@
 ﻿using UnityEngine;
 
 
+
+public struct PathFindNode<T>
+{
+    public T breadcrumb;
+    public int g, f;
+    public bool inOpen;
+}
+
+
 [RequireComponent(typeof(StarGeneration))]
 [RequireComponent(typeof(StarShipManager))]
 [RequireComponent(typeof(StarConnections))]
 public class Star : MonoBehaviour
 {
+    public PathFindNode<Star> node;
     public int index;
-    public int position;
-    public int planets;
-
+    public int x, y;
 
     public LineRenderer starSelect;
     public StarConstruction starConstruction;
@@ -24,7 +32,6 @@ public class Star : MonoBehaviour
     //faction:
     public bool isColony = false;
     public int factionIndex = -1;
-    private Color factionlessColor = Color.grey;
 
     public SpriteRenderer spriteRenderer;
     // Start is called before the first frame update
@@ -68,8 +75,6 @@ public class Star : MonoBehaviour
         starConstruction.Initialise();
         starEconomy.Initialise();
 
-        factionlessColor = starUI.factionBorder.color;
-
         starGeneration.Generate(this, 5, Random.Range(1, 8), 1f, factionIndex);
 
         if (factionIndex >= 0)
@@ -106,7 +111,7 @@ public class Star : MonoBehaviour
     {
 
         factionIndex = invader;
-        Faction faction = Master.instance.characters.factions[factionIndex];
+        Empire faction = Master.instance.characters.factions[factionIndex];
 
         starUI.SetUIColor(faction.flagColor);
 
@@ -140,7 +145,7 @@ public class Star : MonoBehaviour
                 starVisibility.IncrementFogOfWar(-1, 1);
             }
 
-            Faction oldFaction = Master.instance.characters.factions[factionIndex];
+            Empire oldFaction = Master.instance.characters.factions[factionIndex];
             oldFaction.RemoveFromTerritory(this, false, isColony);
 
         }

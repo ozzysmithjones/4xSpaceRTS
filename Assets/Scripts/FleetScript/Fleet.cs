@@ -34,7 +34,7 @@ public class Fleet : MonoBehaviour
     private int currentFleetOrderIndex = 0;
 
 
-    [SerializeField] private List<int> path;
+    [SerializeField] private List<Star> path;
     private int pathIndex = 0;
 
     [Header("FACTION AFFILIATION")]
@@ -54,12 +54,12 @@ public class Fleet : MonoBehaviour
     [Header("SPACESHIP WARP")]
     [HideInInspector] public int iconHandlerID;
     private bool usingGate = false;
-    private int targetWarpCoordinate;
+    private Star targetWarpStar;
 
     public GameObject spaceShipHandler;
     public GameObject movingIcon;
     public Star star;
-    private int previousCoordinates = -1;
+    private Star previousStar;
     private float warpAlpha = 0.0f;
     private Vector2 warpStart;
     private Vector2 warpEnd;
@@ -162,7 +162,7 @@ public class Fleet : MonoBehaviour
             switch (conflictReaction)
             {
                 case ConflictReaction.FLEE:
-                    AddFleetOrder(new TravelToPoint(this,FleeCoordinate()), true);
+                    AddFleetOrder(new TravelToPoint(this, CalculateFleeStar()), true);
                     break;
                 case ConflictReaction.FIGHT:
                     SetFleetState(FleetState.FIGHTING);
@@ -190,13 +190,14 @@ public class Fleet : MonoBehaviour
         }
     }
 
-    private int FleeCoordinate()
+    private Star CalculateFleeStar()
     {
         //go back to the previous star we came from:
-        if(previousCoordinates >= 0)
+        if(previousStar != null)
         {
-            return previousCoordinates;
+            return previousStar;
         }
+
         //go back the path we came.
         if (isPath && pathIndex > 0)
         {
@@ -208,12 +209,12 @@ public class Fleet : MonoBehaviour
         {
             if (connectedStars[i].factionIndex == faction)
             {
-                return connectedStars[i].index;
+                return connectedStars[i];
             }
         }
 
         //all else fails, go to a random star.
-        return connectedStars[Random.Range(0, connectedStars.Count)].index;
+        return connectedStars[Random.Range(0, connectedStars.Count)];
     }
 
     public void AddToFaction(int newFaction)
@@ -293,12 +294,12 @@ public class Fleet : MonoBehaviour
         }
     }
     //do not directly call set path unless part of a fleet order. Make fleets move by adding fleet orders.
-    public void SetPath(List<int> path, bool usingGates = true)
+    public void SetPath(List<Star> path, bool usingGates = true)
     {
         isPath = true;
         this.pathIndex = 0;
         this.usingGate = usingGates;
-        this.path = new List<int>(path);
+        this.path = new List<Star>(path);
         ReadyWarpTo(path[1], usingGate);
 
     }
@@ -419,22 +420,22 @@ public class Fleet : MonoBehaviour
 
     //Tells the fleet to start trying to go to a certain star.If using a gate, then the fleet will move to one and use it.
     //(otherwise it will warp from it's position).
-    public void ReadyWarpTo(int coordinate, bool usingGate = true)
+    public void ReadyWarpTo(Star target, bool usingGate = true)
     {
-        targetWarpCoordinate = coordinate;
+        targetWarpStar = target;
 
         if (usingGate)
         {
-            Transform gate = Master.instance.enviroment.stars[star.index].starConnections.GetStarGate(coordinate);
+            Transform gate = star.starConnections.GetStarGate(target);
             warpStart = gate.position;
-            warpEnd = Master.instance.enviroment.stars[coordinate].starConnections.GetStarGate(star.index).position;
+            warpEnd = target.starConnections.GetStarGate(star).position;
 
             SetTarget(gate, true);
         }
         else
         {
             warpStart = transform.position;
-            warpEnd = Master.instance.enviroment.stars[coordinate].transform.position;
+            warpEnd = target.transform.position;
             SetFleetState(FleetState.CHARGING_WARP);
         }
 
@@ -449,7 +450,7 @@ public class Fleet : MonoBehaviour
         }
         if (usingGate)
         {
-            int line = star.starConnections.GetConnectionToStar(targetWarpCoordinate);
+            int line = star.starConnections.GetConnectionToStar(targetWarpStar);
             transform.SetParent(star.starConnections.lines[line].transform);
         }
         else
@@ -472,13 +473,13 @@ public class Fleet : MonoBehaviour
         {
             SetFleetState(FleetState.IDLE);
             warpAlpha = 0.0f;
-            previousCoordinates = star.index;
-            star = Master.instance.enviroment.stars[targetWarpCoordinate];
+            previousStar = star;
+            star = targetWarpStar;
             LandShips(warpEnd);
             if (isPath)
             {
                 pathIndex++;
-                if (star.index == path[pathIndex])
+                if (star == path[pathIndex])
                 {
                     if (pathIndex < path.Count-1)
                         ReadyWarpTo(path[pathIndex + 1], usingGate);

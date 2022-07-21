@@ -26,8 +26,7 @@ public class Master : MonoBehaviour
     public const int collums = 50;
     public const int rows = 50;
 
-
-
+    PathFindAlgorithm pathFindAlgorithm;
 
 
     // Start is called before the first frame update
@@ -46,8 +45,7 @@ public class Master : MonoBehaviour
         enviroment.BreadthFirstGenerate(collums, rows);
         characters.SpawnFactions(variety.builtShips, variety.builtStructures);
 
-        //doesn't need to be stored as it already has a static reference.
-        PathFindAlgorithm pathFindAlgorithm = new PathFindAlgorithm();
+        pathFindAlgorithm = new PathFindAlgorithm();
 
         //set the main camera to be above the players home world.
         Vector3 position = characters.factions[0].territory[0].transform.position;
@@ -90,9 +88,9 @@ public class Master : MonoBehaviour
 
 
 
-    public List<int> PathFind(int start, int end, int[] factionsAllowed = null, float maxLength = 0f)
+    public List<Star> PathFind(Star start, Star end)
     {
-        return PathFindAlgorithm.instance.Path(start, end);
+        return pathFindAlgorithm.Path(start, end);
     }
 
 

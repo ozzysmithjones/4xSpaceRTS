@@ -2,153 +2,124 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct Node
-{
-    public bool closed;
-    public int coordinate,lastCoordinate;
-    public int distanceToBegining, distanceToEnd;
-
-    public Node(int coordinate,int lastCoordinate, int distanceToBegining, int distanceToEnd)
-    {
-        this.coordinate = coordinate;
-        this.lastCoordinate = lastCoordinate;
-        this.distanceToBegining = distanceToBegining;
-        this.distanceToEnd = distanceToEnd;
-        this.closed = false;
-    }
-}
 
 public class PathFindAlgorithm
 {
-    public static PathFindAlgorithm instance;
-
     private Star[] stars;
-    private List<Node> open = new List<Node>();
-    private List<Node> closed = new List<Node>();
-
-    private int empire;
-    private bool friendlyOnly;
 
     public PathFindAlgorithm()
     {
-        stars = Master.instance.enviroment.stars;
-        instance = this;
+        Enviroment enviroment = Master.instance.enviroment;
+        stars = enviroment.stars;
     }
 
-    public List<int> Path(int start, int end,int empire = -1,bool friendlyOnly = false)
+    private static int Select(List<Star> stars)
     {
-        this.empire = empire;
-        this.friendlyOnly = friendlyOnly;
-
-        Node current = new Node(start, -1, 0, (int)Calculation.SquareDistance(start, end));
-        open.Add(current);
-
-        while (open.Count > 0 && current.coordinate != end)
-        {
-            int currentIndex = GetCurrentNodeIndex();
-            current = open[currentIndex];
-            open.RemoveAt(currentIndex);
-            closed.Add(current);
-            Search(current, end);
-
-        }
-        List<int> path = ReadPath(current);
-        open.Clear();
-        closed.Clear();
-        return path;
-    }
-
-    private void Search(Node node, int endCoordinate)
-    {
-        List<Star> neighbours = stars[node.coordinate].starConnections.GetConnectedStars();
-
-        for(int i = 0; i < neighbours.Count; i++)
-        {
-            Node neighbourNode = new Node(neighbours[i].index, node.coordinate, node.distanceToBegining + (int)Calculation.SquareDistance(node.coordinate, neighbours[i].index), (int)Calculation.SquareDistance(neighbours[i].index, endCoordinate));
-            CheckVisit(neighbourNode);
-        }
-    }
-
-    private bool CheckVisit(Node node)
-    {
-        for(int i = 0; i < closed.Count; i++)
-        {
-            if(closed[i].coordinate == node.coordinate)
-            {
-                return false;
-            }
-        }
-        for(int i = 0; i < open.Count; i++)
-        {
-            if(open[i].coordinate == node.coordinate)
-            {
-                if(open[i].distanceToBegining > node.distanceToBegining)
-                {
-                    open[i] = node;
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
-        if (friendlyOnly)
-        {
-            if(stars[node.coordinate].factionIndex != empire)
-            {
-                closed.Add(node);
-                return false;
-            }
-        }
-        open.Add(node);
-        return true;
-    }
-
-    private int GetCurrentNodeIndex()
-    {
-        int smallest = 0;
+        int lowestf = int.MaxValue;
         int index = 0;
-        for(int i = 0; i < open.Count; i++)
+
+        for(int i = 0; i < stars.Count; ++i)
         {
-            if(open[i].distanceToBegining + open[i].distanceToEnd < smallest || i == 0)
+            if(stars[i].node.f < lowestf)
             {
-                smallest = open[i].distanceToBegining + open[i].distanceToEnd;
+                lowestf = stars[i].node.f;
                 index = i;
             }
         }
+
+
         return index;
     }
 
-    private List<int> ReadPath(Node endNode)
+    private static int Heuristic(Star a, Star b)
     {
-        List<int> path = new List<int>();
-        path.Add(endNode.coordinate);
-        Node current = endNode;
-        while (current.lastCoordinate >= 0)
-        {
-            bool crash = true;
-            for(int i = 0; i < closed.Count; i++)
-            {
-                if(closed[i].coordinate == current.lastCoordinate)
-                {
-                    path.Add(closed[i].coordinate);
-                    current = closed[i];
-                    crash = false;
+        int xDiff = b.x - a.x;
+        int yDiff = b.y - a.y;
+        return (int)(Mathf.Sqrt(xDiff * xDiff + yDiff * yDiff) * 11);
+    }
 
-                    if (current.lastCoordinate < 0)
-                        break;
-                }
-            }
-            if (crash)
+    private static int Step(Star a, Star b)
+    {
+        int xDiff = Mathf.Abs(b.x - a.x);
+        int yDiff = Mathf.Abs(b.y - a.y);
+        return (xDiff * 10) + (yDiff * 10) - (xDiff * yDiff * 6); //10 for orthogonal, 14 for diagonal.
+    }
+
+
+    public List<Star> Path(Star start, Star end)
+    {
+        if(start == end)
+        {
+            return new List<Star>();
+        }
+
+        foreach(Star star in stars)
+        {
+            star.node.inOpen = false;
+            star.node.g = int.MaxValue;
+            star.node.breadcrumb = null;
+        }
+
+        end.node.g = 0;
+        end.node.f = Heuristic(end, start);
+        end.node.inOpen = true;
+        List<Star> open = new List<Star>() { end };
+        Star current = null;
+
+        while (open.Count > 0)
+        {
             {
-                Debug.LogError("Pathfinding Crash");
+                int index = Select(open);
+                current = open[index];
+                current.node.inOpen = false;
+                open[index] = open[open.Count - 1];
+                open.RemoveAt(open.Count - 1);
+            }
+
+            if (current == start)
+            {
                 break;
             }
+
+            List<Star> connections = current.starConnections.connections;
+            int g;
+
+            foreach (Star neighbour in connections)
+            {
+                g = current.node.g + Step(current, neighbour);
+
+                if(g < neighbour.node.g)
+                {
+                    neighbour.node.breadcrumb = current;
+                    neighbour.node.g = g;
+                    neighbour.node.f = neighbour.node.g + Heuristic(neighbour, start);
+
+                    if(!neighbour.node.inOpen)
+                    {
+                        neighbour.node.inOpen = true;
+                        open.Add(neighbour);
+                    }
+                }
+            }
         }
-        path.Reverse();
+
+
+        List<Star> path = new List<Star>();
+
+        if(current != start)
+        {
+            return path;
+        }
+
+        while(current != null)
+        {
+            path.Add(current);
+            current = current.node.breadcrumb;
+        }
+
         return path;
     }
+
 
 }
 

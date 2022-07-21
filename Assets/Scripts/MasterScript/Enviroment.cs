@@ -37,7 +37,8 @@ public class Enviroment : MonoBehaviour
         //spawn a star at the center.
         Star center = SpawnStar(collums / 2, rows / 2);
         center.index = 0;
-        center.position = TwoDimToOneDim(collums / 2, rows / 2, rows);
+        center.x = collums / 2;
+        center.y = rows / 2;
         stars[0] = center;
         grid[TwoDimToOneDim(collums / 2, rows / 2, rows)] = center;
         spawnedStars++;
@@ -82,8 +83,12 @@ public class Enviroment : MonoBehaviour
                 {
                     continue;
                 }
+
                 neighbourIndex++;
-                if (!InsideBounds(x + centerX, y + centerY))
+                int nx = x + centerX;
+                int ny = y + centerY;
+
+                if (!InsideBounds(nx, ny))
                 {
                     continue;
                 }
@@ -92,7 +97,7 @@ public class Enviroment : MonoBehaviour
                     continue;
                 }
 
-                int coord = TwoDimToOneDim(x + centerX, y + centerY, rows);
+                int coord = TwoDimToOneDim(nx, ny, rows);
 
                 if (grid[coord] == null)
                 {
@@ -100,11 +105,13 @@ public class Enviroment : MonoBehaviour
                     {
                         continue;
                     }
+
                     //spawn a new star at that neighbouring location and add it to the frontier array. Then connect to it.
                     spawnedStars++;
                     Star newStar = SpawnStar(x + centerX, y + centerY);
                     newStar.index = spawnedStars - 1;
-                    newStar.position = coord;
+                    newStar.x = nx;
+                    newStar.y = ny;
 
                     stars[spawnedStars - 1] = newStar;
                     grid[coord] = newStar;

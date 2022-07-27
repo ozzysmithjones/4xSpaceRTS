@@ -7,9 +7,9 @@ public class MoveFleetTool : Tool
 {
     public LineRenderer lineRenderer;
     public List<Fleet> controlledFleets = new List<Fleet>();
-    public List<int> path = new List<int>();
+    public List<Star> path = new List<Star>();
 
-    public int start = -1;
+    public Star start = null;
 
     private Transform targetPoint;
     private Planet targetPlanet;
@@ -23,14 +23,14 @@ public class MoveFleetTool : Tool
         }
 
         fleet.ClearPath();
-        if (fleet.star.index != start)
+        if (fleet.star != start)
         {
             UnToggleFleetIcons();
             controlledFleets.Clear();
             controlledFleets.Add(fleet);
 
 
-            start = controlledFleets[0].star.index;
+            start = controlledFleets[0].star;
             path.Clear();
             path.Add(start);
 
@@ -67,12 +67,12 @@ public class MoveFleetTool : Tool
 
     }
 
-    void DrawLine(List<int> linePath)
+    void DrawLine(List<Star> linePath)
     {
         lineRenderer.positionCount = linePath.Count + (targetPoint != null ? 1 : 0);
         for (int i = 0; i < linePath.Count; i++)
         {
-            lineRenderer.SetPosition(i, Master.instance.enviroment.stars[linePath[i]].transform.position + new Vector3(0f, 0f, 3f));
+            lineRenderer.SetPosition(i, linePath[i].transform.position + new Vector3(0f, 0f, 3f));
         }
 
         if(targetPoint != null)
@@ -102,12 +102,12 @@ public class MoveFleetTool : Tool
 
         if (controlledFleets.Count <= 0)
             return;
-        if(star.index == start)
+        if(star == start)
             return;
 
         for(int i = path.Count-1; i >= 0; i--)
         {
-            if(path[i] == star.index)
+            if(path[i] == star)
             {
                 path.RemoveRange(i, path.Count - i);
                 DrawLine(path);
@@ -115,15 +115,19 @@ public class MoveFleetTool : Tool
             }
         }
 
-        List<int> extension = Master.instance.PathFind(path[path.Count - 1], star.index);
-        if (extension.Count <= 1)
+        if (path[path.Count - 1] != star)
         {
-            return;
+            List<Star> extension =  Master.instance.PathFind(path[path.Count - 1], star);
+            if (extension.Count <= 1)
+            {
+                return;
+            }
+            extension.RemoveAt(0);
+            path.AddRange(extension);
         }
-        extension.RemoveAt(0);
-        path.AddRange(extension);
-        DrawLine(path);
+        
 
+        DrawLine(path);
     }
 
     public override void OnInteractPlanet(Planet planet)
@@ -139,7 +143,7 @@ public class MoveFleetTool : Tool
         targetPlanet = planet;
         targetPoint = targetPlanet.transform;
 
-        if (!path.Contains(planet.star.index))
+        if (!path.Contains(planet.star))
         {
             OnHoverStar(planet.star);
         }
@@ -153,7 +157,7 @@ public class MoveFleetTool : Tool
     public override void OnDeselected()
     {
         base.OnDeselected();
-        start = -1;
+        start = null;
         lineRenderer.positionCount = 0;
 
         if (path.Count > 1)

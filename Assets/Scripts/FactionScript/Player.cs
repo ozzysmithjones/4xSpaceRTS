@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class Player : Faction
+public class Player : Empire
 {
     private Text[] resourcesText;
 

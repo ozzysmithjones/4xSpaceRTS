@@ -7,7 +7,7 @@ public class UnlockBuild : ResearchQueueItem
 {
     public bool isShip = false;
     public BuildQueueItem buildQueueItem;
-    public override void FinishResearch(Faction faction)
+    public override void FinishResearch(Empire faction)
     {
         base.FinishResearch(faction);
         if (isShip)

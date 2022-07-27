@@ -22,11 +22,11 @@ public static partial class Calculation
 
         Enviroment enviroment = Master.instance.enviroment;
 
-        OneDimToTwoDim(enviroment.stars[a].position, out int aX, out int aY);
-        OneDimToTwoDim(enviroment.stars[b].position, out int bX, out int bY);
+        Star aStar = enviroment.stars[a];
+        Star bStar = enviroment.stars[b];
 
-        float x = Mathf.Abs(bX - aX);
-        float y = Mathf.Abs(bY - aY);
+        float x = Mathf.Abs(bStar.x - aStar.x);
+        float y = Mathf.Abs(bStar.y - aStar.y);
 
         return (x * x) + (y * y);
 

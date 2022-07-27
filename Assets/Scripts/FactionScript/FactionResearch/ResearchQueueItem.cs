@@ -23,7 +23,7 @@ public class ResearchQueueItem : ScriptableObject
     public string description;
     public TechType techType;
 
-    public virtual void FinishResearch(Faction faction)
+    public virtual void FinishResearch(Empire faction)
     {
        
     }

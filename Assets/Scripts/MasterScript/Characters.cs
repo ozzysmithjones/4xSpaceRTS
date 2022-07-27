@@ -8,7 +8,7 @@ public class Characters : MonoBehaviour
     public const int totalFactions = 3;
     public Species[] species;
     public PoliticalGroup[] politicalGroups;
-    public List<Faction> factions;
+    public List<Empire> factions;
     public Weight[] weights;
 
     // Start is called before the first frame update
@@ -58,7 +58,7 @@ public class Characters : MonoBehaviour
 
     }
 
-    public Faction CreateFaction(int index, BuiltShip[] shipTypes, BuiltStructure[] structureTypes, bool player = false)
+    public Empire CreateFaction(int index, BuiltShip[] shipTypes, BuiltStructure[] structureTypes, bool player = false)
     {
 
         Color[] colors = new Color[1];
@@ -67,7 +67,7 @@ public class Characters : MonoBehaviour
         string[] names = new string[1];
         names[0] = "bob";
 
-        Faction instance;
+        Empire instance;
 
         if (!player)
         {

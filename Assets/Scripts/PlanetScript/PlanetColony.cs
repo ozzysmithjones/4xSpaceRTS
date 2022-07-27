@@ -286,7 +286,7 @@ public class PlanetColony : MonoBehaviour
 
     private float CalculateStability()
     {
-        Faction faction = Master.instance.characters.factions[planet.star.factionIndex];
+        Empire faction = Master.instance.characters.factions[planet.star.factionIndex];
 
         if (faction.resources.amounts[(int)ResourceType.FOOD] > 0)
         {

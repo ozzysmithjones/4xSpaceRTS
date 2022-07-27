@@ -72,7 +72,7 @@ public class StarVisibility : Visibility
     }
 
     //0 is just this system, 1 is one away, 2 is 2 away ect.
-    public void IncrementFogOfWar(int increment, int distance = 0, int sender = -1)
+    public void IncrementFogOfWar(int increment, int distance = 0, Star sender = null)
     {
 
         fogVisibility += increment;
@@ -100,11 +100,11 @@ public class StarVisibility : Visibility
                 continue;
             }
 
-            Master.instance.enviroment.stars[star.starConnections.connections[i]].starVisibility.IncrementFogOfWar(increment, distance, star.index);
+            star.starConnections.connections[i].starVisibility.IncrementFogOfWar(increment, distance, star);
         }
     }
 
-    public void SetFogOfWar(int amount, bool reset = false, int sender = -1)
+    public void SetFogOfWar(int amount, bool reset = false, Star sender = null)
     {
         if (fogVisibility >= amount && !reset)
         {
@@ -130,7 +130,8 @@ public class StarVisibility : Visibility
             {
                 continue;
             }
-            Master.instance.enviroment.stars[star.starConnections.connections[i]].starVisibility.SetFogOfWar(fogVisibility - 1, reset, star.index);
+
+            star.starConnections.connections[i].starVisibility.SetFogOfWar(fogVisibility - 1, reset, star);
         }
     }
 }

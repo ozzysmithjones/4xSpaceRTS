@@ -59,7 +59,7 @@ public class BuildMenu : MonoBehaviour
             return;
         }
         //pay for it first.
-        Faction faction = Master.instance.characters.factions[planetOverview.planet.star.factionIndex];
+        Empire faction = Master.instance.characters.factions[planetOverview.planet.star.factionIndex];
         int price = amount * buildQueueItem.buildCost;
 
         /*

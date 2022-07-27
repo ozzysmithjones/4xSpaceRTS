@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class Faction
+public class Empire
 {
     public int factionIndex;
 
@@ -37,7 +37,7 @@ public class Faction
     private Timer PopulationGrowthTimer;
     public float PopulationGrowthSpeed = 0.02f;
 
-    public Faction(int index, Color flagColor, string factionName)
+    public Empire(int index, Color flagColor, string factionName)
     {
         factionIndex = index;
 

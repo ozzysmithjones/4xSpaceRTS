@@ -16,7 +16,7 @@ public class Research
 
     public bool researching = false;
     public ResearchQueueItem researchQueueItem;
-    private Faction faction;
+    private Empire faction;
 
     public List<ResearchQueueItem> researchOptions = new List<ResearchQueueItem>();
 
@@ -26,7 +26,7 @@ public class Research
     public event OnResearchEvent ResearchFinish;
     public event OnResearchEvent ResearchStop;
 
-    public Research(Faction faction)
+    public Research(Empire faction)
     {
         this.faction = faction;
     }

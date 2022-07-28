@@ -8,7 +8,7 @@ public class Characters : MonoBehaviour
     public const int totalFactions = 3;
     public Species[] species;
     public PoliticalGroup[] politicalGroups;
-    public List<Empire> factions;
+    public List<Empire> empires;
     public Weight[] weights;
 
     // Start is called before the first frame update
@@ -25,9 +25,9 @@ public class Characters : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i < factions.Count; i++)
+        for (int i = 0; i < empires.Count; i++)
         {
-            factions[i].Update(Time.deltaTime);
+            empires[i].Update(Time.deltaTime);
         }
     }
 
@@ -35,32 +35,32 @@ public class Characters : MonoBehaviour
 
     public void SpawnFactions(BuiltShip[] shipTypes, BuiltStructure[] structureTypes)
     {
-        factions.Add(CreateFaction(0, shipTypes, structureTypes, true));
+        Empire.player = CreateFaction(shipTypes, structureTypes, true);
+        empires.Add(Empire.player);
 
         Star star = Master.instance.enviroment.RandomStar();
-        star.TakeOver(0);
-        star.Colonise(0);
+        star.TakeOver(Empire.player);
+        star.Colonise(Empire.player);
         for (int i = 1; i < totalFactions - 1; i++)
         {
-            factions.Add(CreateFaction(i, shipTypes, structureTypes));
+            Empire empire = CreateFaction(shipTypes, structureTypes);
+            empires.Add(empire);
 
             star = Master.instance.enviroment.RandomStar();
-            star.TakeOver(i);
-            star.Colonise(i, 0);
+            star.TakeOver(empire);
+            star.Colonise(empire, 0);
 
         }
-        for (int i = 0; i < factions.Count; i++)
+        for (int i = 0; i < empires.Count; i++)
         {
-            factions[i].Start();
+            empires[i].Start();
         }
 
-        factions[0].research.BeginResearch(startingResearch);
-
+        empires[0].research.BeginResearch(startingResearch);
     }
 
-    public Empire CreateFaction(int index, BuiltShip[] shipTypes, BuiltStructure[] structureTypes, bool player = false)
+    public Empire CreateFaction(BuiltShip[] shipTypes, BuiltStructure[] structureTypes, bool player = false)
     {
-
         Color[] colors = new Color[1];
         colors[0] = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1f);
 
@@ -71,11 +71,11 @@ public class Characters : MonoBehaviour
 
         if (!player)
         {
-            instance = new AI(index, colors[0], names[0]);
+            instance = new AI(colors[0], names[0]);
         }
         else
         {
-            instance = new Player(index, colors[0], names[0]);
+            instance = new Player(colors[0], names[0]);
         }
 
         instance.structureTypes = new List<BuiltStructure>(structureTypes);
@@ -105,9 +105,9 @@ public class Characters : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(20.0f);
-            for (int i = 0; i < factions.Count; i++)
+            for (int i = 0; i < empires.Count; i++)
             {
-                factions[i].ProduceResources();
+                empires[i].ProduceResources();
             }
         }
 

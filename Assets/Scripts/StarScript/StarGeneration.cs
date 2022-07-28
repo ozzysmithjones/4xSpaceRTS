@@ -24,7 +24,7 @@ public class StarGeneration : MonoBehaviour
     }
 
 
-    public void Generate(Star star, int radius, int numberOfPlanets, float colony = 0.25f, int faction = -1)
+    public void Generate(Star star, int radius, int numberOfPlanets, float colony = 0.25f, Empire empire = null)
     {
         planets = new Planet[numberOfPlanets];
         radius = Mathf.Max(radius, numberOfPlanets);
@@ -79,12 +79,6 @@ public class StarGeneration : MonoBehaviour
             }
 
         }
-
-        //make all the children invisible.
-
-        // Master.instance.userInterface.SetMapUI(true);
-
-
     }
 
     private void SetBiomeOfPlanet(int furthestPlanetPosition, int planetPosition, Planet planet)

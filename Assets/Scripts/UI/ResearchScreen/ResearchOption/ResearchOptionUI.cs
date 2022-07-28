@@ -34,6 +34,6 @@ public class ResearchOptionUI : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Master.instance.characters.factions[0].research.BeginResearch(researchQueueItem);
+        Master.instance.characters.empires[0].research.BeginResearch(researchQueueItem);
     }
 }

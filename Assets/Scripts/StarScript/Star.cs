@@ -31,7 +31,7 @@ public class Star : MonoBehaviour
 
     //faction:
     public bool isColony = false;
-    public int factionIndex = -1;
+    public Empire empire = null;
 
     public SpriteRenderer spriteRenderer;
     // Start is called before the first frame update
@@ -51,10 +51,9 @@ public class Star : MonoBehaviour
     }
 
 
-    public void Initialise(int faction = -1)
+    public void Initialise(Empire empire)
     {
-
-        factionIndex = faction;
+        this.empire = empire;
 
         starConstruction = GetComponent<StarConstruction>();
         starVisibility = GetComponent<StarVisibility>();
@@ -75,30 +74,30 @@ public class Star : MonoBehaviour
         starConstruction.Initialise();
         starEconomy.Initialise();
 
-        starGeneration.Generate(this, 5, Random.Range(1, 8), 1f, factionIndex);
+        starGeneration.Generate(this, 5, Random.Range(1, 8), 1f, empire);
 
-        if (factionIndex >= 0)
+        if (empire != null)
         {
             isColony = true;
-            TakeOver(factionIndex, true);
-            starGeneration.planets[0].Colonise(factionIndex);
+            TakeOver(empire, true);
+            starGeneration.planets[0].Colonise(empire);
 
             for (int i = 0; i < 3; i++)
             {
-                starConstruction.Build(Master.instance.characters.factions[0].shipTypes[0].prefab, StarConstruction.StarConstructionType.spaceShip);
+                starConstruction.Build(Master.instance.characters.empires[0].shipTypes[0].prefab, StarConstruction.StarConstructionType.spaceShip);
             }
         }
     }
 
 
 
-    public void TakeOver(int invader, bool showOuterRim = false)
+    public void TakeOver(Empire invader, bool showOuterRim = false)
     {
         RemovePreviousOwnership();
 
-        if (invader < 0)
+        if (invader == null)
         {
-            factionIndex = -1;
+            empire = null;
             starUI.SetUIColor(Color.grey);
             return;
         }
@@ -107,55 +106,52 @@ public class Star : MonoBehaviour
 
     }
 
-    private void ApplyInvaderOwnership(int invader, bool showOuterRim)
+    private void ApplyInvaderOwnership(Empire invader, bool showOuterRim)
     {
 
-        factionIndex = invader;
-        Empire faction = Master.instance.characters.factions[factionIndex];
-
-        starUI.SetUIColor(faction.flagColor);
+        empire = invader;
+        starUI.SetUIColor(empire.flagColor);
 
         //faction.territory.Add(this);
-        faction.AddToTerritory(this, showOuterRim, isColony);
+        empire.AddToTerritory(this, showOuterRim, isColony);
 
-        starUI.SetUIColor(faction.flagColor);
+        starUI.SetUIColor(empire.flagColor);
 
-        faction.AddToTerritory(this, showOuterRim, isColony);
+        empire.AddToTerritory(this, showOuterRim, isColony);
 
         if (!isColony)
         {
             starEconomy.StartEconomy();
         }
 
-        if (factionIndex == 0)
+        if (empire == Empire.player)
         {
             starVisibility.IncrementFogOfWar(1, 1);
         }
+
         starEconomy.ApplyResourceproduction(true);
     }
 
     private void RemovePreviousOwnership()
     {
-        if (factionIndex >= 0)
+        if (empire != null)
         {
             starEconomy.ApplyResourceproduction(false);
 
-            if (factionIndex == 0)
+            if (empire == Empire.player)
             {
                 starVisibility.IncrementFogOfWar(-1, 1);
             }
 
-            Empire oldFaction = Master.instance.characters.factions[factionIndex];
-            oldFaction.RemoveFromTerritory(this, false, isColony);
-
+            empire.RemoveFromTerritory(this, false, isColony);
         }
     }
 
-    public void Colonise(int factionIndex, int planetIndex = 0)
+    public void Colonise(Empire empire, int planetIndex = 0)
     {
         isColony = true;
-        starGeneration.planets[planetIndex].Colonise(factionIndex);
-        Master.instance.characters.factions[factionIndex].colonies.Add(this);
+        starGeneration.planets[planetIndex].Colonise(empire);
+        empire.colonies.Add(this);
     }
 
     public void SetSelector(bool active, Color color)

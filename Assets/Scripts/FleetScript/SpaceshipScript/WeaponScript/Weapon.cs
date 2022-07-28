@@ -2,18 +2,12 @@
 
 public enum WeaponType { laser, explosive, slugthrower }
 
-public class Weapon : MonoBehaviour
+public abstract class Weapon : MonoBehaviour
 {
     public bool shooting = false;
+    protected float damage = 1.0f;
 
-    public float range = 10f;
-    protected float damage = 0.0f;
-
-    protected Fighter spaceShip;
-
-    private ParticleSystem shootEffect;
-
-
+    protected SpaceShip spaceShip;
     public WeaponType weaponType = WeaponType.laser;
 
     protected Transform hitTransform;
@@ -22,61 +16,21 @@ public class Weapon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        spaceShip = GetComponentInParent<Fighter>();
-        shootEffect = GetComponent<ParticleSystem>();
-        ChildInitialise();
+        damage = 1;
+        spaceShip = GetComponentInParent<SpaceShip>();
+        Init();
     }
 
-    // Update is called once per frame
-    void Update()
+    protected abstract void Init();
+
+    public abstract void StartShooting();
+
+    public abstract void Shoot(SpaceShip enemy);
+
+    public abstract void StopShooting();
+
+    protected void DealDamage(SpaceShip enemy, float damage)
     {
-
-    }
-
-
-
-
-    protected virtual void ChildInitialise()
-    {
-
-
-    }
-
-    public virtual void Shoot(float damage = 1f)
-    {
-        this.damage = damage;
-        shooting = true;
-        shootEffect.Play();
-
-
-    }
-
-
-    public virtual void StopShooting()
-    {
-
-        shooting = false;
-        shootEffect.Stop();
-    }
-
-    protected void DealDamage(float amount, Transform target)
-    {
-
-        if (target != hitTransform)
-        {
-
-            SpaceShip enemyShip = target.GetComponent<SpaceShip>();
-            if (enemyShip != null)
-            {
-                enemyShip.TakeDamage(spaceShip, weaponType, amount);
-                hitTransform = target;
-                hitEnemy = enemyShip;
-            }
-        }
-        else
-        {
-            hitEnemy.TakeDamage(spaceShip, weaponType, amount);
-
-        }
+        enemy.TakeDamage(spaceShip, weaponType, damage);
     }
 }

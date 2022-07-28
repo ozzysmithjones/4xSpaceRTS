@@ -38,8 +38,8 @@ public class StarConstruction : MonoBehaviour
         if (type == StarConstructionType.spaceShip)
         {
             SpaceShip spaceShip = spawned.GetComponent<SpaceShip>();
-            spaceShip.Initialise(Master.instance.characters.factions[star.factionIndex].flagColor);
-            int fleetIndex = star.starShipManager.GetSmallestFleet(star.factionIndex, true);
+            spaceShip.Initialise(star.empire.flagColor);
+            int fleetIndex = star.starShipManager.GetSmallestFleet(star.empire, true);
 
             if (fleetIndex >= 0)
             {
@@ -69,7 +69,7 @@ public class StarConstruction : MonoBehaviour
     private void InitialiseFleet(Fleet fleet, Star star)
     {
         fleet.star = star;
-        fleet.AddToFaction(star.factionIndex);
-        star.starShipManager.Entry(fleet);
+        fleet.AddToEmpire(star.empire);
+        star.starShipManager.Add(fleet);
     }
 }

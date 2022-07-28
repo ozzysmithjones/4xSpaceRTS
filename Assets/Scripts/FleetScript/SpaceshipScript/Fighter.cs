@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class Fighter : SpaceShip
 {
@@ -9,129 +10,92 @@ public class Fighter : SpaceShip
     //explosives beat armour, but they are weaker agaisnt evasion.
 
     public SpaceShip enemyShip;
-    public bool targetAquired = false;
-
-    private Timer targetTimer;
-    private Timer targetAngleTimer;
-
     public Weapon[] weapons;
     private bool shooting = false;
+    private float targetTimer = 0.0f;
+    private const float targetTime = 1.0f;
 
     public override void Initialise(Color flagColor)
     {
         base.Initialise(flagColor);
-        targetTimer = new Timer(3f, RandomTarget);
-        targetAngleTimer = new Timer(0.2f, UpdateTargetAngle);
     }
 
 
     //aproach enemy, 
-    public override void Fight()
+    public override void Fight(List<SpaceShip> enemies)
     {
-        base.Fight();
-
-        //find a target to shoot at.
-        if (target == null)
+        if(enemies.Count <= 0)
         {
-            FindTarget();
+            return;
         }
 
-        targetTimer.Tick(Time.deltaTime);
+        base.Fight(enemies);
+
+        targetTimer -= Time.deltaTime;
+        if(targetTimer <= 0)
+        {
+            targetTimer = targetTime;
+            RandomTarget(enemies);
+            //FindTarget(enemies);
+        }
 
         //move towards them.
-        FightMove();
-
+        Move();
+        RotateTowards(target);
 
         //fire if within a certain range
-        FightAttack();
-
+        Attack();
     }
-
-    protected virtual void FightMove()
+    public override void StartFighting()
     {
-        Move();
-        RotateTowardsTarget();
+        base.StartFighting();
 
+        for(int i = 0; i < weapons.Length;++i)
+        {
+            weapons[i].StartShooting();
+        }
     }
 
-    protected virtual void FightAttack()
+    public override void StopFighting()
     {
-        if (shooting)
-        {
-            return;
-        }
-        if (Mathf.DeltaAngle(targetAngle, transform.eulerAngles.z) < 50f)
-        {
-            if (!shooting)
-            {
-                shooting = true;
-                for (int i = 0; i < weapons.Length; i++)
-                {
-                    weapons[i].Shoot(damage);
-                }
-            }
+        base.StopFighting();
 
-        }
-        else if (shooting)
+        for (int i = 0; i < weapons.Length; ++i)
         {
-            shooting = false;
-            for (int i = 0; i < weapons.Length; i++)
-            {
-                weapons[i].StopShooting();
-            }
+            weapons[i].StopShooting();
         }
-
     }
 
+    protected virtual void Attack()
+    {
+
+        for (int i = 0; i < weapons.Length; ++i)
+        {
+            weapons[i].Shoot(enemyShip);
+        }
+    }
 
     //returns the ship with the lowest health.
-    private void FindTarget()
+    private void FindTarget(List<SpaceShip> enemies)
     {
-
         float lowestHP = 0.0f;
-        int index = 0;
-        for (int i = 0; i < fleet.fleetCombat.target.spaceShips.Count; i++)
+        for (int i = 0; i < enemies.Count; i++)
         {
-            if (fleet.fleetCombat.target.spaceShips[i].hitPoints < lowestHP || i == 0)
+            if (enemies[i].hitPoints < lowestHP || i == 0)
             {
-                lowestHP = fleet.fleetCombat.target.spaceShips[i].hitPoints;
-                index = i;
+                lowestHP = enemies[i].hitPoints;
+                enemyShip = enemies[i];
             }
-
         }
-        enemyShip = fleet.fleetCombat.target.spaceShips[index];
+
         target = enemyShip.transform;
     }
 
-    private void RandomTarget()
+    private void RandomTarget(List<SpaceShip> enemies)
     {
-        if(target != null)
-            return;
-        enemyShip = fleet.fleetCombat.target.spaceShips[Random.Range(0, fleet.fleetCombat.target.spaceShips.Count)];
+        enemyShip = enemies[Random.Range(0, enemies.Count)];
         target = enemyShip.transform;
-
-
     }
 
-    protected override void OnConflictChange()
-    {
-        base.OnConflictChange();
-        if (!conflict && shooting)
-        {
-            shooting = false;
-            for (int i = 0; i < weapons.Length; i++)
-            {
-                weapons[i].StopShooting();
-            }
-        }
-    }
-
-
-
-
-
-
-
-
-
+    
 }

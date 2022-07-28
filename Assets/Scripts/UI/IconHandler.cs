@@ -29,7 +29,7 @@ public class IconHandler : MonoBehaviour
         }
     }
 
-    public void AddIcon(Fleet fleet, Sprite sprite, bool military = true, int faction = -1)
+    public void AddIcon(Fleet fleet, Sprite sprite, bool military = true, Empire empire = null)
     {
 
         int id = FirstAvalibleID();
@@ -42,7 +42,7 @@ public class IconHandler : MonoBehaviour
             pool[0].gameObject.SetActive(true);
             pool[0].transform.SetParent(military ? this.military : this.civilian);
             pool[0].ID = id;
-            pool[0].SetImage(sprite, military, faction);
+            pool[0].SetImage(sprite, military, empire);
 
             iconData.Add(pool[0]);
             pool.RemoveAt(0);
@@ -51,7 +51,7 @@ public class IconHandler : MonoBehaviour
         {
             IconData icon = Instantiate(IconPrefab, transform).GetComponent<IconData>();
             icon.ID = id;
-            icon.SetImage(sprite, military, faction);
+            icon.SetImage(sprite, military, empire);
             icon.transform.SetParent(military ? this.military : this.civilian);
             iconData.Add(icon);
         }

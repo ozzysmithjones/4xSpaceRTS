@@ -4,7 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public class Empire
 {
-    public int factionIndex;
+    public static Empire player = null;
 
     //territory control
     public List<Star> colonies = new List<Star>();
@@ -30,6 +30,7 @@ public class Empire
 
     //military:
     public List<Fleet> fleets = new List<Fleet>();
+    public List<Empire> enemies = new List<Empire>();
 
     //species and internal politics: 
     public List<Species> species;
@@ -37,10 +38,8 @@ public class Empire
     private Timer PopulationGrowthTimer;
     public float PopulationGrowthSpeed = 0.02f;
 
-    public Empire(int index, Color flagColor, string factionName)
+    public Empire(Color flagColor, string factionName)
     {
-        factionIndex = index;
-
         this.factionName = factionName;
         this.flagColor = flagColor;
 
@@ -48,6 +47,11 @@ public class Empire
         research = new Research(this);
     }
 
+
+    public bool IsEnemyTo(Empire empire)
+    {
+        return empire != this; //&& enemies.Contains(empire);
+    }
 
     public virtual void Start()
     {
@@ -94,13 +98,11 @@ public class Empire
 
         for (int i = 0; i < connectedStars.Count; i++)
         {
-            if (!outerRim.Contains(connectedStars[i]) && connectedStars[i].factionIndex != factionIndex)
+            if (!outerRim.Contains(connectedStars[i]) && connectedStars[i].empire != this)
             {
                 outerRim.Add(connectedStars[i]);
             }
         }
-
-
     }
 
     public void RemoveFromTerritory(Star star, bool showOuterRim = false, bool colony = false)
@@ -116,7 +118,7 @@ public class Empire
 
         for (int i = 0; i < connectedStars.Count; i++)
         {
-            if (outerRim.Contains(connectedStars[i]) && !connectedStars[i].starConnections.IsConnectedToFaction(factionIndex))
+            if (outerRim.Contains(connectedStars[i]) && !connectedStars[i].starConnections.IsConnectedToEmpire(this))
             {
                 outerRim.Remove(connectedStars[i]);
             }
@@ -135,9 +137,9 @@ public class Empire
             }
             int index = Random.Range(0, outerRim.Count);
 
-            if (outerRim[index].factionIndex < 0)
+            if (outerRim[index].empire == null)
             {
-                outerRim[index].TakeOver(factionIndex);
+                outerRim[index].TakeOver(this);
             }
             else
             {
@@ -176,14 +178,12 @@ public class Empire
         }
 
         Gather(totalResourceProduction);
-        
     }
 
 
     public virtual void SetResourceAmount(ResourceType resourceType, int amount)
     {
         this.resources.amounts[(int)resourceType] = amount;
-        
     }
 
     public virtual void ModifySpaceResourceProduction(ResourceType resourceType, int amount)

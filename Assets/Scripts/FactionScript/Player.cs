@@ -7,7 +7,7 @@ public class Player : Empire
 
 
     //randomises this faction.
-    public Player(int index, Color flagColor, string factionName) : base(index, flagColor, factionName)
+    public Player(Color flagColor, string factionName) : base(flagColor, factionName)
     {
         resourcesText = Master.instance.userInterface.resourcesText;
     }
@@ -22,9 +22,7 @@ public class Player : Empire
             {
                 continue;
             }
-            
         }
-
     }
     public override void SetResourceAmount(ResourceType resourceType, int amount)
     {

@@ -2,7 +2,7 @@
 
 public class AI : Empire
 {
-    public AI(int index, Color flagColor, string factionName) : base(index, flagColor, factionName)
+    public AI(Color flagColor, string factionName) : base(flagColor, factionName)
     {
 
     }

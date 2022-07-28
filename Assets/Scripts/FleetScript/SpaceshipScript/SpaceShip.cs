@@ -7,7 +7,6 @@ public enum DefenceType { SHIELDS, ARMOR, EVASION };
 
 public class SpaceShip : MonoBehaviour
 {
-
     //initialisation
     public Renderer rend;
     protected Fleet fleet;
@@ -235,11 +234,11 @@ public class SpaceShip : MonoBehaviour
                 aggressor.target = null;
             }
 
-            Die();
+            Explode();
         }
     }
 
-    public virtual void Die()
+    public virtual void Explode()
     {
         fleet.RemoveShip(this);
 

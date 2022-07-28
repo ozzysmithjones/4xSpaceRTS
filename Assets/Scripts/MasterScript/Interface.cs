@@ -66,7 +66,7 @@ public class Interface : MonoBehaviour
         researchOverviewOpen = !researchOverviewOpen;
         if (researchOverviewOpen)
         {
-            researchOverview.Open(Master.instance.characters.factions[0].research);
+            researchOverview.Open(Master.instance.characters.empires[0].research);
         }
         else
         {

@@ -169,7 +169,7 @@ public class MoveFleetTool : Tool
                 if (!controlledFleets[i].Busy())
                 {
                     controlledFleets[i].ClearOrders();
-                    controlledFleets[i].AddOrder(new MoveToPoint(path[path.Count-1],path[path.Count-1].transform,new List<Star>(path)));
+                    controlledFleets[i].AddOrder(new MoveOrder(path[path.Count-1],path[path.Count-1].transform,new List<Star>(path)));
                 }
             }
         }

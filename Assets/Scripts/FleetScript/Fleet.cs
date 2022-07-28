@@ -40,13 +40,12 @@ public class Fleet : MonoBehaviour
     readonly Queue<IOrder> orders = new Queue<IOrder>();
     IOrder currentOrder = null;
     FleetState fleetState = FleetState.IDLE;
-    public ConflictReaction conflictReaction = ConflictReaction.FLEE;
+    private ConflictReaction conflictReaction = ConflictReaction.FIGHT;
     public bool isPath = false;
 
     int pathIndex = 0;
     List<Star> path = null;
-    [Header("Faction")]
-    public int faction = -1;
+    public Empire empire { get; private set; }
 
     [Header("SPACESHIP MOVEMENT")]
     public Transform target;
@@ -76,11 +75,12 @@ public class Fleet : MonoBehaviour
     private void Awake()
     {
         fleetCombat = GetComponent<FleetCombat>();
+        conflictReaction = ConflictReaction.FIGHT;
     }
 
     private void Update()
     {
-        if (fleetState != FleetState.CHARGING_WARP && fleetState != FleetState.IN_WARP)
+        if (fleetState != FleetState.CHARGING_WARP && fleetState != FleetState.IN_WARP && fleetState != FleetState.FIGHTING)
         {
             UpdateGoals();
         }
@@ -128,7 +128,7 @@ public class Fleet : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (faction == 0)
+        if (empire == null)
         {
             if (Master.instance.userInterface.moveFleetTool.controlledFleets.Contains(this))
             {
@@ -138,24 +138,24 @@ public class Fleet : MonoBehaviour
 
         if (fleetState != FleetState.IN_WARP)
         {
-            star.starShipManager.RequestExit(this);
+            star.starShipManager.Remove(this);
         }
     }
 
-    public void AddToFaction(int newFaction)
+    public void AddToEmpire(Empire empire)
     {
-        if (faction >= 0)
+        if (this.empire != null)
         {
-            RemoveFromFaction(faction);
+            RemoveFromEmpire(empire);
         }
-        faction = newFaction;
-        Master.instance.characters.factions[faction].fleets.Add(this);
-    }
-    public void RemoveFromFaction(int oldFaction)
-    {
 
-        Master.instance.characters.factions[faction].fleets.Remove(this);
-        faction = -1;
+        this.empire = empire;
+        this.empire.fleets.Add(this);
+    }
+    public void RemoveFromEmpire(Empire empire)
+    {
+        empire.fleets.Remove(this);
+        this.empire = null;
     }
 
     public void AddShip(SpaceShip spaceShip)
@@ -172,7 +172,7 @@ public class Fleet : MonoBehaviour
 
         if (spaceShips.Count <= 0)
         {
-            star.starShipManager.RequestExit(this);
+            star.starShipManager.Remove(this);
             Destroy(gameObject);
         }
     }
@@ -186,7 +186,6 @@ public class Fleet : MonoBehaviour
     {
         orders.Enqueue(order);
     }
-
 
     public void ClearOrders()
     {
@@ -207,7 +206,8 @@ public class Fleet : MonoBehaviour
             switch (conflictReaction)
             {
                 case ConflictReaction.FLEE:
-                    AddOrder(null);//new TravelToPoint(this, CalculateFleeStar()), true);
+                    Star fleeStar = CalculateFleeStar();
+                    AddOrder(new MoveOrder(fleeStar,fleeStar.transform));
                     break;
                 case ConflictReaction.FIGHT:
                     SetFleetState(FleetState.FIGHTING);
@@ -253,7 +253,7 @@ public class Fleet : MonoBehaviour
         List<Star> connectedStars = star.starConnections.GetConnectedStars();
         for (int i = 0; i < connectedStars.Count; i++)
         {
-            if (connectedStars[i].factionIndex == faction)
+            if (connectedStars[i].empire == empire)
             {
                 return connectedStars[i];
             }
@@ -413,11 +413,7 @@ public class Fleet : MonoBehaviour
     //Once fully charged, call this function to warp the fleet to target warp coordinates.
     private void BeginWarp()
     {
-        if (!star.starShipManager.RequestExit(this))
-        {
-            return;
-        }
-
+        star.starShipManager.Remove(this);
         int line = star.starConnections.GetConnectionToStar(path[pathIndex + 1]);
         transform.SetParent(star.starConnections.lines[line].transform);
 
@@ -459,7 +455,7 @@ public class Fleet : MonoBehaviour
             }
 
             //this needs to be done last in-case there is a entry-reaction (such as a conflict) changing the fleets next step.
-            star.starShipManager.Entry(this);
+            star.starShipManager.Add(this);
         }
     }
 

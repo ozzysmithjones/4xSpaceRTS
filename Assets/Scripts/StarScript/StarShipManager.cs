@@ -29,10 +29,10 @@ public class StarShipManager : MonoBehaviour
     }
 
     //faction will be needed when there is multiple factions in one system.
-    public bool RequestExit(Fleet fleet)
+    public void Remove(Fleet fleet)
     {
 
-        if (fleet.faction == 0)
+        if (fleet.empire == Empire.player)
         {
             fleet.Scout(false);
         }
@@ -44,32 +44,34 @@ public class StarShipManager : MonoBehaviour
         iconHandler.RemoveIcon(fleet.iconHandlerID);
         fleets.Remove(fleet);
         UpdateFaction();
-        return true;
     }
 
-    public void Entry(Fleet fleet)
+    public void Add(Fleet fleet)
     {
-        if (fleet.faction == 0)
+        if (fleet.empire == Empire.player)
         {
             fleet.Scout(true);
         }
 
-        iconHandler.AddIcon(fleet, fleet.iconSprite, fleet.military, fleet.faction);
+        iconHandler.AddIcon(fleet, fleet.iconSprite, fleet.military, fleet.empire);
         fleet.transform.SetParent(visuals);
         fleet.UpdateVisibility();
 
         //combat check:
-        fleet.fleetCombat.IsConflict(fleets);
-        for (int i = 0; i < fleets.Count; i++)
+        if (fleet.fleetCombat.IsConflict(fleets))
         {
-            fleets[i].fleetCombat.AddEnemy(fleet);
+            for (int i = 0; i < fleets.Count; i++)
+            {
+                fleets[i].fleetCombat.AddEnemy(fleet);
+            }
         }
+
         fleets.Add(fleet);
         UpdateFaction();
         return;
     }
 
-    public int GetSmallestFleet(int faction = -1, bool military = true)
+    public int GetSmallestFleet(Empire empire, bool military = true)
     {
         if (fleets.Count <= 0)
         {
@@ -89,7 +91,7 @@ public class StarShipManager : MonoBehaviour
                 continue;
             }
 
-            if (fleets[i].faction == faction || faction == -1)
+            if (fleets[i].empire == empire || empire == null)
             {
 
                 if (first || fleets[i].spaceShips.Count < size)
@@ -106,32 +108,30 @@ public class StarShipManager : MonoBehaviour
 
     }
 
-
     void UpdateFaction()
     {
-        if (fleets.Count <= 0 || star.factionIndex == -1)
+        if (fleets.Count <= 0 || star.empire == null)
         {
             return;
         }
 
-        int remainingFaction = fleets[0].faction;
+        Empire remainingEmpire = fleets[0].empire;
         for (int i = 0; i < fleets.Count; i++)
         {
-            if (fleets[i].faction == star.factionIndex)
+            if (fleets[i].empire == star.empire)
             {
                 return;
             }
-            if (fleets[i].faction != remainingFaction)
+            if (fleets[i].empire != remainingEmpire)
             {
-                remainingFaction = -1;
+                remainingEmpire = null;
             }
 
         }
-        if (star.factionIndex == remainingFaction)
+        if (star.empire == remainingEmpire)
         {
             return;
         }
-        star.TakeOver(remainingFaction);
+        star.TakeOver(remainingEmpire);
     }
-
 }

@@ -25,15 +25,14 @@ public class StarEconomy : MonoBehaviour
 
     public void ApplyResourceproduction(bool positive)
     {
-        if (star.factionIndex < 0)
+        if (star.empire == null)
         {
             return;
         }
-        Empire faction = Master.instance.characters.factions[star.factionIndex];
 
         for (int i = 0; i < totalResourceProduction.amounts.Length; i++)
         {
-            faction.ModifySpaceResourceProduction((ResourceType)i, totalResourceProduction.amounts[i] * (positive ? 1 : -1));
+            star.empire.ModifySpaceResourceProduction((ResourceType)i, totalResourceProduction.amounts[i] * (positive ? 1 : -1));
         }
 
     }
@@ -41,7 +40,7 @@ public class StarEconomy : MonoBehaviour
     public void ModifyTotalResourceProduction(ResourceType resourceType, int amount)
     {
         totalResourceProduction.amounts[(int)resourceType] += amount;
-        Master.instance.characters.factions[star.factionIndex].ModifySpaceResourceProduction(resourceType, amount);
+        star.empire.ModifySpaceResourceProduction(resourceType, amount);
     }
 
     public int[] GetColonyResourceproduction()

@@ -149,9 +149,7 @@ public class Enviroment : MonoBehaviour
     private Star SpawnStar(int x, int y)
     {
         Star newStar = Instantiate(starPrefab, new Vector2(x, y) * space + RandomOffset(), Quaternion.identity).GetComponent<Star>();
-        newStar.Initialise();
-
-
+        newStar.Initialise(null);
         return newStar;
     }
 
@@ -239,11 +237,12 @@ public class Enviroment : MonoBehaviour
 
             int roll = Random.Range(0, stars.Length);
 
-            if (stars[roll].factionIndex < 0)
+            if (stars[roll].empire == null)
             {
                 return stars[roll];
             }
         }
+
         Debug.LogError("Couldn't find an unhabited star under " + iterations + "iterations");
         return null;
     }

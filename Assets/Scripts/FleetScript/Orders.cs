@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveToPoint : IOrder
+public class MoveOrder : IOrder
 {
-    private Star star;
-    private Transform point;
-    private List<Star> preferedPath;
+    private readonly Star star;
+    private readonly Transform point;
+    private readonly List<Star> preferedPath;
 
-    public MoveToPoint(Star star, Transform point, List<Star> preferedPath = null)
+    public MoveOrder(Star star, Transform point, List<Star> preferedPath = null)
     {
         this.star = star;
         this.point = point;

@@ -42,9 +42,9 @@ public class PlanetColony : MonoBehaviour
 
     }
 
-    public void Colonise(int factionIndex)
+    public void Colonise(Empire empire)
     {
-        AddPop(Master.instance.characters.factions[factionIndex].species[0].index);
+        AddPop(empire.species[0].index);
         planet.star.starEconomy.colonies.Add(this);
     }
 
@@ -286,9 +286,9 @@ public class PlanetColony : MonoBehaviour
 
     private float CalculateStability()
     {
-        Empire faction = Master.instance.characters.factions[planet.star.factionIndex];
+        Empire empire = planet.star.empire;
 
-        if (faction.resources.amounts[(int)ResourceType.FOOD] > 0)
+        if (empire.resources.amounts[(int)ResourceType.FOOD] > 0)
         {
             stability = 1.0f;
             return 1.0f;

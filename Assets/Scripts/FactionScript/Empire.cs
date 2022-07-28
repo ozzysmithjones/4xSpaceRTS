@@ -4,7 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public class Empire
 {
-    public int factionIndex;
+    public static Empire player = null;
 
     //territory control
     public List<Star> colonies = new List<Star>();
@@ -37,10 +37,8 @@ public class Empire
     private Timer PopulationGrowthTimer;
     public float PopulationGrowthSpeed = 0.02f;
 
-    public Empire(int index, Color flagColor, string factionName)
+    public Empire(Color flagColor, string factionName)
     {
-        factionIndex = index;
-
         this.factionName = factionName;
         this.flagColor = flagColor;
 
@@ -94,7 +92,7 @@ public class Empire
 
         for (int i = 0; i < connectedStars.Count; i++)
         {
-            if (!outerRim.Contains(connectedStars[i]) && connectedStars[i].factionIndex != factionIndex)
+            if (!outerRim.Contains(connectedStars[i]) && connectedStars[i].empire != this)
             {
                 outerRim.Add(connectedStars[i]);
             }
@@ -116,7 +114,7 @@ public class Empire
 
         for (int i = 0; i < connectedStars.Count; i++)
         {
-            if (outerRim.Contains(connectedStars[i]) && !connectedStars[i].starConnections.IsConnectedToFaction(factionIndex))
+            if (outerRim.Contains(connectedStars[i]) && !connectedStars[i].starConnections.IsConnectedToEmpire(this))
             {
                 outerRim.Remove(connectedStars[i]);
             }
@@ -135,9 +133,9 @@ public class Empire
             }
             int index = Random.Range(0, outerRim.Count);
 
-            if (outerRim[index].factionIndex < 0)
+            if (outerRim[index].empire == null)
             {
-                outerRim[index].TakeOver(factionIndex);
+                outerRim[index].TakeOver(this);
             }
             else
             {

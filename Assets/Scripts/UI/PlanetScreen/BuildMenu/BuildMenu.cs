@@ -26,8 +26,8 @@ public class BuildMenu : MonoBehaviour
 
     public void UpdateOptions()
     {
-        List<BuiltStructure> builtStructures = Master.instance.characters.factions[0].structureTypes;
-        List<BuiltShip> builtShips = Master.instance.characters.factions[0].shipTypes;
+        List<BuiltStructure> builtStructures = Master.instance.characters.empires[0].structureTypes;
+        List<BuiltShip> builtShips = Master.instance.characters.empires[0].shipTypes;
         int structureIndex = 0, shipIndex = 0;
 
         for (int i = 0; i < buildOptions.Length; i++)
@@ -59,12 +59,12 @@ public class BuildMenu : MonoBehaviour
             return;
         }
         //pay for it first.
-        Empire faction = Master.instance.characters.factions[planetOverview.planet.star.factionIndex];
+        Empire empire = planetOverview.planet.star.empire;
         int price = amount * buildQueueItem.buildCost;
 
         /*
         //paying for it.
-        if(faction.resources.amounts[(int)ResourceType.MATERIALS] < price)
+        if(empire.resources.amounts[(int)ResourceType.MATERIALS] < price)
         {
             return;
         }

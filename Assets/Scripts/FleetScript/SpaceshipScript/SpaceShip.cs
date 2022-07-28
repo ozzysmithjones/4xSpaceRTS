@@ -94,7 +94,7 @@ public class SpaceShip : MonoBehaviour
 
     public virtual void GiveCargo(int faction)
     {
-        Master.instance.characters.factions[faction].Gather(cargo);
+        Master.instance.characters.empires[faction].Gather(cargo);
 
         for (int i = 0; i < cargo.amounts.Length; i++)
         {

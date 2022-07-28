@@ -10,7 +10,6 @@ public class FleetCombat : MonoBehaviour
 
     public Fleet target;
 
-
     // Start is called before the first frame update
     void Awake()
     {
@@ -19,8 +18,9 @@ public class FleetCombat : MonoBehaviour
 
     public void UpdateTarget()
     {
-
+        target = null;
         float shortestDistance = 0.0f;
+
         for (int i = 0; i < enemies.Count; i++)
         {
             //prioritises those fighting it.
@@ -31,11 +31,10 @@ public class FleetCombat : MonoBehaviour
             }
             //otherwise closest:
             float dist = Vector2.Distance(fleet.spaceShips[0].transform.position, enemies[i].spaceShips[0].transform.position);
-            if (dist < shortestDistance || i == 0)
+            if (dist < shortestDistance || target == null)
             {
                 shortestDistance = dist;
                 target = enemies[i];
-
             }
         }
 
@@ -43,8 +42,6 @@ public class FleetCombat : MonoBehaviour
         {
             SetConflict(false);
         }
-
-
     }
 
     public bool IsConflict(List<Fleet> fleets)
@@ -52,20 +49,21 @@ public class FleetCombat : MonoBehaviour
         bool newConflict = false;
         for (int i = 0; i < fleets.Count; i++)
         {
-            if (fleets[i].faction != fleet.faction)
+            if (fleets[i].empire != fleet.empire)
             {
                 newConflict = true;
                 enemies.Add(fleets[i]);
             }
 
         }
+
         SetConflict(newConflict);
         return conflict;
     }
 
     public bool AddEnemy(Fleet possibleEnemy)
     {
-        if (fleet.faction != possibleEnemy.faction)
+        if (fleet.empire != possibleEnemy.empire)
         {
             if (!enemies.Contains(possibleEnemy))
             {
@@ -75,9 +73,9 @@ public class FleetCombat : MonoBehaviour
                 {
                     SetConflict(true);
                 }
+
                 return true;
             }
-
         }
 
         return false;
@@ -122,6 +120,5 @@ public class FleetCombat : MonoBehaviour
 
         //could be used to force the fleet to flee, or something instead. By default sets the spaceships to be in conflict.
         fleet.ReactToConflict(conflict);
-
     }
 }

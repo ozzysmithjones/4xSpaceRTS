@@ -36,11 +36,10 @@ public class Planet : MonoBehaviour
 
 
 
-    public void Colonise(int factionIndex)
+    public void Colonise(Empire empire)
     {
         isColony = true;
-        planetColony.Colonise(factionIndex);
-
+        planetColony.Colonise(empire);
     }
 
 

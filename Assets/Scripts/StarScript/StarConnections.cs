@@ -47,8 +47,8 @@ public class StarConnections : MonoBehaviour
         line.SetPosition(1, b);
 
         //set correct colors:
-        line.startColor = startStar.factionIndex >= 0 ? Master.instance.characters.factions[startStar.factionIndex].flagColor : line.startColor * normalLineColor;
-        line.endColor = endStar.factionIndex >= 0 ? Master.instance.characters.factions[endStar.factionIndex].flagColor : line.endColor * normalLineColor;
+        line.startColor = startStar.empire != null ? startStar.empire.flagColor : line.startColor * normalLineColor;
+        line.endColor = endStar.empire != null ? endStar.empire.flagColor : line.endColor * normalLineColor;
 
         return line;
     }
@@ -122,13 +122,13 @@ public class StarConnections : MonoBehaviour
     }
 
 
-    public bool IsConnectedToFaction(int faction = -1)
+    public bool IsConnectedToEmpire(Empire empire)
     {
         List<Star> stars = GetConnectedStars();
 
         for (int i = 0; i < stars.Count; i++)
         {
-            if (stars[i].factionIndex == faction)
+            if (stars[i].empire == empire)
             {
                 return true;
             }

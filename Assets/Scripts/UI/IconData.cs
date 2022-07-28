@@ -19,16 +19,14 @@ public class IconData : MonoBehaviour
         //toggle.interactable = false;
     }
 
-    public void SetImage(Sprite sprite, bool interactable = false, int faction = -1)
+    public void SetImage(Sprite sprite, bool interactable = false, Empire empire = null)
     {
         image.sprite = sprite;
 
-        if (faction >= 0 && interactable)
+        if (empire != null && interactable)
         {
-            image.color = Master.instance.characters.factions[faction].flagColor;
+            image.color = empire.flagColor;
         }
-
-
 
         if (toggle == null)
         {

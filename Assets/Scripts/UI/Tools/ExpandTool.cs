@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 [System.Serializable]
 public class ExpandTool : Tool
@@ -9,11 +10,13 @@ public class ExpandTool : Tool
 
         base.OnSelected();
 
-        for (int i = 0; i < Master.instance.characters.factions[0].outerRim.Count; i++)
+        List<Star> outerRim = Empire.player.outerRim;
+
+        for (int i = 0; i < outerRim.Count; i++)
         {
-            if (Master.instance.characters.factions[0].outerRim[i].factionIndex <= 0)
+            if (outerRim[i].empire == null || outerRim[i].empire == Empire.player)
             {
-                Master.instance.characters.factions[0].outerRim[i].SetSelector(true, Color.white);
+                outerRim[i].SetSelector(true, Color.white);
             }
         }
 
@@ -23,9 +26,11 @@ public class ExpandTool : Tool
     {
         base.OnDeselected();
 
-        for (int i = 0; i < Master.instance.characters.factions[0].outerRim.Count; i++)
+        List<Star> outerRim = Empire.player.outerRim;
+
+        for (int i = 0; i < outerRim.Count; i++)
         {
-            Master.instance.characters.factions[0].outerRim[i].SetSelector(false, Color.white);
+            outerRim[i].SetSelector(false, Color.white);
         }
     }
 
@@ -33,14 +38,13 @@ public class ExpandTool : Tool
     {
         base.OnInteractStar(star);
 
-        if (!star.starConnections.IsConnectedToFaction(0) || star.factionIndex != -1)
+        if (!star.starConnections.IsConnectedToEmpire(Empire.player) || star.empire != null)
         {
             return;
         }
 
         star.SetSelector(false, Color.white);
-        star.TakeOver(0, true);
-
+        star.TakeOver(Empire.player, true);
     }
 
 

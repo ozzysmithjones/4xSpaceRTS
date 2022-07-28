@@ -4,7 +4,7 @@ using UnityEngine;
 public class Laser : Weapon
 {
     private float timer = 0.0f;
-    private const float fireRate = 60f;
+    private const float fireRate = 10f;
     private const float invFireRate = 1.0f / fireRate;
 
     private LineRenderer beam;
@@ -24,13 +24,21 @@ public class Laser : Weapon
 
     public override void Shoot(SpaceShip enemy)
     {
-        beam.SetPosition(1, transform.InverseTransformPoint(spaceShip.target.position));
-
-        timer -= Time.deltaTime;
-        if (timer <= 0.0f)
+        if (enemy != null)
         {
-            timer = invFireRate;
-            DealDamage(enemy, damage / fireRate);
+            beam.enabled = true;
+            beam.SetPosition(1, transform.InverseTransformPoint(spaceShip.target.position));
+
+            timer -= Time.deltaTime;
+            if (timer <= 0.0f)
+            {
+                timer = invFireRate;
+                DealDamage(enemy, damage / fireRate);
+            }
+        }
+        else
+        {
+            beam.enabled = false;
         }
     }
 

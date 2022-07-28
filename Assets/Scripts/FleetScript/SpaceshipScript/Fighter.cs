@@ -68,12 +68,10 @@ public class Fighter : SpaceShip
 
     protected virtual void Attack()
     {
-        if (enemyShip != null)
+
+        for (int i = 0; i < weapons.Length; ++i)
         {
-            for (int i = 0; i < weapons.Length; ++i)
-            {
-                weapons[i].Shoot(enemyShip);
-            }
+            weapons[i].Shoot(enemyShip);
         }
     }
 

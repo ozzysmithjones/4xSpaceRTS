@@ -57,7 +57,6 @@ public class Characters : MonoBehaviour
         }
 
         empires[0].research.BeginResearch(startingResearch);
-
     }
 
     public Empire CreateFaction(BuiltShip[] shipTypes, BuiltStructure[] structureTypes, bool player = false)

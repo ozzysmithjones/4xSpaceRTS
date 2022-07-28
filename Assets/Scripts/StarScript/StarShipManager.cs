@@ -31,14 +31,14 @@ public class StarShipManager : MonoBehaviour
     //faction will be needed when there is multiple factions in one system.
     public void Remove(Fleet fleet)
     {
-
         if (fleet.empire == Empire.player)
         {
             fleet.Scout(false);
         }
+
         for (int i = 0; i < fleets.Count; i++)
         {
-            fleets[i].fleetCombat.RemoveEnemy(fleet);
+            fleets[i].RemoveEnemyFleet(fleet);
         }
 
         iconHandler.RemoveIcon(fleet.iconHandlerID);
@@ -58,11 +58,13 @@ public class StarShipManager : MonoBehaviour
         fleet.UpdateVisibility();
 
         //combat check:
-        if (fleet.fleetCombat.IsConflict(fleets))
+
+        for(int i = 0; i < fleets.Count; ++i)
         {
-            for (int i = 0; i < fleets.Count; i++)
+            if(fleet.empire.IsEnemyTo(fleets[i].empire))
             {
-                fleets[i].fleetCombat.AddEnemy(fleet);
+                fleet.AddEnemyFleet(fleets[i]);
+                fleets[i].AddEnemyFleet(fleet);
             }
         }
 

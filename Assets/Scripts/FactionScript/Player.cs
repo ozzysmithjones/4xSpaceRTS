@@ -22,9 +22,7 @@ public class Player : Empire
             {
                 continue;
             }
-            
         }
-
     }
     public override void SetResourceAmount(ResourceType resourceType, int amount)
     {

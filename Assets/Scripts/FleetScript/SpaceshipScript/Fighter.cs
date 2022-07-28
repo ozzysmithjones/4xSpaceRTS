@@ -10,87 +10,77 @@ public class Fighter : SpaceShip
     //explosives beat armour, but they are weaker agaisnt evasion.
 
     public SpaceShip enemyShip;
-    public bool targetAquired = false;
-
-    private Timer targetTimer;
-    private Timer targetAngleTimer;
-
     public Weapon[] weapons;
     private bool shooting = false;
+    private float targetTimer = 0.0f;
+    private const float targetTime = 1.0f;
 
     public override void Initialise(Color flagColor)
     {
         base.Initialise(flagColor);
-        targetTimer = new Timer(3f, RandomTarget);
-        targetAngleTimer = new Timer(0.2f, UpdateTargetAngle);
     }
 
 
     //aproach enemy, 
-    public override void Fight()
+    public override void Fight(List<SpaceShip> enemies)
     {
-        base.Fight();
-
-        //find a target to shoot at.
-        if (target == null)
-        {
-            FindTarget();
-        }
-
-        targetTimer.Tick(Time.deltaTime);
-
-        //move towards them.
-        FightMove();
-
-
-        //fire if within a certain range
-        FightAttack();
-
-    }
-
-    protected virtual void FightMove()
-    {
-        Move();
-        RotateTowardsTarget();
-    }
-
-    protected virtual void FightAttack()
-    {
-        if (shooting)
+        if(enemies.Count <= 0)
         {
             return;
         }
-        if (Mathf.DeltaAngle(targetAngle, transform.eulerAngles.z) < 50f)
-        {
-            if (!shooting)
-            {
-                shooting = true;
-                for (int i = 0; i < weapons.Length; i++)
-                {
-                    weapons[i].Shoot(damage);
-                }
-            }
 
-        }
-        else if (shooting)
+        base.Fight(enemies);
+
+        targetTimer -= Time.deltaTime;
+        if(targetTimer <= 0)
         {
-            shooting = false;
-            for (int i = 0; i < weapons.Length; i++)
-            {
-                weapons[i].StopShooting();
-            }
+            targetTimer = targetTime;
+            RandomTarget(enemies);
+            //FindTarget(enemies);
         }
 
+        //move towards them.
+        Move();
+        RotateTowards(target);
+
+        //fire if within a certain range
+        Attack();
+    }
+    public override void StartFighting()
+    {
+        base.StartFighting();
+
+        for(int i = 0; i < weapons.Length;++i)
+        {
+            weapons[i].StartShooting();
+        }
     }
 
+    public override void StopFighting()
+    {
+        base.StopFighting();
+
+        for (int i = 0; i < weapons.Length; ++i)
+        {
+            weapons[i].StopShooting();
+        }
+    }
+
+    protected virtual void Attack()
+    {
+        if (enemyShip != null)
+        {
+            for (int i = 0; i < weapons.Length; ++i)
+            {
+                weapons[i].Shoot(enemyShip);
+            }
+        }
+    }
 
     //returns the ship with the lowest health.
-    private void FindTarget()
+    private void FindTarget(List<SpaceShip> enemies)
     {
         float lowestHP = 0.0f;
-        FleetCombat combat = fleet.GetComponent<FleetCombat>();
-        List<SpaceShip> enemies = combat.target.spaceShips;
-
         for (int i = 0; i < enemies.Count; i++)
         {
             if (enemies[i].hitPoints < lowestHP || i == 0)
@@ -103,27 +93,11 @@ public class Fighter : SpaceShip
         target = enemyShip.transform;
     }
 
-    private void RandomTarget()
+    private void RandomTarget(List<SpaceShip> enemies)
     {
-        if(target != null)
-            return;
-        FleetCombat combat = fleet.GetComponent<FleetCombat>();
-        List<SpaceShip> enemies = combat.target.spaceShips;
         enemyShip = enemies[Random.Range(0, enemies.Count)];
         target = enemyShip.transform;
-
     }
 
-    protected override void OnConflictChange()
-    {
-        base.OnConflictChange();
-        if (!conflict && shooting)
-        {
-            shooting = false;
-            for (int i = 0; i < weapons.Length; i++)
-            {
-                weapons[i].StopShooting();
-            }
-        }
-    }
+    
 }

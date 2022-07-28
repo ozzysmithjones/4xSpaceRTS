@@ -14,13 +14,6 @@ public enum FleetState
     IN_WARP
 }
 
-public enum ConflictReaction
-{
-    FLEE,
-    IGNORE,
-    FIGHT,
-}
-
 public interface IOrder
 {
     Star TargetStar { get; }
@@ -31,16 +24,12 @@ public interface IOrder
     void OnReachPoint(Fleet fleet, Transform point);
 }
 
-[RequireComponent(typeof(FleetCombat))]
 public class Fleet : MonoBehaviour
 {
-    public FleetCombat fleetCombat;
-
     [Header("GOAL MANAGEMENT")]
     readonly Queue<IOrder> orders = new Queue<IOrder>();
     IOrder currentOrder = null;
     FleetState fleetState = FleetState.IDLE;
-    private ConflictReaction conflictReaction = ConflictReaction.FIGHT;
     public bool isPath = false;
 
     int pathIndex = 0;
@@ -72,14 +61,23 @@ public class Fleet : MonoBehaviour
     public Sprite iconSprite;
     public int scoutingRange = 1;
 
+    [Header("BATTLE")]
+    private readonly List<Fleet> enemyFleets = new List<Fleet>();
+    private Fleet enemyFleet;
+
     private void Awake()
     {
-        fleetCombat = GetComponent<FleetCombat>();
-        conflictReaction = ConflictReaction.FIGHT;
+
     }
 
     private void Update()
     {
+        if (fleetState != FleetState.CHARGING_WARP && fleetState != FleetState.IN_WARP && enemyFleets.Count > 0)
+        {
+            SetFleetState(FleetState.FIGHTING);
+        }
+
+
         if (fleetState != FleetState.CHARGING_WARP && fleetState != FleetState.IN_WARP && fleetState != FleetState.FIGHTING)
         {
             UpdateGoals();
@@ -90,7 +88,6 @@ public class Fleet : MonoBehaviour
             case FleetState.MOVING_TO_POINT:
                 if (MoveShipsTo(target))
                 {
-                   
                     if (currentOrder != null && currentOrder.TargetPoint == target)
                     {
                         currentOrder.OnReachPoint(this, target);
@@ -100,7 +97,9 @@ public class Fleet : MonoBehaviour
                     target = null;
                     SetFleetState(FleetState.IDLE);
                 }
+
                 break;
+
             case FleetState.MOVING_TO_WARP_GATE:
                 if (MoveShipsTo(target))
                 {
@@ -117,8 +116,17 @@ public class Fleet : MonoBehaviour
             case FleetState.IN_WARP:
                 UpdateWarp();
                 break;
-            case FleetState.FIGHTING:
+            case FleetState.IDLE:
 
+                if(enemyFleets.Count > 0)
+                {
+                    SetFleetState(FleetState.FIGHTING);
+                }
+
+                break;
+
+            case FleetState.FIGHTING:
+                UpdateBattle();
                 break;
             default:
                 //just do nothing, or play an animation who knows.
@@ -196,42 +204,6 @@ public class Fleet : MonoBehaviour
             target = null;
             ClearPath();
             SetFleetState(FleetState.IDLE);
-        }
-    }
-
-    public void ReactToConflict(bool conflict)
-    {
-        if (conflict)
-        {
-            switch (conflictReaction)
-            {
-                case ConflictReaction.FLEE:
-                    Star fleeStar = CalculateFleeStar();
-                    AddOrder(new MoveOrder(fleeStar,fleeStar.transform));
-                    break;
-                case ConflictReaction.FIGHT:
-                    SetFleetState(FleetState.FIGHTING);
-                    for (int i = 0; i < spaceShips.Count; i++)
-                    {
-                        spaceShips[i].SetConflict(conflict);
-                    }
-                    break;
-                case ConflictReaction.IGNORE:
-                    //do nothing.
-                    break;
-            }
-        }
-
-        if (!conflict)
-        {
-            if (fleetState == FleetState.FIGHTING)
-            {
-                SetFleetState(FleetState.IDLE);
-            }
-            for (int i = 0; i < spaceShips.Count; i++)
-            {
-                spaceShips[i].SetConflict(conflict);
-            }
         }
     }
 
@@ -387,8 +359,21 @@ public class Fleet : MonoBehaviour
     //allows you to add code that happens when a certain state is set or removed.
     private void SetFleetState(FleetState fleetState)
     {
+        if(this.fleetState == fleetState)
+        {
+            return;
+        }
+
         switch (this.fleetState)
         {
+            case FleetState.FIGHTING:
+
+                for(int i = 0; i < spaceShips.Count; ++i)
+                {
+                    spaceShips[i].StopFighting();
+                }
+
+                break;
 
             case FleetState.CHARGING_WARP:
 
@@ -400,12 +385,19 @@ public class Fleet : MonoBehaviour
         this.fleetState = fleetState;
         switch (this.fleetState)
         {
+            case FleetState.FIGHTING:
+
+                for (int i = 0; i < spaceShips.Count; ++i)
+                {
+                    spaceShips[i].StartFighting();
+                }
+
+                break;
 
             case FleetState.CHARGING_WARP:
                 ClearTarget();
                 Invoke(nameof(BeginWarp), 3.0f);
                 break;
-
         }
     }
 
@@ -413,6 +405,8 @@ public class Fleet : MonoBehaviour
     //Once fully charged, call this function to warp the fleet to target warp coordinates.
     private void BeginWarp()
     {
+        enemyFleets.Clear();
+
         star.starShipManager.Remove(this);
         int line = star.starConnections.GetConnectionToStar(path[pathIndex + 1]);
         transform.SetParent(star.starConnections.lines[line].transform);
@@ -467,6 +461,61 @@ public class Fleet : MonoBehaviour
         for (int i = 0; i < spaceShips.Count; i++)
         {
             spaceShips[i].transform.position = (Vector3)(endPosition + Random.insideUnitCircle * maxDeviancy);
+        }
+    }
+
+    public void AddEnemyFleet(Fleet enemyFleet)
+    {
+        enemyFleets.Add(enemyFleet);
+
+        if(enemyFleet == null)
+        {
+            this.enemyFleet = enemyFleet;
+        }
+    }
+
+    public void RemoveEnemyFleet(Fleet enemyFleet)
+    {
+        enemyFleets.Remove(enemyFleet);
+
+        if (this.enemyFleet == enemyFleet)
+        {
+            this.enemyFleet = null;
+        }
+    }
+
+    private void FindEnemyFleets(List<Fleet> enemyFleets)
+    {
+        List<Fleet> fleets = star.starShipManager.fleets;
+        for(int i = 0; i < fleets.Count; ++i)
+        {
+            if(empire.IsEnemyTo(fleets[i].empire))
+            {
+                enemyFleets.Add(fleets[i]);
+            }
+        }
+    }
+
+
+    private void UpdateBattle()
+    {
+        if(enemyFleet == null || enemyFleet.fleetState == FleetState.IN_WARP || enemyFleet.star != star)
+        {
+            enemyFleets.Remove(enemyFleet);
+            if(enemyFleets.Count == 0)
+            {
+                SetFleetState(FleetState.IDLE);
+                return;
+            }
+
+            FindEnemyFleets(enemyFleets);
+            enemyFleet = enemyFleets[Random.Range(0, enemyFleets.Count)];
+        }
+
+        List<SpaceShip> enemies = enemyFleet.spaceShips;
+        for (int i = 0; i < spaceShips.Count; ++i)
+        {
+            spaceShips[i].Fight(enemies);
         }
     }
 

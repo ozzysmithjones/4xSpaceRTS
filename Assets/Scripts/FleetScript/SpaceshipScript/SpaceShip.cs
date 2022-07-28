@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public enum SpaceShipState
 {
@@ -7,7 +8,7 @@ public enum SpaceShipState
     IDLE,
     INDEPENDENT
 }
-public enum Defence { SHIELDS, ARMOR, EVASION };
+public enum DefenceType { SHIELDS, ARMOR, EVASION };
 
 
 public class SpaceShip : MonoBehaviour
@@ -21,14 +22,12 @@ public class SpaceShip : MonoBehaviour
 
     //targeting.
     public Transform target;
-    private Transform destination;
 
     private float angleCalculationTimer = 0f;
     protected float targetAngle;
 
     //movement progress
     public bool pointing = false;
-    protected bool isPath = false;
 
     //movement
     public float speed = 3f;
@@ -36,7 +35,7 @@ public class SpaceShip : MonoBehaviour
 
     //combat:
     protected bool conflict = false;
-    public Defence primaryDefence = Defence.EVASION;
+    public DefenceType defenceType = DefenceType.EVASION;
     public float hitPoints = 10f;
     public float damage = 1.0f;
 
@@ -67,22 +66,6 @@ public class SpaceShip : MonoBehaviour
     }
 
 
-    public void SetPath(Transform Destination)
-    {
-        ClearPath();
-        isPath = true;
-        destination = Destination;
-        //target = Destination;
-
-        //work out the target angle(I use trigonometry).
-        Vector2 difference = (transform.position - destination.position).normalized;
-        float angle = (Mathf.Rad2Deg * Mathf.Atan2(difference.y, difference.x));
-        angle += 90f;
-
-        targetAngle = angle;
-    }
-
-
     public virtual void SetVisibility(bool visible)
     {
         if (rend == null)
@@ -103,89 +86,50 @@ public class SpaceShip : MonoBehaviour
 
     }
 
-
-
-    public virtual void OnPoint(Transform goal)
+    public virtual void StartFighting()
     {
 
     }
 
-    public virtual void OnNotPoint(Transform goal)
+    public virtual void Fight(List<SpaceShip> enemies)
     {
-
+        if (enemies.Count <= 0)
+        {
+            return;
+        }
     }
 
-    public virtual void OnSetPath(Transform goal)
+    public virtual void StopFighting()
     {
 
-    }
-
-    public virtual void OnClearPath()
-    {
-
-    }
-
-    public virtual void Fight()
-    {
-
-    }
-
-    public virtual void PathUpdate()
-    {
-        RotateTowardsTarget();
-        transform.Translate(Vector3.up * Time.deltaTime * speed);
-    }
-
-    public void ClearPath()
-    {
-        pointing = false;
-        isPath = false;
-        OnClearPath();
     }
 
     public void SetAngle(float _angle)
     {
-
-        transform.eulerAngles = new Vector3(0, 0, positiveAngle(_angle));
+        transform.eulerAngles = new Vector3(0, 0, PositiveAngle(_angle));
     }
 
     public void Move()
     {
-
         transform.Translate(Vector3.up * Time.deltaTime * speed);
     }
 
-    protected void RotateTowardsTarget()
+    protected void RotateTowards(Transform target)
     {
         if (target == null)
         {
             return;
         }
 
-        if (!pointing || conflict)
-        {
-            angleCalculationTimer += Time.deltaTime;
-        }
+        angleCalculationTimer += Time.deltaTime;
 
-        if (angleCalculationTimer >= 0.2f && (!pointing || conflict))
+        if (angleCalculationTimer >= 0.2f)
         {
             angleCalculationTimer = 0f;
             UpdateTargetAngle(transform.position, target.position);
         }
 
-        bool temp = pointing;
         RotateTowards(targetAngle);
-        if (temp != pointing)
-        {
-            if (pointing)
-            {
-                OnPoint(target);
-            }
-            else
-            {
-                OnNotPoint(target);
-            }
-        }
     }
 
 
@@ -200,6 +144,7 @@ public class SpaceShip : MonoBehaviour
             {
                 pointing = false;
             }
+
             transform.Rotate(Vector3.forward * clock * Time.deltaTime * rotationSpeed);
         }
         else if (!pointing)
@@ -212,7 +157,6 @@ public class SpaceShip : MonoBehaviour
 
     protected void UpdateTargetAngle(Vector2 origin, Vector2 target)
     {
-
         //work out the target angle(I use trigonometry).
         Vector2 difference = (origin - target).normalized;
         float angle = (Mathf.Rad2Deg * Mathf.Atan2(difference.y, difference.x));
@@ -229,7 +173,7 @@ public class SpaceShip : MonoBehaviour
 
     private float FindRotationDirection(float angle, float targetAngle, float maxProximity = 3f)
     {
-        float difference = positiveAngle(targetAngle) - positiveAngle(angle);
+        float difference = PositiveAngle(targetAngle) - PositiveAngle(angle);
 
 
         if (Mathf.Abs(difference) < maxProximity || difference == 0f)
@@ -250,7 +194,7 @@ public class SpaceShip : MonoBehaviour
         return 1f;
     }
 
-    private float positiveAngle(float angle)
+    private float PositiveAngle(float angle)
     {
         if (angle >= 0f)
         {
@@ -262,23 +206,10 @@ public class SpaceShip : MonoBehaviour
         }
     }
 
-    public void SetConflict(bool _conflict)
-    {
-        if (conflict != _conflict)
-        {
-            conflict = _conflict;
-            OnConflictChange();
-        }
 
-    }
-
-    protected virtual void OnConflictChange()
-    {
-
-    }
 
     //works out the rock paper and scissors like advantage for an attack vs a defence
-    protected float Vantage(WeaponType weaponType, Defence defenceType, float advantage = 0.3f, float disadvantage = -0.3f)
+    protected float Vantage(WeaponType weaponType, DefenceType defenceType, float advantage = 0.3f, float disadvantage = -0.3f)
     {
         //order of weapons: laser, explosive, slugthrower.
         //order of defences: shield, armor, evasion.
@@ -303,9 +234,9 @@ public class SpaceShip : MonoBehaviour
         return 0.0f;
     }
 
-    public void TakeDamage(Fighter aggressor, WeaponType weapon, float amount)
+    public void TakeDamage(SpaceShip aggressor, WeaponType weaponType, float amount)
     {
-        hitPoints -= amount * (1f + Vantage(weapon, primaryDefence));
+        hitPoints -= amount * (1f + Vantage(weaponType, defenceType));
 
         //when there is a death, remove the ship from the fleet and play a cool animation.
         if (hitPoints <= 0f)

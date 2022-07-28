@@ -30,6 +30,7 @@ public class Empire
 
     //military:
     public List<Fleet> fleets = new List<Fleet>();
+    public List<Empire> enemies = new List<Empire>();
 
     //species and internal politics: 
     public List<Species> species;
@@ -46,6 +47,11 @@ public class Empire
         research = new Research(this);
     }
 
+
+    public bool IsEnemyTo(Empire empire)
+    {
+        return empire != this; //&& enemies.Contains(empire);
+    }
 
     public virtual void Start()
     {
@@ -97,8 +103,6 @@ public class Empire
                 outerRim.Add(connectedStars[i]);
             }
         }
-
-
     }
 
     public void RemoveFromTerritory(Star star, bool showOuterRim = false, bool colony = false)
@@ -174,14 +178,12 @@ public class Empire
         }
 
         Gather(totalResourceProduction);
-        
     }
 
 
     public virtual void SetResourceAmount(ResourceType resourceType, int amount)
     {
         this.resources.amounts[(int)resourceType] = amount;
-        
     }
 
     public virtual void ModifySpaceResourceProduction(ResourceType resourceType, int amount)

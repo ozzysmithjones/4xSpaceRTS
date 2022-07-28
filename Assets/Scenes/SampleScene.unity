@@ -5365,7 +5365,7 @@ MonoBehaviour:
     description: The Fish are aincent deep sea creatures originating from the planet
       Zerolith. They left their homeworld as it tore apart
   politicalGroups: []
-  factions: []
+  empires: []
   weights: []
 --- !u!114 &644943474
 MonoBehaviour:
@@ -5429,6 +5429,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 82e7f13be13e8fa41bc4a90472a687ad, type: 2}
   builtShips:
   - {fileID: 11400000, guid: a81fa00d84a62c243975ebc7a05ece1a, type: 2}
+  - {fileID: 11400000, guid: 29f613a39f573644c8daf6141910c290, type: 2}
 --- !u!120 &644943477
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -9212,6 +9213,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1014732121}
   m_CullTransparentMesh: 0
+--- !u!1001 &1035651556
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193765123588013134, guid: 005da5d0106bf8847aa4a1722d3c51dd,
+        type: 3}
+      propertyPath: m_Name
+      value: Interceptor
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 005da5d0106bf8847aa4a1722d3c51dd, type: 3}
 --- !u!1001 &1040373205
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9282,12 +9352,12 @@ PrefabInstance:
     - target: {fileID: 8304966561907462088, guid: b1e0d45ddece66d4288afa32a9773ec8,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 22.5
       objectReference: {fileID: 0}
     - target: {fileID: 8304966561907462088, guid: b1e0d45ddece66d4288afa32a9773ec8,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -4.5
       objectReference: {fileID: 0}
     - target: {fileID: 8304966561907462088, guid: b1e0d45ddece66d4288afa32a9773ec8,
         type: 3}
@@ -9307,7 +9377,7 @@ PrefabInstance:
     - target: {fileID: 8304966561907462088, guid: b1e0d45ddece66d4288afa32a9773ec8,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8304966561907462088, guid: b1e0d45ddece66d4288afa32a9773ec8,
         type: 3}
@@ -9317,7 +9387,7 @@ PrefabInstance:
     - target: {fileID: 8304966561907462088, guid: b1e0d45ddece66d4288afa32a9773ec8,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8304966561907462088, guid: b1e0d45ddece66d4288afa32a9773ec8,
         type: 3}
@@ -21626,7 +21696,7 @@ PrefabInstance:
     - target: {fileID: 879585075006794828, guid: 3f8792eb139b9ad438bbbb2e5908c95a,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 879585075006794830, guid: 3f8792eb139b9ad438bbbb2e5908c95a,
         type: 3}

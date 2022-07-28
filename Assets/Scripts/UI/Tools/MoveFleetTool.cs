@@ -10,8 +10,6 @@ public class MoveFleetTool : Tool
     public List<Star> path = new List<Star>();
 
     public Star start = null;
-
-    private Transform targetPoint;
     private Planet targetPlanet;
 
 
@@ -30,6 +28,7 @@ public class MoveFleetTool : Tool
         fleet.ClearOrders();
         if (fleet.star != start)
         {
+
             UnToggleFleetIcons();
             controlledFleets.Clear();
             controlledFleets.Add(fleet);
@@ -64,22 +63,20 @@ public class MoveFleetTool : Tool
     public override void OnSelected()
     {
         base.OnSelected();
-
-
-
+        targetPlanet = null;
     }
 
     void DrawLine(List<Star> linePath)
     {
-        lineRenderer.positionCount = linePath.Count + (targetPoint != null ? 1 : 0);
+        lineRenderer.positionCount = linePath.Count + (targetPlanet != null ? 1 : 0);
         for (int i = 0; i < linePath.Count; i++)
         {
             lineRenderer.SetPosition(i, linePath[i].transform.position + new Vector3(0f, 0f, 3f));
         }
 
-        if(targetPoint != null)
+        if(targetPlanet != null)
         {
-            lineRenderer.SetPosition(linePath.Count, targetPoint.position + new Vector3(0f, 0f, 3f));
+            lineRenderer.SetPosition(linePath.Count, targetPlanet.transform.position + new Vector3(0f, 0f, 3f));
         }
     }
 
@@ -143,7 +140,6 @@ public class MoveFleetTool : Tool
     {
         base.OnHoverPlanet(planet);
         targetPlanet = planet;
-        targetPoint = targetPlanet.transform;
 
         if (!path.Contains(planet.star))
         {
@@ -161,6 +157,7 @@ public class MoveFleetTool : Tool
         base.OnDeselected();
         start = null;
         lineRenderer.positionCount = 0;
+        Transform point = targetPlanet != null ? targetPlanet.transform : path[path.Count - 1].transform;
 
         if (path.Count > 1)
         {
@@ -168,15 +165,58 @@ public class MoveFleetTool : Tool
             {
                 if (!controlledFleets[i].Busy())
                 {
+                    IOrder order;
+                    if (targetPlanet != null && IsColonyShip(controlledFleets[i]))
+                    {
+                        order = new ColoniseOrder(targetPlanet, new List<Star>(path));
+                    }
+                    else
+                    {
+                        order = new MoveOrder(path[path.Count - 1], point, new List<Star>(path));
+                    }
+
                     controlledFleets[i].ClearOrders();
-                    controlledFleets[i].AddOrder(new MoveOrder(path[path.Count-1],path[path.Count-1].transform,new List<Star>(path)));
+                    controlledFleets[i].AddOrder(order);
+                }
+            }
+
+        }else if(targetPlanet != null)
+        {
+            for (int i = 0; i < controlledFleets.Count; i++)
+            {
+                if (!controlledFleets[i].Busy())
+                {
+                    IOrder order;
+                    if (IsColonyShip(controlledFleets[i]))
+                    {
+                        order = new ColoniseOrder(targetPlanet, null);
+                    }
+                    else
+                    {
+                        order = new MoveOrder(targetPlanet.star, point, null);
+                    }
+
+                    controlledFleets[i].ClearOrders();
+                    controlledFleets[i].AddOrder(order);
                 }
             }
         }
 
         UnToggleFleetIcons();
         controlledFleets.Clear();
-        targetPoint = null;
+    }
+
+    private bool IsColonyShip(Fleet fleet)
+    {
+        for(int i = 0; i < fleet.spaceShips.Count; ++i)
+        {
+            if(fleet.spaceShips[i] is ColonyShip)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     void UnToggleFleetIcons()

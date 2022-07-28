@@ -72,11 +72,10 @@ public class Fleet : MonoBehaviour
 
     private void Update()
     {
-        if (fleetState != FleetState.CHARGING_WARP && fleetState != FleetState.IN_WARP && enemyFleets.Count > 0)
+        if (enemyFleets.Count > 0 && fleetState != FleetState.CHARGING_WARP && fleetState != FleetState.IN_WARP)
         {
             SetFleetState(FleetState.FIGHTING);
         }
-
 
         if (fleetState != FleetState.CHARGING_WARP && fleetState != FleetState.IN_WARP && fleetState != FleetState.FIGHTING)
         {
@@ -118,7 +117,6 @@ public class Fleet : MonoBehaviour
                 break;
             case FleetState.IDLE:
                 break;
-
             case FleetState.FIGHTING:
                 UpdateBattle();
                 break;

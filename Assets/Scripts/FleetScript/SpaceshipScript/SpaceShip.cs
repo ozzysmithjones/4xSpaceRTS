@@ -1,19 +1,12 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public enum SpaceShipState
-{
-    FORMATION,
-    FIGHTING,
-    IDLE,
-    INDEPENDENT
-}
+
 public enum DefenceType { SHIELDS, ARMOR, EVASION };
 
 
 public class SpaceShip : MonoBehaviour
 {
-    public SpaceShipState spaceShipState = SpaceShipState.IDLE;
 
     //initialisation
     public Renderer rend;
@@ -22,7 +15,6 @@ public class SpaceShip : MonoBehaviour
 
     //targeting.
     public Transform target;
-
     private float angleCalculationTimer = 0f;
     protected float targetAngle;
 
@@ -93,10 +85,7 @@ public class SpaceShip : MonoBehaviour
 
     public virtual void Fight(List<SpaceShip> enemies)
     {
-        if (enemies.Count <= 0)
-        {
-            return;
-        }
+
     }
 
     public virtual void StopFighting()

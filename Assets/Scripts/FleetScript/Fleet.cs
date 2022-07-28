@@ -117,19 +117,12 @@ public class Fleet : MonoBehaviour
                 UpdateWarp();
                 break;
             case FleetState.IDLE:
-
-                if(enemyFleets.Count > 0)
-                {
-                    SetFleetState(FleetState.FIGHTING);
-                }
-
                 break;
 
             case FleetState.FIGHTING:
                 UpdateBattle();
                 break;
             default:
-                //just do nothing, or play an animation who knows.
                 break;
         }
     }
@@ -486,6 +479,7 @@ public class Fleet : MonoBehaviour
 
     private void FindEnemyFleets(List<Fleet> enemyFleets)
     {
+        enemyFleets.Clear();
         List<Fleet> fleets = star.starShipManager.fleets;
         for(int i = 0; i < fleets.Count; ++i)
         {

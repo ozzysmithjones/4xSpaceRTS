@@ -19,18 +19,14 @@ public class SpaceShip : MonoBehaviour
     protected Fleet fleet;
     private bool Initialised = false;
 
-
     //targeting.
     public Transform target;
     private Transform destination;
-    private Transform vectorTarget;
 
     private float angleCalculationTimer = 0f;
     protected float targetAngle;
 
-
     //movement progress
-    public bool formation = false;
     public bool pointing = false;
     protected bool isPath = false;
 
@@ -53,8 +49,6 @@ public class SpaceShip : MonoBehaviour
         {
             Initialise(Color.white);
         }
-
-
     }
 
     public void SetFleet(Fleet fleet)
@@ -70,54 +64,8 @@ public class SpaceShip : MonoBehaviour
 
         SpriteRenderer spriteRenderer = rend as SpriteRenderer;
         spriteRenderer.color = flagColor;
-
-        GameObject instance = new GameObject("Target");
-        instance.transform.SetParent(transform);
-        instance.transform.localPosition = Vector3.zero;
-        vectorTarget = instance.transform;
     }
 
-    SpaceShipState StateMachine()
-    {
-        if (conflict)
-        {
-            return SpaceShipState.FIGHTING;
-        }
-
-        if (formation)
-        {
-            return SpaceShipState.FORMATION;
-        }
-
-        if (isPath)
-        {
-            if (spaceShipState != SpaceShipState.INDEPENDENT)
-            {
-                target = destination;
-            }
-            return SpaceShipState.INDEPENDENT;
-        }
-        return SpaceShipState.IDLE;
-
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        spaceShipState = StateMachine();
-        if (spaceShipState == SpaceShipState.INDEPENDENT)
-        {
-            PathUpdate();
-        }
-        if (spaceShipState == SpaceShipState.FIGHTING)
-        {
-            Fight();
-        }
-
-        //the formation state is handled by the navigator.
-
-    }
 
     public void SetPath(Transform Destination)
     {
@@ -128,22 +76,13 @@ public class SpaceShip : MonoBehaviour
 
         //work out the target angle(I use trigonometry).
         Vector2 difference = (transform.position - destination.position).normalized;
-
         float angle = (Mathf.Rad2Deg * Mathf.Atan2(difference.y, difference.x));
-
         angle += 90f;
 
         targetAngle = angle;
-        OnSetPath(target);
-
-
     }
 
-    public void SetVectorPath(Vector3 Destination)
-    {
-        vectorTarget.position = Destination;
-        SetPath(vectorTarget);
-    }
+
     public virtual void SetVisibility(bool visible)
     {
         if (rend == null)
@@ -189,13 +128,7 @@ public class SpaceShip : MonoBehaviour
     public virtual void Fight()
     {
 
-
-
     }
-
-
-
-
 
     public virtual void PathUpdate()
     {
@@ -208,7 +141,6 @@ public class SpaceShip : MonoBehaviour
         pointing = false;
         isPath = false;
         OnClearPath();
-
     }
 
     public void SetAngle(float _angle)
@@ -229,6 +161,7 @@ public class SpaceShip : MonoBehaviour
         {
             return;
         }
+
         if (!pointing || conflict)
         {
             angleCalculationTimer += Time.deltaTime;
@@ -238,8 +171,8 @@ public class SpaceShip : MonoBehaviour
         {
             angleCalculationTimer = 0f;
             UpdateTargetAngle(transform.position, target.position);
-
         }
+
         bool temp = pointing;
         RotateTowards(targetAngle);
         if (temp != pointing)
@@ -274,8 +207,6 @@ public class SpaceShip : MonoBehaviour
             //transform.Rotate(Vector3.forward * clock * Time.deltaTime * rotationSpeed);
             pointing = true;
         }
-
-
     }
 
 
@@ -284,9 +215,7 @@ public class SpaceShip : MonoBehaviour
 
         //work out the target angle(I use trigonometry).
         Vector2 difference = (origin - target).normalized;
-
         float angle = (Mathf.Rad2Deg * Mathf.Atan2(difference.y, difference.x));
-
         angle += 90f;
 
         targetAngle = angle;
@@ -294,7 +223,6 @@ public class SpaceShip : MonoBehaviour
 
     protected void UpdateTargetAngle()
     {
-
         UpdateTargetAngle(transform.position, target.position);
     }
 
@@ -386,6 +314,7 @@ public class SpaceShip : MonoBehaviour
             {
                 aggressor.target = null;
             }
+
             Die();
         }
     }

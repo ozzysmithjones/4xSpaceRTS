@@ -19,6 +19,7 @@ public class FleetCombat : MonoBehaviour
 
     public void UpdateTarget()
     {
+
         float shortestDistance = 0.0f;
         for (int i = 0; i < enemies.Count; i++)
         {
@@ -29,7 +30,7 @@ public class FleetCombat : MonoBehaviour
                 break;
             }
             //otherwise closest:
-            float dist = Vector2.Distance(fleet.center.position, enemies[i].center.position);
+            float dist = Vector2.Distance(fleet.spaceShips[0].transform.position, enemies[i].spaceShips[0].transform.position);
             if (dist < shortestDistance || i == 0)
             {
                 shortestDistance = dist;

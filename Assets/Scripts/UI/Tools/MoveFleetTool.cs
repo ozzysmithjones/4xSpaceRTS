@@ -15,14 +15,19 @@ public class MoveFleetTool : Tool
     private Planet targetPlanet;
 
 
-    public bool AddFleet(Fleet fleet)
+    public void AddFleet(Fleet fleet)
     {
+        if(fleet.Busy())
+        {
+            return;
+        }
+
         if (Master.instance.userInterface.currentTool != this)
         {
             Master.instance.userInterface.SetTool(3);
         }
 
-        fleet.ClearPath();
+        fleet.ClearOrders();
         if (fleet.star != start)
         {
             UnToggleFleetIcons();
@@ -30,16 +35,13 @@ public class MoveFleetTool : Tool
             controlledFleets.Add(fleet);
 
 
-            start = controlledFleets[0].star;
+            start = fleet.star;
             path.Clear();
             path.Add(start);
-
-            return true;
         }
         else
         {
             controlledFleets.Add(fleet);
-            return false;
         }
     }
 
@@ -164,10 +166,11 @@ public class MoveFleetTool : Tool
         {
             for (int i = 0; i < controlledFleets.Count; i++)
             {
-                controlledFleets[i].ClearPath();
-                controlledFleets[i].ClearFleetOrder();
-                controlledFleets[i].AddFleetOrder(new TravelToPoint(controlledFleets[i],path[path.Count-1],targetPoint,path));
-
+                if (!controlledFleets[i].Busy())
+                {
+                    controlledFleets[i].ClearOrders();
+                    controlledFleets[i].AddOrder(new MoveToPoint(path[path.Count-1],path[path.Count-1].transform,new List<Star>(path)));
+                }
             }
         }
 
@@ -183,12 +186,4 @@ public class MoveFleetTool : Tool
             controlledFleets[i].star.starShipManager.iconHandler.FindIcon(controlledFleets[i].iconHandlerID).setToggleOn(false);
         }
     }
-
-
-
-
-
-
-
-
 }

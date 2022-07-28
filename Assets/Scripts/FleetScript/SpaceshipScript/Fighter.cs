@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class Fighter : SpaceShip
 {
@@ -51,7 +52,6 @@ public class Fighter : SpaceShip
     {
         Move();
         RotateTowardsTarget();
-
     }
 
     protected virtual void FightAttack()
@@ -87,19 +87,19 @@ public class Fighter : SpaceShip
     //returns the ship with the lowest health.
     private void FindTarget()
     {
-
         float lowestHP = 0.0f;
-        int index = 0;
-        for (int i = 0; i < fleet.fleetCombat.target.spaceShips.Count; i++)
-        {
-            if (fleet.fleetCombat.target.spaceShips[i].hitPoints < lowestHP || i == 0)
-            {
-                lowestHP = fleet.fleetCombat.target.spaceShips[i].hitPoints;
-                index = i;
-            }
+        FleetCombat combat = fleet.GetComponent<FleetCombat>();
+        List<SpaceShip> enemies = combat.target.spaceShips;
 
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            if (enemies[i].hitPoints < lowestHP || i == 0)
+            {
+                lowestHP = enemies[i].hitPoints;
+                enemyShip = enemies[i];
+            }
         }
-        enemyShip = fleet.fleetCombat.target.spaceShips[index];
+
         target = enemyShip.transform;
     }
 
@@ -107,9 +107,10 @@ public class Fighter : SpaceShip
     {
         if(target != null)
             return;
-        enemyShip = fleet.fleetCombat.target.spaceShips[Random.Range(0, fleet.fleetCombat.target.spaceShips.Count)];
+        FleetCombat combat = fleet.GetComponent<FleetCombat>();
+        List<SpaceShip> enemies = combat.target.spaceShips;
+        enemyShip = enemies[Random.Range(0, enemies.Count)];
         target = enemyShip.transform;
-
 
     }
 
@@ -125,13 +126,4 @@ public class Fighter : SpaceShip
             }
         }
     }
-
-
-
-
-
-
-
-
-
 }

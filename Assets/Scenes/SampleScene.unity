@@ -4410,6 +4410,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -4434,17 +4435,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a48a9f7f8ddf214cb9b156ef7569e4f, type: 3}
+  m_Script: {fileID: 11500000, guid: 2df55cb2ea8c2ee44bd4cc5922ca1303, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxScrollSpeed: 1000
-  minScrollSpeed: 50
-  panSpeed: 240
-  zoomStep: 0
-  visible: 0
-  visibilityMaxSize: 40
-  VisibilityMaxDistance: 5
-  visibilityRadius: 10
+  zoomSpeed: 120
+  panSpeed: 80
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -4504,6 +4499,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25244248720f8434ea1021968fe1b42d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &522535232
 GameObject:
   m_ObjectHideFlags: 0
@@ -5365,7 +5372,7 @@ MonoBehaviour:
     description: The Fish are aincent deep sea creatures originating from the planet
       Zerolith. They left their homeworld as it tore apart
   politicalGroups: []
-  factions: []
+  empires: []
   weights: []
 --- !u!114 &644943474
 MonoBehaviour:
@@ -5429,6 +5436,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 82e7f13be13e8fa41bc4a90472a687ad, type: 2}
   builtShips:
   - {fileID: 11400000, guid: a81fa00d84a62c243975ebc7a05ece1a, type: 2}
+  - {fileID: 11400000, guid: 29f613a39f573644c8daf6141910c290, type: 2}
 --- !u!120 &644943477
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -9212,6 +9220,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1014732121}
   m_CullTransparentMesh: 0
+--- !u!1001 &1035651556
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193765123588013134, guid: 005da5d0106bf8847aa4a1722d3c51dd,
+        type: 3}
+      propertyPath: m_Name
+      value: Interceptor
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 005da5d0106bf8847aa4a1722d3c51dd, type: 3}
 --- !u!1001 &1040373205
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9282,12 +9359,12 @@ PrefabInstance:
     - target: {fileID: 8304966561907462088, guid: b1e0d45ddece66d4288afa32a9773ec8,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 22.5
       objectReference: {fileID: 0}
     - target: {fileID: 8304966561907462088, guid: b1e0d45ddece66d4288afa32a9773ec8,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -4.5
       objectReference: {fileID: 0}
     - target: {fileID: 8304966561907462088, guid: b1e0d45ddece66d4288afa32a9773ec8,
         type: 3}
@@ -9307,7 +9384,7 @@ PrefabInstance:
     - target: {fileID: 8304966561907462088, guid: b1e0d45ddece66d4288afa32a9773ec8,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8304966561907462088, guid: b1e0d45ddece66d4288afa32a9773ec8,
         type: 3}
@@ -9317,7 +9394,7 @@ PrefabInstance:
     - target: {fileID: 8304966561907462088, guid: b1e0d45ddece66d4288afa32a9773ec8,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8304966561907462088, guid: b1e0d45ddece66d4288afa32a9773ec8,
         type: 3}
@@ -21626,7 +21703,7 @@ PrefabInstance:
     - target: {fileID: 879585075006794828, guid: 3f8792eb139b9ad438bbbb2e5908c95a,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 879585075006794830, guid: 3f8792eb139b9ad438bbbb2e5908c95a,
         type: 3}

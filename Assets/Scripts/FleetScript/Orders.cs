@@ -32,18 +32,16 @@ public class MoveOrder : IOrder
 
 public class ColoniseOrder : IOrder
 {
-    private readonly Star star;
     private readonly Planet planet;
     private readonly List<Star> preferedPath;
 
-    public ColoniseOrder(Star star, Planet planet, List<Star> preferedPath = null)
+    public ColoniseOrder(Planet planet, List<Star> preferedPath = null)
     {
-        this.star = star;
         this.planet = planet;
         this.preferedPath = preferedPath;
     }
 
-    public Star TargetStar => star;
+    public Star TargetStar => planet.star;
 
     public Transform TargetPoint => planet.transform;
 

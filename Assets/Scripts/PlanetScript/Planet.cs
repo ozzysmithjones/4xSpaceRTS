@@ -57,9 +57,5 @@ public class Planet : MonoBehaviour
         {
             resourceProduction[i] += newResources[i];
         }
-
     }
-
-
-
 }

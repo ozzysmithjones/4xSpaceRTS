@@ -10,7 +10,7 @@ public class QueueUI : MonoBehaviour
     public TextMeshProUGUI itemName;
     public TextMeshProUGUI quantity;
 
-    private Queue queue;
+    private BuildQueueElement queue;
 
     // Start is called before the first frame update
     void Start()
@@ -40,7 +40,7 @@ public class QueueUI : MonoBehaviour
     }
 
 
-    public void UpdateUI(Queue queue)
+    public void UpdateUI(BuildQueueElement queue)
     {
         this.queue = queue;
         itemName.text = this.queue.item.name;

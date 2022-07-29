@@ -216,9 +216,4 @@ public class Empire
         }
         return false;
     }
-
-
-
-
-
 }

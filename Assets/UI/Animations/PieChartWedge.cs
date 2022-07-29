@@ -19,7 +19,7 @@ public class PieChartWedge : MonoBehaviour
     }
     public float GetStartAngle()
     {
-        return Calculation.WrapAngle(transform.eulerAngles.z); ;
+        return transform.eulerAngles.z;// Calculation.WrapAngle(transform.eulerAngles.z); ;
     }
     public void SetSize(float size)
     {

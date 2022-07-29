@@ -8,12 +8,12 @@ public class PlanetColony : MonoBehaviour
     public Planet planet;
 
     public bool buildQueueRunning = false;
-    public List<Queue> buildQueue = new List<Queue>();
+    public List<BuildQueueElement> buildQueue = new List<BuildQueueElement>();
     public int buildQueueIndex = -1;
 
     public int totalStructures = 0;
     public int[] builtStructures = new int[10];
-    public delegate void OnBuildQueueChange(List<Queue> buildQueue);
+    public delegate void OnBuildQueueChange(List<BuildQueueElement> buildQueue);
     public event OnBuildQueueChange BuildQueueChange;
 
 
@@ -40,6 +40,26 @@ public class PlanetColony : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void AddToBuildQueue(BuildQueueItem buildQueueItem, int amount = 1)
+    {
+        //add to build Queue.
+        BuildQueueElement queue = new BuildQueueElement
+        {
+            item = buildQueueItem,
+            quantity = amount,
+        };
+
+        if (!buildQueueRunning)
+        {
+            StartCoroutine(BeginBuildQueue());
+
+        }
+        if (BuildQueueChange != null)
+        {
+            BuildQueueChange.Invoke(buildQueue);
+        }
     }
 
     public void Colonise(Empire empire)
@@ -74,6 +94,7 @@ public class PlanetColony : MonoBehaviour
             BuildQueueChange -= onBuildQueueChange;
         }
     }
+
     public void AddStructure(BuiltStructure builtStructure)
     {
         totalStructures++;
@@ -220,21 +241,7 @@ public class PlanetColony : MonoBehaviour
         }
     }
 
-
-
-    public void AddToBuildQueue(Queue queue)
-    {
-        buildQueue.Add(queue);
-        if (!buildQueueRunning)
-        {
-            StartCoroutine(BeginBuildQueue());
-
-        }
-        if (BuildQueueChange != null)
-        {
-            BuildQueueChange.Invoke(buildQueue);
-        }
-    }
+   
 
     public void RemoveFromBuildQueue(int itemIndex, bool all)
     {

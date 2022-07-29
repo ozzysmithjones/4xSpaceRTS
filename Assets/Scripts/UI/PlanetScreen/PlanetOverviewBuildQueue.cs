@@ -43,7 +43,7 @@ public class PlanetOverviewBuildQueue : MonoBehaviour
 
     }
 
-    public void UpdateQueueChange(List<Queue> queue)
+    public void UpdateQueueChange(List<BuildQueueElement> queue)
     {
         int length = Mathf.Max(queueUIs.Count, queue.Count);
         for (int i = 0; i < length; i++)
@@ -175,7 +175,7 @@ public class PlanetOverviewBuildQueue : MonoBehaviour
 
 
 
-    void AddQueueUIElement(Queue element)
+    void AddQueueUIElement(BuildQueueElement element)
     {
         QueueUI queueUI = AddQueueUIElement();
         UpdateQueueElement(queueUIs.Count - 1);

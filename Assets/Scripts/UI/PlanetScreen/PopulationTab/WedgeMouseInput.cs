@@ -120,13 +120,5 @@ public class WedgeMouseInput : MonoBehaviour, IPointerDownHandler, IPointerEnter
         return angle;
     }
 
-    private float AngleDifference(float a, float b)
-    {
-        float diff = b - a;
-
-        return Calculation.WrapAngle(diff);
-
-    }
-
     
 }

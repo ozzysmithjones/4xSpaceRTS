@@ -9,16 +9,10 @@ public class Characters : MonoBehaviour
     public Species[] species;
     public PoliticalGroup[] politicalGroups;
     public List<Empire> empires;
-    public Weight[] weights;
 
     // Start is called before the first frame update
     void Start()
     {
-        weights = UnityEngine.Resources.LoadAll<Weight>("Weights");
-        for (int i = 0; i < weights.Length; i++)
-        {
-            weights[i].Initialise(totalFactions);
-        }
         StartCoroutine(ResourceProduction());
     }
 
@@ -85,19 +79,6 @@ public class Characters : MonoBehaviour
         instance.species.Add(species[0]);
 
         return instance;
-    }
-
-    public Weight FindWeight(string name)
-    {
-        for (int i = 0; i < weights.Length; i++)
-        {
-            if (weights[i].name == name)
-            {
-                return weights[i];
-            }
-        }
-        Debug.LogError("couldn't find the AI weight: " + name);
-        return null;
     }
 
     private IEnumerator ResourceProduction()

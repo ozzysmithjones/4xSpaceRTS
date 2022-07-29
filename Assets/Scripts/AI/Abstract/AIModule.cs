@@ -41,10 +41,16 @@ public class Analysis
     }
 }
 
-public abstract class AIModule : MonoBehaviour
+public abstract class AIModule : ScriptableObject
 {
+    protected Empire empire;
     [SerializeField] private List<AIModule> subModules = new List<AIModule>();
     private Analysis analysis = new Analysis();
+
+    public void Init(Empire empire)
+    {
+        this.empire = empire;
+    }
 
     public void Behave(Analysis analysis)
     {

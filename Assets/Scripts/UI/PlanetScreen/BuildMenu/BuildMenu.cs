@@ -74,16 +74,10 @@ public class BuildMenu : MonoBehaviour
         */
 
         //add to build Queue.
-        Queue queue = new Queue
-        {
-            item = buildQueueItem,
-            quantity = amount,
-            id = Time.time
-        };
 
         // planetOverview.planet.planetColony.BeginBuildQueue();
 
-        planetOverview.planet.planetColony.AddToBuildQueue(queue);
+        planetOverview.planet.planetColony.AddToBuildQueue(buildQueueItem, amount);
     }
 
 

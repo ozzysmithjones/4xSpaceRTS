@@ -1,9 +1,6 @@
-﻿public class Queue
+﻿public class BuildQueueElement
 {
     public BuildQueueItem item;
     public float startTime;
     public int quantity;
-    public float id = 0f;
-
-
 }

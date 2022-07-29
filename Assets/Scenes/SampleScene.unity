@@ -4410,6 +4410,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -4434,17 +4435,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a48a9f7f8ddf214cb9b156ef7569e4f, type: 3}
+  m_Script: {fileID: 11500000, guid: 2df55cb2ea8c2ee44bd4cc5922ca1303, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxScrollSpeed: 1000
-  minScrollSpeed: 50
-  panSpeed: 240
-  zoomStep: 0
-  visible: 0
-  visibilityMaxSize: 40
-  VisibilityMaxDistance: 5
-  visibilityRadius: 10
+  zoomSpeed: 120
+  panSpeed: 80
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -4504,6 +4499,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25244248720f8434ea1021968fe1b42d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &522535232
 GameObject:
   m_ObjectHideFlags: 0

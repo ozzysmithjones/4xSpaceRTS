@@ -69,7 +69,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1175333375961065887}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 0
@@ -91,7 +91,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1175333375961065887}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreReversedGraphics: 1
@@ -168,7 +168,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7282219109691650595}
-  - component: {fileID: 827871266307933533}
   - component: {fileID: 6053890533501953940}
   m_Layer: 0
   m_Name: EmptyFleet
@@ -194,19 +193,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &827871266307933533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7457036311145908002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d068f90f63bc324698752958e7d9e41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
 --- !u!114 &6053890533501953940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,17 +205,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ec88c40c8169d349a899fe275b37764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fleetCombat: {fileID: 827871266307933533}
   isPath: 0
-  conflictReaction: 2
-  fleetState: 0
-  path: 
-  faction: -1
-  center: {fileID: 4567367300801708025}
-  spaceShips: []
-  isTarget: 0
-  isCloseToTarget: 0
   target: {fileID: 0}
+  spaceShips: []
   iconHandlerID: 0
   spaceShipHandler: {fileID: 7268817307860948088}
   movingIcon: {fileID: 1175333375961065887}
@@ -291,17 +269,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 8920111754463253048}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: eef08317b7d62b54f8aa381fdb0b34fe, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -311,3 +289,4 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1

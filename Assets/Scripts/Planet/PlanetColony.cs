@@ -23,17 +23,15 @@ public class PlanetColony : MonoBehaviour
     public event OnPopulationChange PopulationChange;
 
     public Resources resourceProduction = new Resources();
-    public float[] resourceBonus;
-    public float stability = 1.0f;
+    public Resources resourceBonus;
+
     // Start is called before the first frame update
     void Awake()
     {
-        resourceBonus = new float[resourceProduction.amounts.Length];
-        for (int i = 0; i < resourceBonus.Length; i++)
+        for(int i = 0; i < resourceBonus.amounts.Length; ++i)
         {
-            resourceBonus[i] = 1.0f;
+            resourceBonus.amounts[i] = 1;
         }
-
     }
 
     // Update is called once per frame
@@ -51,6 +49,8 @@ public class PlanetColony : MonoBehaviour
             quantity = amount,
         };
 
+        buildQueue.Add(queue);
+
         if (!buildQueueRunning)
         {
             StartCoroutine(BeginBuildQueue());
@@ -64,10 +64,9 @@ public class PlanetColony : MonoBehaviour
 
     public void Colonise(Empire empire)
     {
-        AddPop(empire.species[0].index);
+        AddPop(empire.economy.species[0]);
         planet.star.starEconomy.colonies.Add(this);
     }
-
 
     public void ListenToPopulation(OnPopulationChange onPopulationChange, bool listening)
     {
@@ -124,39 +123,67 @@ public class PlanetColony : MonoBehaviour
     }
 
 
-    public void AddPop(int speciesIndex)
+    public void AddPop(Species species)
     {
+        Resources previous = Mod(resourceProduction.Clone());
+        AddNewPop(species);
+        Resources diff = Mod(resourceProduction - previous);
+
+        if (planet.star.empire != null)
+        {
+            planet.star.empire.economy.AddProduction(diff);
+        }
+    }
+
+    private void AddNewPop(Species species)
+    {
+        resourceProduction.amounts[(int)ResourceType.FOOD]--;
         totalPopulation++;
-        ModifyResourceProduction(ResourceType.FOOD, -1);
+
         for (int i = 0; i < populations.Count; i++)
         {
-            if (populations[i].species.index == speciesIndex)
+            if (populations[i].species == species)
             {
                 populations[i].size++;
                 if (PopulationChange != null)
                 {
                     PopulationChange.Invoke(populations);
                 }
+
                 return;
             }
         }
-        populations.Add(new Population(Master.instance.characters.species[speciesIndex], 1, 1.0f));
+
+        populations.Add(new Population(species, 1, 1.0f));
+
         if (PopulationChange != null)
         {
             PopulationChange.Invoke(populations);
         }
     }
 
-    public void RemovePop(int speciesIndex)
+    public void RemovePop(Species species)
     {
+        Resources previous = Mod(resourceProduction.Clone());
+        RemoveOldPop(species);
+        Resources diff = Mod(resourceProduction - previous);
 
+        if (planet.star.empire != null)
+        {
+            planet.star.empire.economy.AddProduction(diff);
+        }
+    }
+
+    private void RemoveOldPop(Species species)
+    {
         for (int i = 0; i < populations.Count; i++)
         {
-            if (populations[i].species.index == speciesIndex)
+            if (populations[i].species == species)
             {
-                ModifyResourceProduction(ResourceType.FOOD, 1);
+                resourceProduction.amounts[(int)ResourceType.FOOD]++;
                 totalPopulation--;
                 populations[i].size--;
+
                 if (PopulationChange != null)
                 {
                     PopulationChange.Invoke(populations);
@@ -165,12 +192,11 @@ public class PlanetColony : MonoBehaviour
                 {
                     populations.RemoveAt(i);
                 }
+
                 return;
             }
         }
     }
-
-
 
     public IEnumerator BeginBuildQueue()
     {
@@ -272,44 +298,29 @@ public class PlanetColony : MonoBehaviour
 
     public void ModifyResourceProduction(ResourceType resourceType, int amount)
     {
+        Resources previous = Mod(resourceProduction.Clone());
         resourceProduction.amounts[(int)resourceType] += amount;
+        Resources diff = Mod(resourceProduction - previous);
+        
+        if(planet.star.empire != null)
+        {
+            planet.star.empire.economy.AddProduction(diff);
+        }
     }
 
-    
-
-    public int[] ProduceResources()
+    Resources Mod(Resources resources)
     {
-        CalculateStability();
-        int[] output = new int[resourceProduction.amounts.Length];
-        for(int i = 0; i < output.Length; i++)
+        Resources result = new Resources();
+        resources.amounts.CopyTo(result.amounts, 0);
+
+        if(totalStructures == 0)
         {
-            float JobFill = Mathf.Clamp((float)totalPopulation / (float)totalStructures,0.0f,1.0f);
-            float productivity = resourceProduction.amounts[i] > 0 ? this.stability * JobFill : 1.0f;
-            output[i] = Mathf.RoundToInt(resourceProduction.amounts[i] * productivity * resourceBonus[i]);
+            return result * 0;
         }
 
-        return output;
+        float JobFill = Mathf.Clamp01(totalPopulation / (float)totalStructures);
+        return  result * JobFill;
     }
-
-    private float CalculateStability()
-    {
-        Empire empire = planet.star.empire;
-
-        if (empire.resources.amounts[(int)ResourceType.FOOD] > 0)
-        {
-            stability = 1.0f;
-            return 1.0f;
-        }
-        else
-        {
-            stability = 0.25f;
-            return 0.0f;
-        }
-    }
-
-
-
-
 
 }
 

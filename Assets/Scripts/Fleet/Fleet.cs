@@ -149,11 +149,11 @@ public class Fleet : MonoBehaviour
         }
 
         this.empire = empire;
-        this.empire.fleets.Add(this);
+        this.empire.military.fleets.Add(this);
     }
     public void RemoveFromEmpire(Empire empire)
     {
-        empire.fleets.Remove(this);
+        empire.military.fleets.Remove(this);
         this.empire = null;
     }
 
@@ -163,7 +163,6 @@ public class Fleet : MonoBehaviour
         spaceShips.Add(spaceShip);
         spaceShip.transform.SetParent(spaceShipHandler.transform);
     }
-
 
     public void RemoveShip(SpaceShip spaceShip)
     {

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Research
 {
-
     public enum ResearchEventType
     {
         Begin,
@@ -12,11 +11,9 @@ public class Research
         Stop
     }
 
-
-
     public bool researching = false;
     public ResearchQueueItem researchQueueItem;
-    private Empire faction;
+    private Empire empire;
 
     public List<ResearchQueueItem> researchOptions = new List<ResearchQueueItem>();
 
@@ -28,7 +25,7 @@ public class Research
 
     public Research(Empire faction)
     {
-        this.faction = faction;
+        this.empire = faction;
     }
     public void Update()
     {
@@ -37,9 +34,9 @@ public class Research
             return;
         }
         if(ResearchUpdate != null) ResearchUpdate.Invoke(this,this.researchQueueItem);
-        if (faction.Pay(researchQueueItem.cost, ResourceType.SCIENCE))
+        if (empire.economy.Pay(researchQueueItem.cost, ResourceType.SCIENCE))
         {
-            researchQueueItem.FinishResearch(faction);
+            researchQueueItem.FinishResearch(empire);
             researchOptions.AddRange(researchQueueItem.GetNextResearch());
             if (ResearchFinish != null) ResearchFinish.Invoke(this,researchQueueItem);
             StopResearch();
@@ -59,7 +56,7 @@ public class Research
     }
     public void StopResearch()
     {
-        faction.SetResourceAmount(ResourceType.SCIENCE, 0);
+        empire.economy.SetResourceAmount(ResourceType.SCIENCE, 0);
         researching = false;
         if(ResearchStop != null) ResearchStop.Invoke(this,this.researchQueueItem);
         this.researchQueueItem = null;
@@ -71,12 +68,11 @@ public class Research
             return 1.0f;
         }
  
-        return (float)faction.resources.amounts[(int)ResourceType.SCIENCE] / (float)researchQueueItem.cost;
+        return (float)empire.economy.resources.amounts[(int)ResourceType.SCIENCE] / (float)researchQueueItem.cost;
     }
 
     public void EventListener(ResearchEventType researchEventType,OnResearchEvent onResearchEvent, bool listen)
     {
-        
         switch (researchEventType)
         {
             case ResearchEventType.Begin:

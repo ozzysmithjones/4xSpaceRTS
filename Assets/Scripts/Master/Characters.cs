@@ -72,11 +72,11 @@ public class Characters : MonoBehaviour
             instance = new Player(colors[0], names[0]);
         }
 
-        instance.structureTypes = new List<BuiltStructure>(structureTypes);
-        instance.shipTypes = new List<BuiltShip>(shipTypes);
+        instance.economy.structureTypes = new List<BuiltStructure>(structureTypes);
+        instance.economy.shipTypes = new List<BuiltShip>(shipTypes);
 
-        instance.species = new List<Species>();
-        instance.species.Add(species[0]);
+        instance.economy.species = new List<Species>();
+        instance.economy.species.Add(species[0]);
 
         return instance;
     }
@@ -88,7 +88,7 @@ public class Characters : MonoBehaviour
             yield return new WaitForSeconds(20.0f);
             for (int i = 0; i < empires.Count; i++)
             {
-                empires[i].ProduceResources();
+                empires[i].economy.AddResources(empires[i].economy.production);
             }
         }
 

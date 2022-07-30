@@ -12,32 +12,20 @@ public enum ValueType
 [System.Serializable]
 public class Analysis
 {
-    private readonly Dictionary<ValueType, float> valueByType = new Dictionary<ValueType, float>();
+    private readonly float[] valueByType = new float[Enum.GetValues(typeof(ValueType)).Length];
 
     public float this[ValueType type]
     {
-        get => valueByType.TryGetValue(type, out float value) ? value : 0.0f;
+        get => valueByType[(int)type];
         set
         {
-            if(valueByType.ContainsKey(type))
-            {
-                valueByType[type] = value;
-
-            }else
-            {
-                valueByType.Add(type, value);
-            }
+            valueByType[(int)type] = value;
         }
     }
 
     public void Copy(Analysis other)
     {
-        valueByType.Clear();
-
-        foreach(var pair in other.valueByType)
-        {
-            valueByType.Add(pair.Key, pair.Value);
-        }
+        Array.Copy(other.valueByType, valueByType, valueByType.Length);
     }
 }
 
@@ -45,11 +33,30 @@ public abstract class AIModule : ScriptableObject
 {
     protected Empire empire;
     [SerializeField] private List<AIModule> subModules = new List<AIModule>();
-    private Analysis analysis = new Analysis();
+    private readonly Analysis analysis = new Analysis();
 
     public void Init(Empire empire)
     {
         this.empire = empire;
+        OnInit();
+
+        for (int i = 0; i < subModules.Count; ++i)
+        {
+            subModules[i].Init(empire);
+        }
+    }
+
+    public AIModule Clone()
+    {
+        AIModule clone = CreateCopy();
+        clone.subModules.Clear();
+
+        for(int i = 0; i < subModules.Count; ++i)
+        {
+            clone.subModules.Add(subModules[i].Clone());
+        }
+
+        return clone;
     }
 
     public void Behave(Analysis analysis)
@@ -74,6 +81,8 @@ public abstract class AIModule : ScriptableObject
         subModules.Remove(module);
     }
 
+    protected abstract AIModule CreateCopy();
+    protected abstract void OnInit();
     protected abstract void OnAnalyse(Analysis analysis);
     protected abstract void OnBehave(Analysis analysis);
 }

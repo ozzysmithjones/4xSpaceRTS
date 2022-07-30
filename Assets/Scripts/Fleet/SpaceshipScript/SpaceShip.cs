@@ -66,17 +66,6 @@ public class SpaceShip : MonoBehaviour
         rend.enabled = visible;
     }
 
-    public virtual void GiveCargo(int faction)
-    {
-        Master.instance.characters.empires[faction].Gather(cargo);
-
-        for (int i = 0; i < cargo.amounts.Length; i++)
-        {
-            cargo.amounts[i] = 0;
-        }
-
-    }
-
     public virtual void StartFighting()
     {
 

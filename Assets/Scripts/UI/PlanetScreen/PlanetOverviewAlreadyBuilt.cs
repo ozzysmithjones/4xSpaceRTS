@@ -22,7 +22,7 @@ public class PlanetOverviewAlreadyBuilt : MonoBehaviour
 
     public void Refresh()
     {
-        List<BuiltStructure> builtStructures = planetOverview.planet.star.empire.structureTypes;
+        List<BuiltStructure> builtStructures = planetOverview.planet.star.empire.economy.structureTypes;
         for(int i = 0; i < builtStructures.Count; i++)
         {
             builtStructureButtons[i].Initialise(builtStructures[i]);

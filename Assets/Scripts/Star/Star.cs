@@ -76,6 +76,7 @@ public class Star : MonoBehaviour
 
         starGeneration.Generate(this, 5, Random.Range(1, 8), 1f, empire);
 
+        /*
         if (empire != null)
         {
             isColony = true;
@@ -87,6 +88,7 @@ public class Star : MonoBehaviour
                 starConstruction.Build(Master.instance.characters.empires[0].shipTypes[0].prefab, StarConstruction.StarConstructionType.spaceShip);
             }
         }
+        */
     }
 
 
@@ -113,11 +115,11 @@ public class Star : MonoBehaviour
         starUI.SetUIColor(empire.flagColor);
 
         //faction.territory.Add(this);
-        empire.AddToTerritory(this, showOuterRim, isColony);
+        empire.territory.AddToTerritory(this, showOuterRim, isColony);
 
         starUI.SetUIColor(empire.flagColor);
 
-        empire.AddToTerritory(this, showOuterRim, isColony);
+        empire.territory.AddToTerritory(this, showOuterRim, isColony);
 
         if (!isColony)
         {
@@ -143,7 +145,7 @@ public class Star : MonoBehaviour
                 starVisibility.IncrementFogOfWar(-1, 1);
             }
 
-            empire.RemoveFromTerritory(this, false, isColony);
+            empire.territory.RemoveFromTerritory(this, false, isColony);
         }
     }
 
@@ -151,7 +153,7 @@ public class Star : MonoBehaviour
     {
         isColony = true;
         starGeneration.planets[planetIndex].Colonise(empire);
-        empire.colonies.Add(this);
+        empire.territory.colonyStars.Add(this);
     }
 
     public void SetSelector(bool active, Color color)

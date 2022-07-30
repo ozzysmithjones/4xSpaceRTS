@@ -10,12 +10,19 @@ public class BuildMenu : MonoBehaviour
     public BuildOptionUI[] buildOptions;
     public CategoryOverview categoryOverview;
 
+    private Economy economy;
+
     private void Awake()
     {
         for (int i = 0; i < buildOptions.Length; i++)
         {
             buildOptions[i].buildMenu = this;
         }
+    }
+
+    private void Start()
+    {
+        
     }
 
     private void OnEnable()
@@ -26,8 +33,9 @@ public class BuildMenu : MonoBehaviour
 
     public void UpdateOptions()
     {
-        List<BuiltStructure> builtStructures = Master.instance.characters.empires[0].structureTypes;
-        List<BuiltShip> builtShips = Master.instance.characters.empires[0].shipTypes;
+        economy = Master.instance.characters.empires[0].economy;
+        List<BuiltStructure> builtStructures = economy.structureTypes;
+        List<BuiltShip> builtShips = economy.shipTypes;
         int structureIndex = 0, shipIndex = 0;
 
         for (int i = 0; i < buildOptions.Length; i++)

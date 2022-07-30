@@ -17,6 +17,84 @@ public class Resources
         amounts = new int[length];
     }
 
+    public Resources Clone()
+    {
+        Resources clone = new Resources();
+        this.amounts.CopyTo(clone.amounts, 0);
+        return clone;
+    }
+
+    public static Resources operator -(Resources a)
+    {
+        Resources result = new Resources();
+
+        for (int i = 0; i < result.amounts.Length; i++)
+            result.amounts[i] = a.amounts[i] * -1;
+
+        return result;
+    }
+
+    public static Resources operator+(Resources a, Resources b)
+    {
+        Resources result = new Resources();
+
+        for (int i = 0; i < result.amounts.Length; i++)
+            result.amounts[i] = a.amounts[i] + b.amounts[i];
+
+        return result;
+    }
+    public static Resources operator-(Resources a, Resources b)
+    {
+        Resources result = new Resources();
+
+        for (int i = 0; i < result.amounts.Length; i++)
+            result.amounts[i] = a.amounts[i] - b.amounts[i];
+
+        return result;
+    }
+
+    public static Resources operator *(Resources a, Resources b)
+    {
+        Resources result = new Resources();
+
+        for (int i = 0; i < result.amounts.Length; i++)
+            result.amounts[i] = a.amounts[i] * b.amounts[i];
+
+        return result;
+    }
+
+    public static Resources operator /(Resources a, Resources b)
+    {
+        Resources result = new Resources();
+
+        for (int i = 0; i < result.amounts.Length; i++)
+            result.amounts[i] = a.amounts[i] / b.amounts[i];
+
+        return result;
+    }
+
+    public static Resources operator*(Resources a, float b)
+    {
+        Resources result = new Resources();
+
+        for (int i = 0; i < result.amounts.Length; i++)
+            result.amounts[i] = UnityEngine.Mathf.RoundToInt(a.amounts[i] * b);
+
+        return result;
+    }
+
+
+    public static Resources operator /(Resources a, float b)
+    {
+        Resources result = new Resources();
+
+        for (int i = 0; i < result.amounts.Length; i++)
+            result.amounts[i] = UnityEngine.Mathf.RoundToInt(a.amounts[i] / b);
+
+        return result;
+    }
+
+
     public int Total()
     {
         int amount = 0;

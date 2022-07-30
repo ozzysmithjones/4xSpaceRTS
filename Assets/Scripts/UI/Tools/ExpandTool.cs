@@ -10,7 +10,7 @@ public class ExpandTool : Tool
 
         base.OnSelected();
 
-        List<Star> outerRim = Empire.player.outerRim;
+        List<Star> outerRim = Empire.player.territory.outerRim;
 
         for (int i = 0; i < outerRim.Count; i++)
         {
@@ -26,7 +26,7 @@ public class ExpandTool : Tool
     {
         base.OnDeselected();
 
-        List<Star> outerRim = Empire.player.outerRim;
+        List<Star> outerRim = Empire.player.territory.outerRim;
 
         for (int i = 0; i < outerRim.Count; i++)
         {

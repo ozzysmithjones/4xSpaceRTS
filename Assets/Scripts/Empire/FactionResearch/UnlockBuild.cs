@@ -7,16 +7,16 @@ public class UnlockBuild : ResearchQueueItem
 {
     public bool isShip = false;
     public BuildQueueItem buildQueueItem;
-    public override void FinishResearch(Empire faction)
+    public override void FinishResearch(Empire empire)
     {
-        base.FinishResearch(faction);
+        base.FinishResearch(empire);
         if (isShip)
         {
-            faction.shipTypes.Add(buildQueueItem as BuiltShip);
+            empire.economy.shipTypes.Add(buildQueueItem as BuiltShip);
         }
         else
         {
-            faction.structureTypes.Add(buildQueueItem as BuiltStructure);
+            empire.economy.structureTypes.Add(buildQueueItem as BuiltStructure);
         }
     }
 }

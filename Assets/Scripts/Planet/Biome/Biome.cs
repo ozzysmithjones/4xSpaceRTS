@@ -17,6 +17,7 @@ public class Biome : ScriptableObject
     public BiomeType biomeType;
     public PlanetTextureData planetTextureData;
     [SerializeField] private ResourceRange[] resourceRanges = new ResourceRange[0];
+    [SerializeField] private ResourceRange[] popProductionRanges = new ResourceRange[0];
 
     [System.Serializable]
     private struct ResourceRange
@@ -32,6 +33,20 @@ public class Biome : ScriptableObject
             this.highest = highest;
         }
 
+    }
+
+    public int[] GetRandomProductionAmounts()
+    {
+        int[] production;
+        int length = ResourceType.GetValues(typeof(ResourceType)).Length;
+        production = new int[length];
+
+        for (int i = 0; i < popProductionRanges.Length; i++)
+        {
+            production[(int)popProductionRanges[i].resourceType] = Random.Range(popProductionRanges[i].lowest, popProductionRanges[i].highest + 1);
+        }
+
+        return production;
     }
 
     public int[] GetRandomResourceAmounts()

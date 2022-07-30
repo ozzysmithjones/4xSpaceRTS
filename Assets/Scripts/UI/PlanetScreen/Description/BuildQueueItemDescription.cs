@@ -20,7 +20,6 @@ public class BuildQueueItemDescription : MonoBehaviour
     {
         title.text = header;
         description.text = content;
-
     }
 
     public void ResetToDefaultDescription()

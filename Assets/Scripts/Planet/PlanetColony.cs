@@ -25,14 +25,11 @@ public class PlanetColony : MonoBehaviour
     public Resources resourceProduction = new Resources();
     public Resources resourceBonus;
 
-    // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
-        for(int i = 0; i < resourceBonus.amounts.Length; ++i)
-        {
-            resourceBonus.amounts[i] = 1;
-        }
+        resourceBonus.amounts = planet.biome.GetRandomProductionAmounts();
     }
+
 
     // Update is called once per frame
     void Update()
@@ -308,18 +305,15 @@ public class PlanetColony : MonoBehaviour
         }
     }
 
-    Resources Mod(Resources resources)
+    Resources Mod(Resources production)
     {
-        Resources result = new Resources();
-        resources.amounts.CopyTo(result.amounts, 0);
-
         if(totalStructures == 0)
         {
-            return result * 0;
+            return production * 0;
         }
 
         float JobFill = Mathf.Clamp01(totalPopulation / (float)totalStructures);
-        return  result * JobFill;
+        return  (production * JobFill) + (resourceBonus * totalPopulation);
     }
 
 }

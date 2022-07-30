@@ -83,6 +83,16 @@ public class Resources
         return result;
     }
 
+    public static Resources operator *(Resources a, int b)
+    {
+        Resources result = new Resources();
+
+        for (int i = 0; i < result.amounts.Length; i++)
+            result.amounts[i] = a.amounts[i] * b;
+
+        return result;
+    }
+
 
     public static Resources operator /(Resources a, float b)
     {

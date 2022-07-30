@@ -5,6 +5,8 @@ public class PlanetOverviewDescription : MonoBehaviour
 {
     public RawImage image;
     public BuildQueueItemDescription buildQueueItemDescription;
+    public PlanetProductionDescription productionDescription;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,5 +18,6 @@ public class PlanetOverviewDescription : MonoBehaviour
         image.texture = planet.planetTexture.texture2D;
         buildQueueItemDescription.SetDefaultDescription(planet.name, "description");
         buildQueueItemDescription.ResetToDefaultDescription();
+        productionDescription.SetPlanet(planet);
     }
 }

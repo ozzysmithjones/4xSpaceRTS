@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Territory
 {
-    private Empire empire;
+    [System.NonSerialized] private Empire empire;
 
     //territory control
     public List<Star> colonyStars = new List<Star>();

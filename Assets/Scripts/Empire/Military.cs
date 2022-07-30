@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Military
 {
     public List<Fleet> fleets = new List<Fleet>();
-    public List<Empire> enemies = new List<Empire>();
+    [System.NonSerialized] public List<Empire> enemies = new List<Empire>();
 }

@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[System.Serializable]
 public class Economy
 {
     //Depenecies
-    private Territory territory;
+    [System.NonSerialized] private Territory territory;
 
     //Resource production 
     public Resources resources = new Resources();

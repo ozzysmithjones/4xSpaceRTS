@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+[System.Serializable]
 public class Research
 {
     public enum ResearchEventType
@@ -13,7 +15,7 @@ public class Research
 
     public bool researching = false;
     public ResearchQueueItem researchQueueItem;
-    private Empire empire;
+    [System.NonSerialized] private Empire empire;
 
     public List<ResearchQueueItem> researchOptions = new List<ResearchQueueItem>();
 

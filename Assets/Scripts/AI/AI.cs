@@ -10,9 +10,6 @@ public class AI : Empire
     public override void Update(float deltaTime)
     {
         base.Update(deltaTime);
-
-
-
     }
 
 }

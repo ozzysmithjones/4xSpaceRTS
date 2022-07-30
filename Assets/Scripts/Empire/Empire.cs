@@ -30,7 +30,6 @@ public class Empire
     }
 
 
-
     public bool IsEnemyTo(Empire empire)
     {
         return empire != this; //&& enemies.Contains(empire);

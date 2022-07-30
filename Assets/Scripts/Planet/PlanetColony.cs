@@ -16,7 +16,6 @@ public class PlanetColony : MonoBehaviour
     public delegate void OnBuildQueueChange(List<BuildQueueElement> buildQueue);
     public event OnBuildQueueChange BuildQueueChange;
 
-
     public int totalPopulation = 0;
     public List<Population> populations = new List<Population>();
     public delegate void OnPopulationChange(List<Population> populations);
@@ -29,7 +28,6 @@ public class PlanetColony : MonoBehaviour
     {
         resourceBonus.amounts = planet.biome.GetRandomProductionAmounts();
     }
-
 
     // Update is called once per frame
     void Update()

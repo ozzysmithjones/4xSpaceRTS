@@ -12,4 +12,11 @@ public class AIModuleOption : Option
     {
         module.Behave(analysis);
     }
+
+    protected override Option CreateCopy()
+    {
+        AIModuleOption copy = ScriptableObject.CreateInstance<AIModuleOption>();
+        copy.module = this.module.Clone();
+        return copy;
+    }
 }

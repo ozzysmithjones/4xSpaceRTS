@@ -5373,6 +5373,7 @@ MonoBehaviour:
       Zerolith. They left their homeworld as it tore apart
   politicalGroups: []
   empires: []
+  aiCore: {fileID: 11400000, guid: c28ee0071dba4e149a039d04d50530be, type: 2}
 --- !u!114 &644943474
 MonoBehaviour:
   m_ObjectHideFlags: 0

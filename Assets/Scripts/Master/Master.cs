@@ -3,7 +3,7 @@ using UnityEngine;
 
 //the master is devided into three scripts: the Enviroment, the Factions and the Interface, these will interact with each other. 
 [RequireComponent(typeof(Enviroment))]
-[RequireComponent(typeof(Characters))]
+[RequireComponent(typeof(EmpireManager))]
 [RequireComponent(typeof(Interface))]
 
 //Variety makes different building types easily accessible to all scripts. This process is being depreicated to allow empires to have their own unique set of ships and structures. 
@@ -18,7 +18,7 @@ public class Master : MonoBehaviour
     public static Master instance;
     public Variety variety;
     public Enviroment enviroment;
-    public Characters characters;
+    public EmpireManager characters;
     public Interface userInterface;
 
 
@@ -36,7 +36,7 @@ public class Master : MonoBehaviour
         Singleton();
 
         enviroment = GetComponent<Enviroment>();
-        characters = GetComponent<Characters>();
+        characters = GetComponent<EmpireManager>();
         userInterface = GetComponent<Interface>();
         variety = GetComponent<Variety>();
 

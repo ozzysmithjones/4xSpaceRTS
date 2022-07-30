@@ -25,6 +25,7 @@ public class Economy
     public virtual void Init(Territory territory)
     {
         this.territory = territory;
+        this.production = new Resources(new int[]{ 100, 100, 100, 100 });
     }
 
     public virtual void AddResources(Resources resources)
@@ -51,6 +52,11 @@ public class Economy
             return true;
         }
         return false;
+    }
+
+    public bool CanPay(int cost, ResourceType resourceType = ResourceType.MATERIALS)
+    {
+        return resources.amounts[(int)resourceType] >= cost;
     }
 
     public void GrowPopulation()

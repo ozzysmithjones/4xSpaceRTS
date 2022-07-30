@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Characters : MonoBehaviour
+public class EmpireManager : MonoBehaviour
 {
     public ResearchQueueItem startingResearch;
-    public const int totalFactions = 3;
+    public const int numEmpires = 3;
     public Species[] species;
     public PoliticalGroup[] politicalGroups;
     public List<Empire> empires;
+
+    public AIModule aiCore;
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +37,7 @@ public class Characters : MonoBehaviour
         Star star = Master.instance.enviroment.RandomStar();
         star.TakeOver(Empire.player);
         star.Colonise(Empire.player);
-        for (int i = 1; i < totalFactions - 1; i++)
+        for (int i = 1; i < numEmpires - 1; i++)
         {
             Empire empire = CreateFaction(shipTypes, structureTypes);
             empires.Add(empire);
@@ -65,7 +67,7 @@ public class Characters : MonoBehaviour
 
         if (!player)
         {
-            instance = new AI(colors[0], names[0]);
+            instance = new AI(colors[0], names[0], aiCore.Clone());
         }
         else
         {
@@ -91,7 +93,6 @@ public class Characters : MonoBehaviour
                 empires[i].economy.AddResources(empires[i].economy.production);
             }
         }
-
     }
 
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ColonyAI : AIModule
 {
+   
+
     protected override AIModule CreateCopy()
     {
         return ScriptableObject.CreateInstance<ColonyAI>();
@@ -21,6 +23,6 @@ public class ColonyAI : AIModule
 
     protected override void OnBehave(Analysis analysis)
     {
-
+        
     }
 }

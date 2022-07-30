@@ -6,6 +6,7 @@ using UnityEngine;
 public enum ValueType
 {
     Threat,
+    SaveMaterials,
 }
 
 
@@ -26,6 +27,14 @@ public class Analysis
     public void Copy(Analysis other)
     {
         Array.Copy(other.valueByType, valueByType, valueByType.Length);
+    }
+
+    public void Clear()
+    {
+        for(int i = 0; i < valueByType.Length; ++i)
+        {
+            valueByType[i] = 0.0f;
+        }
     }
 }
 

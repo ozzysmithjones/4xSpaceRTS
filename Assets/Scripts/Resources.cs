@@ -17,6 +17,11 @@ public class Resources
         amounts = new int[length];
     }
 
+    public Resources(params int[] amounts)
+    {
+        this.amounts = amounts;
+    }
+
     public Resources Clone()
     {
         Resources clone = new Resources();

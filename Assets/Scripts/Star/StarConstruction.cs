@@ -6,23 +6,10 @@ public class StarConstruction : MonoBehaviour
     public GameObject emptyFleetPrefab;
     public Transform visuals;
     public enum StarConstructionType { fleet, spaceShip, spaceStation }
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public void Initialise()
     {
-
         star = GetComponent<Star>();
-
     }
 
     public Fleet Build(GameObject prefab, StarConstruction.StarConstructionType type)
@@ -34,42 +21,42 @@ public class StarConstruction : MonoBehaviour
         if (type == StarConstructionType.spaceStation)
         {
             star.starVisibility.AddStaticObject(spawned);
-        }
-        if (type == StarConstructionType.spaceShip)
+
+        }else if (type == StarConstructionType.spaceShip)
         {
             SpaceShip spaceShip = spawned.GetComponent<SpaceShip>();
             spaceShip.Initialise(star.empire.flagColor);
-            int fleetIndex = star.starShipManager.GetSmallestFleet(star.empire, true);
+            Fleet fleet = star.starShipManager.GetSmallestFleet(star.empire, spaceShip.fleetType);
 
-            if (fleetIndex >= 0)
+            if (fleet != null)
             {
-                star.starShipManager.fleets[fleetIndex].AddShip(spaceShip);
+                fleet.AddShip(spaceShip);
                 spaceShip.transform.position = (Vector3)Random.insideUnitCircle * 1.5f + spaceShip.transform.position;
-                return null;
+                return fleet;
             }
             else
             {
-                Fleet navigator = Instantiate(emptyFleetPrefab, transform.position, transform.rotation).GetComponent<Fleet>();
-                navigator.AddShip(spaceShip);
-                InitialiseFleet(navigator, star);
-                return navigator;
-
+                fleet = Instantiate(emptyFleetPrefab, transform.position, transform.rotation).GetComponent<Fleet>();
+                fleet.AddShip(spaceShip);
+                fleet.type = spaceShip.fleetType;
+                fleet.empire = null;
+                InitialiseFleet(fleet, star);
+                return fleet;
             }
-        }
-        if (type == StarConstructionType.fleet)
+        }else if (type == StarConstructionType.fleet)
         {
-            Fleet navigator = spawned.GetComponent<Fleet>();
-            InitialiseFleet(navigator, star);
-            return navigator;
-
+            Fleet fleet = spawned.GetComponent<Fleet>();
+            InitialiseFleet(fleet, star);
+            return fleet;
         }
+
         return null;
     }
 
     private void InitialiseFleet(Fleet fleet, Star star)
     {
         fleet.star = star;
-        fleet.AddToEmpire(star.empire);
+        star.empire.military.AddFleet(fleet);
         star.starShipManager.Add(fleet);
     }
 }

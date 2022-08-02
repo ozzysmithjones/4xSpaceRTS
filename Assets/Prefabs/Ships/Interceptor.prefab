@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rend: {fileID: 0}
+  fleetType: 2
   target: {fileID: 0}
   pointing: 0
   speed: 3

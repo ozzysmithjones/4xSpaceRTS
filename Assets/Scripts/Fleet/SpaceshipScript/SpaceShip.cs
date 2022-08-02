@@ -10,6 +10,7 @@ public class SpaceShip : MonoBehaviour
     //initialisation
     public Renderer rend;
     protected Fleet fleet;
+    public FleetType fleetType;
     private bool Initialised = false;
 
     //targeting.

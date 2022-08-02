@@ -53,7 +53,7 @@ public class StarShipManager : MonoBehaviour
             fleet.Scout(true);
         }
 
-        iconHandler.AddIcon(fleet, fleet.iconSprite, fleet.military, fleet.empire);
+        iconHandler.AddIcon(fleet, fleet.iconSprite, fleet.type == FleetType.Military, fleet.empire);
         fleet.transform.SetParent(visuals);
         fleet.UpdateVisibility();
 
@@ -73,21 +73,21 @@ public class StarShipManager : MonoBehaviour
         return;
     }
 
-    public int GetSmallestFleet(Empire empire, bool military = true)
+    public Fleet GetSmallestFleet(Empire empire, FleetType fleetType)
     {
         if (fleets.Count <= 0)
         {
-            return -1;
+            return null;
         }
 
-        int index = -1;
+        Fleet fleet = null;
         int size = 0;
         bool first = true;
 
         for (int i = 0; i < fleets.Count; i++)
         {
             //this works:
-            if (fleets[i].military != military)
+            if (fleets[i].type != fleetType)
             {
                 // Debug.Log("Military is :" + military + " but this fleet is not");
                 continue;
@@ -95,19 +95,16 @@ public class StarShipManager : MonoBehaviour
 
             if (fleets[i].empire == empire || empire == null)
             {
-
                 if (first || fleets[i].spaceShips.Count < size)
                 {
                     first = false;
                     size = fleets[i].spaceShips.Count;
-                    index = i;
+                    fleet = fleets[i];
                 }
             }
         }
 
-
-        return index;
-
+        return fleet;
     }
 
     void UpdateFaction()

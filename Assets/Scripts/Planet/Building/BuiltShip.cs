@@ -16,9 +16,6 @@ public class BuiltShip : BuildQueueItem
 
     public BuiltShip(string name, string description) : base(name, description)
     {
-
-
-
     }
 
 

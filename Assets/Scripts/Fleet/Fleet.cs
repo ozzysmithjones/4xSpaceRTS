@@ -64,12 +64,6 @@ public class Fleet : MonoBehaviour
     [Header("BATTLE")]
     private readonly List<Fleet> enemyFleets = new List<Fleet>();
     private Fleet enemyFleet;
-
-    private void Awake()
-    {
-
-    }
-
     private void Update()
     {
         if (enemyFleets.Count > 0 && fleetState != FleetState.CHARGING_WARP && fleetState != FleetState.IN_WARP)
@@ -180,6 +174,11 @@ public class Fleet : MonoBehaviour
     public bool Busy()
     {
         return !(fleetState != FleetState.CHARGING_WARP && fleetState != FleetState.IN_WARP);
+    }
+
+    public bool HasOrders()
+    {
+        return orders.Count > 0 || currentOrder != null;
     }
 
     public void AddOrder(IOrder order)

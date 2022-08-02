@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BuildQueueOption", menuName = "AI/Options/BuildQueue")]
 public class BuildQueueOption : Option
 {
-    public PlanetColony planetColony;
+    [HideInInspector] public PlanetColony planetColony;
     public BuildQueueItem item;
 
     public void Build(PlanetColony colony)

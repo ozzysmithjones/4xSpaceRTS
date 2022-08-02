@@ -9,21 +9,6 @@ public class StarGeneration : MonoBehaviour
     public Planet[] planets;
 
 
-
-    //private Visibility visibility;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-
     public void Generate(Star star, int radius, int numberOfPlanets, float colony = 0.25f, Empire empire = null)
     {
         planets = new Planet[numberOfPlanets];
@@ -75,7 +60,6 @@ public class StarGeneration : MonoBehaviour
                 }
                 Planet planet = SpawnPlanet(star, ref planetIndex, i, space);
                 SetBiomeOfPlanet(planetPositions.Length, i, planet);
-
             }
 
         }
@@ -83,7 +67,6 @@ public class StarGeneration : MonoBehaviour
 
     private void SetBiomeOfPlanet(int furthestPlanetPosition, int planetPosition, Planet planet)
     {
-
         Biome biome = Master.instance.variety.biomeGradient.GetBiomeAtPoint((float)planetPosition / (furthestPlanetPosition - 1));
         planet.SetBiome(biome);
     }

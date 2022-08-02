@@ -59,7 +59,7 @@ public class ColonyAI : AIModule
 
         for (int i = 0; i < colonyFleets.Count; ++i)
         {
-            if (!colonyFleets[i].HasOrders())
+            if (!colonyFleets[i].HasOrders() && !colonyFleets[i].Busy())
             {
                 Planet bestPlanet = FindBestPLanet(colonyFleets[i], analysis);
                 colonyFleets[i].AddOrder(new ColoniseOrder(bestPlanet));

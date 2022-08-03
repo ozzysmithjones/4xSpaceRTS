@@ -96,22 +96,18 @@ public class HTN
 
         while (open.Count > 0)
         {
-            Task currentTask = open.Dequeue();
+            CompositeTask compositeTask = open.Dequeue();
+            compositeTask.SortMethods(analysis);
 
-            if (currentTask is CompositeTask compositeTask)
+            for (int i = 0; i < compositeTask.methods.Length; ++i)
             {
-                compositeTask.SortMethods(analysis);
+                List<Task> tasks = compositeTask.methods[i].tasks;
 
-                for(int i = 0; i < compositeTask.methods.Length; ++i)
+                for (int j = 0; j < tasks.Count; ++j)
                 {
-                    List<Task> tasks = compositeTask.methods[i].tasks;
-
-                    for (int j = 0; j < tasks.Count; ++j)
+                    if (tasks[j] is CompositeTask child)
                     {
-                        if(tasks[j] is CompositeTask child)
-                        {
-                            open.Enqueue(child);
-                        }
+                        open.Enqueue(child);
                     }
                 }
             }
@@ -140,9 +136,10 @@ public class HTN
 
                 //backtracking.
 
+                CompositeTask current = null;
                 while (history.Count > 0)
                 {
-                    CompositeTask current = history.Peek();
+                    current = history.Peek();
                     Method currentMethod = current.methods[current.methodIndex];
                     plan.RemoveRange(current.planIndex, currentMethod.tasks.Count);
                     ++current.methodIndex;
@@ -158,13 +155,7 @@ public class HTN
                     history.Pop();
                 };
 
-                if(history.Count <= 0)
-                {
-                    plan.Clear();
-                    return;
-                }
-
-                history.Peek().gameState.CopyTo(gameState);
+                current.gameState.CopyTo(gameState);
             }
 
             if (plan[planIndex] is PrimitiveTask primitiveTask)

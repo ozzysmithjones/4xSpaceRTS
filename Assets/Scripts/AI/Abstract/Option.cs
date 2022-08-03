@@ -3,10 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+public class Target
+{}
+
+[System.Serializable]
+public class SpatialTarget : Target
+{
+    public Star star;
+    public Planet planet;
+    public Fleet fleet;
+}
+
+[System.Serializable]
+public class BuildTarget : Target
+{
+    public BuildQueueItem item;
+}
+
 public abstract class Consideration : ScriptableObject
 {
     public float weight;
-    public abstract float Calculate(Option option, Analysis analysis);
+    public abstract float Calculate(Analysis analysis, Target target = null);
 
     public Consideration Clone()
     {
@@ -31,7 +48,6 @@ public abstract class Option : ScriptableObject
     [SerializeField] private OpType operationType = OpType.Multiplicative;
     [SerializeField] private List<Consideration> considerations = new List<Consideration>();
 
-
     public Option Clone()
     {
         Option copy = CreateCopy();
@@ -47,7 +63,7 @@ public abstract class Option : ScriptableObject
         return copy;
     }
 
-    public float Calculate(Analysis analysis)
+    public float Calculate(Target target, Analysis analysis)
     {
         float value = 1.0f;
 
@@ -55,14 +71,14 @@ public abstract class Option : ScriptableObject
         {
             foreach (Consideration consideration in considerations)
             {
-                value *= consideration.Calculate(this, analysis) * consideration.weight;
+                value *= consideration.Calculate(analysis, target) * consideration.weight;
             }
 
         }else
         {
             foreach (Consideration consideration in considerations)
             { 
-                value += consideration.Calculate(this, analysis) * consideration.weight;
+                value += consideration.Calculate(analysis, target) * consideration.weight;
             }
         }    
 

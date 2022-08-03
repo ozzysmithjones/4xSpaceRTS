@@ -26,21 +26,24 @@ public class ColonyAI : AIModule
         float highestUtility = float.MinValue;
 
         List<Star> stars = empire.territory.stars;
+        SpatialTarget spatialTarget = new SpatialTarget();
+
         for (int i = 0; i < stars.Count; ++i)
         {
             Planet[] planets = stars[i].starGeneration.planets;
 
             for (int j = 0; j < planets.Length; ++j)
             {
-                if (planets[i].isColony)
+                if (planets[j].isColony)
                 {
                     continue;
                 }
 
-                coloniseOption.planet = planets[i];
-                coloniseOption.star = stars[i];
-                coloniseOption.fleet = fleet;
-                float utility = coloniseOption.Calculate(analysis);
+                spatialTarget.star = stars[i];
+                spatialTarget.planet = planets[j];
+                spatialTarget.fleet = fleet;
+
+                float utility = coloniseOption.Calculate(spatialTarget,analysis);
 
                 if (utility > highestUtility)
                 {

@@ -31,7 +31,7 @@ public class EconomyAI : AIModule
         minBuildCost = empire.economy.expansionCost;
         foreach(BuildQueueOption option in buildQueueOptions)
         {
-            minBuildCost = Mathf.Min(option.item.buildCost, minBuildCost);
+            minBuildCost = Mathf.Min(option.buildTarget.item.buildCost, minBuildCost);
         }
     }
 
@@ -51,7 +51,7 @@ public class EconomyAI : AIModule
 
         if(buildUtility >= expandUtility && buildOption != null)
         {
-            if (empire.economy.Pay(buildOption.item.buildCost, ResourceType.MATERIALS))
+            if (empire.economy.Pay(buildOption.buildTarget.item.buildCost, ResourceType.MATERIALS))
             {
                 buildOption.Build(buildColony);
             }
@@ -84,7 +84,7 @@ public class EconomyAI : AIModule
                 foreach (BuildQueueOption option in buildQueueOptions)
                 {
                     option.planetColony = colony;
-                    float utility = option.Calculate(analysis);
+                    float utility = option.Calculate(option.buildTarget, analysis);
 
                     if (utility > buildUtility)
                     {
@@ -104,14 +104,18 @@ public class EconomyAI : AIModule
         expandOption = this.expandOption;
         expandUtility = float.MinValue;
 
+        SpatialTarget spatialTarget = new SpatialTarget();
+        spatialTarget.star = null;
+
         foreach (Star star in outerRim)
         {
+            spatialTarget.star = star;
             expandOption.star = star;
-            float utility = expandOption.Calculate(analysis);
+            float utility = expandOption.Calculate(spatialTarget,analysis);
 
             if(utility > expandUtility)
             {
-                expandStar = star;
+                
                 expandUtility = utility;
             }
         }

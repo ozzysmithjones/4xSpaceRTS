@@ -6,7 +6,7 @@ public class Modifier : Consideration
     public float minValue;
     public float maxValue;
 
-    public override float Calculate(Option option, Analysis analysis)
+    public override float Calculate(Analysis analysis, Target target = null)
     {
         return Random.Range(minValue, maxValue);
     }

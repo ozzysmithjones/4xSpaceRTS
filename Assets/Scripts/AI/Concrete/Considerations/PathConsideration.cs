@@ -11,20 +11,20 @@ public class PathConsideration : Consideration
     private Star goal = null;
     private List<Star> path = new List<Star>();
 
-    public override float Calculate(Option option, Analysis analysis)
+    public override float Calculate(Analysis analysis, Target target = null)
     {
-        if(option is PathOption pathOption)
+        if(target is SpatialTarget spatialTarget)
         {
-            if(pathOption.fleet.Busy())
+            if (spatialTarget.fleet.Busy())
             {
                 return 0.0f;
             }
 
-            if(pathOption.star != goal || pathOption.fleet.star != start)
+            if (spatialTarget.star != goal || spatialTarget.fleet.star != start)
             {
-                start = pathOption.fleet.star;
-                goal = pathOption.star;
-                path = Master.instance.PathFind(pathOption.fleet.star, pathOption.star);
+                start = spatialTarget.fleet.star;
+                goal = spatialTarget.star;
+                path = Master.instance.PathFind(spatialTarget.fleet.star, spatialTarget.star);
             }
 
             return 1.0f / path.Count;

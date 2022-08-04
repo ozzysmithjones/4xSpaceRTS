@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public delegate int EvalStarFunc(Star star);
 
 public class PathFindAlgorithm
 {
@@ -14,7 +15,7 @@ public class PathFindAlgorithm
         stars = enviroment.stars;
     }
 
-    private static int Select(List<Star> stars)
+    private static int SelectLowest(List<Star> stars)
     {
         int lowestf = int.MaxValue;
         int index = 0;
@@ -24,6 +25,23 @@ public class PathFindAlgorithm
             if(stars[i].node.f < lowestf)
             {
                 lowestf = stars[i].node.f;
+                index = i;
+            }
+        }
+
+        return index;
+    }
+
+    private static int SelectHighest(List<Star> stars)
+    {
+        int highestf = int.MinValue;
+        int index = 0;
+
+        for (int i = 0; i < stars.Count; ++i)
+        {
+            if (stars[i].node.f > highestf)
+            {
+                highestf = stars[i].node.f;
                 index = i;
             }
         }
@@ -46,7 +64,7 @@ public class PathFindAlgorithm
     }
 
 
-    public List<Star> Path(Star start, Star end)
+    public List<Star> FindPath(Star start, Star end)
     {
         if(start == end)
         {
@@ -68,6 +86,7 @@ public class PathFindAlgorithm
         end.node.g = 0;
         end.node.f = Heuristic(end, start);
         end.node.iteration = iteration;
+        end.node.inOpen = true;
 
         List<Star> open = new List<Star>() { end };
         Star current = null;
@@ -75,7 +94,7 @@ public class PathFindAlgorithm
         while (open.Count > 0)
         {
             {
-                int index = Select(open);
+                int index = SelectLowest(open);
                 current = open[index];
                 current.node.inOpen = false;
                 open[index] = open[open.Count - 1];
@@ -183,5 +202,88 @@ public class PathFindAlgorithm
 
         return presence;
     }
+
+
+    
+    public List<Star> FindBestPath(Star start, EvalStarFunc eval, int maxDepth)
+    {
+        ++iteration; //increment iteration instead of setting all nodes to "not in open", performance improvement.
+        if (iteration == ulong.MaxValue) //reset all iterations when wrapping to prevent any possible bugs.
+        {
+            foreach (Star star in stars)
+            {
+                star.node.iteration = 0;
+            }
+
+            iteration = 1;
+        }
+
+        start.node.breadcrumb = null;
+        start.node.g = 0;
+        start.node.f = eval(start);
+        start.node.iteration = iteration;
+        start.node.inOpen = true;
+
+        Queue<Star> open = new Queue<Star>();
+        open.Enqueue(start);
+        Star best = start;
+
+        while (open.Count > 0)
+        {
+            Star current = open.Dequeue();
+            current.node.inOpen = false;
+
+            if(current.node.f > best.node.f)
+            {
+                best = current;
+            }
+
+            if (current.node.g >= maxDepth)
+            {
+                continue;
+            }
+
+            List<Star> connections = current.starConnections.connections;
+            int g = current.node.g + 1;
+
+            foreach (Star neighbour in connections)
+            {
+                int score = eval(neighbour) + current.node.f;
+
+                if (neighbour.node.iteration != iteration)
+                {
+                    neighbour.node.iteration = iteration;
+                    neighbour.node.breadcrumb = current;
+                    neighbour.node.g = g;
+                    neighbour.node.f = score;
+                    neighbour.node.inOpen = true;
+                    open.Enqueue(neighbour);
+                }
+                else if(neighbour.node.f < score && neighbour.node.g > current.node.g)
+                {
+                    neighbour.node.iteration = iteration;
+                    neighbour.node.breadcrumb = current;
+                    neighbour.node.g = g;
+                    neighbour.node.f = score;
+
+                    if(!neighbour.node.inOpen)
+                    {
+                        neighbour.node.inOpen = true;
+                        open.Enqueue(neighbour);
+                    }
+                }
+            }
+        }
+
+        List<Star> path = new List<Star>();
+        while (best != null)
+        {
+            path.Add(best);
+            best = best.node.breadcrumb;
+        }
+
+        return path;
+    }
+        
 }
 

@@ -11,14 +11,16 @@ public static class Eval
 
     public static double EvaluateFleet(Fleet fleet)
     {
-        double value = 0.0f;
+        double totalHitPoints = 0.0f;
+        double totalDamage = 0.0f;
 
         foreach (SpaceShip spaceShip in fleet.spaceShips)
         {
-            value += spaceShip.damage * spaceShip.hitPoints;
+            totalHitPoints += spaceShip.hitPoints;
+            totalDamage += spaceShip.damage;
         }
 
-        return value * Triangular(fleet.spaceShips.Count);
+        return totalHitPoints * totalDamage * Triangular(fleet.spaceShips.Count);
     }
 
 

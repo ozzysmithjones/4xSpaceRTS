@@ -5,14 +5,21 @@ using UnityEngine;
 
 public enum ValueType
 {
-    Threat,
-    SaveMaterials,
+    Threat, //value inddicating prioritisation of military over production.
+
+    Food,
+    Stability,
+    Materials,
+    Science,
+
+    Time, //Value indicating how much time before next war (useful for production and military planning). 
 }
 
 
 [System.Serializable]
 public class Analysis
 {
+    public HierarchicalInfluenceMap influenceMaps = new HierarchicalInfluenceMap(5, 50,50);
     private readonly float[] valueByType = new float[Enum.GetValues(typeof(ValueType)).Length];
 
     public float this[ValueType type]
@@ -24,17 +31,17 @@ public class Analysis
         }
     }
 
-    public void Copy(Analysis other)
-    {
-        Array.Copy(other.valueByType, valueByType, valueByType.Length);
-    }
-
-    public void Clear()
+    public void ClearValues()
     {
         for(int i = 0; i < valueByType.Length; ++i)
         {
             valueByType[i] = 0.0f;
         }
+    }
+
+    public void ClearInfluenceMaps()
+    {
+        influenceMaps.Clear();
     }
 }
 
@@ -42,7 +49,6 @@ public abstract class AIModule : ScriptableObject
 {
     protected Empire empire;
     [SerializeField] private List<AIModule> subModules = new List<AIModule>();
-    private readonly Analysis analysis = new Analysis();
 
     public void Init(Empire empire)
     {
@@ -68,15 +74,14 @@ public abstract class AIModule : ScriptableObject
         return clone;
     }
 
-    public void Behave(Analysis analysis)
+    public void UpdateAI(Analysis analysis)
     {
-        this.analysis.Copy(analysis);
-        OnAnalyse(this.analysis);
-        OnBehave(this.analysis);
+        Analyse(analysis);
+        Behave(analysis);
 
         foreach(AIModule module in subModules)
         {
-            module.Behave(this.analysis);
+            module.UpdateAI(analysis);
         }
     }
 
@@ -92,8 +97,8 @@ public abstract class AIModule : ScriptableObject
 
     protected abstract AIModule CreateCopy();
     protected abstract void OnInit();
-    protected abstract void OnAnalyse(Analysis analysis);
-    protected abstract void OnBehave(Analysis analysis);
+    protected abstract void Analyse(Analysis analysis);
+    protected abstract void Behave(Analysis analysis);
 }
 
 

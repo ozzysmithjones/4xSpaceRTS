@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public delegate float InfluenceFunc(int x, int y);
-public delegate float StarInfluenceFunc(Star star, int x, int y);
+public delegate double FallOffFunc(int x, int y);
+public delegate double StarFallOffFunc(Star star);
 
 public abstract class InfluenceTemplate
 {
     public int width, height;
-    [HideInInspector] public float[] values;
+    [HideInInspector] public double[] values;
 
     public InfluenceTemplate(int width, int height)
     {
         this.width = width;
         this.height = height;
-        this.values = new float[width * height];
+        this.values = new double[width * height];
     }
 
     public void Init()
@@ -34,17 +34,24 @@ public abstract class InfluenceTemplate
 
 public class InfluenceMap
 {
-    private int width, height;
-    private float[] values;
+    public readonly int width, height;
+    private readonly double[] values;
+
+    public InfluenceMap()
+    {
+        this.width = 0;
+        this.height = 0;
+        this.values = null;
+    }
 
     public InfluenceMap(int width, int height)
     {
         this.width = width;
         this.height = height;
-        this.values = new float[width * height];
+        this.values = new double[width * height];
     }
 
-    public float this[int x, int y]
+    public double this[int x, int y]
     {
         get
         {
@@ -76,7 +83,7 @@ public class InfluenceMap
         }
     }
 
-    public void Propagate(int x, int y, int width, int height, InfluenceFunc influenceFunc)
+    public void Propagate(int x, int y, int width, int height, FallOffFunc influenceFunc)
     {
         for (int yi = 0; yi < height; ++yi)
         {
@@ -87,15 +94,59 @@ public class InfluenceMap
         }
     }
 
-    public void PropagateByStar(Star origin, int depth, StarInfluenceFunc influenceFunc)
+    public void PropagateByStar(Star origin, int depth, StarFallOffFunc influenceFunc)
     {
         List<Star> stars = Master.instance.Presence(origin, depth);
 
         foreach(Star star in stars)
         {
-            values[star.y * width + star.x] = influenceFunc(star, star.x, star.y);
+            values[star.y * width + star.x] = influenceFunc(star);
         }
     }
 }
 
+public class HierarchicalInfluenceMap
+{
+    public readonly int width, height;
+    private InfluenceMap[] influenceMaps;
 
+    public HierarchicalInfluenceMap(int numInfluenceMaps, int width, int height)
+    {
+        this.width = width;
+        this.height = height;
+        this.influenceMaps = new InfluenceMap[numInfluenceMaps];
+
+        for (int i = 0; i < numInfluenceMaps; ++i)
+        {
+            this.influenceMaps[i] = new InfluenceMap(width, height);
+        }
+    }
+
+    public void Clear()
+    {
+        for(int i = 0; i < influenceMaps.Length; ++i)
+        {
+            influenceMaps[i].Clear();
+        }
+    }
+
+    public double this[int x, int y]
+    {
+        get
+        {
+            double value = 0.0f;
+
+            for(int i = 0; i < influenceMaps.Length; ++i)
+            {
+                value += influenceMaps[i][x, y];
+            }
+
+            return value;
+        }
+    }
+
+    public InfluenceMap GetInfluenceMap(int layer)
+    {
+        return influenceMaps[layer];
+    }
+}

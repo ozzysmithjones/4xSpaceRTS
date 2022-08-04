@@ -13,12 +13,12 @@ public class StrategyAI : AIModule
         return ScriptableObject.CreateInstance<StrategyAI>();
     }
 
-    protected override void OnAnalyse(Analysis analysis)
+    protected override void Analyse(Analysis analysis)
     {
 
     }
 
-    protected override void OnBehave(Analysis analysis)
+    protected override void Behave(Analysis analysis)
     {
 
     }

@@ -9,8 +9,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "AIModuleOption", menuName = "AI/Options/Star")]
 public class StarOption : Option
 {
-    [HideInInspector] public Star star;
-
     protected override Option CreateCopy()
     {
         return ScriptableObject.CreateInstance<StarOption>();

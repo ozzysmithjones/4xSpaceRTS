@@ -16,10 +16,10 @@ public class AI : Empire
         base.Update(deltaTime);
 
 
-        analysis.Clear();
+        analysis.ClearValues();
 
         //Could perform some preliminary analysis here. 
 
-        module.Behave(analysis);
+        module.UpdateAI(analysis);
     }
 }

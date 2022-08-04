@@ -35,11 +35,11 @@ public class EconomyAI : AIModule
         }
     }
 
-    protected override void OnAnalyse(Analysis analysis)
+    protected override void Analyse(Analysis analysis)
     {
     }
 
-    protected override void OnBehave(Analysis analysis)
+    protected override void Behave(Analysis analysis)
     {
         if(!empire.economy.CanPay(minBuildCost))
         {
@@ -110,16 +110,13 @@ public class EconomyAI : AIModule
         foreach (Star star in outerRim)
         {
             spatialTarget.star = star;
-            expandOption.star = star;
             float utility = expandOption.Calculate(spatialTarget,analysis);
 
             if(utility > expandUtility)
             {
-                
+                expandStar = star;
                 expandUtility = utility;
             }
         }
-
-        expandOption.star = expandStar;
     }
 }

@@ -6,7 +6,17 @@ public struct PathFindNode<T>
 {
     public T breadcrumb;
     public int g, f;
+    public ulong iteration;
     public bool inOpen;
+
+    public PathFindNode(T breadcrumb, int g, int f, ulong iteration, bool inOpen)
+    {
+        this.breadcrumb = breadcrumb;
+        this.g = g;
+        this.f = f;
+        this.iteration = iteration;
+        this.inOpen = inOpen;
+    }
 }
 
 
@@ -15,7 +25,7 @@ public struct PathFindNode<T>
 [RequireComponent(typeof(StarConnections))]
 public class Star : MonoBehaviour
 {
-    public PathFindNode<Star> node;
+    public PathFindNode<Star> node = new PathFindNode<Star>(null,0,0,0, false);
     public int index;
     public int x, y;
 
@@ -34,6 +44,7 @@ public class Star : MonoBehaviour
     public Empire empire = null;
 
     public SpriteRenderer spriteRenderer;
+
     // Start is called before the first frame update
     void Start()
     {

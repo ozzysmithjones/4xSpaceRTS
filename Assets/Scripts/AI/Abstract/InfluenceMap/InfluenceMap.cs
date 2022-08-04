@@ -4,6 +4,7 @@ using UnityEngine;
 
 
 public delegate float InfluenceFunc(int x, int y);
+public delegate float StarInfluenceFunc(Star star, int x, int y);
 
 public abstract class InfluenceTemplate
 {
@@ -86,13 +87,13 @@ public class InfluenceMap
         }
     }
 
-    public void PropagateByStar(Star origin, int depth, InfluenceFunc influenceFunc)
+    public void PropagateByStar(Star origin, int depth, StarInfluenceFunc influenceFunc)
     {
         List<Star> stars = Master.instance.Presence(origin, depth);
 
         foreach(Star star in stars)
         {
-            values[star.y * width + star.x] = influenceFunc(star.x, star.y);
+            values[star.y * width + star.x] = influenceFunc(star, star.x, star.y);
         }
     }
 }

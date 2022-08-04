@@ -15,7 +15,7 @@ public class Military
 {
     private Empire empire;
     private readonly List<Fleet>[] fleetsByType;
-   // private readonly List<Empire> enemies = new List<Empire>();
+    private readonly List<Empire> enemies = new List<Empire>();
 
     public Military(Empire empire)
     {
@@ -27,6 +27,22 @@ public class Military
             fleetsByType[i] = new List<Fleet>();
         }
     }
+
+    public List<Empire> GetEnemies()
+    {
+        return enemies;
+    }
+
+    public void AddEnemy(Empire empire)
+    {
+        enemies.Add(empire);
+    }
+
+    public void RemoveEnemy(Empire empire)
+    {
+        enemies.Remove(empire);
+    }
+
 
     public List<Fleet> GetFleets(FleetType fleetType)
     {

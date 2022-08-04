@@ -20,6 +20,6 @@ public class AI : Empire
 
         //Could perform some preliminary analysis here. 
 
-        module.Behave(analysis);
+        module.Update(analysis);
     }
 }

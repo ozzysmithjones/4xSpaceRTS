@@ -10,7 +10,7 @@ public class AIModuleOption : Option
 
     public void Behave(Analysis analysis)
     {
-        module.Behave(analysis);
+        module.Update(analysis);
     }
 
     protected override Option CreateCopy()

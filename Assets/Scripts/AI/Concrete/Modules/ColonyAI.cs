@@ -16,7 +16,7 @@ public class ColonyAI : AIModule
     {
     }
 
-    protected override void OnAnalyse(Analysis analysis)
+    protected override void Analyse(Analysis analysis)
     {
     }
 
@@ -56,7 +56,7 @@ public class ColonyAI : AIModule
         return bestPlanet;
     }
 
-    protected override void OnBehave(Analysis analysis)
+    protected override void Behave(Analysis analysis)
     {
         List<Fleet> colonyFleets = empire.military.GetFleets(FleetType.Colony);
 

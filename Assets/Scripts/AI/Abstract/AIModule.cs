@@ -25,14 +25,17 @@ public class Analysis
         }
     }
 
-    public void Clear()
+    public void ClearValues()
     {
-        influenceMaps.Clear();
-
         for(int i = 0; i < valueByType.Length; ++i)
         {
             valueByType[i] = 0.0f;
         }
+    }
+
+    public void ClearInfluenceMaps()
+    {
+        influenceMaps.Clear();
     }
 }
 

@@ -121,5 +121,45 @@ public class PathFindAlgorithm
     }
 
 
+    public List<Star> Presence(Star start, int depth)
+    {
+        start.node.g = 0;
+        List<Star> presence = new List<Star>();
+        presence.Add(start);
+
+        foreach (Star star in stars)
+        {
+            star.node.inOpen = false;
+        }
+
+        Queue<Star> open = new Queue<Star>();
+        open.Enqueue(start);
+
+        while(open.Count > 0)
+        {
+            Star current = open.Dequeue();
+
+            if(current.node.g >= depth)
+            {
+                continue;
+            }
+
+            List<Star> connections = current.starConnections.connections;
+            int g = current.node.g + 1;
+
+            foreach(Star neighbour in connections)
+            {
+                if(!neighbour.node.inOpen)
+                {
+                    neighbour.node.inOpen = true;
+                    neighbour.node.g = g;
+                    open.Enqueue(neighbour);
+                    presence.Add(neighbour);
+                }
+            }
+        }
+
+        return presence;
+    }
 }
 

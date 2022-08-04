@@ -166,7 +166,7 @@ public class MoveFleetTool : Tool
                 if (!controlledFleets[i].Busy())
                 {
                     IOrder order;
-                    if (targetPlanet != null && IsColonyShip(controlledFleets[i]))
+                    if (targetPlanet != null && controlledFleets[i].type == FleetType.Colony)
                     {
                         order = new ColoniseOrder(targetPlanet, new List<Star>(path));
                     }
@@ -187,7 +187,7 @@ public class MoveFleetTool : Tool
                 if (!controlledFleets[i].Busy())
                 {
                     IOrder order;
-                    if (IsColonyShip(controlledFleets[i]))
+                    if (controlledFleets[i].type == FleetType.Colony)
                     {
                         order = new ColoniseOrder(targetPlanet, null);
                     }
@@ -204,19 +204,6 @@ public class MoveFleetTool : Tool
 
         UnToggleFleetIcons();
         controlledFleets.Clear();
-    }
-
-    private bool IsColonyShip(Fleet fleet)
-    {
-        for(int i = 0; i < fleet.spaceShips.Count; ++i)
-        {
-            if(fleet.spaceShips[i] is ColonyShip)
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     void UnToggleFleetIcons()

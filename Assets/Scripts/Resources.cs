@@ -17,6 +17,11 @@ public class Resources
         amounts = new int[length];
     }
 
+    public Resources(params int[] amounts)
+    {
+        this.amounts = amounts;
+    }
+
     public Resources Clone()
     {
         Resources clone = new Resources();
@@ -79,6 +84,16 @@ public class Resources
 
         for (int i = 0; i < result.amounts.Length; i++)
             result.amounts[i] = UnityEngine.Mathf.RoundToInt(a.amounts[i] * b);
+
+        return result;
+    }
+
+    public static Resources operator *(Resources a, int b)
+    {
+        Resources result = new Resources();
+
+        for (int i = 0; i < result.amounts.Length; i++)
+            result.amounts[i] = a.amounts[i] * b;
 
         return result;
     }

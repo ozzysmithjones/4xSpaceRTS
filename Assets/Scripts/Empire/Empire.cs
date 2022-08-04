@@ -23,12 +23,11 @@ public class Empire
         territory = new Territory();
         economy = isPlayer ? new PlayerEconomy() : new Economy();
         research = new Research(this);
-        military = new Military();
+        military = new Military(this);
 
         territory.Init(this);
         economy.Init(territory);
     }
-
 
 
     public bool IsEnemyTo(Empire empire)

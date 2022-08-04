@@ -5373,6 +5373,7 @@ MonoBehaviour:
       Zerolith. They left their homeworld as it tore apart
   politicalGroups: []
   empires: []
+  aiCore: {fileID: 11400000, guid: c28ee0071dba4e149a039d04d50530be, type: 2}
 --- !u!114 &644943474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7305,7 +7306,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1150883308}
   m_HandleRect: {fileID: 1150883307}
   m_Direction: 2
-  m_Value: 0.9999999
+  m_Value: 1.0000001
   m_Size: 0.7500258
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -9175,7 +9176,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1376926829}
   m_HandleRect: {fileID: 1376926828}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -9219,75 +9220,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1014732121}
   m_CullTransparentMesh: 0
---- !u!1001 &1035651556
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 545519315904482850, guid: 005da5d0106bf8847aa4a1722d3c51dd,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1193765123588013134, guid: 005da5d0106bf8847aa4a1722d3c51dd,
-        type: 3}
-      propertyPath: m_Name
-      value: Interceptor
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 005da5d0106bf8847aa4a1722d3c51dd, type: 3}
 --- !u!1001 &1040373205
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10893,6 +10825,7 @@ GameObject:
   - component: {fileID: 1169728804}
   - component: {fileID: 1169728805}
   - component: {fileID: 1169728806}
+  - component: {fileID: 1169728807}
   m_Layer: 5
   m_Name: DescriptionCollum
   m_TagString: Untagged
@@ -10935,6 +10868,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 1223792263}
   buildQueueItemDescription: {fileID: 1169728806}
+  productionDescription: {fileID: 1169728807}
 --- !u!114 &1169728806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10949,6 +10883,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: {fileID: 1921968090}
   description: {fileID: 1505725781}
+--- !u!114 &1169728807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1169728803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdf92063f9265bb4b83a996187debab5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: {fileID: 1318499283}
 --- !u!1001 &1174422354
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12529,9 +12476,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: The Planet zeroth survives on the outskirts of the emperium of man, it
-    has been elected for colonisation based on its unique crystal formations which
-    allow for great transmissions along vast distances of space.
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c93e48a266357db4f84b9ba1d384b82b, type: 2}
   m_sharedMaterial: {fileID: 21111869745395122, guid: c93e48a266357db4f84b9ba1d384b82b,
@@ -14957,9 +14902,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: The Planet zeroth survives on the outskirts of the emperium of man, it
-    has been elected for colonisation based on its unique crystal formations which
-    allow for great transmissions along vast distances of space.
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c93e48a266357db4f84b9ba1d384b82b, type: 2}
   m_sharedMaterial: {fileID: 21111869745395122, guid: c93e48a266357db4f84b9ba1d384b82b,

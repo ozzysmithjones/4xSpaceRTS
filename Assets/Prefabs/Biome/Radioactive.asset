@@ -22,3 +22,10 @@ MonoBehaviour:
   - resourceType: 2
     lowest: 1
     highest: 1
+  popProductionRanges:
+  - resourceType: 1
+    lowest: -10
+    highest: -5
+  - resourceType: 3
+    lowest: 1
+    highest: 10

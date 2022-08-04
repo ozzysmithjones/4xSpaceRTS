@@ -6,7 +6,7 @@
 [RequireComponent(typeof(PlanetTexture))]
 public class Planet : MonoBehaviour
 {
-    public BiomeType biomeType;
+    public Biome biome { get; private set; }
     public PlanetTexture planetTexture;
     public Star star;
     public PlanetColony planetColony;
@@ -45,10 +45,9 @@ public class Planet : MonoBehaviour
 
     public void SetBiome(Biome biome)
     {
-        this.biomeType = biome.biomeType;
+        this.biome = biome;
         planetTexture.SetValues(biome.planetTextureData);
         planetTexture.Generate();
-
 
         int[] newResources = biome.GetRandomResourceAmounts();
         int[] resourceProduction = star.starEconomy.totalResourceProduction.amounts;

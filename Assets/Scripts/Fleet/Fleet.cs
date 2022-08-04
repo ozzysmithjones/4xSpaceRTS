@@ -34,7 +34,7 @@ public class Fleet : MonoBehaviour
 
     int pathIndex = 0;
     List<Star> path = null;
-    public Empire empire { get; private set; }
+    public Empire empire;
 
     [Header("SPACESHIP MOVEMENT")]
     public Transform target;
@@ -57,19 +57,13 @@ public class Fleet : MonoBehaviour
     private Vector2 warpEnd;
 
     [Header("CUSTOMISABLE")]
-    public bool military = true;
+    public FleetType type = FleetType.Exploration;
     public Sprite iconSprite;
-    public int scoutingRange = 1;
+    public int scoutingRange = 1; 
 
     [Header("BATTLE")]
     private readonly List<Fleet> enemyFleets = new List<Fleet>();
     private Fleet enemyFleet;
-
-    private void Awake()
-    {
-
-    }
-
     private void Update()
     {
         if (enemyFleets.Count > 0 && fleetState != FleetState.CHARGING_WARP && fleetState != FleetState.IN_WARP)
@@ -141,6 +135,7 @@ public class Fleet : MonoBehaviour
         }
     }
 
+    /*
     public void AddToEmpire(Empire empire)
     {
         if (this.empire != null)
@@ -156,6 +151,7 @@ public class Fleet : MonoBehaviour
         empire.military.fleets.Remove(this);
         this.empire = null;
     }
+    */
 
     public void AddShip(SpaceShip spaceShip)
     {
@@ -178,6 +174,11 @@ public class Fleet : MonoBehaviour
     public bool Busy()
     {
         return !(fleetState != FleetState.CHARGING_WARP && fleetState != FleetState.IN_WARP);
+    }
+
+    public bool HasOrders()
+    {
+        return orders.Count > 0 || currentOrder != null;
     }
 
     public void AddOrder(IOrder order)

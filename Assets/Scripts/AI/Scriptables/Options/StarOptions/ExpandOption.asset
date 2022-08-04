@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97fce938e75a3c4458e8d4ef2128aba1, type: 3}
+  m_Name: ExpandOption
+  m_EditorClassIdentifier: 
+  weight: 1
+  operationType: 1
+  considerations:
+  - {fileID: 11400000, guid: d18c694886eaf244bb6984a49b430ee2, type: 2}
+  star: {fileID: 0}

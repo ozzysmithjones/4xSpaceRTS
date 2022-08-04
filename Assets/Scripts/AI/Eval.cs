@@ -22,7 +22,7 @@ public static class Eval
     }
 
 
-    public static void AnalyseFleetStrengths(Empire empire, Analysis analysis)
+    public static void PropagateFleetEvaluations(Empire empire, Analysis analysis)
     {
         InfluenceMap allianceMap = analysis.influenceMaps.GetInfluenceMap(0);
         allianceMap.Clear();
@@ -122,7 +122,7 @@ public static class Eval
         return value * analysis[ValueType.Time] * (1.0f - analysis[ValueType.Threat]);
     }
 
-    public static void AnalyseTerritoryStrengths(Empire empire, Analysis analysis)
+    public static void PropagateStarEvaluations(Empire empire, Analysis analysis)
     {
         InfluenceMap territoryMap = analysis.influenceMaps.GetInfluenceMap(3);
 
@@ -131,5 +131,10 @@ public static class Eval
             double eval = EvaluateStar(star, analysis);
             territoryMap.PropagateByStar(star, 1, (s) => eval / (s.node.g + 1));
         }
+    }
+
+    public static void PropagateGoalEvaluations(Empire empire, Analysis analysis)
+    {
+        //put code here if needed.
     }
 }

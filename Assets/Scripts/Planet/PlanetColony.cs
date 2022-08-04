@@ -24,6 +24,11 @@ public class PlanetColony : MonoBehaviour
     public Resources resourceProduction = new Resources();
     public Resources resourceBonus;
 
+    public Resources GetModResources()
+    {
+        return Mod(resourceProduction);
+    }
+
     void Start()
     {
         resourceBonus.amounts = planet.biome.GetRandomProductionAmounts();

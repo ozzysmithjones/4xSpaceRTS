@@ -5,15 +5,21 @@ using UnityEngine;
 
 public enum ValueType
 {
-    Threat,
-    SaveMaterials,
+    Threat, //value inddicating prioritisation of military over production.
+
+    Food,
+    Stability,
+    Materials,
+    Science,
+
+    Time, //Value indicating how much time before next war (useful for production and military planning). 
 }
 
 
 [System.Serializable]
 public class Analysis
 {
-    public HierarchicalInfluenceMap influenceMaps = new HierarchicalInfluenceMap(3, 100,100);
+    public HierarchicalInfluenceMap influenceMaps = new HierarchicalInfluenceMap(5, 50,50);
     private readonly float[] valueByType = new float[Enum.GetValues(typeof(ValueType)).Length];
 
     public float this[ValueType type]

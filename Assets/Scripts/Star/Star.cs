@@ -44,6 +44,7 @@ public class Star : MonoBehaviour
     public Empire empire = null;
 
     public SpriteRenderer spriteRenderer;
+
     // Start is called before the first frame update
     void Start()
     {

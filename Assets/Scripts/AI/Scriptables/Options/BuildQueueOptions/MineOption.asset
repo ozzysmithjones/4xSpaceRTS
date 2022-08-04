@@ -16,4 +16,5 @@ MonoBehaviour:
   operationType: 1
   considerations: []
   planetColony: {fileID: 0}
-  item: {fileID: 11400000, guid: 1cd0cf1fceb086543b1eb0e97cfce4f2, type: 2}
+  buildTarget:
+    item: {fileID: 11400000, guid: 1cd0cf1fceb086543b1eb0e97cfce4f2, type: 2}

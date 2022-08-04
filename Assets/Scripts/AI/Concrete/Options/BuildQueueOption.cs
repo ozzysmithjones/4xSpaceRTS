@@ -7,7 +7,7 @@ using UnityEngine;
 public class BuildQueueOption : Option
 {
     [HideInInspector] public PlanetColony planetColony;
-    public readonly BuildTarget buildTarget = new BuildTarget();
+    public BuildTarget buildTarget = new BuildTarget();
 
     public void Build(PlanetColony colony)
     {

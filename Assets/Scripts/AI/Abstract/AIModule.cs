@@ -13,7 +13,7 @@ public enum ValueType
 [System.Serializable]
 public class Analysis
 {
-    public HierarchicalInfluenceMap influenceMaps;
+    public HierarchicalInfluenceMap influenceMaps = new HierarchicalInfluenceMap(3, 100,100);
     private readonly float[] valueByType = new float[Enum.GetValues(typeof(ValueType)).Length];
 
     public float this[ValueType type]
@@ -65,14 +65,14 @@ public abstract class AIModule : ScriptableObject
         return clone;
     }
 
-    public void Update(Analysis analysis)
+    public void UpdateAI(Analysis analysis)
     {
         Analyse(analysis);
         Behave(analysis);
 
         foreach(AIModule module in subModules)
         {
-            module.Update(analysis);
+            module.UpdateAI(analysis);
         }
     }
 

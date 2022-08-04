@@ -6,6 +6,7 @@ using UnityEngine;
 public class PathFindAlgorithm
 {
     private Star[] stars;
+    private static ulong iteration = 0;
 
     public PathFindAlgorithm()
     {
@@ -26,7 +27,6 @@ public class PathFindAlgorithm
                 index = i;
             }
         }
-
 
         return index;
     }
@@ -53,16 +53,22 @@ public class PathFindAlgorithm
             return new List<Star>();
         }
 
-        foreach(Star star in stars)
+        ++iteration; //increment iteration instead of setting all nodes to "not in open", performance improvement.
+        if(iteration == ulong.MaxValue) //reset all iterations when wrapping to prevent any possible bugs.
         {
-            star.node.inOpen = false;
-            star.node.g = int.MaxValue;
-            star.node.breadcrumb = null;
+            foreach(Star star in stars)
+            {
+                star.node.iteration = 0;
+            }
+
+            iteration = 1;
         }
 
+        end.node.breadcrumb = null;
         end.node.g = 0;
         end.node.f = Heuristic(end, start);
-        end.node.inOpen = true;
+        end.node.iteration = iteration;
+
         List<Star> open = new List<Star>() { end };
         Star current = null;
 
@@ -88,7 +94,16 @@ public class PathFindAlgorithm
             {
                 g = current.node.g + Step(current, neighbour);
 
-                if(g < neighbour.node.g)
+                if(neighbour.node.iteration != iteration)
+                {
+                    neighbour.node.iteration = iteration;
+                    neighbour.node.breadcrumb = current;
+                    neighbour.node.g = g;
+                    neighbour.node.f = neighbour.node.g + Heuristic(neighbour, start);
+                    neighbour.node.inOpen = true;
+                    open.Add(neighbour);
+                }
+                else if(g < neighbour.node.g)
                 {
                     neighbour.node.breadcrumb = current;
                     neighbour.node.g = g;
@@ -127,14 +142,21 @@ public class PathFindAlgorithm
         List<Star> presence = new List<Star>();
         presence.Add(start);
 
-        foreach (Star star in stars)
+        ++iteration; //increment iteration instead of setting all nodes to "not in open", performance improvement.
+        if (iteration == ulong.MaxValue) //reset all iterations when wrapping to prevent any possible bugs.
         {
-            star.node.inOpen = false;
+            foreach (Star star in stars)
+            {
+                star.node.iteration = 0;
+            }
+
+            iteration = 1;
         }
 
+        start.node.iteration = iteration;
         Queue<Star> open = new Queue<Star>();
         open.Enqueue(start);
-
+       
         while(open.Count > 0)
         {
             Star current = open.Dequeue();
@@ -149,9 +171,9 @@ public class PathFindAlgorithm
 
             foreach(Star neighbour in connections)
             {
-                if(!neighbour.node.inOpen)
+                if(neighbour.node.iteration != iteration)
                 {
-                    neighbour.node.inOpen = true;
+                    neighbour.node.iteration = iteration;
                     neighbour.node.g = g;
                     open.Enqueue(neighbour);
                     presence.Add(neighbour);

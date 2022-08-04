@@ -110,16 +110,13 @@ public class EconomyAI : AIModule
         foreach (Star star in outerRim)
         {
             spatialTarget.star = star;
-            expandOption.star = star;
             float utility = expandOption.Calculate(spatialTarget,analysis);
 
             if(utility > expandUtility)
             {
-                
+                expandStar = star;
                 expandUtility = utility;
             }
         }
-
-        expandOption.star = expandStar;
     }
 }

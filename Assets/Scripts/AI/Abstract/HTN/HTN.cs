@@ -7,7 +7,13 @@ using UnityEngine;
 
 public enum Proposition
 {
-    TEST,
+    A,
+    B,
+    C,
+    D,
+    E,
+    F,
+    G
 }
 
 public class GameState
@@ -77,14 +83,9 @@ public abstract class Task : ScriptableObject
     }
 }
 
-
-
-
-public class HTN
+public static class HTN
 {
-    public Task rootTask;
-
-    private void Init(Analysis analysis)
+    private static void Init(Task rootTask, Analysis analysis)
     {
         if(!(rootTask is CompositeTask))
         {
@@ -98,6 +99,7 @@ public class HTN
         {
             CompositeTask compositeTask = open.Dequeue();
             compositeTask.SortMethods(analysis);
+            compositeTask.methodIndex = 0;
 
             for (int i = 0; i < compositeTask.methods.Length; ++i)
             {
@@ -114,9 +116,9 @@ public class HTN
         }
     }
 
-    public void CreatePlan(Analysis analysis,GameState gameState,List<Task> plan)
+    public static void CreatePlan(Task rootTask, Analysis analysis, GameState gameState, List<Task> plan)
     {
-        Init(analysis);
+        Init(rootTask, analysis);
 
         plan.Clear();
         int planIndex = 0;
@@ -145,7 +147,15 @@ public class HTN
                     ++current.methodIndex;
 
                     planIndex = current.planIndex;
-                    plan.Add(current);
+
+                    if (planIndex == plan.Count)
+                    {
+                        plan.Add(current);
+                    }
+                    else
+                    {
+                        plan.Insert(planIndex, current);
+                    }
 
                     if(current.methodIndex < current.methods.Length)
                     {
@@ -167,9 +177,16 @@ public class HTN
             {
                 compositeTask.planIndex = planIndex;
                 gameState.CopyTo(compositeTask.gameState);
-
                 plan.RemoveAt(planIndex);
-                plan.InsertRange(planIndex, compositeTask.methods[compositeTask.methodIndex].tasks);
+
+                if (planIndex == plan.Count)
+                {
+                    plan.AddRange(compositeTask.methods[compositeTask.methodIndex].tasks);
+                }
+                else
+                {
+                    plan.InsertRange(planIndex, compositeTask.methods[compositeTask.methodIndex].tasks);
+                }
 
                 history.Push(compositeTask);
             }

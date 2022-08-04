@@ -202,10 +202,8 @@ public class PathFindAlgorithm
 
         return presence;
     }
-
-
     
-    public List<Star> FindBestPath(Star start, EvalStarFunc eval, int maxDepth)
+    public List<Star> FindBestPath(Star start, int maxDepth, EvalStarFunc eval)
     {
         ++iteration; //increment iteration instead of setting all nodes to "not in open", performance improvement.
         if (iteration == ulong.MaxValue) //reset all iterations when wrapping to prevent any possible bugs.

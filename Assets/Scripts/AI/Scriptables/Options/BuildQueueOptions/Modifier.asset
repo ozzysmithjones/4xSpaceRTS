@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97fce938e75a3c4458e8d4ef2128aba1, type: 3}
-  m_Name: ExpandOption
+  m_Script: {fileID: 11500000, guid: 1c6d04a94e921e54ea8fe75678d3e1ba, type: 3}
+  m_Name: Modifier
   m_EditorClassIdentifier: 
-  weight: 1
-  operationType: 1
-  considerations: []
+  weight: 2
+  minValue: 2
+  maxValue: 4

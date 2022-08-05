@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weight: 1
   operationType: 1
-  considerations: []
+  considerations:
+  - {fileID: 11400000, guid: 348847228e1c988428e5559ef6558323, type: 2}
   planetColony: {fileID: 0}
   buildTarget:
     item: {fileID: 11400000, guid: a81fa00d84a62c243975ebc7a05ece1a, type: 2}

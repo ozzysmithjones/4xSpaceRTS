@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public delegate int EvalStarFunc(Star star);
+public delegate double StarEvalFunc(Star star);
 
 public class PathFindAlgorithm
 {
@@ -17,8 +17,8 @@ public class PathFindAlgorithm
 
     private static int SelectLowest(List<Star> stars)
     {
-        int lowestf = int.MaxValue;
-        int index = 0;
+        double lowestf = int.MaxValue;
+        int  index = 0;
 
         for(int i = 0; i < stars.Count; ++i)
         {
@@ -32,31 +32,14 @@ public class PathFindAlgorithm
         return index;
     }
 
-    private static int SelectHighest(List<Star> stars)
-    {
-        int highestf = int.MinValue;
-        int index = 0;
-
-        for (int i = 0; i < stars.Count; ++i)
-        {
-            if (stars[i].node.f > highestf)
-            {
-                highestf = stars[i].node.f;
-                index = i;
-            }
-        }
-
-        return index;
-    }
-
-    private static int Heuristic(Star a, Star b)
+    private static double Heuristic(Star a, Star b)
     {
         int xDiff = b.x - a.x;
         int yDiff = b.y - a.y;
-        return (int)(Mathf.Sqrt(xDiff * xDiff + yDiff * yDiff) * 11);
+        return Mathf.Sqrt(xDiff * xDiff + yDiff * yDiff) * 11;
     }
 
-    private static int Step(Star a, Star b)
+    private static double Step(Star a, Star b)
     {
         int xDiff = Mathf.Abs(b.x - a.x);
         int yDiff = Mathf.Abs(b.y - a.y);
@@ -107,7 +90,7 @@ public class PathFindAlgorithm
             }
 
             List<Star> connections = current.starConnections.connections;
-            int g;
+            double g;
 
             foreach (Star neighbour in connections)
             {
@@ -186,7 +169,7 @@ public class PathFindAlgorithm
             }
 
             List<Star> connections = current.starConnections.connections;
-            int g = current.node.g + 1;
+            double g = current.node.g + 1;
 
             foreach(Star neighbour in connections)
             {
@@ -203,7 +186,7 @@ public class PathFindAlgorithm
         return presence;
     }
     
-    public List<Star> FindBestPath(Star start, int maxDepth, EvalStarFunc eval)
+    public List<Star> FindBestPath(Star start, int maxDepth, StarEvalFunc eval)
     {
         ++iteration; //increment iteration instead of setting all nodes to "not in open", performance improvement.
         if (iteration == ulong.MaxValue) //reset all iterations when wrapping to prevent any possible bugs.
@@ -242,11 +225,11 @@ public class PathFindAlgorithm
             }
 
             List<Star> connections = current.starConnections.connections;
-            int g = current.node.g + 1;
+            double g = current.node.g + 1;
 
             foreach (Star neighbour in connections)
             {
-                int score = eval(neighbour) + current.node.f;
+                double score = eval(neighbour) + current.node.f;
 
                 if (neighbour.node.iteration != iteration)
                 {
@@ -279,6 +262,8 @@ public class PathFindAlgorithm
             path.Add(best);
             best = best.node.breadcrumb;
         }
+
+        path.Reverse();
 
         return path;
     }

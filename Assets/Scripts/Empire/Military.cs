@@ -22,6 +22,11 @@ public class Military
         this.empire = empire;
         this.fleetsByType = new List<Fleet>[Enum.GetValues(typeof(FleetType)).Length];
 
+        if (this.empire != Empire.player)
+        {
+            this.enemies.Add(Empire.player);
+        }
+
         for(int i = 0; i < fleetsByType.Length; ++i)
         {
             fleetsByType[i] = new List<Fleet>();

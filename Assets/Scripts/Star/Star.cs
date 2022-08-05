@@ -5,11 +5,11 @@
 public struct PathFindNode<T>
 {
     public T breadcrumb;
-    public int g, f;
+    public double g, f;
     public ulong iteration;
     public bool inOpen;
 
-    public PathFindNode(T breadcrumb, int g, int f, ulong iteration, bool inOpen)
+    public PathFindNode(T breadcrumb, double g, double f, ulong iteration, bool inOpen)
     {
         this.breadcrumb = breadcrumb;
         this.g = g;

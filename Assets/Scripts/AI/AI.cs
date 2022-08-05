@@ -17,6 +17,7 @@ public class AI : Empire
 
 
         analysis.ClearValues();
+        analysis.ClearInfluenceMaps();
 
         //Could perform some preliminary analysis here. 
 

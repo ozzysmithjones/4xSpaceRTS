@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 586d8d9b5760be74786d89ef2ea99f21, type: 3}
   m_Name: EconomyAI
   m_EditorClassIdentifier: 
-  subModules: []
+  subModules:
+  - {fileID: 11400000, guid: 28b9f1dcd9dbc9e4a965367917214aea, type: 2}
   buildQueueOptions:
   - {fileID: 11400000, guid: 169ae6b458b2ee44681d84e2b3fbf808, type: 2}
   - {fileID: 11400000, guid: 90bdf907f5323c24bb24854486e387f9, type: 2}

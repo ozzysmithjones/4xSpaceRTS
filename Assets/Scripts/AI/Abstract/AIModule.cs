@@ -5,16 +5,21 @@ using UnityEngine;
 
 public enum ValueType
 {
-    Threat, //value inddicating prioritisation of military over production.
+    Threat,      //value inddicating prioritisation of military over production.
+
+    //Prioritisation of resources:
 
     Food,
     Stability,
     Materials,
     Science,
 
-    Time, //Value indicating how much time before next war (useful for production and military planning). 
+    Time,        //Value indicating how much time before next war (useful for production and military planning). 
+    Reinforce,   //Value indication priority to reinforce other fleets.
+    Disperse,    //Value indication priority to seperate from other fleets.
+    DefendTerritory,     //Value indicating priority for defending territory.
+    InvadeTerritory,     //Value indicating priority for invading terruo
 }
-
 
 [System.Serializable]
 public class Analysis

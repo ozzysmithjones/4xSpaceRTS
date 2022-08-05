@@ -9,9 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97fce938e75a3c4458e8d4ef2128aba1, type: 3}
-  m_Name: ExpandOption
+  m_Script: {fileID: 11500000, guid: fba7d806eb6752145b652396232b810d, type: 3}
+  m_Name: FleetAI
   m_EditorClassIdentifier: 
-  weight: 1
-  operationType: 1
-  considerations: []
+  subModules: []

@@ -97,4 +97,9 @@ public class Master : MonoBehaviour
     {
         return pathFindAlgorithm.Presence(origin, depth);
     }
+
+    public List<Star> PathFind(Star start, int depth, StarEvalFunc eval)
+    {
+        return pathFindAlgorithm.FindBestPath(start, depth, eval);
+    }
 }

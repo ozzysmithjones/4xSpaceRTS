@@ -23,7 +23,7 @@ public class FleetAI : AIModule
         Eval.PropagateStarEvaluations(empire, analysis);
     }
 
-    private static double Evaluate(Fleet fleet, Analysis analysis,Star star)
+    private static double Evaluate(Fleet fleet, double fleetPower, Analysis analysis,Star star)
     {
         InfluenceMap alliance = analysis.influenceMaps[0];
         InfluenceMap enemy = analysis.influenceMaps[1];
@@ -35,7 +35,7 @@ public class FleetAI : AIModule
 
         if (enemyPower > 0.0f) 
         {
-            score = alliance[fleet.star.x, fleet.star.y] - enemyPower;
+            score = fleetPower - enemyPower;
 
             if (score < 0.0f) //do not engage if lose the battle.
             {
@@ -60,7 +60,8 @@ public class FleetAI : AIModule
             if(!fleet.Busy() && (!fleet.HasOrders() || Time.time > fleet.TimeSinceLastOrder + 20.0f))
             {
                 fleet.ClearOrders();
-                List<Star> path = Master.instance.PathFind(fleet.star, 3, (s) => Evaluate(fleet, analysis, s));
+                double fleetPower = Eval.EvaluateFleet(fleet);
+                List<Star> path = Master.instance.PathFind(fleet.star, 3, (s) => Evaluate(fleet, fleetPower, analysis, s));
 
                 if (path.Count >= 2)
                 {

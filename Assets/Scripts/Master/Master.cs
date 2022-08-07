@@ -23,8 +23,8 @@ public class Master : MonoBehaviour
 
 
     public int seed = 0;
-    public const int collums = 50;
-    public const int rows = 50;
+    public const int collums = 10;
+    public const int rows = 10;
 
     PathFindAlgorithm pathFindAlgorithm;
 

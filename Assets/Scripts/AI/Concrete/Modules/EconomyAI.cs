@@ -56,7 +56,7 @@ public class EconomyAI : AIModule
                 buildOption.Build(buildColony);
             }
 
-        }else if(expandUtility >= buildUtility && expandOption != null)
+        }else if(expandUtility >= buildUtility && expandStar != null)
         {
             if(empire.economy.Pay(empire.economy.expansionCost, ResourceType.MATERIALS))
             {

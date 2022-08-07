@@ -32,6 +32,23 @@ public class PathFindAlgorithm
         return index;
     }
 
+    private static int SelectHighest(List<Star> stars)
+    {
+        double highestf = int.MinValue;
+        int index = 0;
+
+        for (int i = 0; i < stars.Count; ++i)
+        {
+            if (stars[i].node.f > highestf)
+            {
+                highestf = stars[i].node.f;
+                index = i;
+            }
+        }
+
+        return index;
+    }
+
     private static double Heuristic(Star a, Star b)
     {
         int xDiff = b.x - a.x;
@@ -205,14 +222,21 @@ public class PathFindAlgorithm
         start.node.iteration = iteration;
         start.node.inOpen = true;
 
-        Queue<Star> open = new Queue<Star>();
-        open.Enqueue(start);
+        List<Star> open = new List<Star>();
+        open.Add(start);
         Star best = start;
 
         while (open.Count > 0)
         {
-            Star current = open.Dequeue();
-            current.node.inOpen = false;
+            Star current;
+
+            {
+                int index = SelectHighest(open);
+                current = open[index];
+                current.node.inOpen = false;
+                open[index] = open[open.Count - 1];
+                open.RemoveAt(open.Count - 1);
+            }
 
             if(current.node.f > best.node.f)
             {
@@ -238,7 +262,7 @@ public class PathFindAlgorithm
                     neighbour.node.g = g;
                     neighbour.node.f = score;
                     neighbour.node.inOpen = true;
-                    open.Enqueue(neighbour);
+                    open.Add(neighbour);
                 }
                 else if(neighbour.node.f < score && neighbour.node.g > current.node.g)
                 {
@@ -250,7 +274,7 @@ public class PathFindAlgorithm
                     if(!neighbour.node.inOpen)
                     {
                         neighbour.node.inOpen = true;
-                        open.Enqueue(neighbour);
+                        open.Add(neighbour);
                     }
                 }
             }

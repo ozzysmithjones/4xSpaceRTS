@@ -37,7 +37,7 @@ public static class Eval
             foreach (Fleet fleet in fleets)
             {
                 double strength = EvaluateFleet(fleet) * 1.0f;
-                allianceMap.PropagateByStar(fleet.star, 3, (star) => strength / (star.node.g * 2 + 1));
+                allianceMap.PropagateByStar(fleet.star, 1, (star) => strength / (star.node.g * 2 + 1));
             }
         }
 
@@ -56,7 +56,7 @@ public static class Eval
             foreach (Fleet fleet in fleets)
             {
                 double eval = EvaluateFleet(fleet);
-                enemyMap.PropagateByStar(fleet.star, 3, (star) => eval / (star.node.g * 2 + 1));
+                enemyMap.PropagateByStar(fleet.star, 1, (star) => eval / (star.node.g * 2 + 1));
             }
         }
 

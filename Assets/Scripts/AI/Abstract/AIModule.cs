@@ -21,11 +21,12 @@ public enum ValueType
     InvadeTerritory,     //Value indicating priority for invading terruo
 }
 
-[System.Serializable]
 public class Analysis
 {
-    public HierarchicalInfluenceMap influenceMaps = new HierarchicalInfluenceMap(5, 50,50);
+    public HierarchicalInfluenceMap influenceMaps = new HierarchicalInfluenceMap(5, 10,10);
     private readonly float[] valueByType = new float[Enum.GetValues(typeof(ValueType)).Length];
+
+
 
     public float this[ValueType type]
     {

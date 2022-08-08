@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public delegate double StarEvalFunc(Star star);
+public delegate bool StarHaltFunc(Star star);
 
 public class PathFindAlgorithm
 {
@@ -291,6 +292,67 @@ public class PathFindAlgorithm
 
         return path;
     }
-        
+
+    public List<Star> BreadthFirst(Star start, StarHaltFunc haltFunc, int maxDepth = int.MaxValue)
+    {
+
+        ++iteration; //increment iteration instead of setting all nodes to "not in open", performance improvement.
+        if (iteration == ulong.MaxValue) //reset all iterations when wrapping to prevent any possible bugs.
+        {
+            foreach (Star star in stars)
+            {
+                star.node.iteration = 0;
+            }
+
+            iteration = 1;
+        }
+
+        start.node.breadcrumb = null;
+        start.node.g = 0;
+        start.node.breadcrumb = null;
+        start.node.iteration = iteration;
+
+        List<Star> path = new List<Star>();
+        Queue<Star> open = new Queue<Star>();
+        open.Enqueue(start);
+
+        while (open.Count > 0)
+        {
+            Star current = open.Dequeue();
+
+            if(haltFunc(current))
+            {
+                while (current != null)
+                {
+                    path.Add(current);
+                    current = current.node.breadcrumb;
+                }
+
+                path.Reverse();
+                return path;
+            }
+
+            if (current.node.g >= maxDepth)
+            {
+                continue;
+            }
+
+            List<Star> connections = current.starConnections.connections;
+            double g = current.node.g + 1;
+
+            foreach (Star neighbour in connections)
+            {
+                if (neighbour.node.iteration != iteration)
+                {
+                    neighbour.node.iteration = iteration;
+                    neighbour.node.g = g;
+                    neighbour.node.breadcrumb = current;
+                    open.Enqueue(neighbour);
+                }
+            }
+        }
+
+        return path;
+    }
 }
 

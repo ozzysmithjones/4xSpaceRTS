@@ -147,8 +147,36 @@ public static class Eval
         }
     }
 
-    public static void PropagateGoalEvaluations(Empire empire, Analysis analysis)
+
+    public static void EvaluateThreat(Empire empire, Analysis analysis, int threatDistance = 4)
     {
-        //put code here if needed.
+        List<Empire> enemies = empire.military.GetEnemies();
+        int minDistance = int.MaxValue;
+
+        foreach(Empire enemy in enemies)
+        {
+            List<Fleet> enemyFleets = enemy.military.GetFleets(FleetType.Military);
+
+            foreach (Fleet fleet in enemyFleets)
+            {
+                if (fleet.star == null)
+                    continue;
+
+                List<Star> pathToEmpire = Master.instance.PathFind(fleet.star, (s) => s.empire == empire);
+                minDistance = Mathf.Min(pathToEmpire.Count, minDistance);
+            }
+        }
+
+        if (minDistance >= threatDistance)
+        {
+            analysis[ValueType.Threat] = 0.0f;
+        }
+        else
+        {
+            analysis[ValueType.Threat] = 1.0f - ((float)minDistance / threatDistance);
+        }
     }
+
+    public static void Evaluate
+
 }

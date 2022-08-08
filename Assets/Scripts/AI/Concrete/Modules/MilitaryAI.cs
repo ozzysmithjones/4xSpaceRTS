@@ -12,7 +12,6 @@ public class MilitaryAI : AIModule
     protected override void Analyse(Analysis analysis)
     {
         gameState.Clear();
-        //gameState.Set(Proposition.A, true); //set propositions here.
     }
 
     protected override void Behave(Analysis analysis)
@@ -47,6 +46,7 @@ public class MilitaryAI : AIModule
     {
         MilitaryAI copy = ScriptableObject.CreateInstance<MilitaryAI>();
         copy.rootTask = this.rootTask;
+        copy.taskIndex = 0;
         return copy;
     }
 

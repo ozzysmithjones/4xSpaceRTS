@@ -86,7 +86,10 @@ public class Master : MonoBehaviour
         }
     }
 
-
+    public List<Star> PathFind(Star start, StarHaltFunc haltFunc, int maxDepth = int.MaxValue)
+    {
+        return pathFindAlgorithm.BreadthFirst(start, haltFunc, maxDepth);
+    }
 
     public List<Star> PathFind(Star start, Star end)
     {

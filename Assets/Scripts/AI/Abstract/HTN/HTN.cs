@@ -69,7 +69,7 @@ public abstract class Task : ScriptableObject
     [SerializeField] private List<Condition> prerequisites = new List<Condition>();
     //[SerializeField] protected List<Effect> effects = new List<Effect>();
 
-    public bool Applicable(GameState gameState)
+    public virtual bool Applicable(Analysis analysis, GameState gameState)
     {
         for(int i = 0; i < prerequisites.Count; ++i)
         {
@@ -129,7 +129,7 @@ public static class HTN
 
         while (planIndex < plan.Count)
         {
-            if(!plan[planIndex].Applicable(gameState))
+            if(!plan[planIndex].Applicable(analysis, gameState))
             {
                 if(history.Count <= 0)
                 {

@@ -85,7 +85,8 @@ public abstract class Task : ScriptableObject
 
 public static class HTN
 {
-    private static void Init(Task rootTask, Analysis analysis)
+
+    private static void ResetMethods(Task rootTask, Analysis analysis)
     {
         if(!(rootTask is CompositeTask))
         {
@@ -118,7 +119,7 @@ public static class HTN
 
     public static void CreatePlan(Task rootTask, Analysis analysis, GameState gameState, List<Task> plan)
     {
-        Init(rootTask, analysis);
+        ResetMethods(rootTask, analysis);
 
         plan.Clear();
         int planIndex = 0;

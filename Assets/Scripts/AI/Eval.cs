@@ -177,6 +177,4 @@ public static class Eval
         }
     }
 
-    public static void Evaluate
-
 }

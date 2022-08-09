@@ -7,7 +7,7 @@ public class MilitaryAI : AIModule
     public Task rootTask;
     private int taskIndex = 0;
     private readonly List<Task> plan = new List<Task>();
-    private GameState gameState;
+    private readonly GameState gameState = new GameState();
 
     protected override void Analyse(Analysis analysis)
     {

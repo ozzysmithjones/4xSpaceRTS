@@ -50,9 +50,6 @@ public class Master : MonoBehaviour
         //set the main camera to be above the players home world.
         Vector3 position = characters.empires[0].territory.stars[0].transform.position;
         Camera.main.transform.position = new Vector3(position.x, position.y, -10);
-
-
-
     }
 
     // Update is called once per frame

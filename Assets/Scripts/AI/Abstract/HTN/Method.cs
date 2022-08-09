@@ -2,18 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IMethod : IComparer<IMethod>
-{
-    List<Task> GetTasks();
 
-    float Priority { get; }
-
-    void CalculatePriority(Analysis analysis);
-}
-
-[System.Serializable]
 [CreateAssetMenu(fileName = "Method", menuName = "AI/HTN/Method")]
-public class Method : ScriptableObject, IMethod
+public class Method : ScriptableObject, IComparer<Method>
 {
     public List<Task> tasks = new List<Task>();
     public List<Consideration> considerations = new List<Consideration>();
@@ -30,7 +21,7 @@ public class Method : ScriptableObject, IMethod
         }
     }
 
-    public int Compare(IMethod x, IMethod y)
+    public int Compare(Method x, Method y)
     {
         return y.Priority.CompareTo(x.Priority);
     }

@@ -142,7 +142,7 @@ public static class HTN
                 while (history.Count > 0)
                 {
                     current = history.Peek();
-                    IMethod currentMethod = current.methods[current.methodIndex];
+                    Method currentMethod = current.methods[current.methodIndex];
                     plan.RemoveRange(current.planIndex, currentMethod.GetTasks().Count);
                     ++current.methodIndex;
 

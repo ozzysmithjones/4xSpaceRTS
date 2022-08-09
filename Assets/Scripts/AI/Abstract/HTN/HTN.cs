@@ -69,7 +69,7 @@ public abstract class Task : ScriptableObject
     [SerializeField] private List<Condition> prerequisites = new List<Condition>();
     //[SerializeField] protected List<Effect> effects = new List<Effect>();
 
-    public bool Applicable(GameState gameState)
+    public virtual bool Applicable(Analysis analysis, GameState gameState)
     {
         for(int i = 0; i < prerequisites.Count; ++i)
         {
@@ -85,7 +85,8 @@ public abstract class Task : ScriptableObject
 
 public static class HTN
 {
-    private static void Init(Task rootTask, Analysis analysis)
+
+    private static void ResetMethods(Task rootTask, Analysis analysis)
     {
         if(!(rootTask is CompositeTask))
         {
@@ -118,7 +119,7 @@ public static class HTN
 
     public static void CreatePlan(Task rootTask, Analysis analysis, GameState gameState, List<Task> plan)
     {
-        Init(rootTask, analysis);
+        ResetMethods(rootTask, analysis);
 
         plan.Clear();
         int planIndex = 0;
@@ -128,7 +129,7 @@ public static class HTN
 
         while (planIndex < plan.Count)
         {
-            if(!plan[planIndex].Applicable(gameState))
+            if(!plan[planIndex].Applicable(analysis, gameState))
             {
                 if(history.Count <= 0)
                 {

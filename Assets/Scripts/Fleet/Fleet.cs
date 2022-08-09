@@ -35,6 +35,7 @@ public class Fleet : MonoBehaviour
     int pathIndex = 0;
     List<Star> path = null;
     public Empire empire;
+    public float TimeSinceLastOrder { get; private set; }
 
     [Header("SPACESHIP MOVEMENT")]
     public Transform target;
@@ -64,6 +65,11 @@ public class Fleet : MonoBehaviour
     [Header("BATTLE")]
     private readonly List<Fleet> enemyFleets = new List<Fleet>();
     private Fleet enemyFleet;
+
+
+
+
+
     private void Update()
     {
         if (enemyFleets.Count > 0 && fleetState != FleetState.CHARGING_WARP && fleetState != FleetState.IN_WARP)
@@ -184,6 +190,7 @@ public class Fleet : MonoBehaviour
     public void AddOrder(IOrder order)
     {
         orders.Enqueue(order);
+        TimeSinceLastOrder = Time.time;
     }
 
     public void ClearOrders()
@@ -231,6 +238,7 @@ public class Fleet : MonoBehaviour
         if (currentOrder == null && orders.Count > 0)
         {
             currentOrder = orders.Dequeue();
+           
 
             if(currentOrder.PreferedPath != null && currentOrder.PreferedPath[0] == star)
             {

@@ -16,8 +16,8 @@ public class Enviroment : MonoBehaviour
     [Header("BASE VARIABLES")]
     private float space = 200f;
     public int numberOfStars = 100;
-    public int collums = 40;
-    public int rows = 40;
+    public int collums = 10;
+    public int rows = 10;
 
     private Star[] grid;
     public Star[] stars;
@@ -50,21 +50,15 @@ public class Enviroment : MonoBehaviour
 
         while (spawnedStars < numberOfStars && frontier.Count > 0)
         {
-
             centerNode = frontier[0];
             GenerateNeighbours(frontier, ref spawnedStars, centerNode);
             frontier.RemoveAt(0);
-
-
         }
 
         for (int i = 0; i < stars.Length; i++)
         {
             stars[i].InitialisePlanets();
         }
-
-
-
 
     }
 

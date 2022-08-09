@@ -37,7 +37,7 @@ public static class Eval
             foreach (Fleet fleet in fleets)
             {
                 double strength = EvaluateFleet(fleet) * 1.0f;
-                allianceMap.PropagateByStar(fleet.star, 3, (star) => strength / (star.node.g + 1));
+                allianceMap.PropagateByStar(fleet.star, 1, (star) => strength / (star.node.g * 2 + 1));
             }
         }
 
@@ -56,7 +56,7 @@ public static class Eval
             foreach (Fleet fleet in fleets)
             {
                 double eval = EvaluateFleet(fleet);
-                enemyMap.PropagateByStar(fleet.star, 3, (star) => eval / (star.node.g + 1));
+                enemyMap.PropagateByStar(fleet.star, 1, (star) => eval / (star.node.g * 2 + 1));
             }
         }
 
@@ -126,17 +126,55 @@ public static class Eval
 
     public static void PropagateStarEvaluations(Empire empire, Analysis analysis)
     {
-        InfluenceMap territoryMap = analysis.influenceMaps.GetInfluenceMap(3);
+        InfluenceMap allianceMap = analysis.influenceMaps.GetInfluenceMap(3);
 
         foreach (Star star in empire.territory.stars)
         {
             double eval = EvaluateStar(star, analysis);
-            territoryMap.PropagateByStar(star, 1, (s) => eval / (s.node.g + 1));
+            allianceMap.PropagateByStar(star, 0, (s) => eval / (s.node.g + 1));
+        }
+
+        InfluenceMap enemyMap = analysis.influenceMaps.GetInfluenceMap(4);
+        List<Empire> enemies = empire.military.GetEnemies();
+
+        foreach (Empire enemy in enemies)
+        {
+            foreach (Star star in enemy.territory.stars)
+            {
+                double eval = EvaluateStar(star, analysis);
+                enemyMap.PropagateByStar(star, 0, (s) => eval / (s.node.g + 1));
+            }
         }
     }
 
-    public static void PropagateGoalEvaluations(Empire empire, Analysis analysis)
+
+    public static void EvaluateThreat(Empire empire, Analysis analysis, int threatDistance = 4)
     {
-        //put code here if needed.
+        List<Empire> enemies = empire.military.GetEnemies();
+        int minDistance = int.MaxValue;
+
+        foreach(Empire enemy in enemies)
+        {
+            List<Fleet> enemyFleets = enemy.military.GetFleets(FleetType.Military);
+
+            foreach (Fleet fleet in enemyFleets)
+            {
+                if (fleet.star == null)
+                    continue;
+
+                List<Star> pathToEmpire = Master.instance.PathFind(fleet.star, (s) => s.empire == empire);
+                minDistance = Mathf.Min(pathToEmpire.Count, minDistance);
+            }
+        }
+
+        if (minDistance >= threatDistance)
+        {
+            analysis[ValueType.Threat] = 0.0f;
+        }
+        else
+        {
+            analysis[ValueType.Threat] = 1.0f - ((float)minDistance / threatDistance);
+        }
     }
+
 }

@@ -23,8 +23,8 @@ public class Master : MonoBehaviour
 
 
     public int seed = 0;
-    public const int collums = 50;
-    public const int rows = 50;
+    public const int collums = 10;
+    public const int rows = 10;
 
     PathFindAlgorithm pathFindAlgorithm;
 
@@ -86,15 +86,23 @@ public class Master : MonoBehaviour
         }
     }
 
-
+    public List<Star> PathFind(Star start, StarHaltFunc haltFunc, int maxDepth = int.MaxValue)
+    {
+        return pathFindAlgorithm.BreadthFirst(start, haltFunc, maxDepth);
+    }
 
     public List<Star> PathFind(Star start, Star end)
     {
-        return pathFindAlgorithm.Path(start, end);
+        return pathFindAlgorithm.FindPath(start, end);
     }
 
     public List<Star> Presence(Star origin, int depth)
     {
         return pathFindAlgorithm.Presence(origin, depth);
+    }
+
+    public List<Star> PathFind(Star start, int depth, StarEvalFunc eval)
+    {
+        return pathFindAlgorithm.FindBestPath(start, depth, eval);
     }
 }

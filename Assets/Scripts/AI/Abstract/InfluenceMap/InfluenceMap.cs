@@ -145,6 +145,15 @@ public class HierarchicalInfluenceMap
         }
     }
 
+
+    public InfluenceMap this[int layer]
+    {
+        get
+        {
+            return influenceMaps[layer];
+        }
+    }
+
     public InfluenceMap GetInfluenceMap(int layer)
     {
         return influenceMaps[layer];

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-[CreateAssetMenu(fileName = "Method", menuName = "AI/HTN/Method")]
-public class Method : ScriptableObject, IComparer<Method>
+public class Method : IComparer<Method>
 {
+    public string name;
     public List<Task> tasks = new List<Task>();
     public List<Consideration> considerations = new List<Consideration>();
     public float weight = 1.0f;
+
     public float Priority { get; private set; }
 
     public void CalculatePriority(Analysis analysis)
@@ -23,5 +24,10 @@ public class Method : ScriptableObject, IComparer<Method>
     public int Compare(Method x, Method y)
     {
         return y.Priority.CompareTo(x.Priority);
+    }
+
+    public List<Task> GetTasks()
+    {
+        return tasks;
     }
 }

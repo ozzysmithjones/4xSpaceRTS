@@ -11,6 +11,14 @@ public class CompositeTask : Task
     [HideInInspector] public int methodIndex = 0;
     public Method[] methods = new Method[1];
 
+    public bool Sorted { get; private set; }
+
+    public void Reset()
+    {
+        Sorted = false;
+        methodIndex = 0;
+    }
+
     public void SortMethods(Analysis analysis)
     {
         for (int i = 0; i < methods.Length; ++i)
@@ -19,5 +27,6 @@ public class CompositeTask : Task
         }
 
         Array.Sort(methods);
+        Sorted = true;
     }
 }

@@ -93,24 +93,23 @@ public static class HTN
             return;
         }
         
-        Queue<CompositeTask> open = new Queue<CompositeTask>();
-        open.Enqueue((CompositeTask)rootTask);
+        Stack<CompositeTask> open = new Stack<CompositeTask>();
+        open.Push((CompositeTask)rootTask);
 
         while (open.Count > 0)
         {
-            CompositeTask compositeTask = open.Dequeue();
-            compositeTask.SortMethods(analysis);
-            compositeTask.methodIndex = 0;
+            CompositeTask compositeTask = open.Pop();
+            compositeTask.Reset();
 
             for (int i = 0; i < compositeTask.methods.Length; ++i)
             {
-                List<Task> tasks = compositeTask.methods[i].tasks;
+                List<Task> tasks = compositeTask.methods[i].GetTasks();
 
                 for (int j = 0; j < tasks.Count; ++j)
                 {
                     if (tasks[j] is CompositeTask child)
                     {
-                        open.Enqueue(child);
+                        open.Push(child);
                     }
                 }
             }
@@ -144,7 +143,7 @@ public static class HTN
                 {
                     current = history.Peek();
                     Method currentMethod = current.methods[current.methodIndex];
-                    plan.RemoveRange(current.planIndex, currentMethod.tasks.Count);
+                    plan.RemoveRange(current.planIndex, currentMethod.GetTasks().Count);
                     ++current.methodIndex;
 
                     planIndex = current.planIndex;
@@ -176,18 +175,24 @@ public static class HTN
             }
             else if (plan[planIndex] is CompositeTask compositeTask)
             {
+                if(!compositeTask.Sorted)
+                {
+                    compositeTask.SortMethods(analysis);
+                }
+
                 compositeTask.planIndex = planIndex;
                 gameState.CopyTo(compositeTask.gameState);
                 plan.RemoveAt(planIndex);
 
                 if (planIndex == plan.Count)
                 {
-                    plan.AddRange(compositeTask.methods[compositeTask.methodIndex].tasks);
+                    plan.AddRange(compositeTask.methods[compositeTask.methodIndex].GetTasks());
                 }
                 else
                 {
-                    plan.InsertRange(planIndex, compositeTask.methods[compositeTask.methodIndex].tasks);
+                    plan.InsertRange(planIndex, compositeTask.methods[compositeTask.methodIndex].GetTasks());
                 }
+
 
                 history.Push(compositeTask);
             }

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-[CreateAssetMenu(fileName = "Method", menuName = "AI/HTN/Method")]
-public class Method : ScriptableObject, IComparer<Method>
+[System.Serializable]
+public class Method : IComparer<Method>
 {
+    public string name;
     public List<Task> tasks = new List<Task>();
     public List<Consideration> considerations = new List<Consideration>();
     public float weight = 1.0f;

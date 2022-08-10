@@ -10,10 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fdb82b327eb96b64db9f737ffd154cb1, type: 3}
-  m_Name: Direct
+  m_Name: War
   m_EditorClassIdentifier: 
   prerequisites: []
   planIndex: 0
   methodIndex: 0
   methods:
-  - {fileID: 0}
+  - name: Attack
+    tasks:
+    - {fileID: 11400000, guid: ecf9eb15111ab984098bb4d31a057e24, type: 2}
+    considerations: []
+    weight: 1
+  - name: Defend
+    tasks:
+    - {fileID: 11400000, guid: 43d3a67d326969b42a1c77b7b656ff54, type: 2}
+    considerations: []
+    weight: 1

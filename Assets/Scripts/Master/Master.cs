@@ -46,6 +46,7 @@ public class Master : MonoBehaviour
         characters.SpawnFactions(variety.builtShips, variety.builtStructures);
 
         pathFindAlgorithm = new PathFindAlgorithm();
+        ChokePointDetection.Init(enviroment.stars);
 
         //set the main camera to be above the players home world.
         Vector3 position = characters.empires[0].territory.stars[0].transform.position;

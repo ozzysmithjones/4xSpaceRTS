@@ -64,7 +64,6 @@ public class PathFindAlgorithm
         return (xDiff * 10) + (yDiff * 10) - (xDiff * yDiff * 6); //10 for orthogonal, 14 for diagonal.
     }
 
-
     public List<Star> FindPath(Star start, Star end)
     {
         if(start == end)

@@ -10,10 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fdb82b327eb96b64db9f737ffd154cb1, type: 3}
-  m_Name: Indirect
+  m_Name: Attack
   m_EditorClassIdentifier: 
   prerequisites: []
   planIndex: 0
   methodIndex: 0
   methods:
-  - {fileID: 0}
+  - name: Indirect Attack
+    tasks: []
+    considerations: []
+    weight: 1
+  - name: Direct Attack
+    tasks: []
+    considerations: []
+    weight: 1

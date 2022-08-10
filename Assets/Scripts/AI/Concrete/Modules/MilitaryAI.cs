@@ -25,7 +25,7 @@ public class MilitaryAI : AIModule
         if (plan.Count > 0)
         {
             TacticTask tactic = plan[taskIndex] as TacticTask;
-            TaskState state = tactic.Run(analysis, empire.military.GetFleets(FleetType.Military));
+            TaskState state = tactic.Run(empire, analysis, empire.military.GetFleets(FleetType.Military));
 
             switch (state)
             {

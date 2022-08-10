@@ -25,13 +25,13 @@ public class FleetAI : AIModule
 
     private static double Evaluate(Fleet fleet, double fleetPower, Analysis analysis,Star star)
     {
-        InfluenceMap alliance = analysis.influenceMaps[0];
-        InfluenceMap enemy = analysis.influenceMaps[1];
-        InfluenceMap allianceEconomy = analysis.influenceMaps[3];
-        InfluenceMap enemyEconomy = analysis.influenceMaps[4];
+        InfluenceMap alliance = analysis.allyMilitaryMap;
+        InfluenceMap enemy = analysis.enemyMilitaryMap;
+        InfluenceMap allianceEconomy = analysis.allyEconomyMap;
+        InfluenceMap enemyEconomy = analysis.enemyEconomyMap;
 
         double score = 0;
-        double enemyPower = enemy[star.x, star.y];
+        double enemyPower = enemy[star.index];
 
         if (enemyPower > 0.0f) 
         {
@@ -43,9 +43,9 @@ public class FleetAI : AIModule
             }
         }
 
-        score += (analysis[ValueType.Reinforce] - analysis[ValueType.Disperse]) * alliance[star.x, star.y];
-        score += analysis[ValueType.DefendTerritory] * allianceEconomy[star.x, star.y];
-        score += analysis[ValueType.InvadeTerritory] * enemyEconomy[star.x, star.y];
+        score += (analysis[ValueType.Reinforce] - analysis[ValueType.Disperse]) * alliance[star.index];
+        score += analysis[ValueType.DefendTerritory] * allianceEconomy[star.index];
+        score += analysis[ValueType.InvadeTerritory] * enemyEconomy[star.index];
         score += star.empire == fleet.empire ? -10 : 10;
 
         return score;

@@ -26,8 +26,8 @@ public static class Eval
 
     public static void PropagateFleetEvaluations(Empire empire, Analysis analysis)
     {
-        InfluenceMap allianceMap = analysis.influenceMaps.GetInfluenceMap(0);
-        allianceMap.Clear();
+        InfluenceMap allyMap = analysis.allyMilitaryMap;
+        allyMap.Clear();
 
         //propagate fleet strength 
 
@@ -37,12 +37,12 @@ public static class Eval
             foreach (Fleet fleet in fleets)
             {
                 double strength = EvaluateFleet(fleet) * 1.0f;
-                allianceMap.PropagateByStar(fleet.star, 1, (star) => strength / (star.node.g * 2 + 1));
+                allyMap.PropagateByStar(fleet.star, 1, (star) => strength / (star.node.g * 2 + 1));
             }
         }
 
 
-        InfluenceMap enemyMap = analysis.influenceMaps.GetInfluenceMap(1);
+        InfluenceMap enemyMap = analysis.enemyMilitaryMap;
         enemyMap.Clear();
 
         //Propagate enemy strength across the environment.
@@ -61,23 +61,20 @@ public static class Eval
         }
 
 
-        InfluenceMap conflictMap = analysis.influenceMaps.GetInfluenceMap(2);
+        InfluenceMap conflictMap = analysis.conflictMap;
 
-        for (int y = 0; y < conflictMap.height; ++y)
+        for (int i = 0; i < conflictMap.Length; ++i)
         {
-            for (int x = 0; x < conflictMap.width; ++x)
-            {
-                double a = allianceMap[x, y];
-                double b = enemyMap[x, y];
+            double a = allyMap[i];
+            double b = enemyMap[i];
 
-                if (a != 0 && b != 0)
-                {
-                    conflictMap[x, y] = a - b;
-                }
-                else
-                {
-                    conflictMap[x, y] = 0.0f;
-                }
+            if (a != 0 && b != 0)
+            {
+                conflictMap[i] = a - b;
+            }
+            else
+            {
+                conflictMap[i] = 0.0f;
             }
         }
     }
@@ -126,7 +123,7 @@ public static class Eval
 
     public static void PropagateStarEvaluations(Empire empire, Analysis analysis)
     {
-        InfluenceMap allianceMap = analysis.influenceMaps.GetInfluenceMap(3);
+        InfluenceMap allianceMap = analysis.allyEconomyMap;
 
         foreach (Star star in empire.territory.stars)
         {
@@ -134,7 +131,7 @@ public static class Eval
             allianceMap.PropagateByStar(star, 0, (s) => eval / (s.node.g + 1));
         }
 
-        InfluenceMap enemyMap = analysis.influenceMaps.GetInfluenceMap(4);
+        InfluenceMap enemyMap = analysis.enemyEconomyMap;
         List<Empire> enemies = empire.military.GetEnemies();
 
         foreach (Empire enemy in enemies)

@@ -21,13 +21,11 @@ public class Master : MonoBehaviour
     public EmpireManager characters;
     public Interface userInterface;
 
-
     public int seed = 0;
     public const int collums = 10;
     public const int rows = 10;
 
     PathFindAlgorithm pathFindAlgorithm;
-
 
     // Start is called before the first frame update
     void Awake()

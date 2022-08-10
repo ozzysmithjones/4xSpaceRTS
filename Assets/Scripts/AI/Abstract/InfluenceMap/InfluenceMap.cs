@@ -34,33 +34,28 @@ public abstract class InfluenceTemplate
 
 public class InfluenceMap
 {
-    public readonly int width, height;
+    public int Length { get => values.Length; }
     private readonly double[] values;
 
     public InfluenceMap()
     {
-        this.width = 0;
-        this.height = 0;
         this.values = null;
     }
 
-    public InfluenceMap(int width, int height)
+    public InfluenceMap(int numValues)
     {
-        this.width = width;
-        this.height = height;
-        this.values = new double[width * height];
+        this.values = new double[numValues];
     }
 
-    public double this[int x, int y]
+    public double this[int index]
     {
         get
         {
-            return values[y * width + x];
+            return values[index];
         }
-
         set
         {
-            values[y * width + x] = value;
+            values[index] = value;
         }
     }
 
@@ -72,53 +67,28 @@ public class InfluenceMap
         }
     }
 
-    public void Propagate(int x, int y, InfluenceTemplate influenceTemplate)
-    {
-        for(int yi = 0; yi < influenceTemplate.height; ++yi)
-        {
-            for (int xi = 0; xi < influenceTemplate.width; ++xi)
-            {
-                values[(yi + y) * width + (xi + x)] = influenceTemplate.values[yi * influenceTemplate.width + xi];
-            }
-        }
-    }
-
-    public void Propagate(int x, int y, int width, int height, FallOffFunc influenceFunc)
-    {
-        for (int yi = 0; yi < height; ++yi)
-        {
-            for (int xi = 0; xi < width; ++xi)
-            {
-                values[(yi + y) * this.width + (xi + x)] = influenceFunc(xi, yi);
-            }
-        }
-    }
-
     public void PropagateByStar(Star origin, int depth, StarFallOffFunc influenceFunc)
     {
         List<Star> stars = Master.instance.Presence(origin, depth);
 
         foreach(Star star in stars)
         {
-            values[star.y * width + star.x] = influenceFunc(star);
+            values[star.index] = influenceFunc(star);
         }
     }
 }
 
 public class HierarchicalInfluenceMap
 {
-    public readonly int width, height;
     private InfluenceMap[] influenceMaps;
 
-    public HierarchicalInfluenceMap(int numInfluenceMaps, int width, int height)
+    public HierarchicalInfluenceMap(int numInfluenceMaps, int size)
     {
-        this.width = width;
-        this.height = height;
         this.influenceMaps = new InfluenceMap[numInfluenceMaps];
 
         for (int i = 0; i < numInfluenceMaps; ++i)
         {
-            this.influenceMaps[i] = new InfluenceMap(width, height);
+            this.influenceMaps[i] = new InfluenceMap(size);
         }
     }
 
@@ -129,22 +99,6 @@ public class HierarchicalInfluenceMap
             influenceMaps[i].Clear();
         }
     }
-
-    public double this[int x, int y]
-    {
-        get
-        {
-            double value = 0.0f;
-
-            for(int i = 0; i < influenceMaps.Length; ++i)
-            {
-                value += influenceMaps[i][x, y];
-            }
-
-            return value;
-        }
-    }
-
 
     public InfluenceMap this[int layer]
     {

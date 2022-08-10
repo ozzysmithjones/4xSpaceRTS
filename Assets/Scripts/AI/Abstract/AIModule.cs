@@ -23,10 +23,24 @@ public enum ValueType
 
 public class Analysis
 {
-    public HierarchicalInfluenceMap influenceMaps = new HierarchicalInfluenceMap(5, 10,10);
+  //  public HierarchicalInfluenceMap influenceMaps = new HierarchicalInfluenceMap(5, 45);
     private readonly float[] valueByType = new float[Enum.GetValues(typeof(ValueType)).Length];
 
+    public readonly InfluenceMap allyMilitaryMap;
+    public readonly InfluenceMap allyEconomyMap;
+    public readonly InfluenceMap enemyMilitaryMap;
+    public readonly InfluenceMap enemyEconomyMap;
+    public readonly InfluenceMap conflictMap;
+    public readonly InfluenceMap throughputMap;
 
+    public Analysis(int numStars)
+    {
+        this.allyMilitaryMap = new InfluenceMap(numStars);
+        this.enemyMilitaryMap = new InfluenceMap(numStars);
+        this.allyEconomyMap = new InfluenceMap(numStars);
+        this.enemyEconomyMap = new InfluenceMap(numStars);
+        this.throughputMap = new InfluenceMap(numStars);
+    }
 
     public float this[ValueType type]
     {
@@ -47,7 +61,11 @@ public class Analysis
 
     public void ClearInfluenceMaps()
     {
-        influenceMaps.Clear();
+        allyMilitaryMap.Clear();
+        allyEconomyMap.Clear();
+        enemyMilitaryMap.Clear();
+        enemyEconomyMap.Clear();
+        conflictMap.Clear();
     }
 }
 

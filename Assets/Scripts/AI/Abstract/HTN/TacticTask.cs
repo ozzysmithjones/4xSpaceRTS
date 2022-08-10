@@ -15,13 +15,13 @@ public abstract class TacticTask : PrimitiveTask
 
     private static double PathEval(Fleet fleet, double fleetPower, Analysis analysis, Star star)
     {
-        InfluenceMap alliance = analysis.influenceMaps[0];
-        InfluenceMap enemy = analysis.influenceMaps[1];
-        InfluenceMap allianceEconomy = analysis.influenceMaps[3];
-        InfluenceMap enemyEconomy = analysis.influenceMaps[4];
+        InfluenceMap allyMilitary = analysis.allyMilitaryMap;
+        InfluenceMap enemyMilitary = analysis.enemyMilitaryMap;
+        InfluenceMap allyEconomy = analysis.allyEconomyMap;
+        InfluenceMap enemyEconomy = analysis.enemyEconomyMap;
 
         double score = 0;
-        double enemyPower = enemy[star.x, star.y];
+        double enemyPower = enemyMilitary[star.index];
 
         if (enemyPower > 0.0f)
         {
@@ -33,9 +33,9 @@ public abstract class TacticTask : PrimitiveTask
             }
         }
 
-        score += (analysis[ValueType.Reinforce] - analysis[ValueType.Disperse]) * alliance[star.x, star.y];
-        score += analysis[ValueType.DefendTerritory] * allianceEconomy[star.x, star.y];
-        score += analysis[ValueType.InvadeTerritory] * enemyEconomy[star.x, star.y];
+        score += (analysis[ValueType.Reinforce] - analysis[ValueType.Disperse]) * allyMilitary[star.index];
+        score += analysis[ValueType.DefendTerritory] * allyEconomy[star.index];
+        score += analysis[ValueType.InvadeTerritory] * enemyEconomy[star.index];
         score += star.empire == fleet.empire ? -10 : 10;
         score += (ChokePointDetection.GetThroughput(star) >> 2);
 
@@ -45,12 +45,12 @@ public abstract class TacticTask : PrimitiveTask
 
     protected List<Star> EscapePath(Analysis analysis,Fleet fleet, double fleetPower)
     {
-        InfluenceMap enemyMap = analysis.influenceMaps[1];
+        InfluenceMap enemyMap = analysis.enemyMilitaryMap;
         List<Star> stars = Master.instance.Presence(fleet.star, 1);
 
         foreach(Star star in stars)
         {
-            double enemyPower = enemyMap[star.x, star.y];
+            double enemyPower = enemyMap[star.index];
 
             if(enemyPower > fleetPower)
             {

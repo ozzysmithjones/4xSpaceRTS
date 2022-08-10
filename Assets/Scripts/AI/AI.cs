@@ -2,11 +2,12 @@
 
 public class AI : Empire
 {
-    private Analysis analysis = new Analysis();
+    private Analysis analysis;
     private AIModule module;
 
     public AI(Color flagColor, string factionName, AIModule module) : base(false, flagColor, factionName)
     {
+        this.analysis = new Analysis(Master.instance.enviroment.stars.Length);
         this.module = module;
         this.module.Init(this);
     }

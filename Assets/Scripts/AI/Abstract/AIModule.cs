@@ -21,6 +21,13 @@ public enum ValueType
     InvadeTerritory,     //Value indicating priority for invading terruo
 }
 
+[System.Serializable]
+public class Rendezvous
+{
+    public List<Fleet> assignedFleets;
+    [HideInInspector] public Star star;
+}
+
 public class Analysis
 {
   //  public HierarchicalInfluenceMap influenceMaps = new HierarchicalInfluenceMap(5, 45);
@@ -31,7 +38,10 @@ public class Analysis
     public readonly InfluenceMap enemyMilitaryMap;
     public readonly InfluenceMap enemyEconomyMap;
     public readonly InfluenceMap conflictMap;
-    public readonly InfluenceMap throughputMap;
+
+    public readonly Rendezvous defendRendezvous;
+    public readonly Rendezvous attackRendezvous;
+    public readonly Rendezvous ambushRendezvous;
 
     public Analysis(int numStars)
     {
@@ -39,7 +49,10 @@ public class Analysis
         this.enemyMilitaryMap = new InfluenceMap(numStars);
         this.allyEconomyMap = new InfluenceMap(numStars);
         this.enemyEconomyMap = new InfluenceMap(numStars);
-        this.throughputMap = new InfluenceMap(numStars);
+
+        this.defendRendezvous = new Rendezvous();
+        this.attackRendezvous = new Rendezvous();
+        this.ambushRendezvous = new Rendezvous();
     }
 
     public float this[ValueType type]

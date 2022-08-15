@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class ChokePointDetection
 {
-    static uint[] throughputByStar;
+    static float[] congestion;
 
     public static void Init(Star[] stars)
     {
-        throughputByStar = new uint[stars.Length];
+        float max = float.MinValue;
+        congestion = new float[stars.Length];
 
         foreach(Star start in stars)
         {
@@ -23,14 +24,20 @@ public class ChokePointDetection
 
                 foreach(Star star in path)
                 {
-                    ++throughputByStar[star.index];
+                    ++congestion[star.index];
+                    max = Mathf.Max(congestion[star.index], max);
                 }
             }
         }
+
+        for(int i = 0; i < congestion.Length; ++i)
+        {
+            congestion[i] /= max;
+        }
     }
 
-    public static uint GetThroughput(Star star)
+    public static float GetCongestion(Star star)
     {
-        return throughputByStar[star.index];
+        return congestion[star.index];
     }
 }

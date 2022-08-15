@@ -39,7 +39,7 @@ public class BehaviourTree
         BehaviourTreeNode child = null;
         BehaviourState state;
 
-        while((state = nodes.Peek().Run(analysis, ref child)) != BehaviourState.Running && child == null)
+        while((state = nodes.Peek().Run(analysis, ref child)) != BehaviourState.Running || child != null)
         {
             if(child != null)
             {

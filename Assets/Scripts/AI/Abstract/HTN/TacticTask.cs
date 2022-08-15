@@ -11,7 +11,10 @@ public enum TaskState
 
 public abstract class TacticTask : PrimitiveTask
 {
+    public abstract void Begin(Empire empire, Analysis analysis);
     public abstract TaskState Run(Empire empire, Analysis analysis, List<Fleet> fleets);
+    public abstract void End(Empire empire, Analysis analysis);
+
 
     private static double PathEval(Fleet fleet, double fleetPower, Analysis analysis, Star star)
     {
@@ -37,13 +40,13 @@ public abstract class TacticTask : PrimitiveTask
         score += analysis[ValueType.DefendTerritory] * allyEconomy[star.index];
         score += analysis[ValueType.InvadeTerritory] * enemyEconomy[star.index];
         score += star.empire == fleet.empire ? -10 : 10;
-        score += (ChokePointDetection.GetThroughput(star) >> 2);
+        score += ChokePointDetection.GetCongestion(star);
 
         return score;
     }
 
 
-    protected List<Star> EscapePath(Analysis analysis,Fleet fleet, double fleetPower)
+    protected bool AssignEscapePath(Analysis analysis,Fleet fleet, double fleetPower)
     {
         InfluenceMap enemyMap = analysis.enemyMilitaryMap;
         List<Star> stars = Master.instance.Presence(fleet.star, 1);
@@ -54,11 +57,13 @@ public abstract class TacticTask : PrimitiveTask
 
             if(enemyPower > fleetPower)
             {
-                return Master.instance.PathFind(fleet.star, 2, (s) => PathEval(fleet, fleetPower, analysis, s));
+                List<Star> path = Master.instance.PathFind(fleet.star, 2, (s) => PathEval(fleet, fleetPower, analysis, s));
+                fleet.AddOrder(new MoveOrder(path[path.Count - 1], path[path.Count - 1].transform, path));
+                return true;
             }
         }
 
-        return null;
+        return false;
     }
 
     protected List<Star> AntPath(Fleet fleet, double fleetPower, Analysis analysis, int depth)

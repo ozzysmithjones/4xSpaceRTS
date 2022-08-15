@@ -6,6 +6,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DirectAttackTask", menuName = "AI/HTN/Direct Attack")]
 public class DirectAttackTask : TacticTask
 {
+    public override void Begin(Empire empire, Analysis analysis)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void End(Empire empire, Analysis analysis)
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override TaskState Run(Empire empire, Analysis analysis, List<Fleet> fleets)
     {
         if (fleets.Count <= 0)
@@ -53,13 +63,13 @@ public class DirectAttackTask : TacticTask
                 double fleetPower = Eval.EvaluateFleet(fleet);
 
                 //First try an escape path if the fleet needs escaping.
-                List<Star> path = EscapePath(analysis, fleet, fleetPower);
-                if(path != null)
+
+                if(AssignEscapePath(analysis,fleet, fleetPower))
                 {
-                    fleet.AddOrder(new MoveOrder(path[path.Count - 1], path[path.Count - 1].transform, path));
                     continue;
                 }
 
+                List<Star> path;
                 if (fleetPower >= targetPower)
                 {
                     //Then try to target the weakest enemy fleet.

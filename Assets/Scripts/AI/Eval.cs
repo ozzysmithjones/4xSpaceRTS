@@ -113,7 +113,7 @@ public static class Eval
                     value += resources.amounts[i] * analysis[ValueType.Materials];
                     break;
                 case ResourceType.SCIENCE:
-                    value += resources.amounts[i] * analysis[ValueType.Science] ;
+                    value += resources.amounts[i] * analysis[ValueType.Science];
                     break;
             }
         }
@@ -150,7 +150,7 @@ public static class Eval
         List<Empire> enemies = empire.military.GetEnemies();
         int minDistance = int.MaxValue;
 
-        foreach(Empire enemy in enemies)
+        foreach (Empire enemy in enemies)
         {
             List<Fleet> enemyFleets = enemy.military.GetFleets(FleetType.Military);
 
@@ -172,6 +172,131 @@ public static class Eval
         {
             analysis[ValueType.Threat] = 1.0f - ((float)minDistance / threatDistance);
         }
+    }
+
+    public static double GetProtectionToStar(Empire empire, Star star)
+    {
+        List<Fleet> defendFleets = star.starShipManager.fleets;
+        double defence = 0.0;
+        double grouping = 0;
+
+        foreach(Fleet fleet in defendFleets)
+        {
+            if (fleet.empire == empire)
+            {
+                defence += Eval.EvaluateFleet(fleet);
+                ++grouping;
+            }
+            else if(empire.IsEnemyTo(fleet.empire))
+            {
+                defence -= Eval.EvaluateFleet(fleet);
+                --grouping;
+            }
+        }
+
+        return defence * Triangular(grouping);
+    }
+
+    public static double GetThreatToStar(Empire empire, Star star, double starProtection, int threatDistance = 4)
+    {
+        double threat = 0.0;
+        List<Empire> enemies = empire.military.GetEnemies();
+
+        foreach (Empire enemy in enemies)
+        {
+            List<Fleet> enemyFleets = enemy.military.GetFleets(FleetType.Military);
+
+            foreach (Fleet fleet in enemyFleets)
+            {
+                if (fleet.star == null)
+                    continue;
+
+                double enemyStrength = EvaluateFleet(fleet) - starProtection;
+                List<Star> pathToEmpire = Master.instance.PathFind(fleet.star, star);
+
+                if (pathToEmpire != null && pathToEmpire.Count < threatDistance)
+                {
+                    threat += enemyStrength * (1.0 - ((double)(pathToEmpire.Count - 1) / threatDistance));
+                }
+            }
+        }
+
+        return threat;
+    }
+
+    public static Star GetDefendStar(Empire empire, List<Star> exceptions = null)
+    {
+        double greatestThreat = 0.0;
+        Star threatened = null;
+
+        foreach (Star star in empire.territory.colonyStars)
+        {
+            if (exceptions != null && exceptions.Contains(star))
+            {
+                continue;
+            }
+
+            double defence = Eval.GetProtectionToStar(empire, star);
+            double threat = Eval.GetThreatToStar(empire, star, defence);
+            if (threat > greatestThreat)
+            {
+                threat = greatestThreat;
+                threatened = star;
+            }
+        }
+
+        return threatened;
+    }
+
+    public static Star GetAmbushStar(Empire empire, Analysis analysis, List<Star> exceptions = null, double throughputWeight = 1.0, double economyWeight = 1.0, double militaryWeight = 1.0)
+    {
+        Star bestStar = null;
+        double bestScore = double.MinValue;
+        List<Empire> enemies = empire.military.GetEnemies();
+
+        foreach (Empire enemy in enemies)
+        {
+            foreach (Star star in enemy.territory.stars)
+            {
+                double throughput = ChokePointDetection.GetCongestion(star); //Prioritise stars that influence less A* paths.
+                double economy = analysis.enemyEconomyMap[star.index]; //Prioritise stars with higher economy. 
+
+                double score = (1.0 - throughput) * throughputWeight + economy * economyWeight;
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    bestStar = star;
+                }
+            }
+        }
+
+        return bestStar;
+    }
+
+    public static Star GetAttackStar(Empire empire, Analysis analysis, List<Star> exceptions = null, double throughputWeight = 1.0, double economyWeight = 1.0, double militaryWeight = 1.0)
+    {
+        Star bestStar = null;
+        double bestScore = double.MinValue;
+        List<Empire> enemies = empire.military.GetEnemies();
+
+        foreach (Empire enemy in enemies)
+        {
+            foreach (Star star in enemy.territory.stars)
+            {
+                double throughput = ChokePointDetection.GetCongestion(star); //Prioritise stars that influence more A* paths.
+                double economy = analysis.enemyEconomyMap[star.index]; //Prioritise stars with higher economy. 
+                double military = analysis.enemyMilitaryMap[star.index]; //Prioritise stars with higher military.
+
+                double score = throughput * throughputWeight + economy * economyWeight + military * militaryWeight;
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    bestStar = star;
+                }
+            }
+        }
+
+        return bestStar;
     }
 
 }

@@ -3,24 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Target
-{}
-
-[System.Serializable]
-public class SpatialTarget : Target
-{
-    public Star star;
-    public Planet planet;
-    public Fleet fleet;
-}
-
-[System.Serializable]
-public class BuildTarget : Target
-{
-    public BuildQueueItem item;
-}
-
-
 
 
 enum OpType

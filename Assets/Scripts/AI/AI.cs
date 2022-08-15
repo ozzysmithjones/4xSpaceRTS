@@ -10,6 +10,8 @@ public class AI : Empire
         this.analysis = new Analysis(Master.instance.enviroment.stars.Length);
         this.module = module;
         this.module.Init(this);
+
+
     }
 
     public override void Update(float deltaTime)

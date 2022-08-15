@@ -26,6 +26,9 @@ public interface IOrder
 
 public class Fleet : MonoBehaviour
 {
+
+    [HideInInspector] public double Power { get; private set; }
+
     [Header("GOAL MANAGEMENT")]
     readonly Queue<IOrder> orders = new Queue<IOrder>();
     IOrder currentOrder = null;
@@ -65,10 +68,6 @@ public class Fleet : MonoBehaviour
     [Header("BATTLE")]
     private readonly List<Fleet> enemyFleets = new List<Fleet>();
     private Fleet enemyFleet;
-
-
-
-
 
     private void Update()
     {
@@ -164,11 +163,14 @@ public class Fleet : MonoBehaviour
         spaceShip.SetFleet(this);
         spaceShips.Add(spaceShip);
         spaceShip.transform.SetParent(spaceShipHandler.transform);
+
+        Power = Eval.EvaluateFleet(this);
     }
 
     public void RemoveShip(SpaceShip spaceShip)
     {
         spaceShips.Remove(spaceShip);
+        Power = Eval.EvaluateFleet(this);
 
         if (spaceShips.Count <= 0)
         {
